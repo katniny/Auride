@@ -1,6 +1,12 @@
-/* Import Font */
-@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap'); /* For monospace */
+@font-face {
+   font-family: "Gabarito";
+   src: url(/assets/fonts/Gabarito.ttf);
+}
+
+@font-face {
+   font-family: "Inconsolata";
+   src: url(/assets/fonts/Inconsolata.ttf);
+}
 
 /* Contains all the colors for TransSocial */
 :root {
