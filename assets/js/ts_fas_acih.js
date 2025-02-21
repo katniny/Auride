@@ -29,8 +29,8 @@ const pathName = pageURL.pathname;
 let isOnDesktopApp = null;
 
 // TransSocial Version
-let transsocialVersion = "v2025.1.30";
-let transsocialUpdate = "v2025130-1";
+let transsocialVersion = "v2025.2.20";
+let transsocialUpdate = "v2025220-1";
 let transsocialReleaseVersion = "pre-alpha";
 
 const notices = document.getElementsByClassName("version-notice");
@@ -3540,7 +3540,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          case "subscription":
             subscriptionTab();
             break;
-         case "environment":
+         case "accessibility":
             environmentTab();
             break;
       }
@@ -4640,6 +4640,65 @@ if (pathName === "/settings" || pathName === "/settings.html") {
       })
    }
 
+   // enable OpenDyslexic font
+   function enableOpenDyslexia() {
+      document.getElementById("updatedOpenDysContentPref").style.display = "none";
+
+      firebase.auth().onAuthStateChanged((user) => {
+         if (user) {
+            firebase.database().ref(`users/${user.uid}`).update({
+               useODFont: true
+            })
+            .then(() => {
+               document.getElementById("updatedOpenDysContentPref").textContent = "Updated preference to enabled successfully!";
+               document.getElementById("updatedOpenDysContentPref").style.display = "block";
+
+               const style = document.createElement("style");
+               style.id = "odFontStyle";
+               style.innerHTML = `
+                  @font-face {
+                     font-family: "OpenDyslexic";
+                     src: url("/assets/fonts/OpenDyslexic.otf") format("opentype");
+                  }
+
+                  * {
+                     font-family: "OpenDyslexic", sans-serif;
+                  }
+
+                  .transsocialAccounts {
+                     font-size: 0.85rem;
+                  }
+
+                  .policies {
+                     margin-top: 425px;
+                  }
+               `;
+               document.head.appendChild(style);
+            })
+         }
+      })
+   }
+
+   function disableOpenDyslexia() {
+      document.getElementById("updatedOpenDysContentPref").style.display = "none";
+
+      firebase.auth().onAuthStateChanged((user) => {
+         if (user) {
+            firebase.database().ref(`users/${user.uid}`).update({
+               useODFont: false
+            })
+            .then(() => {
+               document.getElementById("updatedOpenDysContentPref").textContent = "Updated preference to disabled successfully!";
+               document.getElementById("updatedOpenDysContentPref").style.display = "block";
+
+               if (document.getElementById("odFontStyle")) {
+                  document.getElementById("odFontStyle").remove();
+               }
+            })
+         }
+      })
+   }
+
    // enable experiments
    function showExperiments() {
       document.getElementById("experimentSelect").showModal();
@@ -4862,63 +4921,37 @@ if (pathName === "/settings" || pathName === "/settings.html") {
       })
    }
 
-   function enableButton() {
-      document.getElementById("enableButton").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Enabling...`;
-      document.getElementById("enableButton").classList.add("disabled");
-      document.getElementById("disableButton").classList.add("disabled");
+   function largeInteractionScale() {
+      document.getElementById("updatedNoteSizePref").style.display = "none";
 
       firebase.auth().onAuthStateChanged((user) => {
          if (user) {
-            firebase.database().ref(`users/${user.uid}/experiments`).update({
+            firebase.database().ref(`users/${user.uid}`).update({
                noteButtonLayout: true
-            }).then(() => {
-               window.location.reload();
-            });
+            })
+            .then(() => {
+               document.getElementById("updatedNoteSizePref").style.display = "block";
+               document.getElementById("updatedNoteSizePref").textContent = "Updated preference to Large successfully!";
+            })
          }
       })
    }
 
-   function disableButton() {
-      document.getElementById("disableButton").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Disabling...`;
-      document.getElementById("enableButton").classList.add("disabled");
-      document.getElementById("disableButton").classList.add("disabled");
+   function normalInteractionScale() {
+      document.getElementById("updatedNoteSizePref").style.display = "none";
 
       firebase.auth().onAuthStateChanged((user) => {
          if (user) {
-            firebase.database().ref(`users/${user.uid}/experiments`).update({
+            firebase.database().ref(`users/${user.uid}`).update({
                noteButtonLayout: false
-            }).then(() => {
-               window.location.reload();
-            });
+            })
+            .then(() => {
+               document.getElementById("updatedNoteSizePref").style.display = "block";
+               document.getElementById("updatedNoteSizePref").textContent = "Updated preference to Normal successfully!";
+            })
          }
       })
    }
-
-   // environment tab
-   // get user os
-   function getOS() {
-      const userAgent = navigator.userAgent;
-      let os = "Unknown";
-  
-      if (userAgent.indexOf("Win") > -1) {
-         os = "Microsoft Windows";
-      } else if (userAgent.indexOf("Mac") > -1) {
-         os = "Apple MacOS";
-      } else if (userAgent.indexOf("X11") > -1 || userAgent.indexOf("Linux") > -1) {
-         os = "Linux";
-      } else if (userAgent.indexOf("Android") > -1) {
-         os = "Android";
-      } else if (userAgent.indexOf("iPhone") > -1 || userAgent.indexOf("iPad") > -1) {
-         os = "Apple iOS";
-      } else {
-         os = "Unknown";
-      }
-  
-      return os;
-   }
-  
-   const userOS = getOS();
-   document.getElementById("userOs").textContent = userOS;
 }
 
 // Accept cookies
@@ -7743,13 +7776,6 @@ if (document.getElementById("searchBar")) {
          window.location.replace(`/search?q=${document.getElementById("searchBar").value}`);
       }
    });
-}
-
-// allow donations from donorbox
-if (document.getElementById("subscription-form")) {
-   document.getElementById("subscription-form").innerHTML = `
-      <script src="https://donorbox.org/widget.js" paypalExpress="true"></script><iframe src="https://donorbox.org/embed/katninystudios?language=en-us" name="donorbox" allowpaymentrequest="allowpaymentrequest" seamless="seamless" frameborder="0" scrolling="no" height="900px" width="100%" style="max-width: 500px; min-width: 250px; max-height:none!important" allow="payment"></iframe>
-   `;
 }
 
 // convert (standard) unix timestamp to readable date

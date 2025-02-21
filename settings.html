@@ -147,7 +147,7 @@
                 <div class="blogStyle" style="margin: 15px;">
                     <h1>Settings</h1>
                     <!-- Tabs -->
-                    <div class="settingsTabs"><a href="javascript:void(0);" id="profileTab" onclick="profileTab()" class="active">Profile</a> <a href="javascript:void(1);" id="accountTab" onclick="accountTab()">Account</a> <a href="javascript:void(2);" id="personalizationTab" onclick="personalizationTab()">Personalization</a> <a href="javascript:void(3);" id="subscriptionTab" onclick="subscriptionTab()">Donate</a> <a href="javascript:void(4);" id="environmentTab" onclick="environmentTab()">Environment</a> <a href="/remembering" id="unknownTab" onclick="unknownTab()">Remembering</a></div>
+                    <div class="settingsTabs"><a href="javascript:void(0);" id="profileTab" onclick="profileTab()" class="active">Profile</a> <a href="javascript:void(1);" id="accountTab" onclick="accountTab()">Account</a> <a href="javascript:void(2);" id="personalizationTab" onclick="personalizationTab()">Personalization</a> <a href="javascript:void(3);" id="subscriptionTab" onclick="subscriptionTab()">Donate</a> <a href="javascript:void(4);" id="environmentTab" onclick="environmentTab()">Accessibility</a> <a href="/remembering" id="unknownTab" onclick="unknownTab()">Remembering</a></div>
 
                     <!-- Tab #1 (Profile) -->
                     <br />
@@ -296,14 +296,6 @@
                     <br />
                     <br />
 
-                    <p>Font Scale</p>
-                    <p id="updatedFontScaleContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
-                    <p style="font-size: 14px; color: var(--text-semi-transparent);">Please note that "Normal" is recommended.</p>
-                    <button onclick="normalFontScale()">Normal</button> <button onclick="largeFontScale()">Large</button>
-
-                    <br />
-                    <br />
-
                     <p>Autoplay Videos</p>
                     <p id="updatedAutoplayContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
                     <button onclick="doAutoplay()">Enable Autoplay</button> <button onclick="doNotAutoplay()">Disable Autoplay</button>
@@ -312,7 +304,7 @@
                     <br />
 
                     <p>Experiments</p>
-                    <p style="font-size: 14px; color: var(--error-text);">Experiments are work-in-progress features and are likely buggy. Experiments will be removed in TransSocial Beta.</p>
+                    <p style="font-size: 14px; color: var(--error-text);">Experiments are work-in-progress features and are likely buggy.</p>
                     <button onclick="showExperiments()">See Experiments</button>
                 </div>
 
@@ -330,9 +322,7 @@
 
                         <br />
 
-                        <form id="subscription-form">
-                           
-                        </form>
+                        <a href="https://donorbox.org/katninystudios" target="_blank"><button>Donate on Donorbox</button></a>
                      </div>
 
                      <!-- Active -->
@@ -360,23 +350,31 @@
                 </div>
 
                 <div id="profileTab-environment" style="display: none;">
-                  <h2>Environment</h2>
-                  <p style="color: var(--text-semi-transparent); font-size: 14.5px;">Info about the environment TransSocial is running in. Please note that this is client-side and not stored anywhere, and is purely to improve your experience. Learn more in our <a href="/policies/privacy" style="color: var(--main-color)">privacy policy</a>. There will also be information about each thing does below it.</p>
+                   <h2>Accessibility</h2>
+                   <p style="color: var(--text-semi-transparent); font-size: 14.5px;">Accessibility settings for your TransSocial account. We're striving to make TransSocial accessible to everyone!</p>
 
-                  <br />
+                   <br />
 
-                  <p style="color: var(--text-semi-transparent);">Browser: <span id="userBrowser">{browser}</span></p>   
-                  <p style="font-size: 14px; color: var(--text-semi-transparent);">This just ensures you are using a supported browser, not an outdated browser such as Internet Explorer.</p>
-                  
-                  <br />
+                   <p>Use Dyslexia Font</p>
+                   <p style="font-size: 14px; color: var(--text-semi-transparent);">Enable the OpenDyslexic font, specifically designed to improve readability for users with dyslexia.</p>
+                   <p id="updatedOpenDysContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successfully!</p>
+                   <button onclick="enableOpenDyslexia()">Enable</button> <button onclick="disableOpenDyslexia()">Disable</button>
 
-                  <p style="color: var(--text-semi-transparent);">Browser Version: <span id="userBrowserVer">{version}</span></p>   
-                  <p style="font-size: 14px; color: var(--text-semi-transparent);">This ensures that your browser can use everything that TransSocial needs, such as the dialog element.</p>
+                   <br />
+                   <br />
 
-                  <br />
+                   <p>Font Scale</p>
+                   <p style="font-size: 14px; color: var(--text-semi-transparent);">Adjust font size for easier reading.</p>
+                   <p id="updatedFontScaleContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
+                   <button onclick="normalFontScale()">Normal</button> <button onclick="largeFontScale()">Large</button>
 
-                  <p style="color: var(--text-semi-transparent);">OS: <span id="userOs">{os}</span></p>   
-                  <p style="font-size: 14px; color: var(--text-semi-transparent);">Checks what version of the TransSocial app you need, if supported (Has special functionality on apps - ensures that you're on a compatible OS).</p>
+                   <br />
+                   <br />
+
+                   <p>Larger Note Buttons</p>
+                   <p style="font-size: 14px; color: var(--text-semi-transparent);">Increase button size and spacing for easier interaction.</p>
+                   <p id="updatedNoteSizePref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
+                   <button onclick="normalInteractionScale()">Normal</button> <button onclick="largeInteractionScale()">Large</button>
               </div>
             </div>
 
@@ -495,20 +493,6 @@
                 <p style="color: var(--text-semi-transparent);">Message other users on TransSocial. (VERY EARLY WORK IN PROGRESS)</p>
                 <p style="color: var(--text-semi-transparent); font-size: 14px;">Last Updated: July 15, 2024</p>
                 <button onclick="enableDms()" id="enableDms">Enable</button> <button onclick="disableDms()" id="disableDms">Disable</button>
-            </div>
-
-            <br />
-            <br />
-
-            <!-- Interaction Button Layout -->
-            <div class="themeContainer" onclick="toggleButtonExperimentDetails()">
-                <img src="/assets/imgs/button_experiment.png" alt="" class="themeImage" />
-                <div class="themeText">Note Button Layout</div>
-            </div>
-            <div id="button_details" style="display: none;">
-                <p style="color: var(--text-semi-transparent);">Enable the experimental slightly different note button layout</p>
-                <p style="color: var(--text-semi-transparent); font-size: 14px;">Last Updated: August 17, 2024</p>
-                <button onclick="enableButton()" id="enableButton">Enable</button> <button onclick="disableButton()" id="disableButton">Disable</button>
             </div>
 
             <br />

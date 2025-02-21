@@ -95,6 +95,33 @@ firebase.auth().onAuthStateChanged((user) => {
                 }
             }
 
+            // Set fomt
+            if (getTheme && getTheme.useODFont) {
+                if (getTheme.useODFont === true) {
+                    const style = document.createElement("style");
+                    style.id = "odFontStyle";
+                    style.innerHTML = `
+                        @font-face {
+                            font-family: "OpenDyslexic";
+                            src: url("/assets/fonts/OpenDyslexic.otf") format("opentype");
+                        }
+
+                        * {
+                            font-family: "OpenDyslexic", sans-serif;
+                        }
+
+                        .transsocialAccounts {
+                            font-size: 0.85rem;
+                        }
+
+                        .policies {
+                            margin-top: 425px;
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            }
+
             if (getTheme && getTheme.theme === "Dark" || getTheme && getTheme.theme === undefined) {
                 // Dark theme by default
             } else if (getTheme && getTheme.theme === "Light") {
