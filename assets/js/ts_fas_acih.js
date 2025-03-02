@@ -25,8 +25,8 @@ const pathName = pageURL.pathname;
 let isOnDesktopApp = null;
 
 // TransSocial Version
-let transsocialVersion = "v2025.2.24";
-let transsocialUpdate = "v2025224-1";
+let transsocialVersion = "v2025.3.2";
+let transsocialUpdate = "v20250302-1";
 let transsocialReleaseVersion = "pre-alpha";
 
 const notices = document.getElementsByClassName("version-notice");
@@ -1250,14 +1250,15 @@ function emojify(text) {
    return text;
 }
 
-function format(text, formats = ["html", "link", "newline", "markdown", "emoji"]) {
+// the order is important
+function format(text, formats = ["html", "markdown", "emoji", "link", "newline"]) {
    // map names to functions to avoid huge switch statement
    const formatMap = {
       html: escapeHtml,
-      link: linkify,
-      newline: addNewlines,
       markdown: markdownify,
       emoji: emojify,
+      link: linkify,
+      newline: addNewlines,
    };
 
    for (const format of formats) {
