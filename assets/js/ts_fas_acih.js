@@ -28,6 +28,7 @@ let isOnDesktopApp = null;
 let transsocialVersion = "v2025.3.2";
 let transsocialUpdate = "v20250302-1";
 let transsocialReleaseVersion = "pre-alpha";
+let hasUpdateNotes = false;
 
 const notices = document.getElementsByClassName("version-notice");
 const loaderVersions = document.getElementsByClassName("loaderVersion");
@@ -400,33 +401,35 @@ firebase.auth().onAuthStateChanged((user) => {
 })
 
 // TransSocial Update
-firebase.auth().onAuthStateChanged((user) => {
-   if (user) {
-      firebase.database().ref(`users/${user.uid}/readUpdates/${transsocialUpdate}`).on("value", (snapshot) => {
-         const hasDoneIt = snapshot.exists();
-
-         if (!hasDoneIt) {
-            if (document.getElementById("updatesBtn")) {
-               document.getElementById("updatesBtn").innerHTML = `<i class="fa-solid fa-wrench"></i> Updates <span class="badge">New!</span>`;
-            }
-         }
-      })
-   } else {
-      if (document.getElementById("updatesBtn") && pathName !== "/updates") {
-         document.getElementById("updatesBtn").innerHTML = `<i class="fa-solid fa-wrench"></i> Updates <span class="badge">New!</span>`;
-      }
-   }
-})
-
-firebase.auth().onAuthStateChanged((user) => {
-   if (pathName === "/updates") {
+if (hasUpdateNotes) {
+   firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-         firebase.database().ref(`users/${user.uid}/readUpdates/${transsocialUpdate}`).update({
-            read: true,
+         firebase.database().ref(`users/${user.uid}/readUpdates/${transsocialUpdate}`).on("value", (snapshot) => {
+            const hasDoneIt = snapshot.exists();
+
+            if (!hasDoneIt) {
+               if (document.getElementById("updatesBtn")) {
+                  document.getElementById("updatesBtn").innerHTML = `<i class="fa-solid fa-wrench"></i> Updates <span class="badge">New!</span>`;
+               }
+            }
          })
+      } else {
+         if (document.getElementById("updatesBtn") && pathName !== "/updates") {
+            document.getElementById("updatesBtn").innerHTML = `<i class="fa-solid fa-wrench"></i> Updates <span class="badge">New!</span>`;
+         }
       }
-   }
-})
+   })
+
+   firebase.auth().onAuthStateChanged((user) => {
+      if (pathName === "/updates") {
+         if (user) {
+            firebase.database().ref(`users/${user.uid}/readUpdates/${transsocialUpdate}`).update({
+               read: true,
+            })
+         }
+      }
+   })
+}
 
 // If the user is on the 404 page, change the page URL to be the page they are on.
 if (document.getElementById("404page")) {
