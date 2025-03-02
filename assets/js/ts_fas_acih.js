@@ -28,7 +28,7 @@ let isOnDesktopApp = null;
 let transsocialVersion = "v2025.3.2";
 let transsocialUpdate = "v20250302-1";
 let transsocialReleaseVersion = "pre-alpha";
-let hasUpdateNotes = false;
+let hasUpdateNotes = true;
 
 const notices = document.getElementsByClassName("version-notice");
 const loaderVersions = document.getElementsByClassName("loaderVersion");
