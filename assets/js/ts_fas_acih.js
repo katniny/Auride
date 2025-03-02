@@ -1160,7 +1160,7 @@ function getUserInfoSidebar() {
             .then(function (snapshot) {
                const display = snapshot.val();
 
-               displayNameSidebar.innerHTML = escapeAndEmoji(display);
+               displayNameSidebar.innerHTML = format(display, [ "html", "emoji" ]);
             })
 
          const usernameRef = firebase.database().ref(`users/${uid}/username`);
@@ -1203,9 +1203,9 @@ function loginPrompt() {
 }
 
 // Hyperlinking
-function escapeHtml(str) {
+function escapeHtml(text) {
    const div = document.createElement('div');
-   div.textContent = str;
+   div.textContent = text;
    return div.innerHTML;
 }
 
@@ -1213,15 +1213,14 @@ function linkify(text) {
    const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
    const usernamePattern = /@(\w+)/g;
 
-   let linkedText = text.replace(urlPattern, '<a href="javascript:void(0)" onclick="openLink(`$1`)">$1</a>');
-   linkedText = linkedText.replace(usernamePattern, '<a href="/u/$1">@$1</a>');
+   text = text.replace(urlPattern, '<a href="javascript:void(0)" onclick="openLink(`$1`)">$1</a>');
+   text = text.replace(usernamePattern, '<a href="/u/$1">@$1</a>');
 
-   return linkedText;
+   return text;
 }
 
 function addNewlines(text) {
-   let newText = text.replace(/(\r\n|\n|\r)/g, '<br>');
-   return newText;
+   return text.replace(/(\r\n|\n\r|\n|\r)/g, '<br>');
 }
 
 function markdownify(text) {
@@ -1232,17 +1231,17 @@ function markdownify(text) {
    text = text.replace(/^# (.+)$/gm, '<h1>$1</h1>');
 
    // bold, italics, strikethrough and monospace
-   text = text.replace(/\*(.+?)\*/g, '<strong>$1</strong>'); //bold
-   text = text.replace(/\_(.+?)\_/g, '<em>$1</em>'); // italics
-   text = text.replace(/~(.+?)~/g, '<del>$1</del>'); // strikethrough
-   text = text.replace(/`([^`]+)`/g, '<code>$1</code>'); // monospace
-   text = text.replace(/```([^`]+)```/g, '<pre><code>$1</code></pre>'); // multi-line monospace
+   text = text.replace(/(?<!\\)\*(.+?)(?<!\\)\*/g, '<strong>$1</strong>'); //bold
+   text = text.replace(/(?<!\\)_(.+?)(?<!\\)_/g, '<em>$1</em>'); // italics
+   text = text.replace(/(?<!\\)~(.+?)(?<!\\)~/g, '<del>$1</del>'); // strikethrough
+   text = text.replace(/(?<!\\)```([^`]+)```/g, '<pre><code>$1</code></pre>'); // multi-line monospace
+   text = text.replace(/(?<!\\)`([^`]+)(?<!\\)`/g, '<code>$1</code>'); // monospace
 
    // lists
-   text = text.replace(/^- (.+)$/gm, '<ul><li>$1</li></ul>');
+   text = text.replace(/^(?<!\\)- (.+)$/gm, '<ul><li>$1</li></ul>');
 
    // blockquotes
-   text = text.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+   text = text.replace(/^(?<!\\)> (.+)$/gm, '<blockquote>$1</blockquote>');
 
    // escape backslashes
    text = text.replace(/\\(.)/g, '$1');
@@ -1260,7 +1259,7 @@ function emojify(text) {
       "tired": "/assets/mascot/tired.png",
       "violence": "/assets/mascot/violence.png",
       "yelling": "/assets/mascot/yelling.png",
-   }
+   };
 
    for (const [phrase, imageUrl] of Object.entries(emojiMap)) {
       const regex = new RegExp(`\\[${phrase}\\]`, "g");
@@ -1269,19 +1268,21 @@ function emojify(text) {
    return text;
 }
 
-function sanitizeAndLinkify(text) {
-   let escapedText = escapeHtml(text);
-   escapedText = markdownify(escapedText);
-   escapedText = emojify(escapedText);
-   escapedText = linkify(escapedText);
-   escapedText = addNewlines(escapedText);
-   return escapedText;
-}
+function format(text, formats = ["html", "link", "newline", "markdown", "emoji"]) {
+   // map names to functions to avoid huge switch statement
+   const formatMap = {
+      html: escapeHtml,
+      link: linkify,
+      newline: addNewlines,
+      markdown: markdownify,
+      emoji: emojify,
+   };
 
-function escapeAndEmoji(text) {
-   let escapedText = escapeHtml(text);
-   escapedText = emojify(escapedText);
-   return escapedText;
+   for (const format of formats) {
+      text = (formatMap[format])(text);
+   }
+
+   return text;
 }
 
 // i think its safe to assume no one needs the old note rendering code from v0.0.1?
@@ -1656,7 +1657,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
          displayName.classList.add("noteDisplay");
          firebase.database().ref("users/" + noteContent.whoSentIt).once("value", (snapshot) => {
             const fetchedUser = snapshot.val();
-            displayName.innerHTML = escapeAndEmoji(fetchedUser.display);
+            displayName.innerHTML = format(fetchedUser.display, [ "html", "emoji" ]);
             displayName.href = `/u/${fetchedUser.username}`;
 
             const badges = document.createElement("span");
@@ -1698,7 +1699,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
 
          // Create the note's text
          const text = document.createElement("p");
-         text.innerHTML = sanitizeAndLinkify(noteContent.text)
+         text.innerHTML = format(noteContent.text)
          text.classList.add("noteText");
          if (noteContent.replyingTo === undefined) {
             text.addEventListener("click", () => window.location.href = `/note/${noteContent.id}`);
@@ -1819,7 +1820,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
 
                      const quoteText = document.createElement("span");
                      quoteText.classList.add("quoteText");
-                     let content = sanitizeAndLinkify(quoteData.text);
+                     let content = format(quoteData.text);
                      if (content.length > 247) { // check length
                         content = content.substring(0, 247) + "...";
                      }
@@ -2445,7 +2446,7 @@ if (!pathName.startsWith("/auth/")) {
       const data = snapshot.val();
       if (data !== null) {
          document.getElementById(`katninyPfp`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2FG6GaJr8vPpeVdvenAntjOFYlbwr2%2F${data.pfp}?alt=media`;
-         document.getElementById(`katninyDisplay`).innerHTML = escapeAndEmoji(data.display) + ` <i class="fa-solid fa-circle-check" style="color: var(--main-color);"></i> <i class="fa-solid fa-heart" style="color: var(--main-color);"></i>`;
+         document.getElementById(`katninyDisplay`).innerHTML = format(data.display, [ "html", "emoji" ]) + ` <i class="fa-solid fa-circle-check" style="color: var(--main-color);"></i> <i class="fa-solid fa-heart" style="color: var(--main-color);"></i>`;
          document.getElementById(`followBtn-1`).href = `/u/${data.username}`;
          document.getElementById(`katninyUser-pronouns`).textContent = `@${data.username}`;
       }
@@ -2500,7 +2501,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
                document.title = `${profileData.display} (@${profileData.username}) | TransSocial`;
                document.getElementById(`melissa`).style.display = "block";
                document.getElementById(`userImage-profile`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${profileExists.user}%2F${profileData.pfp}?alt=media`;
-               document.getElementById(`display-profile`).innerHTML = escapeAndEmoji(profileData.display);
+               document.getElementById(`display-profile`).innerHTML = format(profileData.display, [ "html", "emoji" ]);
                const verifiedBadge = document.createElement("span");
                if (profileData.isVerified) {
                   verifiedBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
@@ -2588,7 +2589,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
             if (profileData.bio === undefined || profileData.bio === null || profileData.bio === "") {
                document.getElementById("bio-profile").textContent = "No user bio provided.";
             } else {
-               document.getElementById("bio-profile").innerHTML = sanitizeAndLinkify(profileData.bio);
+               document.getElementById("bio-profile").innerHTML = format(profileData.bio);
                twemoji.parse(document.getElementById("bio-profile"), {
                   folder: 'svg',
                   ext: '.svg'
@@ -2983,8 +2984,8 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                            document.getElementById("noteQuotePfp").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${quoteData.whoSentIt}%2F${quoteUser.pfp}?alt=media`;
                            document.getElementById("noteQuoteDisplay").textContent = quoteUser.display;
                            document.getElementById("noteQuoteUsername").textContent = `@${quoteUser.username}`;
-                           document.getElementById("noteQuoteText").innerHTML = sanitizeAndLinkify(quoteData.text);
-                           let content = sanitizeAndLinkify(quoteData.text);
+                           document.getElementById("noteQuoteText").innerHTML = format(quoteData.text);
+                           let content = format(quoteData.text);
                               if (content.length > 247) { // check length
                                  content = content.substring(0, 247) + "...";
                               }
@@ -2997,7 +2998,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                            document.getElementById("noteQuotePfp").src = `/assets/imgs/defaultPfp.png`;
                            document.getElementById("noteQuoteDisplay").textContent = "User Unavailable";
                            document.getElementById("noteQuoteUsername").textContent = `User Unavailable`;
-                           document.getElementById("noteQuoteText").innerHTML = sanitizeAndLinkify(quoteData.text);
+                           document.getElementById("noteQuoteText").innerHTML = format(quoteData.text);
                            document.getElementById("noteQuoteText").textContent = `@${quoteUser.username} is suspended, and notes by this user cannot be viewed.`;
                         }
 
@@ -3046,7 +3047,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                   document.getElementById(`melissa`).style.display = "block";
                   document.getElementById(`userImage-profile`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${noteData.whoSentIt}%2F${profileData.pfp}?alt=media`;
                   document.getElementById(`userImage-profile`).addEventListener("click", () => window.location.href = `/u/${profileData.username}`);
-                  document.getElementById(`display-profile`).innerHTML = escapeAndEmoji(profileData.display);
+                  document.getElementById(`display-profile`).innerHTML = format(profileData.display, [ "html", "emoji" ]);
                   document.getElementById(`display-profile`).addEventListener("click", () => window.location.href = `/u/${profileData.username}`);
                   const verifiedBadge = document.createElement("span");
                   if (profileData.isVerified === true) {
@@ -3070,7 +3071,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                      document.getElementById(`pronouns-profile`).addEventListener("click", () => window.location.href = `/u/${profileData.username}`);
                   }
 
-                  document.getElementById("noteContent").innerHTML = sanitizeAndLinkify(noteData.text);
+                  document.getElementById("noteContent").innerHTML = format(noteData.text);
                   twemoji.parse(document.getElementById("noteContent"), {
                      folder: 'svg',
                      ext: '.svg'
@@ -7412,7 +7413,7 @@ if (pathName === "/search") {
                   displayName.classList.add("noteDisplay");
                   firebase.database().ref("users/" + noteContent.whoSentIt).once("value", (snapshot) => {
                      const fetchedUser = snapshot.val();
-                     displayName.innerHTML = escapeAndEmoji(fetchedUser.display);
+                     displayName.innerHTML = format(fetchedUser.display, [ "html", "emoji" ]);
                      displayName.href = `/u/${fetchedUser.username}`;
 
                      const badges = document.createElement("span");
@@ -7454,7 +7455,7 @@ if (pathName === "/search") {
 
                   // Create the note's text
                   const text = document.createElement("p");
-                  text.innerHTML = sanitizeAndLinkify(noteContent.text)
+                  text.innerHTML = format(noteContent.text)
                   text.classList.add("noteText");
                   if (noteContent.replyingTo === undefined) {
                      text.addEventListener("click", () => window.location.href = `/note/${noteContent.id}` );
@@ -7576,7 +7577,7 @@ if (pathName === "/search") {
       
                               const quoteText = document.createElement("span");
                               quoteText.classList.add("quoteText");
-                              let content = sanitizeAndLinkify(quoteData.text);
+                              let content = format(quoteData.text);
                               if (content.length > 247) { // check length
                                  content = content.substring(0, 247) + "...";
                               }
