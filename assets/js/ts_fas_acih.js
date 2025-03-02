@@ -1,7 +1,3 @@
-// my lsp wont stfu about those
-// deno-lint-ignore-file no-inner-declarations no-unused-vars
-
-// katniny Firebase Configuration
 // before pushing to git, always make sure the firebase config doesn't expose yours
 const firebaseConfig = {
    apiKey: "REPLACE",
@@ -70,7 +66,6 @@ let browserName = "Unknown Browser";
 let browserVersion = "Unknown version";
 
 const meowserAgentSubstring = "meowser";
-console.log(userAgent);
 if (userAgent.indexOf(meowserAgentSubstring) > -1) {
    browserName = "Meowser";
    let versionMatch = userAgent.match(/meowser\/([\d.]+)/);
@@ -372,7 +367,6 @@ if (pathName === "/suspended.html" || pathName === "/suspended") {
          const suspensionRef = firebase.database().ref("users/" + user.uid);
          suspensionRef.on("value", (snapshot) => {
             const data = snapshot.val();
-            //console.log(data);
 
             if (data.suspensionStatus === "suspended") {
                document.getElementById("reasonForBeingSuspended").textContent = data.suspensionNotes.reason;
@@ -404,18 +398,6 @@ firebase.auth().onAuthStateChanged((user) => {
       })
    }
 })
-
-// Check for updates
-// let currentTransSocialVersion = "v0.0.3_indev";
-// firebase.database().ref("DONOTMODIFY").on("value", (snapshot) => {
-//     if (pathName !== "/update") {
-//         let transsocialServerVersion = snapshot.val();
-
-//         if (currentTransSocialVersion !== transsocialServerVersion.transsocial) {
-//             window.location.replace("/update");
-//         } 
-//     }
-// })
 
 // TransSocial Update
 firebase.auth().onAuthStateChanged((user) => {
@@ -1285,8 +1267,6 @@ function format(text, formats = ["html", "link", "newline", "markdown", "emoji"]
    return text;
 }
 
-// i think its safe to assume no one needs the old note rendering code from v0.0.1?
-
 // Note Loading
 let notesRef = firebase.database().ref('notes');
 const notesDiv = document.getElementById("notes");
@@ -2078,35 +2058,6 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
       })
    }
 
-   // notesRef.limitToLast(15).once('value')
-   //    .then(function (snapshot) {
-   //       const notesArray = [];
-   //       snapshot.forEach(function (childSnapshot) {
-   //          const noteContent = childSnapshot.val();
-   //          notesArray.push(noteContent);
-   //       });
-
-   //       // sort notes by timestamp, newest first
-   //       notesArray.sort((a, b) => b.createdAt - a.createdAt);
-
-   //       // create and append divs for each note
-   //       const notesContainer = document.getElementById('notes');
-   //       notesArray.forEach(noteContent => {
-   //          const noteDiv = createNoteDiv(noteContent);
-   //          if (document.getElementById("newNotesAvailable")) {
-   //             document.getElementById("newNotesAvailable").style.display = "none";
-   //          }
-
-   //          // Check if the note has NSFW/Sensitive content and users preferences
-   //          // Do this immediately or bugs will arise (that I don't feel like fixing)
-            
-   //       });
-   //    })
-   //    .catch(function (error) {
-   //       console.error("TransSocial encountered an error trying to load notes:", error);
-   //       console.error("TransSocial encountered an error trying to load notes: " + error + " Please check your internet connection or report an issue on GitHub (https://github.com/katniny/transsocial-issues/issues).");
-   //    });
-
    // When a new note is added, let the user know.
    firebase.database().ref("notes/").on("child_added", (snapshot) => {
       const isReply = snapshot.val();
@@ -2119,12 +2070,10 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
 
    firebase.database().ref("notes/").on("child_changed", (snapshot) => {
       const data = snapshot.val();
-      //console.log(data);
 
       // Check if any specific field (child) is updated
       document.getElementById(`like-${data.id}`).innerHTML = `<i class="fa-solid fa-heart"></i> ${data.likes}`;
       document.getElementById(`renote-${data.id}`).innerHTML = `<i class="fa-solid fa-retweet"></i> ${data.renotes}`;
-      //console.log('Likes:', data.likes, 'Renotes:', data.renotes, 'Replies:', data.replies);
 
       firebase.auth().onAuthStateChanged((user) => {
          const uid = user.uid;
@@ -2157,7 +2106,6 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
                const loveCountRef = firebase.database().ref(`notes/${noteId}/likes`);
                loveCountRef.once("value", (snapshot) => {
                   const data = snapshot.val();
-                  //console.log(data);
 
                   firebase.database().ref(`notes/${noteId}/whoLiked`).once("value", (snapshot) => {
                      const likedData = snapshot.val();
@@ -2219,7 +2167,6 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
                const renoteCountRef = firebase.database().ref(`notes/${noteId}/renotes`);
                renoteCountRef.once("value", (snapshot) => {
                   const data = snapshot.val();
-                  //console.log(data);
 
                   firebase.database().ref(`notes/${noteId}/whoRenoted`).once("value", (snapshot) => {
                      const renotedData = snapshot.val();
@@ -2417,7 +2364,7 @@ function swapNoteTab(tab) {
    }
 }
 
-// Load everything
+// does in fact not load everything
 function loadEverything() {
    getUserPfpSidebar();
    getUserInfoSidebar();
@@ -2623,8 +2570,6 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
 
                      if (followersData && followersData[currentUserUid]) {
                         document.getElementById("followButton").textContent = "Following";
-                     } else {
-                        //...
                      }
                   });
                }
@@ -3094,20 +3039,10 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                                  const evenExists = snapshot.exists();
                                  const pref = snapshot.val();
 
-                                 if (evenExists === true) {
-                                    if (pref === "true") {
-                                       // :p
-                                    } else if (pref === false) {
-                                       document.getElementById("uploadedVideo-main").pause();
-                                    } else {
-                                       // :p
-                                    }
-                                 } else {
-                                    // :p
+                                 if (evenExists === true && pref === false) {
+                                    document.getElementById("uploadedVideo-main").pause();
                                  }
                               })
-                           } else {
-                              // :p
                            }
                         })
                         document.getElementById("uploadedImg-main").remove();
@@ -3330,11 +3265,6 @@ async function publishNote() {
          const userNotes = firebase.database().ref(`users/${user.uid}/posts`);
          const newNoteKey = notesRef.push().key;
          let isNotFlaggedNsfwButShouldBe = null;
-
-         // if (pathName === "/note" || pathName === "/note.html") {
-         //     console.log(isReplying_notehtml);
-         //     console.log(uniNoteId_notehtml);
-         // }
 
          const noteContent = document.getElementById("noteContent-textarea").value;
 
@@ -4067,6 +3997,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          });
    }
 
+   // this code is hideous tbh
    // delete account
    function deleteAccount() {
       const user = firebase.auth().currentUser;
@@ -5389,13 +5320,6 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/note" ||
 
       document.getElementById("noteUpdated").showModal();
       document.getElementById("editNoteContent").close();
-
-      // firebase.database().ref(`notes/${editingNote}`).update({
-      //     text: document.getElementById("newTextContent").value
-      // })
-
-      // document.getElementById("noteUpdated").showModal();
-      // document.getElementById("editNoteContent").close();
    }
 
    function dontApplyEdits() {
@@ -5659,46 +5583,6 @@ function getVerificationEmail() {
          document.getElementById("verifyEmail").close();
          document.getElementById("emailSent_emailVer").showModal();
       })
-}
-
-// Show Notification when user receives one
-// This function is broken and should not be uncommented under any circumstance by a user.
-
-// let notificationTitle = "";
-// let notificationBody = "";
-
-// firebase.auth().onAuthStateChanged((user) => {
-//     if (user) {
-//         firebase.database().ref(`users/${user.uid}/notifications`).once("child_added", (snapshot) => {
-//             notificationTitle = 'New Notification';
-//             notificationBody = 'You have a new notification.';
-
-//             if (Notification.permission === 'granted') {
-//                 console.log("Granted");
-//                 showNotification();
-//             }
-//         })
-//     }
-// })
-
-// function showNotification() {
-//     const notification = new Notification(notificationTitle, {
-//         body: notificationBody
-//     });
-// }
-
-// Detect if user is on the desktop app
-function isTauri() {
-   return (
-      typeof window !== "undefined" &&
-      typeof window.__TAURI__ !== "undefined"
-   );
-}
-
-if (isTauri()) {
-   // if (document.getElementById("betaTestingApp")) {
-   //    document.getElementById("betaTestingApp").remove();
-   // }
 }
 
 // Detect user OS
@@ -6956,10 +6840,11 @@ document.addEventListener("keydown", function(event) {
 
 // send notifications
 function sendNotification(toWho, data) {
-   const newNotiKey = firebase.database().ref("users/" + toWho + "notifications/").push().key;
-   firebase.database().ref(`users/${toWho}/notifications/`).child(newNotiKey).set(data);
-   firebase.database().ref().update({
-      [`users/${toWho}/notifications/unread`]: firebase.database.ServerValue.increment(1)
+   const notifRef = firebase.database().ref(`users/${toWho}/notifications`);
+   const newNotiKey = notifRef.push().key;
+   notifRef.child(newNotiKey).set(data);
+   notifRef.update({
+      unread: firebase.database.ServerValue.increment(1)
    });
 }
 
@@ -7780,13 +7665,15 @@ if (document.getElementById("searchBar")) {
 }
 
 // convert (standard) unix timestamp to readable date
+// UNUSED
 function convertUnixTimestampToDate(unixTimestamp) {
    const date = new Date(unixTimestamp * 1000); // convert to miliseconds
    const month = date.getMonth() + 1;
    const day = date.getDate();
    const year = date.getFullYear();
 
-   return `${month}/${day}/${year}`;
+   // i think this is the one everyone can read
+   return `${year}-${month}-${day}`;
 }
 
 // more button in sidebar
@@ -7797,13 +7684,6 @@ document.body.addEventListener('click', function (event) {
       document.getElementById("moreContent").style.display = "none";
    }
 });
-
-// very important DO NOT REMOVE
-console.log("MEOW")
-let http = new XMLHttpRequest();
-http.open('HEAD', window.location.origin + '/assets/imgs/89a806bdf16ba3e02d229910466ddaea.jpg', false);
-http.send();
-if (http.status == 404) document.getElementsByTagName("html").item(0).remove();
 
 // account warnings
 firebase.auth().onAuthStateChanged((user) => {
@@ -8005,7 +7885,6 @@ async function searchTracks(query) {
       });
 
    const data = await response.json();
-   //console.log(data);
    return data.tracks.items;
 }
 
@@ -8108,7 +7987,6 @@ if (pathName === "/home") {
    const randomInfo = info[randomIndex];
 
    document.getElementById("betaTestingApp").innerHTML = randomInfo.text;
-   console.log(randomInfo.lore);
    if (randomInfo.lore === true) {
       document.getElementById("betaTestingApp").classList.add("glitch");
    }
