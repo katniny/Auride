@@ -2658,6 +2658,11 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
          const currentUserFollowsRef = firebase.database().ref(`users/${profileUserUid}/whoFollows`);
          let isBlocked = null;
 
+         if (currentUserUid === profileUserUid) {
+            // dont follow themselves
+            return;
+         }
+
          currentUserFollowsRef.once('value', (snapshot) => {
             const followersData = snapshot.val();
 
