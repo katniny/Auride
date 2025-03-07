@@ -1,0 +1,147 @@
+.transsocialAccounts,
+.recommendedAccounts {
+   top: 0;
+   right: 0;
+   margin-top: 75px;
+   margin-right: 15px;
+   text-align: right;
+   border: 1px solid var(--text);
+   padding: 15px;
+   padding-bottom: 0px;
+   border-radius: 10px;
+   position: fixed;
+}
+
+@media (max-width: 1148px) {
+   .recommendedAccounts {
+      display: none;
+   }
+
+   .transsocialAccounts {
+      display: none;
+   }
+}
+
+@media (max-width: 1148px) {
+   .recommendedAccounts {
+      display: none;
+   }
+
+   .transsocialAccounts {
+      display: none;
+   }
+}
+
+.transsocialAccounts .recommendAcc-pfp,
+.recommendedAccounts .recommendAcc-pfp {
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+   float: left;
+   margin-top: 10px;
+}
+
+.transsocialAccounts #katninyDisplay,
+.recommendedAccounts #user1Display {
+   float: left;
+   margin-top: 10px;
+   margin-left: 8px;
+   transform: translateY(5px);
+   overflow-wrap: break-word;
+}
+
+.transsocialAccounts #katninyDisplay .emoji,
+.recommendedAccounts #user1Display .emoji {
+   height: 1em;
+   width: 1em;
+   margin: 0 .05em 0 .1em;
+   vertical-align: -0.1em;
+}
+
+.transsocialAccounts #katninyUser-pronouns,
+.recommendedAccounts #user1User-pronouns {
+   float: left;
+   margin-top: 10px;
+   transform: translate(-60px, 5px);
+   color: var(--text-semi-transparent);
+   overflow-wrap: break-word;
+   max-width: auto;
+}
+
+.recommendedAccounts #user1User-pronouns {
+   transform: translate(-98px, 5px);
+}
+
+.transsocialAccounts #transsocialPfp,
+.recommendedAccounts #user2Pfp {
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+   float: left;
+}
+
+.transsocialAccounts #transsocialDisplay,
+.recommendedAccounts #user2Display {
+   float: left;
+   margin-top: 10px;
+   margin-left: 8px;
+   transform: translateY(5px);
+}
+
+.transsocialAccounts #transsocialUser-pronouns,
+.recommendedAccounts #user2User-pronouns {
+   float: left;
+   margin-top: 10px;
+   transform: translate(-96px, 5px);
+   color: var(--text-semi-transparent);
+}
+
+.transsocialAccounts #katninystudiosPfp,
+.recommendedAccounts #user2Pfp {
+   width: 50px;
+   height: 50px;
+   border-radius: 50%;
+   float: left;
+}
+
+.transsocialAccounts #katninystudiosDisplay,
+.recommendedAccounts #user2Display {
+   float: left;
+   margin-top: 10px;
+   margin-left: 8px;
+   transform: translateY(5px);
+}
+
+.transsocialAccounts #katninystudiosUser-pronouns,
+.recommendedAccounts #user2User-pronouns {
+   float: left;
+   margin-top: 10px;
+   transform: translate(8px, -27px);
+   color: var(--text-semi-transparent);
+}
+
+.recommendedAccounts #user2User-pronouns {
+   transform: translate(-122px, 5px);
+}
+
+.transsocialAccounts .followBtn,
+.recommendedAccounts .followBtn {
+   background: transparent;
+   padding: 5px;
+   border-radius: 15px;
+   border: 1px solid var(--main-color);
+   transform: translateY(5px);
+   cursor: pointer;
+   transition: all 0.1s linear;
+}
+
+.transsocialAccounts .followBtn:hover,
+.recommendedAccounts .followBtn:hover {
+   background: var(--main-color);
+   padding: 5px;
+   border-radius: 15px;
+}
+
+.recommendedAccounts {
+   margin-top: 285px;
+}
