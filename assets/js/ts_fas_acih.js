@@ -1,23 +1,3 @@
-// before pushing to git, always make sure the firebase config doesn't expose yours
-const firebaseConfig = {
-   apiKey: "REPLACE",
-   authDomain: "REPLACE",
-   databaseURL: "REPLACE",
-   projectId: "REPLACE",
-   storageBucket: "REPLACE",
-   messagingSenderId: "REPLACE",
-   appId: "REPLACE",
-   measurementId: "REPLACE"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const database = firebase.database();
-const storage = firebase.storage();
-const storageRef = storage.ref();
-const timestamp = firebase.database.ServerValue.TIMESTAMP
-
 // Get the current URL. This is going to prevent functions that don't need to run on a page from running.
 const currentURL = window.location.href;
 const pageURL = new URL(currentURL);
@@ -25,8 +5,8 @@ const pathName = pageURL.pathname;
 let isOnDesktopApp = null;
 
 // TransSocial Version
-let transsocialVersion = "v2025.3.7";
-let transsocialUpdate = "v20250307-1";
+let transsocialVersion = "v2025.3.10";
+let transsocialUpdate = "v20250310-1";
 let transsocialReleaseVersion = "pre-alpha";
 let hasUpdateNotes = true;
 

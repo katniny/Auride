@@ -7,9 +7,7 @@
         <link rel="stylesheet" href="/assets/css/all.css">
         <link rel="shortcut icon" href="/assets/imgs/favicon.png" type="image/png">
         <link rel="manifest" href="/manifest.json">
-        <script src="https://kit.fontawesome.com/be7c331826.js" crossorigin="anonymous"></script>
-        <script src="/assets/js/twemoji.js" crossorigin="anonymous"></script>
-        <!-- <script src="https://js.stripe.com/v3/"></script> -->
+        
         <meta name="robots" content="nofollow, noai, noimageai">
          <meta name="og:type" content="website">
          <meta name="og:url" content="https://transs.social/">
@@ -19,6 +17,17 @@
          <meta name="description" content="TransSocial - a safe place for everyone.">
          <meta property="og:image" content="https://transs.social/assets/imgs/favicon.png">
          <meta name="theme-color" content="#ff869a">
+         <script src="/assets/js/requiredScripts.js"></script>
+         <script src="/assets/js/scriptLoader.js"></script>
+         <script defer>
+            ScriptLoader.load(
+               //...
+            ).then(() => {
+               console.log("Scripts for /home have been loaded successfully.");
+            }).catch((error) => {
+               console.error("An error occurred: ", error, " please try refreshing.");
+            });
+         </script>
     </head>
     
     <body onload="loadEverything()">
@@ -153,6 +162,19 @@
                         <p>Trying to find older updates? You may be interested in the InDev tab, since TransSocial is no longer in InDev!</p>
 
                         <div class="update">
+                           <h2>v2025.3.10_pre-alpha</h2>
+                           <h3 style="color: var(--text-semi-transparent);">Released: March 10, 2025</h3>
+                              <li>(Dev Env) Added requiredScripts.js and scriptLoader.js</li>
+                                 <li style="font-size: smaller; color: var(--text-semi-transparent); margin-left: 15px;">requiredScripts.js will load scripts necessary for TransSocial to operate correctly (for the most part), and scriptLoader.js will load scripts that only specific pages need.</li>
+                              <li>(Dev Env) Begin separation of JavaScript code</li>
+                              <li>(Dev Env) Remove unused GitHub Workflow</li>
+                              <li>Update copyright year on main page</li>
+                              <li>Update text highlighting color to match the users theme</li>
+                        </div>
+                        
+                        <br />
+                        
+                        <div class="update">
                            <h2>v2025.3.7_pre-alpha</h2>
                            <h3 style="color: var(--text-semi-transparent);">Released: March 7, 2025</h3>
                               <li>(Dev Env) Separate CSS into different files for easier maintainability</li>
@@ -225,7 +247,7 @@
                            <h2>v2025.1.29_pre-alpha</h2>
                            <h3 style="color: var(--text-semi-transparent);">Released: January 29, 2025</h3>
                               <li>Fix critical security issue in the note click handler</li>
-                              <li style="font-size: smaller; color: var(--text-semi-transparent); margin-left: 15px;">See <a href="https://github.com/katniny/transsocial/issues/28">issue #28 on GitHub</a></li>
+                                 <li style="font-size: smaller; color: var(--text-semi-transparent); margin-left: 15px;">See <a href="https://github.com/katniny/transsocial/issues/28">issue #28 on GitHub</a></li>
                         </div>
                         
                         <br />
@@ -1119,16 +1141,4 @@
             <button onclick="acknowledgeWarning()">Continue using TransSocial</button>
         </dialog>
     </body>
-
-    <!-- Core Firebase Scripts (MUST BE FIRST) -->
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js"></script>
-
-    <!-- Scripts -->
-    <script src="/assets/js/ts_fas_acih.js"></script>
-    <script src="/assets/js/pageLoader.js"></script>
-    <script src="/assets/js/sidebarOpen.js"></script>
-    <script src="/assets/js/twemoji.js"></script>
 </html>
