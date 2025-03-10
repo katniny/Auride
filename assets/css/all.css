@@ -514,6 +514,11 @@
 */
 @import url("/assets/css/glitchedText.css");
 
+/* 
+   the text selection color
+*/
+@import url("/assets/css/selectionColors.css");
+
 /* fonts */
 @font-face {
    font-family: "Gabarito";
