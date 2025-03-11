@@ -83,106 +83,30 @@ if (document.getElementById("userBrowser")) { // environment settings
 
 // if on outdated browser, dont let the user use transsocial
 // dont bother with ie, dont even work at all
-if (browserName === "Mozilla Firefox") {
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Firefox version 98"
-   }
+const outdatedBrowsers = [
+   ["Mozilla Firefox", 98  ],
+   ["Samsung Browser", 3.0 ],
+   ["Opera",           24  ],
+   ["Microsoft Edge",  79  ],
+   ["Google Chrome",   37  ],
+   ["Apple Safari",    15.4],
+];
 
-   if (browserVersion < 98) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
+for (const [browser, version] of outdatedBrowsers) {
+   if (browserName === browser) {
+      // when <dialog> (the latest web tech transsocial uses) started getting supported
+      if (document.getElementById("version_browser")) {
+         document.getElementById("version_browser").textContent = `${browser} version ${version}`;
+      }
+
+      if (browserVersion < version) {
+         if (pathName !== "/unsupported") {
+            window.location.replace("/unsupported");
+         }
       } else {
-         
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
-      }
-   }
-}
-
-if (browserName === "Samsung Browser") {
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Samsung Browser version 3.0"
-   }
-
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (browserVersion < 3.0) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
-      }
-   }
-}
-
-if (browserName === "Opera") {
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Opera version 24"
-   }
-
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (browserVersion < 24) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
-      }
-   }
-}
-
-if (browserName === "Microsoft Edge") {
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Edge version 79"
-   }
-
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (browserVersion < 79) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
-      }
-   }
-}
-
-if (browserName === "Google Chrome") {
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Chrome version 37"
-   }
-
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (browserVersion < 37) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
-      }
-   }
-}
-
-if (browserName === "Apple Safari") {
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Safari version 15.4"
-   }
-
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (browserVersion < 15.4) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
+         if (pathName === "/unsupported") {
+            window.location.replace("/home");
+         }
       }
    }
 }
