@@ -385,7 +385,7 @@ if (pathName === "/auth/pfp") {
             if (snapshot.exists()) {
                const url = new URL(window.location.href);
                const urlParam = url.searchParams.get("return_to");
-               
+
                if (!urlParam) {
                   window.location.replace("/auth/names");
                } else {
@@ -512,7 +512,7 @@ function displayAndUsernameReserve() {
             })
             .then(() => {
                document.getElementById("displayAndUsernameBtn").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Checking username...`;
-      
+
                firebase.database().ref(`taken-usernames/${username}`).once("value", (snapshot) => {
                   if (snapshot.exists()) {
                      // we don't have to check if the username is blank because firebase reads the entire "taken-usernames/"
@@ -527,7 +527,7 @@ function displayAndUsernameReserve() {
                      firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
                            document.getElementById("displayAndUsernameBtn").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Applying username...`;
-      
+
                            // reserve the name
                            firebase.database().ref(`taken-usernames/${username}`).update({
                               user : user.uid
@@ -540,7 +540,7 @@ function displayAndUsernameReserve() {
                               .then(() => {
                                  const url = new URL(window.location.href);
                                  const urlParam = url.searchParams.get("return_to");
-                                    
+
                                  if (!urlParam) {
                                     window.location.replace("/auth/done");
                                  } else {
@@ -593,7 +593,7 @@ function register() {
             }).then(() => {
                const url = new URL(window.location.href);
                const urlParam = url.searchParams.get("return_to");
-               
+
                if (urlParam) {
                   window.location.replace(`/auth/pfp?return_to=${urlParam}`);
                } else {
@@ -1198,7 +1198,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
          });
       });
    }
-   
+
    fetchAutoplayPreference(); // call on start
 
    // show notes without refreshing
@@ -1221,7 +1221,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
    }
 
    // observer to only show images/videos/etc. when about to be visible for performance
-   const mediaObserver = new IntersectionObserver((entries, observer) => {
+   const mediaObserver = new IntersectionObserver((entries, _observer) => {
       entries.forEach(entry => {
          if (entry.isIntersecting) {
             entry.target.style.visibility = "visible";
@@ -1657,13 +1657,13 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
                      noteContent.key = childSnapshot.key;
                      notesArray.push(noteContent);
                   });
-      
+
                   notesArray.sort((a, b) => b.createdAt - a.createdAt);
-      
+
                   lastNoteKey = notesArray[notesArray.length - 1]?.key;
 
                   const filteredNotes = notesArray.filter((currentNote) => currentNote.replyingTo === noteParam);
-      
+
                   if (filteredNotes.length > 0) {
                      renderNotes(filteredNotes);
                   } else {
@@ -1683,10 +1683,10 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
             } else {
                userParam = url.searchParams.get("id");
             }
-   
+
             firebase.database().ref(`taken-usernames/${userParam}`).once("value", (snapshot) => {
                const id = snapshot.val();
-               
+
                firebase.database().ref(`users/${id.user}/posts`).once("value")
                .then(function(snapshot) {
                      notesRef.limitToLast(snapshot.numChildren()).once("value").then(function (snapshot) {
@@ -1696,13 +1696,13 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
                            noteContent.key = childSnapshot.key;
                            notesArray.push(noteContent);
                         });
-               
+
                         notesArray.sort((a, b) => b.createdAt - a.createdAt);
-               
+
                         lastNoteKey = notesArray[notesArray.length - 1]?.key;
-         
+
                         const filteredNotes = notesArray.filter((currentNote) => currentNote.replyingTo === userParam);
-               
+
                         if (filteredNotes.length > 0) {
                            renderNotes(filteredNotes.reverse()); // has to be reversed, or it goes all weird
                         } else {
@@ -2263,7 +2263,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
                   <a href="/home"><button>Go Home</button></a>
                `
             }
-            
+
 
             if (profileData.pronouns === undefined || profileData.pronouns === null || profileData.pronouns === "") {
                document.getElementById(`pronouns-profile`).remove();
@@ -2558,7 +2558,7 @@ function uploadImage() {
                      } else {
                         if (extension !== "mp4") {
                            const reader = new FileReader();
-         
+
                            reader.addEventListener("load", (event) => {
                               document.getElementById("imgToBeUploaded").src = event.target.result;
                               document.getElementById("imgToBeUploaded").style.display = "block";
@@ -2566,11 +2566,11 @@ function uploadImage() {
                               document.getElementById("removeUploadedImage").style.display = "block";
                               document.getElementById("addAltTextToImage").style.display = "block";
                            });
-         
+
                            reader.readAsDataURL(file);
                         } else {
                            const reader = new FileReader();
-         
+
                            reader.addEventListener("load", (event) => {
                               document.getElementById("vidToBeUploaded").src = event.target.result;
                               document.getElementById("vidToBeUploaded").style.display = "block";
@@ -2579,7 +2579,7 @@ function uploadImage() {
                               document.getElementById("removeUploadedImage").style.display = "block";
                               document.getElementById("addAltTextToImage").style.display = "block";
                            });
-         
+
                            reader.readAsDataURL(file);
                         }
                      }
@@ -2651,9 +2651,9 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
    database.ref(`notes/${userParam}`).once("value", (snapshot) => {
       const noteData = snapshot.val();
 
-      
+
       uniNoteId_notehtml = noteData.id;
-      
+
 
       if (noteData.isDeleted !== true) {
          if (noteData.user !== null && noteData.replyingTo === undefined) {
@@ -3063,7 +3063,7 @@ async function publishNote() {
             document.getElementById("coverCreateANote").style.display = "none";
             return;
          }
-         
+
          const renoteData = {
             isRenote: false,
          }
@@ -3088,7 +3088,7 @@ async function publishNote() {
             const usernames = matches.map(match => match[1]);
             usernames.forEach(username => {
                const user = firebase.auth().currentUser;
-               
+
                // check if it's a username
                firebase.database().ref(`taken-usernames/${username}`).once("value", (snapshot) => {
                   if (snapshot.exists()) {
@@ -3103,7 +3103,7 @@ async function publishNote() {
                });
             });
          } else {
-            
+
          }
 
          if (renotingNote !== null) {
@@ -3201,104 +3201,23 @@ if (pathName === "/settings" || pathName === "/settings.html") {
    const url = new URL(window.location.href);
    const tabParm = url.searchParams.get("tab");
 
-   if (tabParm) {
-      switch (tabParm) {
-         case "profile":
-            profileTab();
-            break;
-         case "account":
-            accountTab();
-            break;
-         case "personalization":
-            personalizationTab();
-            break;
-         case "subscription":
-            subscriptionTab();
-            break;
-         case "accessibility":
-            environmentTab();
-            break;
+   const tabs = [ "profile", "account", "personalization", "subscription", "environment" ];
+
+   // Swap tabs
+   function switchTab(toTab) {
+      for (const tab of tabs) {
+         if (tab === toTab) {
+            document.getElementById(tab + "Tab").classList.add("active");
+            document.getElementById("profileTab-" + tab).style.display = "block";
+         } else {
+            document.getElementById(tab + "Tab").classList.remove("active");
+            document.getElementById("profileTab-" + tab).style.display = "none";
+         }
       }
    }
 
-   // Swap tabs
-   function profileTab() {
-      // Set active tab & set others inactive
-      document.getElementById("profileTab").classList.add("active");
-      document.getElementById("accountTab").classList.remove("active");
-      document.getElementById("personalizationTab").classList.remove("active");
-      document.getElementById("subscriptionTab").classList.remove("active");
-      document.getElementById("environmentTab").classList.remove("active");
-
-      // Show section
-      document.getElementById("profileTab-display").style.display = "block";
-      document.getElementById("profileTab-account").style.display = "none";
-      document.getElementById("profileTab-personalization").style.display = "none";
-      document.getElementById("profileTab-subscription").style.display = "none";
-      document.getElementById("profileTab-environment").style.display = "none";
-   }
-
-   function accountTab() {
-      // Set active tab & set others inactive
-      document.getElementById("profileTab").classList.remove("active");
-      document.getElementById("accountTab").classList.add("active");
-      document.getElementById("personalizationTab").classList.remove("active");
-      document.getElementById("subscriptionTab").classList.remove("active");
-      document.getElementById("environmentTab").classList.remove("active");
-
-      // Show section
-      document.getElementById("profileTab-display").style.display = "none";
-      document.getElementById("profileTab-account").style.display = "block";
-      document.getElementById("profileTab-personalization").style.display = "none";
-      document.getElementById("profileTab-subscription").style.display = "none";
-      document.getElementById("profileTab-environment").style.display = "none";
-   }
-
-   function personalizationTab() {
-      // Set active tab & set others inactive
-      document.getElementById("profileTab").classList.remove("active");
-      document.getElementById("accountTab").classList.remove("active");
-      document.getElementById("personalizationTab").classList.add("active");
-      document.getElementById("subscriptionTab").classList.remove("active");
-      document.getElementById("environmentTab").classList.remove("active");
-
-      // Show section
-      document.getElementById("profileTab-display").style.display = "none";
-      document.getElementById("profileTab-account").style.display = "none";
-      document.getElementById("profileTab-personalization").style.display = "block";
-      document.getElementById("profileTab-subscription").style.display = "none";
-      document.getElementById("profileTab-environment").style.display = "none";
-   }
-
-   function subscriptionTab() {
-      // Set active tab & set others inactive
-      document.getElementById("profileTab").classList.remove("active");
-      document.getElementById("accountTab").classList.remove("active");
-      document.getElementById("personalizationTab").classList.remove("active");
-      document.getElementById("subscriptionTab").classList.add("active");
-      document.getElementById("environmentTab").classList.remove("active");
-
-      // Show section
-      document.getElementById("profileTab-display").style.display = "none";
-      document.getElementById("profileTab-account").style.display = "none";
-      document.getElementById("profileTab-personalization").style.display = "none";
-      document.getElementById("profileTab-subscription").style.display = "block";
-      document.getElementById("profileTab-environment").style.display = "none";
-   }
-
-   function environmentTab() {
-      document.getElementById("profileTab").classList.remove("active");
-      document.getElementById("accountTab").classList.remove("active");
-      document.getElementById("personalizationTab").classList.remove("active");
-      document.getElementById("subscriptionTab").classList.remove("active");
-      document.getElementById("environmentTab").classList.add("active");
-
-      // Show section
-      document.getElementById("profileTab-display").style.display = "none";
-      document.getElementById("profileTab-account").style.display = "none";
-      document.getElementById("profileTab-personalization").style.display = "none";
-      document.getElementById("profileTab-subscription").style.display = "none";
-      document.getElementById("profileTab-environment").style.display = "block";
+   if (tabs.includes(tabParm)) {
+      switchTab(toParm);
    }
 
    // Set defaults
@@ -3869,7 +3788,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                      const button = document.createElement("button");
                      firebase.database().ref(`themes/${themeKey}`).once("value", (snapshot) => {
                         const themeData = snapshot.val();
-                        
+
                         console.log(`${themeData.title}: ${themeData.themeColors.mainColor}`);
 
                         button.innerText = themeData.title;
@@ -3878,61 +3797,9 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                            firebase.database().ref(`users/${user.uid}`).update({
                               theme : "Custom"
                            }).then(() => {
-                              if (themeData.themeColors.buttonText === undefined) {
-                                 firebase.database().ref(`users/${user.uid}/themeColors`).update({
-                                    background : themeData.themeColors.background,
-                                    buttonTransparentHover : themeData.themeColors.buttonTransparentHover,
-                                    error : themeData.themeColors.error,
-                                    headerColor : themeData.themeColors.headerColor,
-                                    liked : themeData.themeColors.liked,
-                                    mainColor : themeData.themeColors.mainColor,
-                                    mainColorDarker : themeData.themeColors.mainColorDarker,
-                                    noteBackground : themeData.themeColors.noteBackground,
-                                    noteSeperator : themeData.themeColors.noteSeperator,
-                                    renoted : themeData.themeColors.renoted,
-                                    replyBackground : themeData.themeColors.replyBackground,
-                                    replyHoveredBackground : themeData.themeColors.replyHoveredBackground,
-                                    sidebarButtonHover : themeData.themeColors.sidebarButtonHover,
-                                    sidebarText : themeData.themeColors.sidebarText,
-                                    success : themeData.themeColors.success,
-                                    text : themeData.themeColors.text,
-                                    textHalfTransparent : themeData.themeColors.textHalfTransparent,
-                                    textSemiTransparent : themeData.themeColors.textSemiTransparent,
-                                 }).then(() => {
-                                    window.location.reload();
-                                 });
-                              } else {
-                                 firebase.database().ref(`users/${user.uid}/themeColors`).update({
-                                    background : themeData.themeColors.background,
-                                    buttonTransparentHover : themeData.themeColors.buttonTransparentHover,
-                                    error : themeData.themeColors.error,
-                                    headerColor : themeData.themeColors.headerColor,
-                                    liked : themeData.themeColors.liked,
-                                    mainColor : themeData.themeColors.mainColor,
-                                    mainColorDarker : themeData.themeColors.mainColorDarker,
-                                    noteBackground : themeData.themeColors.noteBackground,
-                                    noteSeperator : themeData.themeColors.noteSeperator,
-                                    renoted : themeData.themeColors.renoted,
-                                    replyBackground : themeData.themeColors.replyBackground,
-                                    replyHoveredBackground : themeData.themeColors.replyHoveredBackground,
-                                    sidebarButtonHover : themeData.themeColors.sidebarButtonHover,
-                                    sidebarText : themeData.themeColors.sidebarText,
-                                    success : themeData.themeColors.success,
-                                    text : themeData.themeColors.text,
-                                    textHalfTransparent : themeData.themeColors.textHalfTransparent,
-                                    textSemiTransparent : themeData.themeColors.textSemiTransparent,
-                                    buttonText : themeData.themeColors.buttonText,
-                                    hoveredButtonText : themeData.themeColors.hoveredButtonText,
-                                    createNoteButton : themeData.themeColors.createNoteButton,
-                                    createNoteButtonHover : themeData.themeColors.createNoteButtonHover,
-                                    buttonText : themeData.themeColors.buttonText,
-                                    hoveredButtonText : themeData.themeColors.hoveredButtonText,
-                                    createNoteButton : themeData.themeColors.createNoteButton,
-                                    createNoteButtonHover : themeData.themeColors.createNoteButtonHover
-                                 }).then(() => {
-                                    window.location.reload();
-                                 });
-                              }
+                              firebase.database().ref(`users/${user.uid}/themeColors`)
+                                 .update(themeData.themeColors)
+                                 .then(window.location.reload);
                            });
                         };
                         button.style.width = "100%";
@@ -3954,420 +3821,114 @@ if (pathName === "/settings" || pathName === "/settings.html") {
       });
    }
 
-   function themeDark() {
+   function setTheme(theme) {
       firebase.auth().onAuthStateChanged((user) => {
          if (user) {
             firebase.database().ref(`users/${user.uid}`).update({
-               theme: "Dark"
-            })
-               .then(() => {
-                  window.location.reload();
-               })
+               theme
+            }).then(window.location.reload);
          }
       })
    }
 
-   function themeMintDark() {
+   function _setPreference(logElemId, pref, val) {
+      const logElem = document.getElementById(logElemId);
+      logElem.style.display = "none";
+
       firebase.auth().onAuthStateChanged((user) => {
          if (user) {
             firebase.database().ref(`users/${user.uid}`).update({
-               theme: "Mint (Dark)"
+               [pref]: val
+            }).then(() => {
+               logElem.textContent = `Updated preference to ${val} successfully!`;
+               logElem.style.display = "block";
             })
-               .then(() => {
-                  window.location.reload();
-               })
          }
       })
    }
 
-   function themeHighContrast() {
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               theme: "High Contrast"
-            })
-               .then(() => {
-                  window.location.reload();
-               })
-         }
-      })
+   function setMatureContent(val) {
+      _setPreference("updateMatureContentPref", "showNsfw", val)
    }
 
-   function themeMidnightPurple() {
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               theme: "Midnight Purple"
-            })
-               .then(() => {
-                  window.location.reload();
-               })
-         }
-      })
+   function setSensitiveContent(val) {
+      _setPreference("updatedSensitiveContentPref", "showSensitive", val)
    }
 
-   function themeDarker() {
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               theme: "Darker"
-            })
-               .then(() => {
-                  window.location.reload();
-               })
-         }
-      })
+   function setPoliticalContent(val) {
+      _setPreference("updatedPoliticalContentPref", "showPolitics", val)
    }
 
-   function themeLight() {
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               theme: "Light"
-            })
-               .then(() => {
-                  window.location.reload();
-               })
-         }
-      })
+   function setPrideFlag(val) {
+      _setPreference("updatedPrideFlagContentPref", "showPrideFlag", val ? "Yes" : "No")
    }
 
-   function themeMintLight() {
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               theme: "Mint (Light)"
-            })
-               .then(() => {
-                  window.location.reload();
-               })
-         }
-      })
-   }
-
-   function themeClassic() {
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               theme: "TransSocial Classic"
-            })
-               .then(() => {
-                  window.location.reload();
-               })
-         }
-      })
-   }
-
-   // Change mature content preference
-   function hideMatureContent() {
-      document.getElementById("updatedMatureContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               showNsfw: "Hide"
-            })
-               .then(() => {
-                  document.getElementById("updatedMatureContentPref").textContent = "Updated preference to Hide successfully!";
-                  document.getElementById("updatedMatureContentPref").style.display = "block";
-               })
-         }
-      })
-   }
-
-   function blurMatureContent() {
-      document.getElementById("updatedMatureContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               showNsfw: "Blur"
-            })
-               .then(() => {
-                  document.getElementById("updatedMatureContentPref").textContent = "Updated preference to Blur successfully!";
-                  document.getElementById("updatedMatureContentPref").style.display = "block";
-               })
-         }
-      })
-   }
-
-   function showMatureContent() {
-      document.getElementById("updatedMatureContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               showNsfw: "Show"
-            })
-               .then(() => {
-                  document.getElementById("updatedMatureContentPref").textContent = "Updated preference to Show successfully!";
-                  document.getElementById("updatedMatureContentPref").style.display = "block";
-               })
-         }
-      })
-   }
-
-   // set sensitive content preference
-   function hideSensitiveContent() {
-      document.getElementById("updatedSensitiveContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               showSensitive: "Hide"
-            })
-               .then(() => {
-                  document.getElementById("updatedSensitiveContentPref").textContent = "Updated preference to Hide successfully!";
-                  document.getElementById("updatedSensitiveContentPref").style.display = "block";
-               })
-         }
-      })
-   }
-
-   function blurSensitiveContent() {
-      document.getElementById("updatedSensitiveContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               showSensitive: "Blur"
-            })
-               .then(() => {
-                  document.getElementById("updatedSensitiveContentPref").textContent = "Updated preference to Blur successfully!";
-                  document.getElementById("updatedSensitiveContentPref").style.display = "block";
-               })
-         }
-      })
-   }
-
-   function showSensitiveContent() {
-      document.getElementById("updatedSensitiveContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               showSensitive: "Show"
-            })
-               .then(() => {
-                  document.getElementById("updatedSensitiveContentPref").textContent = "Updated preference to Show successfully!";
-                  document.getElementById("updatedSensitiveContentPref").style.display = "block";
-               })
-         }
-      })
-   }
-
-   // political content preference
-   function hidePoliticalContent() {
-      document.getElementById("updatedPoliticalContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               showPolitics: "Hide"
-            })
-               .then(() => {
-                  document.getElementById("updatedPoliticalContentPref").textContent = "Updated preference to Hide successfully!";
-                  document.getElementById("updatedPoliticalContentPref").style.display = "block";
-               })
-         }
-      })
-   }
-
-   function blurPoliticalContent() {
-      document.getElementById("updatedPoliticalContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               showPolitics: "Blur"
-            })
-               .then(() => {
-                  document.getElementById("updatedPoliticalContentPref").textContent = "Updated preference to Blur successfully!";
-                  document.getElementById("updatedPoliticalContentPref").style.display = "block";
-               })
-         }
-      })
-   }
-
-   function showPoliticalContent() {
-      document.getElementById("updatedPoliticalContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               showPolitics: "Show"
-            })
-               .then(() => {
-                  document.getElementById("updatedPoliticalContentPref").textContent = "Updated preference to Show successfully!";
-                  document.getElementById("updatedPoliticalContentPref").style.display = "block";
-               })
-         }
-      })
-   }
-
-   // pride flag pref
-   function hidePrideFlag() {
-      document.getElementById("updatedPrideFlagContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               showPrideFlag: "No"
-            })
-               .then(() => {
-                  document.getElementById("updatedPrideFlagContentPref").textContent = "Updated preference to No successfully!";
-                  document.getElementById("updatedPrideFlagContentPref").style.display = "block";
-               })
-         }
-      })
-   }
-
-   function showPrideFlag() {
-      document.getElementById("updatedPrideFlagContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               showPrideFlag: "Yes"
-            })
-               .then(() => {
-                  document.getElementById("updatedPrideFlagContentPref").textContent = "Updated preference to Yes successfully!";
-                  document.getElementById("updatedPrideFlagContentPref").style.display = "block";
-               })
-         }
-      })
+   function setAutoplay(val) {
+      _setPreference("updatedAutoplayContentPref", "autoplayVideos", val)
    }
 
    // font scale
-   function normalFontScale() {
-      document.getElementById("updatedFontScaleContentPref").style.display = "none";
+   function setFontScale(scale) {
+      _setPreference("updatedFontScaleContentPref", "fontSizePref", scale)
 
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               fontSizePref: "normal"
-            })
-               .then(() => {
-                  document.documentElement.style.setProperty('--zoom-level', '1');
-                  document.getElementById("updatedFontScaleContentPref").style.display = "block";
-                  document.getElementById("updatedFontScaleContentPref").textContent = "Updated preference to Normal successfully!";
-               })
-         }
-      })
+      switch (scale) {
+         case "normal": 
+            document.documentElement.style.setProperty('--zoom-level', '1');
+            break;
+         case "large":
+            document.documentElement.style.setProperty('--zoom-level', '1.07');
+            break;
+      }
    }
 
-   function largeFontScale() {
-      document.getElementById("updatedFontScaleContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               fontSizePref: "large"
-            })
-               .then(() => {
-                  document.documentElement.style.setProperty('--zoom-level', '1.07');
-                  document.getElementById("updatedFontScaleContentPref").style.display = "block";
-                  document.getElementById("updatedFontScaleContentPref").textContent = "Updated preference to Large successfully!";
-               })
-         }
-      })
-   }
-
-   // autoplay videos
-   function doAutoplay() {
-      document.getElementById("updatedAutoplayContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               autoplayVideos: true
-            })
-               .then(() => {
-                  document.getElementById("updatedAutoplayContentPref").style.display = "block";
-                  document.getElementById("updatedAutoplayContentPref").textContent = "Updated preference to 'Autoplay On' successfully!";
-               })
-         }
-      })
-   }
-
-   function doNotAutoplay() {
-      document.getElementById("updatedAutoplayContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               autoplayVideos: false
-            })
-               .then(() => {
-                  document.getElementById("updatedAutoplayContentPref").style.display = "block";
-                  document.getElementById("updatedAutoplayContentPref").textContent = "Updated preference to 'Autoplay Off' successfully!";
-               })
-         }
-      })
+   function setInteractionScale(scale) {
+      // TODO: this should be renamed i think
+      _setPreference("updatedNoteSizePref", "noteButtonLayout", scale === "large")
    }
 
    // enable OpenDyslexic font
-   function enableOpenDyslexia() {
-      document.getElementById("updatedOpenDysContentPref").style.display = "none";
+   function setOpenDyslexia(useODFont) {
+      const logElem = document.getElementById("updatedOpenDysContentPref");
+      logElem.style.display = "none";
 
       firebase.auth().onAuthStateChanged((user) => {
          if (user) {
             firebase.database().ref(`users/${user.uid}`).update({
-               useODFont: true
-            })
-            .then(() => {
-               document.getElementById("updatedOpenDysContentPref").textContent = "Updated preference to enabled successfully!";
-               document.getElementById("updatedOpenDysContentPref").style.display = "block";
+               useODFont
+            }).then(() => {
+               logElem.textContent = "Updated preference to " + useODFont ? "enabled" : "disabled" + " successfully!";
+               logElem.style.display = "block";
 
-               const style = document.createElement("style");
-               style.id = "odFontStyle";
-               style.innerHTML = `
-                  @font-face {
-                     font-family: "OpenDyslexic";
-                     src: url("/assets/fonts/OpenDyslexic.otf") format("opentype");
+               if (useODFont) {
+                  const style = document.createElement("style");
+                  style.id = "odFontStyle";
+                  style.innerHTML = `
+                     @font-face {
+                        font-family: "OpenDyslexic";
+                        src: url("/assets/fonts/OpenDyslexic.otf") format("opentype");
+                     }
+
+                     * {
+                        font-family: "OpenDyslexic", sans-serif;
+                     }
+
+                     .transsocialAccounts {
+                        font-size: 0.85rem;
+                     }
+
+                     .policies {
+                        margin-top: 425px;
+                     }
+                  `;
+                  document.head.appendChild(style);
+               } else {
+                  if (document.getElementById("odFontStyle")) {
+                     document.getElementById("odFontStyle").remove();
                   }
-
-                  * {
-                     font-family: "OpenDyslexic", sans-serif;
-                  }
-
-                  .transsocialAccounts {
-                     font-size: 0.85rem;
-                  }
-
-                  .policies {
-                     margin-top: 425px;
-                  }
-               `;
-               document.head.appendChild(style);
-            })
-         }
-      })
-   }
-
-   function disableOpenDyslexia() {
-      document.getElementById("updatedOpenDysContentPref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               useODFont: false
-            })
-            .then(() => {
-               document.getElementById("updatedOpenDysContentPref").textContent = "Updated preference to disabled successfully!";
-               document.getElementById("updatedOpenDysContentPref").style.display = "block";
-
-               if (document.getElementById("odFontStyle")) {
-                  document.getElementById("odFontStyle").remove();
                }
             })
          }
       })
-   }
-
-   // enable experiments
-   function showExperiments() {
-      document.getElementById("experimentSelect").showModal();
    }
 
    // change pfp
@@ -4401,13 +3962,13 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                      const fileRef = storageRef.child(`images/pfp/${user.uid}/${file.name}`);
 
                      document.getElementById("changePfp").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Uploading image...`;
-   
+
                      fileRef.put(file).then(function (snapshot) {
                         snapshot.ref.getDownloadURL().then(function (downloadURL) {
                            firebase.database().ref(`users/${user.uid}/pfp`).once("value", (snapshot) => {
                               firebase.database().ref(`users/${user.uid}/pfp`).once("value", (snapshot) => {
                                  const oldPfpName = snapshot.val();
-   
+
                                  firebase.database().ref(`users/${user.uid}`).update({
                                     pfp: file.name
                                  })
@@ -4484,13 +4045,13 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                      const fileRef = storageRef.child(`images/banner/${user.uid}/${file.name}`);
 
                      document.getElementById("changeBanner").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Uploading image...`;
-   
+
                      fileRef.put(file).then(function (snapshot) {
                         snapshot.ref.getDownloadURL().then(function (downloadURL) {
                            firebase.database().ref(`users/${user.uid}/banner`).once("value", (snapshot) => {
                               firebase.database().ref(`users/${user.uid}/banner`).once("value", (snapshot) => {
                                  const oldPfpName = snapshot.val();
-   
+
                                  firebase.database().ref(`users/${user.uid}`).update({
                                     banner: file.name
                                  })
@@ -4583,38 +4144,6 @@ if (pathName === "/settings" || pathName === "/settings.html") {
             }).then(() => {
                window.location.reload();
             });
-         }
-      })
-   }
-
-   function largeInteractionScale() {
-      document.getElementById("updatedNoteSizePref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               noteButtonLayout: true
-            })
-            .then(() => {
-               document.getElementById("updatedNoteSizePref").style.display = "block";
-               document.getElementById("updatedNoteSizePref").textContent = "Updated preference to Large successfully!";
-            })
-         }
-      })
-   }
-
-   function normalInteractionScale() {
-      document.getElementById("updatedNoteSizePref").style.display = "none";
-
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}`).update({
-               noteButtonLayout: false
-            })
-            .then(() => {
-               document.getElementById("updatedNoteSizePref").style.display = "block";
-               document.getElementById("updatedNoteSizePref").textContent = "Updated preference to Normal successfully!";
-            })
          }
       })
    }
@@ -5575,7 +5104,7 @@ if (pathName === "/create_theme") {
       // this will also allow the user to use the formatting: "rgb(0, 0, 0)" or just "0, 0, 0"
       const rgbColorRegex = /^rgb\(\s*([01]?\d\d?|2[0-4]\d|25[0-5])\s*,\s*([01]?\d\d?|2[0-4]\d|25[0-5])\s*,\s*([01]?\d\d?|2[0-4]\d|25[0-5])\s*\)$/i;
       const simpleRgbColorRegex = /^([01]?\d\d?|2[0-4]\d|25[0-5])\s*,\s*([01]?\d\d?|2[0-4]\d|25[0-5])\s*,\s*([01]?\d\d?|2[0-4]\d|25[0-5])$/i;
-      
+
       // update the correct CSS value 
       // background
       if (targetElement.id === "background") {
@@ -5881,7 +5410,7 @@ if (pathName === "/create_theme") {
 
                   // clear the "savedThemes" innerHTML to avoid repeats
                   document.getElementById("savedThemes").innerHTML = "";
-                  
+
                   // create a button for each theme
                   Object.keys(savedThemes).forEach((key) => {
                      const themeName = key;
@@ -6130,7 +5659,7 @@ if (pathName === "/create_theme") {
                               });
                               document.getElementById("sidebarCreateNoteButton").dispatchEvent(event);
                            }
-                           
+
                            // set sidebarCreateNoteButtonHover
                            if (themeData.createNoteButtonHover !== "" && themeData.createNoteButtonHover) {
                               document.getElementById("sidebarCreateNoteButtonHover").value = themeData.createNoteButtonHover;
@@ -6413,7 +5942,7 @@ if (pathName === "/userstudio" || pathName.startsWith("/userstudio/")) {
             themeDiv.appendChild(desc);
             themeDiv.appendChild(creator);
             themeDiv.addEventListener("click", () => window.location.replace(`/userstudio/${themeKey}`));
-            
+
             // append the theme to the entire page
             if (themeData.canAppearOnStore !== "false") {
                themesContainer.append(themeDiv);
@@ -6724,7 +6253,7 @@ function openLink(link) {
 
       // button :3
       document.getElementById("externalLink").href = link;
-      
+
       // open the modal
       document.getElementById("openLink").showModal();
    } else {
@@ -7013,7 +6542,7 @@ function seeData_reauth() {
 
 function objectToTable(data, level = 0) {
    let table = document.createElement("table");
-   
+
    for (const [key, value] of Object.entries(data)) {
       let row = document.createElement("tr");
 
@@ -7028,7 +6557,7 @@ function objectToTable(data, level = 0) {
 
       let data = document.createElement("td");
       data.style = "padding: 8px; border: 1px solid #ddd;";
-       
+
       if (typeof value === 'object' && value !== null) {
          if (level <= 0) {
             let button = document.createElement("button");
@@ -7036,7 +6565,7 @@ function objectToTable(data, level = 0) {
             button.textContent = "Show";
             data.appendChild(button);
          }
-         
+
          let div = document.createElement("div");
          div.style.display = level > 0 ? "block" : "none";
          div.appendChild(objectToTable(value, level + 1));
@@ -7044,11 +6573,11 @@ function objectToTable(data, level = 0) {
       } else {
          data.textContent = value;
       }
-      
+
       row.appendChild(data);
       table.appendChild(row);
    }
-   
+
    return table;
 }
 
@@ -7231,7 +6760,7 @@ firebase.auth().onAuthStateChanged((user) => {
    if (user) {
       firebase.database().ref(`users/${user.uid}/auroraPromo`).once("value", (snapshot) => {
          const exists = snapshot.exists();
-         
+
          if (!exists && pathName !== "/") {
             const modal = document.createElement("dialog");
             modal.innerHTML = 
