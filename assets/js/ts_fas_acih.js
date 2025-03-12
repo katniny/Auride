@@ -641,7 +641,7 @@ function signOut() {
    firebase.auth().signOut().then(() => {
       window.location.replace("/home");
    }).catch((error) => {
-      alert("There was an unknown error signing out. Please refresh the page and try again.");
+      alert("Error signing out. Please refresh the page and try again.\n" + error);
    })
 }
 
@@ -691,9 +691,7 @@ function hideErrorByDefault() {
 // Only allow user on page if they are signed in/signed out
 function signedOutCheck() {
    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-         // ...
-      } else {
+      if (!user) {
          window.location.replace("/home");
       }
    })
@@ -703,8 +701,6 @@ function signedInCheck() {
    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
          window.location.replace('/home');
-      } else {
-         return;
       }
    })
 }
@@ -726,9 +722,6 @@ function isOnUsernames() {
                   window.location.replace('/ts/prepare/pfp.html');
                }
             })
-      } else {
-         // Don't do anything, page will redirect to sign up page by default
-         return;
       }
    })
 }
@@ -765,7 +758,7 @@ function isOnPronouns() {
 
                if (step === "pronouns") {
                   return true;
-               } else if (step !== "pronouns") {
+               } else {
                   window.location.replace('/ts/finished/final.html');
                }
             })
@@ -785,7 +778,7 @@ function isFinished() {
 
                if (step === "finished") {
                   return true;
-               } else if (step !== "finished") {
+               } else {
                   window.location.replace('/ts/prepare/acc.html');
                }
             })
@@ -2050,8 +2043,6 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
                         })
                      }
                   });
-
-                  return;
                })
             }
          }
@@ -3477,28 +3468,28 @@ if (pathName === "/settings" || pathName === "/settings.html") {
             const userData = snapshot.val();
 
             // Set user profile picture
-            if (userData.pfp !== undefined) {
+            if (userData.pfp) {
                document.getElementById("profilePicture_settings").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${user.uid}%2F${userData.pfp}?alt=media`;
             }
 
-            if (userData.banner !== undefined) {
+            if (userData.banner) {
                document.getElementById("banner_settings").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fbanner%2F${user.uid}%2F${userData.banner}?alt=media`;
             }
 
             // Display name
-            if (userData.display !== undefined) {
+            if (userData.display) {
                document.getElementById("displayName-text").value = `${userData.display}`;
                document.getElementById("characterLimit_display").textContent = `${userData.display.length}/25`;
             }
 
             // Username
-            if (userData.username !== undefined) {
+            if (userData.username) {
                document.getElementById("username-text").value = `${userData.username}`;
                document.getElementById("characterLimit_username").textContent = `${userData.username.length}/20`;
             }
 
             // Pronouns
-            if (userData.pronouns !== undefined) {
+            if (userData.pronouns) {
                document.getElementById("pronouns-text").value = `${userData.pronouns}`;
                document.getElementById("characterLimit_pronouns").textContent = `${userData.pronouns.length}/15`;
             }
@@ -5160,6 +5151,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/note" ||
          if (user) {
             const uid = user.uid;
 
+            // girl what the hell is this                                                           vvvvvv
             if (event.target.classList.contains("more") || event.target.classList.contains("fa-solid" && "fa-pen-to-square")) {
                const moreButton = event.target;
                const noteId = findNoteId(moreButton);
@@ -5299,9 +5291,7 @@ if (pathName === "/messages") {
                               dmContainer.appendChild(dmDiv);
 
                               // Get last message, if available
-                              if (dmData.messages) {
-
-                              } else {
+                              if (!dmData.messages) {
                                  lastMessageSent.textContent = `You and ${otherPerson.username} haven't chatted yet!`;
                                  lastMessageSent.classList.add("lastMessageSent");
                                  dmDiv.appendChild(lastMessageSent);
@@ -5330,9 +5320,7 @@ if (pathName === "/messages") {
                               dmContainer.appendChild(dmDiv);
 
                               // Get last message, if available
-                              if (dmData.messages) {
-
-                              } else {
+                              if (!dmData.messages) {
                                  lastMessageSent.textContent = `You and ${otherPerson.username} haven't chatted yet!`;
                                  lastMessageSent.classList.add("lastMessageSent");
                                  dmDiv.appendChild(lastMessageSent);
@@ -5389,7 +5377,7 @@ if (pathName === "/messages") {
 
                      // Get username and pronouns (if applicable)
                      const userId_username = document.createElement("span");
-                     if (data.pronouns !== "" && data.pronouns !== undefined) {
+                     if (data.pronouns) {
                         userId_username.textContent = `@${data.username} • ${data.pronouns}`;
                      } else {
                         userId_username.textContent = `@${data.username}`;
@@ -5900,11 +5888,10 @@ if (pathName === "/create_theme") {
          // check if the name already exists
          firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-               firebase.database().ref(`users/savedThemes/${document.getElementById("themeName").value}`).once("value", (snapshot) => {
-                  const trueValue = document.getElementById("themeName").value.trim();
-
+               let themeName = document.getElementById("themeName");
+               firebase.database().ref(`users/savedThemes/${themeName.value}`).once("value", (snapshot) => {
                   // ensures that the name isn't empty
-                  if (trueValue === "") {
+                  if (themeName.value.trim() === "") {
                      document.getElementById("saveThemeBtn").classList.remove("disabled");
                      document.getElementById("dontSaveThemeBtn").classList.remove("disabled");
                      document.getElementById("saveThemeBtn").innerHTML = `Save Theme`;
@@ -7903,18 +7890,6 @@ if (pathName === "/home") {
    if (randomInfo.lore === true) {
       document.getElementById("betaTestingApp").classList.add("glitch");
    }
-}
-
-// server test
-function serverTest() {
-   fetch(`https://thisisatest-6p622mhgza-uc.a.run.app`)
-      .then(response => response.json())
-      .then(data => {
-         console.log(data);
-      })
-      .catch(error => {
-         console.error("not okay response :(", error);
-      });
 }
 
 // aurora promotional
