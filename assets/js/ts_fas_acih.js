@@ -5,18 +5,14 @@ const pathName = pageURL.pathname;
 let isOnDesktopApp = null;
 
 // TransSocial Version
-let transsocialVersion = "v2025.3.10";
-let transsocialUpdate = "v20250310-1";
+let transsocialVersion = "v2025.3.12";
+let transsocialUpdate = "v20250312-1";
 let transsocialReleaseVersion = "pre-alpha";
 let hasUpdateNotes = true;
 
 const notices = document.getElementsByClassName("version-notice");
-const loaderVersions = document.getElementsByClassName("loaderVersion");
 for (let notice of notices) {
    notice.innerHTML = `TransSocial is currently in the pre-alpha stage (version ${transsocialVersion}). A lot of features are missing or are in development and will be added with updates. <a href="/indev">Learn more</a>.`;
-}
-for (let loader of loaderVersions) {
-   loader.innerHTML = `TransSocial ${transsocialVersion}_${transsocialReleaseVersion}`;
 }
 
 // Quote renote ID

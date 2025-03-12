@@ -542,4 +542,9 @@
 body {
    background: var(--background);
    zoom: var(--zoom-level);
+   visibility: hidden;
+}
+
+body.loaderReady {
+   visibility: visible;
 }
