@@ -3636,24 +3636,21 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                            document.getElementById("saveUsername").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Removing old username...`;
                            firebase.database().ref(`taken-usernames/${data.username}`).update({
                               user: null
-                           })
-                              .then(() => {
-                                 document.getElementById("saveUsername").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Reserving username...`;
+                           }).then(() => {
+                              document.getElementById("saveUsername").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Reserving username...`;
 
-                                 firebase.database().ref(`taken-usernames/${document.getElementById("username-text").value}`).update({
-                                    user: user.uid
+                              firebase.database().ref(`taken-usernames/${document.getElementById("username-text").value}`).update({
+                                 user: user.uid
+                              }).then(() => {
+                                 document.getElementById("saveUsername").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Setting publicly...`;
+
+                                 firebase.database().ref(`users/${user.uid}`).update({
+                                    username: document.getElementById("username-text").value
+                                 }).then(() => {
+                                    window.location.reload();
                                  })
-                                    .then(() => {
-                                       document.getElementById("saveUsername").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Setting publicly...`;
-
-                                       firebase.database().ref(`users/${user.uid}`).update({
-                                          username: document.getElementById("username-text").value
-                                       })
-                                          .then(() => {
-                                             window.location.reload();
-                                          })
-                                    })
                               })
+                           })
                         })
                      }
                   })
@@ -3673,12 +3670,11 @@ if (pathName === "/settings" || pathName === "/settings.html") {
             firebase.auth().onAuthStateChanged((user) => {
                firebase.database().ref(`users/${user.uid}`).update({
                   pronouns: document.getElementById("pronouns-text").value
+               }).then(() => {
+                  document.getElementById("savePronouns").innerHTML = `Save`;
+                  document.getElementById("savePronouns").classList.remove("disabled");
+                  document.getElementById("savePronouns").style.display = "none";
                })
-                  .then(() => {
-                     document.getElementById("savePronouns").innerHTML = `Save`;
-                     document.getElementById("savePronouns").classList.remove("disabled");
-                     document.getElementById("savePronouns").style.display = "none";
-                  })
             })
          }
       }
@@ -3693,12 +3689,11 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          firebase.auth().onAuthStateChanged((user) => {
             firebase.database().ref(`users/${user.uid}`).update({
                bio: document.getElementById("bioText").value
+            }).then(() => {
+               document.getElementById("saveBio").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Updating bio...`;
+               document.getElementById("saveBio").classList.remove("disabled");
+               document.getElementById("saveBio").style.display = `none`;
             })
-               .then(() => {
-                  document.getElementById("saveBio").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Updating bio...`;
-                  document.getElementById("saveBio").classList.remove("disabled");
-                  document.getElementById("saveBio").style.display = `none`;
-               })
          })
       }
    }
@@ -3736,30 +3731,25 @@ if (pathName === "/settings" || pathName === "/settings.html") {
 
                const credential = firebase.auth.EmailAuthProvider.credential(email, password);
 
-               currentUser.reauthenticateWithCredential(credential)
-                  .then(() => {
-                     document.getElementById("errorWithReauthenticating_email").textContent = "Successful! Changing email, please wait a moment...";
-                     document.getElementById("errorWithReauthenticating_email").style.color = "var(--success-color)";
-                     document.getElementById("errorWithReauthenticating_email").style.display = "block";
+               currentUser.reauthenticateWithCredential(credential).then(() => {
+                  document.getElementById("errorWithReauthenticating_email").textContent = "Successful! Changing email, please wait a moment...";
+                  document.getElementById("errorWithReauthenticating_email").style.color = "var(--success-color)";
+                  document.getElementById("errorWithReauthenticating_email").style.display = "block";
 
-                     // set email
-                     currentUser.updateEmail(`${document.getElementById("email-address").value}`).then(() => {
-                        firebase.database().ref(`users/${currentUser.uid}`).update({
-                           email: document.getElementById("email-address").value
-                        })
-                           .then(() => {
-                              window.location.reload();
-                           })
-                     }).catch((error) => {
-                        document.getElementById("errorWithReauthenticating_email").textContent = `An error occurred: ${error.message}`;
-                        document.getElementById("errorWithReauthenticating_email").style.color = "var(--error-text)";
-                        document.getElementById("errorWithReauthenticating_email").style.display = "block";
-                     })
-                  })
-                  .catch((error) => {
-                     document.getElementById("errorWithReauthenticating_email").textContent = `Failed to reauthenticate: ${error.message}`;
+                  // set email
+                  currentUser.updateEmail(`${document.getElementById("email-address").value}`).then(() => {
+                     firebase.database().ref(`users/${currentUser.uid}`).update({
+                        email: document.getElementById("email-address").value
+                     }).then(window.location.reload)
+                  }).catch((error) => {
+                     document.getElementById("errorWithReauthenticating_email").textContent = `An error occurred: ${error.message}`;
+                     document.getElementById("errorWithReauthenticating_email").style.color = "var(--error-text)";
                      document.getElementById("errorWithReauthenticating_email").style.display = "block";
-                  });
+                  })
+               }).catch((error) => {
+                  document.getElementById("errorWithReauthenticating_email").textContent = `Failed to reauthenticate: ${error.message}`;
+                  document.getElementById("errorWithReauthenticating_email").style.display = "block";
+               });
             });
          }
       });
