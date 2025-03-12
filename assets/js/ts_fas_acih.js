@@ -83,106 +83,30 @@ if (document.getElementById("userBrowser")) { // environment settings
 
 // if on outdated browser, dont let the user use transsocial
 // dont bother with ie, dont even work at all
-if (browserName === "Mozilla Firefox") {
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Firefox version 98"
-   }
+const outdatedBrowsers = [
+   ["Mozilla Firefox", 98  ],
+   ["Samsung Browser", 3.0 ],
+   ["Opera",           24  ],
+   ["Microsoft Edge",  79  ],
+   ["Google Chrome",   37  ],
+   ["Apple Safari",    15.4],
+];
 
-   if (browserVersion < 98) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
+for (const [browser, version] of outdatedBrowsers) {
+   if (browserName === browser) {
+      // when <dialog> (the latest web tech transsocial uses) started getting supported
+      if (document.getElementById("version_browser")) {
+         document.getElementById("version_browser").textContent = `${browser} version ${version}`;
+      }
+
+      if (browserVersion < version) {
+         if (pathName !== "/unsupported") {
+            window.location.replace("/unsupported");
+         }
       } else {
-         
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
-      }
-   }
-}
-
-if (browserName === "Samsung Browser") {
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Samsung Browser version 3.0"
-   }
-
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (browserVersion < 3.0) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
-      }
-   }
-}
-
-if (browserName === "Opera") {
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Opera version 24"
-   }
-
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (browserVersion < 24) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
-      }
-   }
-}
-
-if (browserName === "Microsoft Edge") {
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Edge version 79"
-   }
-
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (browserVersion < 79) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
-      }
-   }
-}
-
-if (browserName === "Google Chrome") {
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Chrome version 37"
-   }
-
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (browserVersion < 37) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
-      }
-   }
-}
-
-if (browserName === "Apple Safari") {
-   if (document.getElementById("version_browser")) {
-      document.getElementById("version_browser").textContent = "Safari version 15.4"
-   }
-
-   // when <dialog> (the latest web tech transsocial uses) started getting supported
-   if (browserVersion < 15.4) {
-      if (pathName !== "/unsupported") {
-         window.location.replace("/unsupported");
-      }
-   } else {
-      if (pathName === "/unsupported") {
-         window.location.replace("/home");
+         if (pathName === "/unsupported") {
+            window.location.replace("/home");
+         }
       }
    }
 }
@@ -717,7 +641,7 @@ function signOut() {
    firebase.auth().signOut().then(() => {
       window.location.replace("/home");
    }).catch((error) => {
-      alert("There was an unknown error signing out. Please refresh the page and try again.");
+      alert("Error signing out. Please refresh the page and try again.\n" + error);
    })
 }
 
@@ -767,9 +691,7 @@ function hideErrorByDefault() {
 // Only allow user on page if they are signed in/signed out
 function signedOutCheck() {
    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-         // ...
-      } else {
+      if (!user) {
          window.location.replace("/home");
       }
    })
@@ -779,8 +701,6 @@ function signedInCheck() {
    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
          window.location.replace('/home');
-      } else {
-         return;
       }
    })
 }
@@ -802,9 +722,6 @@ function isOnUsernames() {
                   window.location.replace('/ts/prepare/pfp.html');
                }
             })
-      } else {
-         // Don't do anything, page will redirect to sign up page by default
-         return;
       }
    })
 }
@@ -841,7 +758,7 @@ function isOnPronouns() {
 
                if (step === "pronouns") {
                   return true;
-               } else if (step !== "pronouns") {
+               } else {
                   window.location.replace('/ts/finished/final.html');
                }
             })
@@ -861,7 +778,7 @@ function isFinished() {
 
                if (step === "finished") {
                   return true;
-               } else if (step !== "finished") {
+               } else {
                   window.location.replace('/ts/prepare/acc.html');
                }
             })
@@ -2126,8 +2043,6 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
                         })
                      }
                   });
-
-                  return;
                })
             }
          }
@@ -3553,28 +3468,28 @@ if (pathName === "/settings" || pathName === "/settings.html") {
             const userData = snapshot.val();
 
             // Set user profile picture
-            if (userData.pfp !== undefined) {
+            if (userData.pfp) {
                document.getElementById("profilePicture_settings").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${user.uid}%2F${userData.pfp}?alt=media`;
             }
 
-            if (userData.banner !== undefined) {
+            if (userData.banner) {
                document.getElementById("banner_settings").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fbanner%2F${user.uid}%2F${userData.banner}?alt=media`;
             }
 
             // Display name
-            if (userData.display !== undefined) {
+            if (userData.display) {
                document.getElementById("displayName-text").value = `${userData.display}`;
                document.getElementById("characterLimit_display").textContent = `${userData.display.length}/25`;
             }
 
             // Username
-            if (userData.username !== undefined) {
+            if (userData.username) {
                document.getElementById("username-text").value = `${userData.username}`;
                document.getElementById("characterLimit_username").textContent = `${userData.username.length}/20`;
             }
 
             // Pronouns
-            if (userData.pronouns !== undefined) {
+            if (userData.pronouns) {
                document.getElementById("pronouns-text").value = `${userData.pronouns}`;
                document.getElementById("characterLimit_pronouns").textContent = `${userData.pronouns.length}/15`;
             }
@@ -3721,24 +3636,21 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                            document.getElementById("saveUsername").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Removing old username...`;
                            firebase.database().ref(`taken-usernames/${data.username}`).update({
                               user: null
-                           })
-                              .then(() => {
-                                 document.getElementById("saveUsername").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Reserving username...`;
+                           }).then(() => {
+                              document.getElementById("saveUsername").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Reserving username...`;
 
-                                 firebase.database().ref(`taken-usernames/${document.getElementById("username-text").value}`).update({
-                                    user: user.uid
+                              firebase.database().ref(`taken-usernames/${document.getElementById("username-text").value}`).update({
+                                 user: user.uid
+                              }).then(() => {
+                                 document.getElementById("saveUsername").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Setting publicly...`;
+
+                                 firebase.database().ref(`users/${user.uid}`).update({
+                                    username: document.getElementById("username-text").value
+                                 }).then(() => {
+                                    window.location.reload();
                                  })
-                                    .then(() => {
-                                       document.getElementById("saveUsername").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Setting publicly...`;
-
-                                       firebase.database().ref(`users/${user.uid}`).update({
-                                          username: document.getElementById("username-text").value
-                                       })
-                                          .then(() => {
-                                             window.location.reload();
-                                          })
-                                    })
                               })
+                           })
                         })
                      }
                   })
@@ -3758,12 +3670,11 @@ if (pathName === "/settings" || pathName === "/settings.html") {
             firebase.auth().onAuthStateChanged((user) => {
                firebase.database().ref(`users/${user.uid}`).update({
                   pronouns: document.getElementById("pronouns-text").value
+               }).then(() => {
+                  document.getElementById("savePronouns").innerHTML = `Save`;
+                  document.getElementById("savePronouns").classList.remove("disabled");
+                  document.getElementById("savePronouns").style.display = "none";
                })
-                  .then(() => {
-                     document.getElementById("savePronouns").innerHTML = `Save`;
-                     document.getElementById("savePronouns").classList.remove("disabled");
-                     document.getElementById("savePronouns").style.display = "none";
-                  })
             })
          }
       }
@@ -3778,12 +3689,11 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          firebase.auth().onAuthStateChanged((user) => {
             firebase.database().ref(`users/${user.uid}`).update({
                bio: document.getElementById("bioText").value
+            }).then(() => {
+               document.getElementById("saveBio").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Updating bio...`;
+               document.getElementById("saveBio").classList.remove("disabled");
+               document.getElementById("saveBio").style.display = `none`;
             })
-               .then(() => {
-                  document.getElementById("saveBio").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Updating bio...`;
-                  document.getElementById("saveBio").classList.remove("disabled");
-                  document.getElementById("saveBio").style.display = `none`;
-               })
          })
       }
    }
@@ -3821,30 +3731,25 @@ if (pathName === "/settings" || pathName === "/settings.html") {
 
                const credential = firebase.auth.EmailAuthProvider.credential(email, password);
 
-               currentUser.reauthenticateWithCredential(credential)
-                  .then(() => {
-                     document.getElementById("errorWithReauthenticating_email").textContent = "Successful! Changing email, please wait a moment...";
-                     document.getElementById("errorWithReauthenticating_email").style.color = "var(--success-color)";
-                     document.getElementById("errorWithReauthenticating_email").style.display = "block";
+               currentUser.reauthenticateWithCredential(credential).then(() => {
+                  document.getElementById("errorWithReauthenticating_email").textContent = "Successful! Changing email, please wait a moment...";
+                  document.getElementById("errorWithReauthenticating_email").style.color = "var(--success-color)";
+                  document.getElementById("errorWithReauthenticating_email").style.display = "block";
 
-                     // set email
-                     currentUser.updateEmail(`${document.getElementById("email-address").value}`).then(() => {
-                        firebase.database().ref(`users/${currentUser.uid}`).update({
-                           email: document.getElementById("email-address").value
-                        })
-                           .then(() => {
-                              window.location.reload();
-                           })
-                     }).catch((error) => {
-                        document.getElementById("errorWithReauthenticating_email").textContent = `An error occurred: ${error.message}`;
-                        document.getElementById("errorWithReauthenticating_email").style.color = "var(--error-text)";
-                        document.getElementById("errorWithReauthenticating_email").style.display = "block";
-                     })
-                  })
-                  .catch((error) => {
-                     document.getElementById("errorWithReauthenticating_email").textContent = `Failed to reauthenticate: ${error.message}`;
+                  // set email
+                  currentUser.updateEmail(`${document.getElementById("email-address").value}`).then(() => {
+                     firebase.database().ref(`users/${currentUser.uid}`).update({
+                        email: document.getElementById("email-address").value
+                     }).then(window.location.reload)
+                  }).catch((error) => {
+                     document.getElementById("errorWithReauthenticating_email").textContent = `An error occurred: ${error.message}`;
+                     document.getElementById("errorWithReauthenticating_email").style.color = "var(--error-text)";
                      document.getElementById("errorWithReauthenticating_email").style.display = "block";
-                  });
+                  })
+               }).catch((error) => {
+                  document.getElementById("errorWithReauthenticating_email").textContent = `Failed to reauthenticate: ${error.message}`;
+                  document.getElementById("errorWithReauthenticating_email").style.display = "block";
+               });
             });
          }
       });
@@ -5236,6 +5141,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/note" ||
          if (user) {
             const uid = user.uid;
 
+            // girl what the hell is this                                                           vvvvvv
             if (event.target.classList.contains("more") || event.target.classList.contains("fa-solid" && "fa-pen-to-square")) {
                const moreButton = event.target;
                const noteId = findNoteId(moreButton);
@@ -5375,9 +5281,7 @@ if (pathName === "/messages") {
                               dmContainer.appendChild(dmDiv);
 
                               // Get last message, if available
-                              if (dmData.messages) {
-
-                              } else {
+                              if (!dmData.messages) {
                                  lastMessageSent.textContent = `You and ${otherPerson.username} haven't chatted yet!`;
                                  lastMessageSent.classList.add("lastMessageSent");
                                  dmDiv.appendChild(lastMessageSent);
@@ -5406,9 +5310,7 @@ if (pathName === "/messages") {
                               dmContainer.appendChild(dmDiv);
 
                               // Get last message, if available
-                              if (dmData.messages) {
-
-                              } else {
+                              if (!dmData.messages) {
                                  lastMessageSent.textContent = `You and ${otherPerson.username} haven't chatted yet!`;
                                  lastMessageSent.classList.add("lastMessageSent");
                                  dmDiv.appendChild(lastMessageSent);
@@ -5465,7 +5367,7 @@ if (pathName === "/messages") {
 
                      // Get username and pronouns (if applicable)
                      const userId_username = document.createElement("span");
-                     if (data.pronouns !== "" && data.pronouns !== undefined) {
+                     if (data.pronouns) {
                         userId_username.textContent = `@${data.username} • ${data.pronouns}`;
                      } else {
                         userId_username.textContent = `@${data.username}`;
@@ -5976,11 +5878,10 @@ if (pathName === "/create_theme") {
          // check if the name already exists
          firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-               firebase.database().ref(`users/savedThemes/${document.getElementById("themeName").value}`).once("value", (snapshot) => {
-                  const trueValue = document.getElementById("themeName").value.trim();
-
+               let themeName = document.getElementById("themeName");
+               firebase.database().ref(`users/savedThemes/${themeName.value}`).once("value", (snapshot) => {
                   // ensures that the name isn't empty
-                  if (trueValue === "") {
+                  if (themeName.value.trim() === "") {
                      document.getElementById("saveThemeBtn").classList.remove("disabled");
                      document.getElementById("dontSaveThemeBtn").classList.remove("disabled");
                      document.getElementById("saveThemeBtn").innerHTML = `Save Theme`;
@@ -7979,18 +7880,6 @@ if (pathName === "/home") {
    if (randomInfo.lore === true) {
       document.getElementById("betaTestingApp").classList.add("glitch");
    }
-}
-
-// server test
-function serverTest() {
-   fetch(`https://thisisatest-6p622mhgza-uc.a.run.app`)
-      .then(response => response.json())
-      .then(data => {
-         console.log(data);
-      })
-      .catch(error => {
-         console.error("not okay response :(", error);
-      });
 }
 
 // aurora promotional
