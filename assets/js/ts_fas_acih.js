@@ -1250,12 +1250,14 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
          }
       }
 
+      if (noteData.id === undefined) return null;
+
       const noteDiv = document.createElement("div");
       noteDiv.className = "note";
       noteDiv.id = noteData.id;
 
       const hasCw = noteData.isNsfw || noteData.isSensitive || noteData.isPolitical;
-      const cwType = noteData.isNsfw ? "NSWF" : (noteDate.isSensitiwe ? "sensitive" : "political");
+      const cwType = noteData.isNsfw ? "NSFW" : (noteData.isSensitiwe ? "sensitive" : "political");
 
       if (hasCw) {
          firebase.auth().onAuthStateChanged((user) => {
@@ -1617,6 +1619,8 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
       })
 
       noteDiv.appendChild(buttonRow);
+
+      return noteDiv;
    }
 
    function loadInitalNotes() {
@@ -1746,6 +1750,10 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
    // retrieve data from the "notes" node
    function renderNotes(notesArray) {
       const notesContainer = document.getElementById("notes");
+
+      if (document.getElementById("newNotesAvailable")) {
+         document.getElementById("newNotesAvailable").style.display = "none";
+      }
 
       notesArray = notesArray.filter((noteData) => {
          let suspended = false;
