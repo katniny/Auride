@@ -1238,9 +1238,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
    });
 
    // returns the fully rendered note div or null
-   // TODO: doc comment
    function renderNote(noteData) {
-      // TODO: doc comment
       function renderUsername(username, pronouns, time) {
          const displayDate = timeAgo(time);
          if (pronouns) {
@@ -1321,7 +1319,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
       userPfp.className = "notePfp";
       firebase.database().ref("users/" + noteData.whoSentIt).once("value", (snapshot) => {
          const userData = snapshot.val();
-         // TODO: theres a way to get thi url without hardcoding anything, right?
+         // theres a way to get this url without hardcoding anything, right?
          userPfp.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${noteData.whoSentIt}%2F${userData.pfp}?alt=media`;
       });
       userPfp.draggable = false;
@@ -1367,10 +1365,10 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
 
       const text = document.createElement("p");
       text.innerHTML = format(noteData.text)
-      // TODO(lily): inspect this function
+      // TODO: should probably be moved to format at some point
       twemoji.parse(text, {
-         folder: 'svg',
-         ext: '.svg'
+         folder: "svg",
+         ext: ".svg",
       });
       text.className = "noteText";
       if (!noteData.replyingTo) {
@@ -1471,7 +1469,6 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
                const quotePfp = document.createElement("img");
                quotePfp.className = "quotePfp";
                quotePfp.draggable = false;
-               // TODO: theres a way to get thi url without hardcoding anything, right?
                quotePfp.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${quoteData.whoSentIt}%2F${quoteUser.pfp}?alt=media`;
                if (isSuspended) quotePfp.src = `/assets/imgs/defaultPfp.png`;
                container.appendChild(quotePfp);
@@ -1503,9 +1500,9 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
                   content = content.substring(0, 247) + "...";
                }
                quoteText.innerHTML = content;
-               twemoji.parse(quoteText, {
-                  folder: 'svg',
-                  ext: '.svg'
+               twemoji.parse(text, {
+                  folder: "svg",
+                  ext: ".svg",
                });
                // dont leak their username
                if (isSuspended) quoteText.textContent = "Note by suspended user cannot be viewed";
@@ -1596,7 +1593,6 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
       favoriteBtn.addEventListener("click", () => favorite(noteData.id));
       firebase.auth().onAuthStateChanged((user) => {
          if (user) {
-            // TODO: this looks like you dont need to get the value
             firebase.database().ref(`users/${user.uid}/favorites/${noteData.id}`).once("value", (snapshot) => {
                if (snapshot.exists()) {
                   favoriteBtn.innerHTML = `<i class="fa-solid fa-bookmark fa-xs" id="favorite-${noteData.id}" style="color: var(--main-color);"></i>`;
@@ -1629,6 +1625,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
             const notesArray = [];
             snapshot.forEach(function (childSnapshot) {
                const noteContent = childSnapshot.val();
+               // why? we have .id
                noteContent.key = childSnapshot.key;
                notesArray.push(noteContent);
             });
@@ -1652,9 +1649,46 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
             noteParam = url.searchParams.get("id");
          }
 
-         notesRef.once("value")
-            .then(function(snapshot) {
-               notesRef.limitToLast(snapshot.numChildren()).once("value").then(function (snapshot) {
+         notesRef.once("value").then(function(snapshot) {
+            notesRef.limitToLast(snapshot.numChildren()).once("value").then(function (snapshot) {
+               const notesArray = [];
+               snapshot.forEach(function (childSnapshot) {
+                  const noteContent = childSnapshot.val();
+                  noteContent.key = childSnapshot.key;
+                  notesArray.push(noteContent);
+               });
+
+               notesArray.sort((a, b) => b.createdAt - a.createdAt);
+
+               lastNoteKey = notesArray[notesArray.length - 1]?.key;
+
+               const filteredNotes = notesArray.filter((currentNote) => currentNote.replyingTo === noteParam);
+
+               if (filteredNotes.length > 0) {
+                  renderNotes(filteredNotes);
+               } else {
+                  renderNotes(notesArray);
+               }
+            });
+         })
+      } else if (pathName === "/u" || pathName.startsWith("/u/")) {
+         const url = new URL(window.location.href);
+         let userParam = null;
+
+         if (pathName.startsWith("/u/")) {
+            const segments = pathName.split("/");
+            userParam = segments[2];
+
+            console.log(userParam);
+         } else {
+            userParam = url.searchParams.get("id");
+         }
+
+         firebase.database().ref(`taken-usernames/${userParam}`).once("value", (snapshot) => {
+            const id = snapshot.val();
+
+            firebase.database().ref(`users/${id.user}/posts`).get().then(function (snapshot) {
+               notesRef.limitToLast(snapshot.numChildren()).get().then(function (snapshot) {
                   const notesArray = [];
                   snapshot.forEach(function (childSnapshot) {
                      const noteContent = childSnapshot.val();
@@ -1666,8 +1700,9 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
 
                   lastNoteKey = notesArray[notesArray.length - 1]?.key;
 
-                  const filteredNotes = notesArray.filter((currentNote) => currentNote.replyingTo === noteParam);
+                  const filteredNotes = notesArray.filter((currentNote) => currentNote.replyingTo === userParam);
 
+                  // doesnt have to be reversed anymore for some reason?
                   if (filteredNotes.length > 0) {
                      renderNotes(filteredNotes);
                   } else {
@@ -1675,48 +1710,9 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
                   }
                });
             })
-         } else if (pathName === "/u" || pathName.startsWith("/u/")) {
-            const url = new URL(window.location.href);
-            let userParam = null;
-
-            if (pathName.startsWith("/u/")) {
-               const segments = pathName.split("/");
-               userParam = segments[2];
-
-               console.log(userParam);
-            } else {
-               userParam = url.searchParams.get("id");
-            }
-
-            firebase.database().ref(`taken-usernames/${userParam}`).once("value", (snapshot) => {
-               const id = snapshot.val();
-
-               firebase.database().ref(`users/${id.user}/posts`).once("value")
-               .then(function(snapshot) {
-                     notesRef.limitToLast(snapshot.numChildren()).once("value").then(function (snapshot) {
-                        const notesArray = [];
-                        snapshot.forEach(function (childSnapshot) {
-                           const noteContent = childSnapshot.val();
-                           noteContent.key = childSnapshot.key;
-                           notesArray.push(noteContent);
-                        });
-
-                        notesArray.sort((a, b) => b.createdAt - a.createdAt);
-
-                        lastNoteKey = notesArray[notesArray.length - 1]?.key;
-
-                        const filteredNotes = notesArray.filter((currentNote) => currentNote.replyingTo === userParam);
-
-                        if (filteredNotes.length > 0) {
-                           renderNotes(filteredNotes.reverse()); // has to be reversed, or it goes all weird
-                        } else {
-                           renderNotes(notesArray.reverse());
-                        }
-                     });
-                  })
-            })
-         }
-      } 
+         })
+      }
+   } 
 
    loadInitalNotes();
 
@@ -1755,54 +1751,62 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
          document.getElementById("newNotesAvailable").style.display = "none";
       }
 
-      notesArray = notesArray.filter((noteData) => {
-         let suspended = false;
-         firebase.database().ref(`users/${noteData.whoSentIt}`).once("value", (snapshot) => {
+      notesArray.forEach(noteData => {
+         let noteDiv = renderNote(noteData);
+         if (noteDiv == null) return;
+
+         // i wanted to refactor this too but touching this actually gives you a curse until you put it back exactly as it was
+
+         firebase.database().ref(`users/${noteData.whoSentIt}`).get().then(function(snapshot) {
             const userData = snapshot.val();
-
-            suspended = (userData.suspensionStatus === "suspended");
+            if (userData.suspensionStatus == "suspended") noteDiv.remove();
          })
-         return !suspended && !noteData.isDeleted;
-      });
 
-      // TODO: location based filtering should be done at the call site
-      if (pathName === "/home") {
-         notesArray = notesArray.filter((noteData) => {
-            return !noteData.replyingTo;
-         });
-      } else if (pathName === "/u" || pathName.startsWith("/u/")) {
-         notesArray = notesArray.filter((_) => {
-            let keep = false;
-            const url = new URL(window.location.href);
-            let userParam = pathName.startsWith("/u/") ? pathName.split("/")[2] : url.searchParams.get("id");
+         if (pathName == "/home") {
+            if (noteData.replyingTo === undefined) {
+               if (noteData.isDeleted !== true) {
+                  notesContainer.appendChild(noteDiv);
+               }
+            }
+         } else if (pathName == "/u" || pathName.startsWith("/u/")) {
+            let userParam = undefined;
 
-            firebase.database().ref(`taken-usernames/${userParam}`).once("value", (snapshot) => {
-               const sender = snapshot.val();
+            if (pathName.startsWith("/u/")) {
+               userParam = pathName.split("/")[2];
+            } else {
+               userParam = pageURL.searchParams.get("id");
+            }
 
-               keep = noteContent.whoSentIt === sender.user;
+            firebase.database().ref(`taken-usernames/${userParam}`).get().then(function (snapshot) {
+               const uid = snapshot.val().user;
+
+               if (noteData.whoSentIt === uid) {
+                  if (noteData.replyingTo === undefined) {
+                     if (noteData.isDeleted !== true) {
+                        notesContainer.appendChild(noteDiv);
+                     }
+                  }
+               }
             })
-            return keep;
-         })
-      } else if (pathName === "/favorites") {
-         notesArray = notesArray.filter((noteData) => {
-            let keep = false;
-            firebase.database().ref(`users/${auth.user.uid}/favorites/${noteData.id}`).once("value", (snapshot) => {
-               keep = snapshot.exists();
+         } else if (pathName === "/favorites") {
+            database.ref(`users/${auth.currentUser.uid}/favorites/${noteData.id}`).get().then(function (snapshot) {
+               if (snapshot.exists()) notesContainer.appendChild(noteDiv);
             });
-            return keep;
-         })
-      } else if (pathName === "/note" || pathName.startsWith("/note/")) {
-         notesArray = notesArray.filter((noteData) => {
-            const url = new URL(window.location.href);
-            let noteParam = pathName.startsWith("/note/") ? pathName.split("/")[2] : url.searchParams.get("id");
+         } else if (pathName === "/note" || pathName.startsWith("/note/")) {
+            let noteId = undefined;
 
-            return noteData.replyingTo === noteParam;
-         })
-      }
+            if (pathName.startsWith("/note/")) {
+               noteId = pathName.split("/")[2];
+            } else {
+               noteId = pageURL.searchParams.get("id");
+            }
 
-      notesArray.forEach(noteContent => {
-         let noteDiv = renderNote(noteContent);
-         if (noteDiv) notesContainer.appendChild(noteDiv);
+            if (noteData.replyingTo === noteId) {
+               if (noteData.isDeleted !== true) {
+                  notesContainer.appendChild(noteDiv);
+               }
+            }
+         }
       })
    }
 
