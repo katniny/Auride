@@ -3517,7 +3517,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                   currentUser.updateEmail(`${document.getElementById("email-address").value}`).then(() => {
                      firebase.database().ref(`users/${currentUser.uid}`).update({
                         email: document.getElementById("email-address").value
-                     }).then(window.location.reload)
+                     }).then(function () { window.location.reload(); });
                   }).catch((error) => {
                      document.getElementById("errorWithReauthenticating_email").textContent = `An error occurred: ${error.message}`;
                      document.getElementById("errorWithReauthenticating_email").style.color = "var(--error-text)";
@@ -3817,7 +3817,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                            }).then(() => {
                               firebase.database().ref(`users/${user.uid}/themeColors`)
                                  .update(themeData.themeColors)
-                                 .then(window.location.reload);
+                                 .then(function () { window.location.reload(); });
                            });
                         };
                         button.style.width = "100%";
@@ -3844,7 +3844,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          if (user) {
             firebase.database().ref(`users/${user.uid}`).update({
                theme
-            }).then(window.location.reload);
+            }).then(function () { window.location.reload(); });
          }
       })
    }
@@ -3866,7 +3866,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
    }
 
    function setMatureContent(val) {
-      _setPreference("updateMatureContentPref", "showNsfw", val)
+      _setPreference("updatedMatureContentPref", "showNsfw", val)
    }
 
    function setSensitiveContent(val) {
