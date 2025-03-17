@@ -42,34 +42,31 @@ const userAgent = navigator.userAgent;
 let browserName = "Unknown Browser";
 let browserVersion = "Unknown version";
 
-const meowserAgentSubstring = "meowser";
-if (userAgent.indexOf(meowserAgentSubstring) > -1) {
+if (userAgent.indexOf("meowser") > -1) {
    browserName = "Meowser";
    let versionMatch = userAgent.match(/meowser\/([\d.]+)/);
    browserVersion = versionMatch ? versionMatch[1] : "unknown version";
-} else {
-   if (userAgent.indexOf("Firefox") > -1) {
-      browserName = "Mozilla Firefox";
-      browserVersion = userAgent.match(/Firefox\/([0-9.]+)/)[1];
-   } else if (userAgent.indexOf("SamsungBrowser") > -1) {
-      browserName = "Samsung Browser";
-      browserVersion = userAgent.match(/SamsungBrowser\/([0-9.]+)/)[1];
-   } else if (userAgent.indexOf("OPR") > -1 || userAgent.indexOf("Opera") > -1) {
-      browserName = "Opera";
-      browserVersion = userAgent.match(/(Opera|OPR)\/([0-9.]+)/)[2];
-   } else if (userAgent.indexOf("Trident") > -1) {
-      browserName = "Internet Explorer";
-      browserVersion = userAgent.match(/rv:([0-9.]+)/)[1];
-   } else if (userAgent.indexOf("Edge") > -1) {
-      browserName = "Microsoft Edge";
-      browserVersion = userAgent.match(/Edge\/([0-9.]+)/)[1];
-   } else if (userAgent.indexOf("Chrome") > -1) {
-      browserName = "Google Chrome";
-      browserVersion = userAgent.match(/Chrome\/([0-9.]+)/)[1];
-   } else if (userAgent.indexOf("Safari") > -1) {
-      browserName = "Apple Safari";
-      browserVersion = userAgent.match(/Version\/([0-9.]+)/)[1];
-   }
+} else if (userAgent.indexOf("Firefox") > -1) {
+   browserName = "Mozilla Firefox";
+   browserVersion = userAgent.match(/Firefox\/([0-9.]+)/)[1];
+} else if (userAgent.indexOf("SamsungBrowser") > -1) {
+   browserName = "Samsung Browser";
+   browserVersion = userAgent.match(/SamsungBrowser\/([0-9.]+)/)[1];
+} else if (userAgent.indexOf("OPR") > -1 || userAgent.indexOf("Opera") > -1) {
+   browserName = "Opera";
+   browserVersion = userAgent.match(/(Opera|OPR)\/([0-9.]+)/)[2];
+} else if (userAgent.indexOf("Trident") > -1) {
+   browserName = "Internet Explorer";
+   browserVersion = userAgent.match(/rv:([0-9.]+)/)[1];
+} else if (userAgent.indexOf("Edge") > -1) {
+   browserName = "Microsoft Edge";
+   browserVersion = userAgent.match(/Edge\/([0-9.]+)/)[1];
+} else if (userAgent.indexOf("Chrome") > -1) {
+   browserName = "Google Chrome";
+   browserVersion = userAgent.match(/Chrome\/([0-9.]+)/)[1];
+} else if (userAgent.indexOf("Safari") > -1) {
+   browserName = "Apple Safari";
+   browserVersion = userAgent.match(/Version\/([0-9.]+)/)[1];
 }
 
 if (document.getElementById("userBrowser")) { // environment settings
@@ -1172,7 +1169,10 @@ let isLoading = false;
 let lastNoteKey = null;
 let loadedNotesId = [];
 
-if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pathName === "/u.html" || pathName === "/note" || pathName === "/note.html" || pathName === "/favorites" || pathName.startsWith("/u/") || pathName.startsWith("/note/")) {
+if (pathName.startsWith("/home") ||
+   pathName === "/u" || pathName.startsWith("/u/") ||
+   pathName.startsWith("/note") ||
+   pathName === "/favorites") {
    let userAutoplayPreference = null;
 
    // function to fetch and cache user's autoplay pref
@@ -1248,6 +1248,17 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
          }
       }
 
+      // TODO: we actually use fontawesome everywhere so lift this to somewhere toplevel
+      function faIcon(name, sm = false, xs = false) {
+         const icon = document.createElement("i");
+         icon.classList.add("fa-solid");
+         icon.classList.add("fa-" + name);
+         // unsure of the meaning of these but they were there so whatevs
+         if (sm) icon.classList.add("fa-sm");
+         if (xs) icon.classList.add("fa-xs");
+         return icon;
+      }
+
       if (noteData.id === undefined) return null;
 
       const noteDiv = document.createElement("div");
@@ -1258,53 +1269,53 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
       const cwType = noteData.isNsfw ? "NSFW" : (noteData.isSensitiwe ? "sensitive" : "political");
 
       if (hasCw) {
-         firebase.auth().onAuthStateChanged((user) => {
+         firebase.auth().onAuthStateChanged(function (user) {
             if (!user) {
                // were in a callback so we cant directly return out of the outer function
                // were checking this value later
                noteDiv.TO_BE_REMOVED = true;
                return;
             }
-            firebase.database().ref(`users/${user.uid}`).once("value", (snapshot) => {
-               const userData = snapshot.val();
+         });
+         // we can pretend like were logged in because even if we arent, well abart in a sec anyways
+         firebase.database().ref(`users/${auth.currentUser.uid}`).get().then(function (snapshot) {
+            const userData = snapshot.val();
 
-               const cwKey = cwType === "NSFW" ? "isNsfw" : (cwType === "sensitive" ? "isSensitive" : "isPolitical");
+            const cwKey = cwType == "NSFW" ? "showNsfw" : (cwType == "sensitive" ? "showSensitive" : "showPolitics");
 
-               if (userData[cwKey] === "Hide") {
-                  noteDiv.TO_BE_REMOVED = true;
-                  return;
-               } else if (userData[cwKey] === "Blur") {
-                  const cover = document.createElement("div");
-                  // we dont need a setter or classlist append because we just created the element
-                  cover.className = "contentWarning";
-                  cover.id = `${noteData.id}-blur`;
-                  noteDiv.appendChild(cover);
+            if (userData[cwKey] === "Hide") {
+               noteDiv.TO_BE_REMOVED = true;
+               return;
+            } else if (userData[cwKey] === "Blur") {
+               const cover = document.createElement("div");
+               cover.className = "contentWarning";
+               cover.id = `${noteData.id}-blur`;
+               noteDiv.appendChild(cover);
 
-                  const warning = document.createElement("p");
-                  warning.id = `${noteData.id}-warning`;
-                  warning.className = "warning";
-                  warning.textContent = `Note may contain ${cwType} content.`;
-                  noteDiv.appendChild(warning);
+               const warning = document.createElement("p");
+               warning.id = `${noteData.id}-warning`;
+               warning.className = "warning";
+               warning.textContent = `Note may contain ${cwType} content.`;
+               noteDiv.appendChild(warning);
 
-                  // TODO: remove as its just restating the same as above
-                  const warningInfo = document.createElement("p");
-                  warningInfo.className = "warningInfo";
-                  warningInfo.id = `${noteData.id}-warningInfo`;
-                  // changed the message because it may not have been the user who flagged it
-                  // the ebtra text for the political warning isnt really needed imo
-                  warningInfo.textContent = `This note is flagged as having ${cwType} content.`;
-                  noteDiv.appendChild(warningInfo);
+               // TODO: remove as its just restating the same as above
+               const warningInfo = document.createElement("p");
+               warningInfo.className = "warningInfo";
+               warningInfo.id = `${noteData.id}-warningInfo`;
+               // changed the message because it may not have been the user who flagged it
+               // the extra text for the political warning isnt really needed imo
+               warningInfo.textContent = `This note is flagged as having ${cwType} content.`;
+               noteDiv.appendChild(warningInfo);
 
-                  const closeButton = document.createElement("button");
-                  closeButton.className = "closeWarning";
-                  closeButton.id = `${noteData.id}-closeWarning`;
-                  closeButton.textContent = "View";
-                  closeButton.addEventListener("click", () => removeNsfw(`${noteData.id}-closeWarning`));
-                  // TODO: make this bad hack obsolete
-                  if (cwType === "political") closeButton.style.marginTop = "25px";
-                  noteDiv.appendChild(closeButton);
-               }
-            })
+               const closeButton = document.createElement("button");
+               closeButton.className = "closeWarning";
+               closeButton.id = `${noteData.id}-closeWarning`;
+               closeButton.textContent = "View";
+               closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
+               // TODO: make this bad hack obsolete
+               if (cwType === "political") closeButton.style.marginTop = "25px";
+               noteDiv.appendChild(closeButton);
+            }
          })
 
          // were out off the callback now
@@ -1317,7 +1328,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
       // TODO: default user data
       const userPfp = document.createElement("img");
       userPfp.className = "notePfp";
-      firebase.database().ref("users/" + noteData.whoSentIt).once("value", (snapshot) => {
+      firebase.database().ref("users/" + noteData.whoSentIt).get().then(function (snapshot) {
          const userData = snapshot.val();
          // theres a way to get this url without hardcoding anything, right?
          userPfp.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${noteData.whoSentIt}%2F${userData.pfp}?alt=media`;
@@ -1329,22 +1340,16 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
 
       const displayName = document.createElement("a");
       displayName.className = "noteDisplay";
-      firebase.database().ref("users/" + noteData.whoSentIt).once("value", (snapshot) => {
+      firebase.database().ref("users/" + noteData.whoSentIt).get().then(function (snapshot) {
          const userData = snapshot.val();
          displayName.innerHTML = format(userData.display, [ "html", "emoji" ]);
          displayName.href = `/u/${userData.username}`;
 
          const badges = document.createElement("span");
-         if (userData.isVerified) {
-            badges.innerHTML = '<i class="fa-solid fa-circle-check fa-sm"></i>';
-         }
-         if (userData.isSubscribed) {
-            badges.innerHTML += '<i class="fa-solid fa-heart fa-sm"></i>';
-         }
-         if (userData.activeContributor) {
-            badges.innerHTML += '<i class="fa-solid fa-handshake-angle fa-sm"></i>';
-         }
          badges.className = "noteBadges";
+         if (userData.isVerified) badges.appendChild(faIcon("circle-check", sm = true));
+         if (userData.isSubscribed) badges.appendChild(faIcon("heart", sm = true));
+         if (userData.activeContributor) badges.appendChild(faIcon("handshake-angle", sm = true));
 
          // only append badges if there actually are any
          if (badges.innerHTML) displayName.appendChild(badges);
@@ -1356,7 +1361,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
 
       const username = document.createElement("a");
       username.className = "noteUsername";
-      firebase.database().ref("users/" + noteData.whoSentIt).once("value", (snapshot) => {
+      firebase.database().ref("users/" + noteData.whoSentIt).get().then(function (snapshot) {
          const userData = snapshot.val();
          username.textContent = renderUsername(userData.username, userData.pronouns, noteData.createdAt)
          username.href = `/u/${userData.username}`;
@@ -1372,13 +1377,11 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
       });
       text.className = "noteText";
       if (!noteData.replyingTo) {
-         text.addEventListener("click", () => window.location.href = `/note/${noteData.id}`);
+         text.addEventListener("click", function () { window.location.href = `/note/${noteData.id}`; });
       }
       // what does this even achieve?
-      text.querySelectorAll('a').forEach(link => {
-         link.addEventListener('click', (event) => {
-            event.stopPropagation();
-         });
+      text.querySelectorAll('a').forEach(function (link) {
+         link.addEventListener('click', function (event) { event.stopPropagation(); });
       });
       noteDiv.appendChild(text);
 
@@ -1398,6 +1401,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
          if (isVideo) {
             media.controls = true;
             media.muted = true;
+            // honestly why are we even doing this?
             media.loop = true;
             media.autoplay = userAutoplayPreference;
          } else {
@@ -1413,9 +1417,10 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
          embed.src = `https://open.spotify.com/embed/track/${noteData.music}`;
          embed.width = "98%";
          embed.height = "100";
-         embed.frameBorder = "0";
-         embed.allowTransparency = "true";
          embed.allow = "encrypted-media";
+         embed.allowTransparency = true;
+         // .frameBorder is deprecated
+         embed.style.border = 0;
 
          noteDiv.appendChild(embed);
       }
@@ -1423,16 +1428,17 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
       if (noteData.quoting) {
          const container = document.createElement("div");
          container.className = "quoteContainer";
-         container.addEventListener("click", () => window.location.replace(`/note/${noteData.quoting}`));
+         container.addEventListener("click", function () { window.location.href = `/note/${noteData.quoting}`; });
 
-         firebase.database().ref(`notes/${noteData.quoting}`).once("value", (snapshot) => {
+         // i feel you can dedup more code here
+         firebase.database().ref(`notes/${noteData.quoting}`).get().then(function (snapshot) {
             const quoteData = snapshot.val();
 
             if (quoteData.isDeleted) {
                const quotePfp = document.createElement("img");
                quotePfp.className = "quotePfp";
-               quotePfp.setAttribute("draggable", "false");
-               quotePfp.src = `/assets/imgs/defaultPfp.png`;
+               quotePfp.draggable = false;
+               quotePfp.src = "/assets/imgs/defaultPfp.png";
                container.appendChild(quotePfp);
 
                const quoteHeader = document.createElement("div");
@@ -1445,7 +1451,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
 
                const quoteUsername = document.createElement("span");
                quoteUsername.className = "quoteUsername";
-               quoteUsername.textContent = `@unknownuser`;
+               quoteUsername.textContent = "@unknownuser";
                quoteHeader.appendChild(quoteUsername);
 
                const quoteContent = document.createElement("div");
@@ -1462,15 +1468,18 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
                return;
             }
 
-            firebase.database().ref(`users/${quoteData.whoSentIt}`).once("value", (snapshot) => {
+            firebase.database().ref(`users/${quoteData.whoSentIt}`).get().then(function (snapshot) {
                const quoteUser = snapshot.val();
                const isSuspended = quoteUser.suspensionStatus === "suspended";
 
                const quotePfp = document.createElement("img");
                quotePfp.className = "quotePfp";
                quotePfp.draggable = false;
-               quotePfp.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${quoteData.whoSentIt}%2F${quoteUser.pfp}?alt=media`;
-               if (isSuspended) quotePfp.src = `/assets/imgs/defaultPfp.png`;
+               if (isSuspended) {
+                  quotePfp.src = "/assets/imgs/defaultPfp.png";
+               } else {
+                  quotePfp.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${quoteData.whoSentIt}%2F${quoteUser.pfp}?alt=media`;
+               }
                container.appendChild(quotePfp);
 
                const quoteHeader = document.createElement("div");
@@ -1478,14 +1487,20 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
 
                const quoteDisplay = document.createElement("span");
                quoteDisplay.className = "quoteDisplay";
-               quoteDisplay.textContent = quoteUser.display;
-               if (isSuspended) quoteDisplay.textContent = "Suspended User";
+               if (isSuspended) {
+                  quoteDisplay.textContent = "Suspended User";
+               } else {
+                  quoteDisplay.textContent = quoteUser.display;
+               }
                quoteHeader.appendChild(quoteDisplay);
 
                const quoteUsername = document.createElement("span");
                quoteUsername.className = "quoteUsername";
-               quoteUsername.textContent = renderUsername(quoteUser.username, quoteUser.pronouns, quoteData.createdAt);
-               if (isSuspended) quoteUsername.textContent = "suspended";
+               if (isSuspended) {
+                  quoteUsername.textContent = "suspended";
+               } else {
+                  quoteUsername.textContent = renderUsername(quoteUser.username, quoteUser.pronouns, quoteData.createdAt);
+               }
                quoteHeader.appendChild(quoteUsername);
 
                const quoteContent = document.createElement("div");
@@ -1494,18 +1509,20 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
 
                const quoteText = document.createElement("span");
                quoteText.className = "quoteText";
-               // TODO: it might be inefficient to do all this if the user is suspended
-               let content = format(quoteData.text);
-               if (content.length > 247) {
-                  content = content.substring(0, 247) + "...";
+               if (isSuspended) {
+                  // dont leak their username
+                  quoteText.textContent = "Note by suspended user cannot be viewed";
+               } else {
+                  let content = format(quoteData.text);
+                  if (content.length > 247) {
+                     content = content.substring(0, 247) + "...";
+                  }
+                  quoteText.innerHTML = content;
+                  twemoji.parse(text, {
+                     folder: "svg",
+                     ext: ".svg",
+                  });
                }
-               quoteText.innerHTML = content;
-               twemoji.parse(text, {
-                  folder: "svg",
-                  ext: ".svg",
-               });
-               // dont leak their username
-               if (isSuspended) quoteText.textContent = "Note by suspended user cannot be viewed";
                quoteContent.appendChild(quoteText);
 
                container.appendChild(quoteContent);
@@ -1516,99 +1533,94 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/u" || pa
 
       if (hasCw) {
          const contentWarning = document.createElement("p");
-         contentWarning.class = "contentWarning-showBelowText";
-         contentWarning.innerHTML = `<i class="fa-solid fa-flag"></i> Flagged as ${cwType}`;
+         contentWarning.className = "contentWarning-showBelowText";
+         // TODO: im unsure how to append text nodes
+         contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as ${cwType}`;
          noteDiv.appendChild(contentWarning);
       }
 
       const buttonRow = document.createElement("div");
       buttonRow.classList.add("buttonRow");
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${auth.currentUser.uid}/noteButtonLayout`).once("value", (val) => {
-               if (val.val() === "large") {
-                  buttonRow.classList.add("buttonRowExperiment");
-               }
-            })
+      firebase.database().ref(`users/${auth.currentUser.uid}/experiments/noteButtonLayout`).get().then(function (snapshot) {
+         if (snapshot.val()) {
+            buttonRow.classList.add("buttonRowExperiment");
          }
-      });
+      })
 
       // TODO: figure out what to do about this duplication
       const loveBtn = document.createElement("p");
       loveBtn.className = "likeBtn";
-      if (noteData.likes) {
-         loveBtn.innerHTML = `<i class="fa-solid fa-heart"></i> ${noteData.likes}`;
-
-         firebase.auth().onAuthStateChanged((user) => {
-            if (noteData.whoLiked && noteData.whoLiked[user.uid]) {
-               loveBtn.classList.add("liked");
-            }
-         })
-      } else {
-         loveBtn.innerHTML = `<i class="fa-solid fa-heart"></i> 0`;
-      }
       loveBtn.id = `like-${noteData.id}`;
+      if (noteData.likes) {
+         loveBtn.innerHTML = `${faIcon("heart").outerHTML} ${noteData.likes}`;
+
+         if (noteData.whoLiked && noteData.whoLiked[auth.currentUser.uid]) {
+            loveBtn.classList.add("liked");
+         }
+      } else {
+         loveBtn.innerHTML = `${faIcon("heart").outerHTML} 0`;
+      }
       buttonRow.appendChild(loveBtn);
 
       const renoteBtn = document.createElement("p");
       renoteBtn.classList.add("renoteBtn");
-      if (noteData.renotes) {
-         renoteBtn.innerHTML = `<i class="fa-solid fa-retweet"></i> ${noteData.renotes}`;
-
-         firebase.auth().onAuthStateChanged((user) => {
-            if (noteData.whoRenoted && noteData.whoRenoted[user.uid]) {
-               renoteBtn.classList.add("renoted");
-            }
-         })
-      } else {
-         renoteBtn.innerHTML = `<i class="fa-solid fa-retweet"></i> 0`;
-      }
       renoteBtn.id = `renote-${noteData.id}`;
+      if (noteData.renotes) {
+         renoteBtn.innerHTML = `${faIcon("retweet").outerHTML} ${noteData.renotes}`;
+
+         if (noteData.whoRenoted && noteData.whoRenoted[auth.currentUser.uid]) {
+            renoteBtn.classList.add("renoted");
+         }
+      } else {
+         renoteBtn.innerHTML = `${faIcon("retweet").outerHTML} 0`;
+      }
       buttonRow.appendChild(renoteBtn);
 
       const replyBtn = document.createElement("p");
       replyBtn.className = "replyBtn";
       if (noteData.replies) {
-         replyBtn.innerHTML = `<i class="fa-solid fa-comment"></i> ${noteData.replies}`;
+         replyBtn.innerHTML = `${faIcon("comment").outerHTML} ${noteData.replies}`;
       } else {
-         replyBtn.innerHTML = `<i class="fa-solid fa-comment"></i> 0`;
+         replyBtn.innerHTML = `${faIcon("comment").outerHTML} 0`;
       }
       if (!pathName.startsWith("/note")) {
-         replyBtn.addEventListener("click", () => window.location.href = `/note/${noteData.id}`);
+         replyBtn.addEventListener("click", function () { window.location.href = `/note/${noteData.id}` });
       } else {
-         replyBtn.addEventListener("click", () => replyToNote(replyBtn));
+         replyBtn.addEventListener("click", function () { replyToNote(replyBtn) });
       }
       buttonRow.appendChild(replyBtn);
 
       const quoteBtn = document.createElement("p");
       quoteBtn.className = "quoteRenoteBtn";
-      quoteBtn.innerHTML = `<i class="fa-solid fa-quote-left"></i>`;
-      quoteBtn.addEventListener("click", () => quoteRenote(noteData.id));
+      quoteBtn.appendChild(faIcon("quote-left"));
+      quoteBtn.addEventListener("click", function () { quoteRenote(noteData.id); });
       buttonRow.appendChild(quoteBtn);
 
       const favoriteBtn = document.createElement("p");
       favoriteBtn.classList.add("favoriteBtn");
+      const favIcon = faIcon("bookmark", xs = true);
       // apply the id to the favorites button or it will not change colors <-- im low key scared to look into the css
-      favoriteBtn.innerHTML = `<i class="fa-solid fa-bookmark fa-xs" id="favorite-${noteData.id}"></i>`;
-      favoriteBtn.addEventListener("click", () => favorite(noteData.id));
-      firebase.auth().onAuthStateChanged((user) => {
+      favIcon.id = `favorite-${noteData.id}`;
+      firebase.auth().onAuthStateChanged(function (user) {
          if (user) {
-            firebase.database().ref(`users/${user.uid}/favorites/${noteData.id}`).once("value", (snapshot) => {
+            firebase.database().ref(`users/${user.uid}/favorites/${noteData.id}`).get().then(function (snapshot) {
                if (snapshot.exists()) {
-                  favoriteBtn.innerHTML = `<i class="fa-solid fa-bookmark fa-xs" id="favorite-${noteData.id}" style="color: var(--main-color);"></i>`;
+                  favIcon.style.color = "var(--main-color)";
                }
             });
          }
       });
+      favoriteBtn.appendChild(favIcon);
+      favoriteBtn.addEventListener("click", function () { favorite(noteData.id); });
       buttonRow.appendChild(favoriteBtn);
 
-      firebase.auth().onAuthStateChanged((user) => {
+      firebase.auth().onAuthStateChanged(function (user) {
          if (user) {
             if (user.uid === noteData.whoSentIt) {
                // no listener or anythin; how does this work?
                const more = document.createElement("p");
                more.className = "more";
-               more.innerHTML = `<i class="fa-solid fa-pen-to-square"></i>`;
+               more.appendChild(faIcon("pen-to-square"));
                buttonRow.appendChild(more);
             }
          }
@@ -3894,8 +3906,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
    }
 
    function setInteractionScale(scale) {
-      // TODO: this should be renamed i think
-      _setPreference("updatedNoteSizePref", "noteButtonLayout", scale === "large")
+      _setPreference("updatedNoteSizePref", "experiments/noteButtonLayout", scale === "large")
    }
 
    // enable OpenDyslexic font
@@ -4523,7 +4534,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/note" ||
          if (user) {
             const uid = user.uid;
 
-            // girl what the hell is this                                                           vvvvvv
+            // got lucky, "fa-solid" && "fa-pen-to-square" => "fa-pen-to-square"                    vvvvvv
             if (event.target.classList.contains("more") || event.target.classList.contains("fa-solid" && "fa-pen-to-square")) {
                const moreButton = event.target;
                const noteId = findNoteId(moreButton);
