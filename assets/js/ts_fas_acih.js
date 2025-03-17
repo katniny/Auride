@@ -5,8 +5,8 @@ const pathName = pageURL.pathname;
 let isOnDesktopApp = null;
 
 // TransSocial Version
-let transsocialVersion = "v2025.3.12";
-let transsocialUpdate = "v20250312-1";
+let transsocialVersion = "v2025.3.17";
+let transsocialUpdate = "v20250317-1";
 let transsocialReleaseVersion = "pre-alpha";
 let hasUpdateNotes = true;
 
