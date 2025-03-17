@@ -1170,9 +1170,10 @@ let lastNoteKey = null;
 let loadedNotesId = [];
 
 if (pathName.startsWith("/home") ||
-   pathName === "/u" || pathName.startsWith("/u/") ||
+   pathName == "/u" || pathName.startsWith("/u/") ||
    pathName.startsWith("/note") ||
-   pathName === "/favorites") {
+   pathName == "/favorites" ||
+   pathName == "/search") {
    let userAutoplayPreference = null;
 
    // function to fetch and cache user's autoplay pref
@@ -1213,13 +1214,6 @@ if (pathName.startsWith("/home") ||
    }
 
    // Note Rendering
-   function createNoteDiv(noteContent) {
-      const noteDiv = document.createElement('div');
-      noteDiv.className = 'note';
-      noteDiv.setAttribute("id", `${noteContent.id}`);
-      return noteDiv;
-   }
-
    // observer to only show images/videos/etc. when about to be visible for performance
    const mediaObserver = new IntersectionObserver((entries, _observer) => {
       entries.forEach(entry => {
