@@ -129,12 +129,19 @@
                 <div class="blogStyle" style="margin: 15px;">
                     <h1>Settings</h1>
                     <!-- Tabs -->
-                    <div class="settingsTabs"><a href="javascript:void(0);" id="profileTab" onclick="profileTab()" class="active">Profile</a> <a href="javascript:void(1);" id="accountTab" onclick="accountTab()">Account</a> <a href="javascript:void(2);" id="personalizationTab" onclick="personalizationTab()">Personalization</a> <a href="javascript:void(3);" id="subscriptionTab" onclick="subscriptionTab()">Donate</a> <a href="javascript:void(4);" id="environmentTab" onclick="environmentTab()">Accessibility</a> <a href="/remembering" id="unknownTab" onclick="unknownTab()">Remembering</a></div>
+                    <div class="settingsTabs">
+                        <a id="profileTab" onclick="switchTab('profile')" class="active">Profile</a>
+                        <a id="accountTab" onclick="switchTab('account')">Account</a>
+                        <a id="personalizationTab" onclick="switchTab('personalization')">Personalization</a>
+                        <a id="subscriptionTab" onclick="switchTab('subscription')">Donate</a>
+                        <a id="environmentTab" onclick="switchTab('environment')">Accessibility</a>
+                        <a href="/remembering" id="unknownTab" onclick="unknownTab()">Remembering</a>
+                    </div>
 
                     <!-- Tab #1 (Profile) -->
                     <br />
 
-                    <div id="profileTab-display" style="padding-bottom: 0px;">
+                    <div id="profileTab-profile" style="padding-bottom: 0px;">
                         <h2>Profile Information</h2>
                         <p style="color: var(--text-semi-transparent); font-size: 14.5px;">How you'll appear across TransSocial and other Katniny products.</p>
 
@@ -147,7 +154,10 @@
 
 
                         <!--<p>Profile Picture</p>-->
-                        <img src="" draggable="false" alt="Your Katniny profile picture" id="profilePicture_settings" class="profilePicture" /> <button onclick="changePfp()" style="transform: translateY(-55px); margin-left: 5px;" id="changePfp">Change Picture</button> <button onclick="changeBanner()" style="transform: translateY(-55px); margin-left: 5px;" id="changeBanner">Change Banner</button>
+                        <img src="" draggable="false" alt="Your Katniny profile picture" id="profilePicture_settings" class="profilePicture" />
+                        <button onclick="changePfp()" style="transform: translateY(-55px); margin-left: 5px;" id="changePfp">Change Picture</button>
+                        <button onclick="changeBanner()" style="transform: translateY(-55px); margin-left: 5px;" id="changeBanner">Change Banner</button>
+
                         <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp, image/gif" style="display: none;" />
                         <p id="errorUploadingPfp" style="color: var(--error-text); display: none;"></p>
 
@@ -251,14 +261,18 @@
 
                     <p>Show Mature Content (NSFW Content)</p>
                     <p id="updatedMatureContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successfully!</p>
-                    <button onclick="hideMatureContent()">Hide</button> <button onclick="blurMatureContent()">Blur</button> <button onclick="showMatureContent()">Show</button>
+                    <button onclick="setMatureContent('Hide')">Hide</button>
+                    <button onclick="setMatureContent('Blur')">Blur</button>
+                    <button onclick="setMatureContent('Show')">Show</button>
 
                     <br />
                     <br />
 
                     <p>Show Sensitive Content</p>
                     <p id="updatedSensitiveContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successfully!</p>
-                    <button onclick="hideSensitiveContent()">Hide</button> <button onclick="blurSensitiveContent()">Blur</button> <button onclick="showSensitiveContent()">Show</button>
+                    <button onclick="setSensitiveContent('Hide')">Hide</button>
+                    <button onclick="setSensitiveContent('Blur')">Blur</button>
+                    <button onclick="setSensitiveContent('Show')">Show</button>
 
                     <br />
                     <br />
@@ -266,28 +280,32 @@
                     <p>Show Political Content</p>
                     <p style="font-size: 14px; color: var(--text-semi-transparent);">Please see what qualifies as political on TransSocial. <a href="/blog/what-qualifies-as-political.html" target="_blank" style="color: var(--main-color)">See notice</a>.</p>
                     <p id="updatedPoliticalContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successfully!</p>
-                    <button onclick="hidePoliticalContent()">Hide</button> <button onclick="blurPoliticalContent()">Blur</button> <button onclick="showPoliticalContent()">Show</button>
+                    <button onclick="setPoliticalContent('Hide')">Hide</button>
+                    <button onclick="setPoliticalContent('Blur')">Blur</button>
+                    <button onclick="setPoliticalContent('Show')">Show</button>
 
                     <br />
                     <br />
 
                     <p>Show Pride Logo During Pride Month</p>
                     <p id="updatedPrideFlagContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
-                    <button onclick="hidePrideFlag()">Use Theme Logo</button> <button onclick="showPrideFlag()">Use Pride Logo</button>
+                    <button onclick="setPrideFlag(false)">Use Theme Logo</button>
+                    <button onclick="setPrideFlag(true)">Use Pride Logo</button>
 
                     <br />
                     <br />
 
                     <p>Autoplay Videos</p>
                     <p id="updatedAutoplayContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
-                    <button onclick="doAutoplay()">Enable Autoplay</button> <button onclick="doNotAutoplay()">Disable Autoplay</button>
+                    <button onclick="setAutoplay(true)">Enable Autoplay</button>
+                    <button onclick="setAutoplay(false)">Disable Autoplay</button>
 
                     <br />
                     <br />
 
                     <p>Experiments</p>
                     <p style="font-size: 14px; color: var(--error-text);">Experiments are work-in-progress features and are likely buggy.</p>
-                    <button onclick="showExperiments()">See Experiments</button>
+                    <button onclick="document.getElementById('experimentSelect').showModal()">See Experiments</button>
                 </div>
 
                 <!-- Tab #4 (Subscription) -->
@@ -340,7 +358,8 @@
                    <p>Use Dyslexia Font</p>
                    <p style="font-size: 14px; color: var(--text-semi-transparent);">Enable the OpenDyslexic font, specifically designed to improve readability for users with dyslexia.</p>
                    <p id="updatedOpenDysContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successfully!</p>
-                   <button onclick="enableOpenDyslexia()">Enable</button> <button onclick="disableOpenDyslexia()">Disable</button>
+                   <button onclick="setOpenDyslexia(true)">Enable</button>
+                   <button onclick="setOpenDyslexia(false)">Disable</button>
 
                    <br />
                    <br />
@@ -348,7 +367,8 @@
                    <p>Font Scale</p>
                    <p style="font-size: 14px; color: var(--text-semi-transparent);">Adjust font size for easier reading.</p>
                    <p id="updatedFontScaleContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
-                   <button onclick="normalFontScale()">Normal</button> <button onclick="largeFontScale()">Large</button>
+                   <button onclick="setFontScale('normal')">Normal</button>
+                   <button onclick="setFontScale('large')">Large</button>
 
                    <br />
                    <br />
@@ -356,7 +376,8 @@
                    <p>Larger Note Buttons</p>
                    <p style="font-size: 14px; color: var(--text-semi-transparent);">Increase button size and spacing for easier interaction.</p>
                    <p id="updatedNoteSizePref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
-                   <button onclick="normalInteractionScale()">Normal</button> <button onclick="largeInteractionScale()">Large</button>
+                   <button onclick="setInteractionScale('normal')">Normal</button>
+                   <button onclick="setInteractionScale('large')">Large</button>
               </div>
             </div>
 
@@ -994,56 +1015,56 @@
             <br />
 
             <!-- Default -->
-            <div class="themeContainer" onclick="themeDark()">
+            <div class="themeContainer" onclick="setTheme('Dark')">
                 <img src="/assets/imgs/ThemeDark.png" alt="Dark theme on the home page" class="themeImage" />
                 <div class="themeText">Dark</div>
                 <div class="themeDescription">TransSocial's default theme: sleek and clean.</div>
             </div>
 
             <!-- Mint Dark -->
-            <div class="themeContainer" onclick="themeMintDark()">
+            <div class="themeContainer" onclick="setTheme('Mint (Dark)')">
                 <img src="/assets/imgs/ThemeMintDark.png" alt="Mint (Dark) theme on the home page" class="themeImage" />
                 <div class="themeText">Mint (Dark)</div>
                 <div class="themeDescription">A refreshing blend of minty dark hues.</div>
             </div>
 
             <!-- High Contrast -->
-            <div class="themeContainer" onclick="themeHighContrast()">
+            <div class="themeContainer" onclick="setTheme('High Contrast')">
                 <img src="/assets/imgs/ThemeHighContrast.png" alt="High Contrast on the home page" class="themeImage" />
                 <div class="themeText">High Contrast</div>
                 <div class="themeDescription">Bold and impactful, emphasizing sharp clarity and visibility.</div>
             </div>
 
             <!-- Midnight Purple -->
-            <div class="themeContainer" onclick="themeMidnightPurple()">
+            <div class="themeContainer" onclick="setTheme('Midnight Purple')">
                 <img src="/assets/imgs/ThemeMidnightPurple.png" alt="Midnight Purple on the home page" class="themeImage" />
                 <div class="themeText">Midnight Purple</div>
                 <div class="themeDescription">A calming shade of purple.</div>
             </div>
 
             <!-- Darker -->
-            <div class="themeContainer" onclick="themeDarker()">
+            <div class="themeContainer" onclick="setTheme('Darker')">
                 <img src="/assets/imgs/ThemeDarker.png" alt="Darker on the home page" class="themeImage" />
                 <div class="themeText">Darker</div>
                 <div class="themeDescription">A deeper shade, providing a more subdued and shadowed appearance.</div>
             </div>
 
             <!-- Light -->
-            <div class="themeContainer" onclick="themeLight()">
+            <div class="themeContainer" onclick="setTheme('Light')">
                 <img src="/assets/imgs/ThemeLight.png" alt="Light on the home page" class="themeImage" />
                 <div class="themeText">Light</div>
                 <div class="themeDescription">A gentle and luminous theme, designed for clarity and ease.</div>
             </div>
 
             <!-- Mint Light -->
-            <div class="themeContainer" onclick="themeMintLight()">
+            <div class="themeContainer" onclick="setTheme('Mint (Light)')">
                 <img src="/assets/imgs/ThemeMintLight.png" alt="Mint (Light) on the home page" class="themeImage" />
                 <div class="themeText">Mint (Light)</div>
                 <div class="themeDescription">A fresh and airy theme, blending minty hues with a light, refreshing touch. (This theme has poor accessibility)</div>
             </div>
 
             <!-- Classic -->
-            <div class="themeContainer" onclick="themeClassic()">
+            <div class="themeContainer" onclick="setTheme('TransSocial Classic')">
                 <img src="/assets/imgs/ThemeClassic.png" alt="TransSocial Classic on the home page" class="themeImage" />
                 <div class="themeText">TransSocial Classic</div>
                 <div class="themeDescription">The timeless and familiar theme that started it all. (This theme has poor accessibility)</div>

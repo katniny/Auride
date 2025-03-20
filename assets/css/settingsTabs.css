@@ -2,6 +2,7 @@
    text-decoration: none;
    color: var(--text-semi-transparent);
    margin-right: 5px;
+   cursor: pointer;
 }
 
 .settingsTabs a.active {
@@ -9,7 +10,7 @@
    text-decoration: underline;
 }
 
-#profileTab-display,
+#profileTab-profile,
 #profileTab-account,
 #profileTab-personalization,
 #profileTab-subscription,
