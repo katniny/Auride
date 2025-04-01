@@ -21,6 +21,10 @@ function loadScript(src, async) {
 
 async function loadAllScripts() {
    try {
+      // required before ts_fas_acih.js
+      await loadScript("/assets/js/pathName.js", false);
+      await loadScript("/assets/js/versioning.js", false);
+
       // firebase initialization
       await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js", false);
       await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js", false);
@@ -40,6 +44,9 @@ async function loadAllScripts() {
 
       // our emojis
       await loadScript("/assets/js/twemoji.js", false);
+
+      // our note creation modal
+      await loadScript("/assets/js/ui/createNotePopup.js", false);
 
       // finished!
       console.log("All-page scripts loaded successfully.");

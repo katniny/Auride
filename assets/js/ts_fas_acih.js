@@ -1,20 +1,3 @@
-// Get the current URL. This is going to prevent functions that don't need to run on a page from running.
-const currentURL = window.location.href;
-const pageURL = new URL(currentURL);
-const pathName = pageURL.pathname;
-let isOnDesktopApp = null;
-
-// TransSocial Version
-let transsocialVersion = "v2025.3.17";
-let transsocialUpdate = "v20250317-1";
-let transsocialReleaseVersion = "pre-alpha";
-let hasUpdateNotes = true;
-
-const notices = document.getElementsByClassName("version-notice");
-for (let notice of notices) {
-   notice.innerHTML = `TransSocial is currently in the pre-alpha stage (version ${transsocialVersion}). A lot of features are missing or are in development and will be added with updates. <a href="/indev">Learn more</a>.`;
-}
-
 // Quote renote ID
 let renotingNote = null;
 
@@ -1265,13 +1248,13 @@ if (pathName.startsWith("/home") ||
       if (hasCw) {
          firebase.auth().onAuthStateChanged(function (user) {
             if (!user) {
-               // were in a callback so we cant directly return out of the outer function
-               // were checking this value later
+               // we're in a callback so we cant directly return out of the outer function
+               // we're checking this value later
                noteDiv.TO_BE_REMOVED = true;
                return;
             }
          });
-         // we can pretend like were logged in because even if we arent, well abart in a sec anyways
+         // we can pretend like we're logged in because even if we arent, we'll abort in a sec anyways
          firebase.database().ref(`users/${auth.currentUser.uid}`).get().then(function (snapshot) {
             const userData = snapshot.val();
 
@@ -1312,7 +1295,7 @@ if (pathName.startsWith("/home") ||
             }
          })
 
-         // were out off the callback now
+         // we're out of the callback now
          if (noteDiv.TO_BE_REMOVED) {
             noteDiv.remove();
             return null;
@@ -2028,55 +2011,6 @@ function closeHelpPrompt() {
    supportTransSocial.style.display = "none";
 }
 
-// Create note
-function createNotePopup() {
-   const notePopup = document.getElementById("createNote-popup");
-
-   document.getElementById("mainTab-noteCreation").classList.remove("hidden");
-   document.querySelector(".settingsStuff").classList.add("hidden");
-   notePopup.showModal();
-
-   if (renotingNote === null) {
-      document.getElementById("quotingNote").style.display = "none";
-   } else {
-      document.getElementById("quotingNote").style.display = "block";
-
-      firebase.database().ref(`notes/${renotingNote}`).once("value", (snapshot) => {
-         const noteData = snapshot.val();
-
-         firebase.database().ref(`users/${noteData.whoSentIt}`).once("value", (snapshot) => {
-            const userData = snapshot.val();
-
-            document.getElementById("notePopupQuotePfp").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${noteData.whoSentIt}%2F${userData.pfp}?alt=media`;
-            document.getElementById("notePopupQuoteDisplay").textContent = userData.display;
-            document.getElementById("notePopupQuoteUsername").textContent = `@${userData.username}`;
-            document.getElementById("notePopupQuoteText").textContent = noteData.text;
-         })
-      })
-   }
-}
-
-function closeCreateNotePopup() {
-   const notePopup = document.getElementById("createNote-popup");
-
-   document.getElementById("noteContent-textarea").value = "";
-   document.getElementById("uploadingImage").style.display = "none";
-   removeImage();
-   document.getElementById("hasntBeenUploadedNotice").style.display = "none";
-   if (pathName === "/note" || pathName === "/note.html" || pathName.startsWith("/note/")) {
-      document.getElementById("replyingOrCreating").innerText = "Create a Note!";
-      isReplying_notehtml = false;
-   }
-   document.getElementById("isNsfw").checked = false;
-   document.getElementById("isSensitive").checked = false;
-   renotingNote = null;
-   document.getElementById("spotifyPlayer").innerHTML = "";
-   document.getElementById("songQuery").value = "";
-   pickedMusic = null;
-
-   notePopup.close();
-}
-
 // Swap Note Settings/Creation Tab
 let currentTab = "note";
 
@@ -2121,6 +2055,7 @@ function swapNoteTab(tab) {
 }
 
 // does in fact not load everything
+// it used to
 function loadEverything() {
    getUserPfpSidebar();
    getUserInfoSidebar();
@@ -2996,14 +2931,12 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
 
          if (match) {
             const username = match[1];
-            replyingOrCreating.textContent = "Replying to @" + username;
 
             document.getElementById("noteContent-textarea").value = `@${username} `;
          }
 
          createNotePopup();
       } else {
-         replyingOrCreating.textContent = "Replying to Note";
          createNotePopup();
       }
    }
@@ -3185,7 +3118,6 @@ async function publishNote() {
             removeImage();
             document.getElementById("hasntBeenUploadedNotice").style.display = "none";
             if (pathName === "/note" || pathName === "/note.html" || pathName.startsWith("/note/")) {
-               document.getElementById("replyingOrCreating").innerText = "Create a Note!";
                isReplying_notehtml = false;
             }
             document.getElementById("isNsfw").checked = false;
