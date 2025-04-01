@@ -1349,12 +1349,7 @@ if (pathName.startsWith("/home") ||
       noteDiv.appendChild(username);
 
       const text = document.createElement("p");
-      text.innerHTML = format(noteData.text)
-      // TODO: should probably be moved to format at some point
-      twemoji.parse(text, {
-         folder: "svg",
-         ext: ".svg",
-      });
+      text.innerHTML = format(noteData.text);
       text.className = "noteText";
       if (!noteData.replyingTo) {
          text.addEventListener("click", function () { window.location.href = `/note/${noteData.id}`; });
@@ -1498,10 +1493,6 @@ if (pathName.startsWith("/home") ||
                      content = content.substring(0, 247) + "...";
                   }
                   quoteText.innerHTML = content;
-                  twemoji.parse(text, {
-                     folder: "svg",
-                     ext: ".svg",
-                  });
                }
                quoteContent.appendChild(quoteText);
 
@@ -2231,10 +2222,6 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
                document.getElementById("bio-profile").textContent = "No user bio provided.";
             } else {
                document.getElementById("bio-profile").innerHTML = format(profileData.bio);
-               twemoji.parse(document.getElementById("bio-profile"), {
-                  folder: 'svg',
-                  ext: '.svg'
-               });
             }
 
             if (profileData.followers === undefined) {
@@ -2635,10 +2622,6 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                                  content = content.substring(0, 247) + "...";
                               }
                               document.getElementById("noteQuoteText").innerHTML = content;
-                           twemoji.parse(document.getElementById("noteQuoteText"), {
-                              folder: 'svg',
-                              ext: '.svg'
-                           });
                         } else {
                            document.getElementById("noteQuotePfp").src = `/assets/imgs/defaultPfp.png`;
                            document.getElementById("noteQuoteDisplay").textContent = "User Unavailable";
@@ -2717,10 +2700,6 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                   }
 
                   document.getElementById("noteContent").innerHTML = format(noteData.text);
-                  twemoji.parse(document.getElementById("noteContent"), {
-                     folder: 'svg',
-                     ext: '.svg'
-                  });
                   document.getElementById("likeButton").innerHTML = `<i class="fa-solid fa-heart"></i> ${noteData.likes}`;
                   document.getElementById("renoteButton").innerHTML = `<i class="fa-solid fa-retweet"></i> ${noteData.renotes}`;
 
