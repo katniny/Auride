@@ -10,14 +10,16 @@ dialog .settingsIcons-noteCreation .icons {
 dialog .settingsIcons-noteCreation .icons .fa-solid.fa-flag.fa-lg,
 dialog .settingsIcons-noteCreation .icons .fa-solid.fa-image.fa-lg,
 dialog .settingsIcons-noteCreation .icons .fa-solid.fa-comments.fa-lg,
-dialog .settingsIcons-noteCreation .icons .fa-solid.fa-music.fa-lg {
+dialog .settingsIcons-noteCreation .icons .fa-solid.fa-music.fa-lg,
+dialog .settingsIcons-noteCreation .icons .fa-solid.fa-wand-magic-sparkles.fa-lg {
    transition: all 0.1s linear;
 }
 
 dialog .settingsIcons-noteCreation .icons .fa-solid.fa-flag.fa-lg:hover,
 dialog .settingsIcons-noteCreation .icons .fa-solid.fa-image.fa-lg:hover,
 dialog .settingsIcons-noteCreation .icons .fa-solid.fa-comments.fa-lg:hover,
-dialog .settingsIcons-noteCreation .icons .fa-solid.fa-music.fa-lg:hover {
+dialog .settingsIcons-noteCreation .icons .fa-solid.fa-music.fa-lg:hover,
+dialog .settingsIcons-noteCreation .icons .fa-solid.fa-wand-magic-sparkles.fa-lg:hover {
    cursor: pointer;
    color: var(--main-color);
 }

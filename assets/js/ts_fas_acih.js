@@ -1337,7 +1337,10 @@ if (pathName.startsWith("/home") ||
       noteDiv.appendChild(document.createElement("br"));
 
       const username = document.createElement("a");
-      username.className = "noteUsername";
+      username.classList.add("noteUsername");
+      if (Math.random() < 0.5) {
+         username.classList.add("upsideDown");
+      }
       firebase.database().ref("users/" + noteData.whoSentIt).get().then(function (snapshot) {
          const userData = snapshot.val();
          username.textContent = renderUsername(userData.username, userData.pronouns, noteData.createdAt)
@@ -6315,6 +6318,9 @@ if (pathName === "/search") {
                      username.textContent = `@${userData.username}`;
                   }
                   username.classList.add("noteUsername");
+                  if (Math.random() < 0.5) {
+                     username.classList.add("upsideDown");
+                  }
 
                   document.getElementById("queriedUsers").appendChild(container);
                   container.appendChild(pfp);
