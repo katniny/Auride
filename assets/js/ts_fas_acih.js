@@ -88,21 +88,6 @@ for (const [browser, version] of outdatedBrowsers) {
 }
 
 // Implement character limit
-const noteText = document.getElementById('noteContent-textarea');
-const maxCharacters = 1250;
-
-if (noteText) {
-   noteText.addEventListener('input', () => {
-      const currentLength = noteText.value.length;
-
-      if (currentLength > maxCharacters) {
-         noteText.value = noteText.value.substring(0, maxCharacters);
-      }
-
-      document.getElementById("characterLimit_note").textContent = `${currentLength}/1,250`;
-   });
-}
-
 if (document.getElementById("editNoteContent")) {
    const newNoteContentText = document.getElementById("newTextContent");
 
@@ -1338,9 +1323,6 @@ if (pathName.startsWith("/home") ||
 
       const username = document.createElement("a");
       username.classList.add("noteUsername");
-      if (Math.random() < 0.5) {
-         username.classList.add("upsideDown");
-      }
       firebase.database().ref("users/" + noteData.whoSentIt).get().then(function (snapshot) {
          const userData = snapshot.val();
          username.textContent = renderUsername(userData.username, userData.pronouns, noteData.createdAt)
@@ -6297,9 +6279,6 @@ if (pathName === "/search") {
                      username.textContent = `@${userData.username}`;
                   }
                   username.classList.add("noteUsername");
-                  if (Math.random() < 0.5) {
-                     username.classList.add("upsideDown");
-                  }
 
                   document.getElementById("queriedUsers").appendChild(container);
                   container.appendChild(pfp);

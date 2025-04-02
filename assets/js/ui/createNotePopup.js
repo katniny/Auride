@@ -8,7 +8,6 @@ const modal = `
             <h2 style="float: right; opacity: 0; cursor: default;" id="replyingOrCreating">Create a Note!</h2> <i class="fa-regular fa-circle-xmark fa-lg" style="float: left; margin-top: 10px;" onclick="closeCreateNotePopup()"></i>
             <textarea rows="0" placeholder="What's on your mind?" id="noteContent-textarea"></textarea>
             <p id="characterLimit_note" style="color: var(--text-semi-transparent)">0/1,250</p>
-            <p style="font-size: small; margin-top: 5px;"><i class="fa-solid fa-wand-magic-sparkles"></i> Try AurorAI, our new AI to create new, engaging notes for you! <span style="font-size: smaller; color: var(--text-semi-transparent);">(This AI will definitely NOT take over the world...)</span></p>
 
             <br />
 
@@ -88,7 +87,7 @@ const modal = `
     <!-- Settings -->
     <div class="settingsIcons-noteCreation">
         <div class="icons">
-            <i class="fa-solid fa-flag fa-lg" onclick="swapNoteTab('note')"></i> <i class="fa-solid fa-image fa-lg" onclick="uploadImage()"><input type="file" id="imageUploadInput" accept="image/png, image/jpeg, image/webp, video/mp4, image/gif" style="display: none;"></i> <i class="fa-solid fa-music fa-lg" onclick="swapNoteTab('music')"></i> <i class="fa-solid fa-wand-magic-sparkles fa-lg" onclick="aurorAIPopupCreate();"></i>
+            <i class="fa-solid fa-flag fa-lg" onclick="swapNoteTab('note')"></i> <i class="fa-solid fa-image fa-lg" onclick="uploadImage()"><input type="file" id="imageUploadInput" accept="image/png, image/jpeg, image/webp, video/mp4, image/gif" style="display: none;"></i> <i class="fa-solid fa-music fa-lg" onclick="swapNoteTab('music')"></i>
         </div>
     </div>
 `;
@@ -108,6 +107,17 @@ function createNotePopup() {
 
     // finally, show modal.
     notePopup.showModal();
+
+    // show character limit
+    document.getElementById("noteContent-textarea").addEventListener('input', () => {
+        const currentLength = document.getElementById("noteContent-textarea").value.length;
+ 
+        if (currentLength > 1250) {
+            document.getElementById("noteContent-textarea").value = document.getElementById("noteContent-textarea").value.substring(0, 1250);
+        }
+ 
+        document.getElementById("characterLimit_note").textContent = `${currentLength}/1,250`;
+    });
 
     // if the user is renoting another note, show the note!
     // quality of life ^-^

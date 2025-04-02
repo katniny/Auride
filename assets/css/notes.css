@@ -129,11 +129,6 @@
    text-decoration: none;
 }
 
-.note .noteUsername.upsideDown {
-   transform: rotate(180deg);
-   display: inline-block;
-}
-
 .note .noteUsername:hover {
    text-decoration: underline;
 }

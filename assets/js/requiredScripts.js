@@ -47,7 +47,6 @@ async function loadAllScripts() {
 
       // our note creation modal
       await loadScript("/assets/js/ui/createNotePopup.js", false);
-      await loadScript("/assets/js/ui/aurorAIPopup.js", false);
 
       // finished!
       console.log("All-page scripts loaded successfully.");
