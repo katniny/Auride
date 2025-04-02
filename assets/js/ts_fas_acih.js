@@ -88,20 +88,6 @@ for (const [browser, version] of outdatedBrowsers) {
 }
 
 // Implement character limit
-if (document.getElementById("editNoteContent")) {
-   const newNoteContentText = document.getElementById("newTextContent");
-
-   document.getElementById("editNoteContent").addEventListener("input", () => {
-      const currentLength = newNoteContentText.value.length;
-
-      if (currentLength > maxCharacters) {
-         newNoteContentText.value = newNoteContentText.value.substring(0, maxCharacters);
-      }
-
-      document.getElementById("newTextContent-characterLimit").textContent = `${currentLength}/1,250`;
-   })
-}
-
 if (document.getElementById("displayName-text")) {
    const displayNameText = document.getElementById("displayName-text");
    const maxDisplay = 25;
@@ -4470,7 +4456,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/note" ||
 
    // Edit Note
    function editNoteContent() {
-      document.getElementById("editNoteContent").showModal();
+      createEditNoteUI();
       document.getElementById("editWhatPartofNote").close();
    }
 
@@ -4502,7 +4488,7 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/note" ||
    }
 
    function dontApplyEdits() {
-      document.getElementById("editNoteContent").close();
+      closeEditNotePopup();
       document.getElementById("editWhatPartofNote").showModal();
    }
 }

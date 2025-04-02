@@ -48,6 +48,9 @@ async function loadAllScripts() {
       // our note creation modal
       await loadScript("/assets/js/ui/createNotePopup.js", false);
 
+      // temp
+      await loadScript("/assets/js/ui/editNoteUI.js", false);
+
       // finished!
       console.log("All-page scripts loaded successfully.");
       document.dispatchEvent(new Event("scriptsLoaded"));
