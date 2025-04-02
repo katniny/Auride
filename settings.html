@@ -20,7 +20,10 @@
          <script src="/assets/js/scriptLoader.js"></script>
          <script defer>
             ScriptLoader.load(
-               //...
+                { src: "/assets/js/changeDisplayName.js", async: false },
+                { src: "/assets/js/changeUsername.js", async: false },
+                { src: "/assets/js/changePronouns.js", async: false },
+                { src: "/assets/js/changeBio.js", async: false }
             ).then(() => {
                console.log("Scripts for /home have been loaded successfully.");
             }).catch((error) => {
@@ -153,7 +156,6 @@
                         <p id="errorUploadingBanner" style="color: var(--error-text); display: none;"></p>
 
 
-                        <!--<p>Profile Picture</p>-->
                         <img src="" draggable="false" alt="Your Katniny profile picture" id="profilePicture_settings" class="profilePicture" />
                         <button onclick="changePfp()" style="transform: translateY(-55px); margin-left: 5px;" id="changePfp">Change Picture</button>
                         <button onclick="changeBanner()" style="transform: translateY(-55px); margin-left: 5px;" id="changeBanner">Change Banner</button>
