@@ -20,7 +20,8 @@
          <script src="/assets/js/scriptLoader.js"></script>
          <script defer>
             ScriptLoader.load(
-               //...
+               { src: "/assets/js/ui/saveThemePopup.js", async: false },
+               { src: "/assets/js/ui/publishThemePopup.js", async: false }
             ).then(() => {
                console.log("Scripts for /home have been loaded successfully.");
             }).catch((error) => {
@@ -391,19 +392,6 @@
          <a href="link" id="externalLink" target="_blank"><button onclick="document.getElementById('openLink').close()">Visit Site</button></a> <a href="javascript:void(1);" onclick="document.getElementById('openLink').close()" style="color: var(--main-color); font-size: 14px;">Go Back</a>
       </dialog>
 
-        <dialog id="saveTheme">
-            <h2>Save Theme</h2>
-            <p>Save your theme to modify later.</p>
-
-            <input type="text" id="themeName" placeholder="Enter a name for this theme" />
-            <p id="characterLimit_Theme" style="color: var(--text-semi-transparent);">0/30</p>
-            <p id="errorSavingTheme" style="display: none; color: var(--error-text);"></p>
-
-            <br />
-
-            <button onclick="saveTheme()" id="saveThemeBtn">Save Theme</button> <button onclick="dontSaveTheme()" id="dontSaveThemeBtn">Nevermind</button>
-        </dialog>
-
         <dialog id="loadTheme">
             <h2>Load Theme</h2>
             <p>Load a previously saved theme.</p>
@@ -435,22 +423,6 @@
                <a href="/home"><button style="width: 100%;">Try theme on another page</button></a>
                <button style="width: 100%;" onclick="document.getElementById('applyingTheme').close()">Stay on this page</button>
             </div>
-        </dialog>
-
-        <dialog id="publishTheme">
-            <h2>Publish your theme</h2>
-            <p>Ready to publish your theme? We're ready to see it!</p>
-
-            <input type="text" id="themeTitle" placeholder="What's the name of this theme?" />
-            <p id="characterLimit_ThemeTitle" style="color: var(--text-semi-transparent)">0/30</p>
-
-            <textarea id="themeDescription" placeholder="Enter a description for this theme!"></textarea>
-            <p id="characterLimit_ThemeDescription">0/250</p>
-            <p id="themeSuccessfullyPublished" style="color: var(--success-color); display: none;">Your theme has been successfully published! It is available on the TransSocial User Studio <a href="/userstudio" style="color: var(--main-color)">here.</a></p>
-
-            <br />
-
-            <button onclick="publishTheme()">Publish Theme</button> <button onclick="dontPublishTheme()">Nevermind</button>
         </dialog>
 
         <dialog id="addAltText">

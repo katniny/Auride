@@ -4936,10 +4936,6 @@ if (pathName === "/create_theme") {
    });
 
    // save theme functions
-   function saveTheme_Open() {
-      document.getElementById("saveTheme").showModal();
-   }
-
    function saveTheme() {
       if (!document.getElementById("saveThemeBtn").classList.contains("disabled")) {
          // this will prevent users from running functions they aren't supposed to while saving
@@ -5088,13 +5084,6 @@ if (pathName === "/create_theme") {
                });
             }
          });
-      }
-   }
-
-   function dontSaveTheme() {
-      if (!document.getElementById("dontSaveThemeBtn").classList.contains("disabled")) {
-         document.getElementById("themeName").value = "";
-         document.getElementById("saveTheme").close();
       }
    }
 
@@ -5407,10 +5396,6 @@ if (pathName === "/create_theme") {
    }
 
    // publish theme
-   function publishTheme_Open() {
-      document.getElementById("publishTheme").showModal();
-   }
-
    function publishTheme() {
       document.getElementById("themeSuccessfullyPublished").style.display = "none";
 
