@@ -32,7 +32,6 @@
    cursor: pointer;
    background: var(--profile-picture-bg);
    position: relative;
-   content: "";
    top: 0;
    left: 0;
    background: linear-gradient(to right,
