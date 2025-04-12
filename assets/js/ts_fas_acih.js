@@ -1420,11 +1420,13 @@ if (pathName.startsWith("/home") ||
 
       const buttonRow = document.createElement("div");
       buttonRow.classList.add("buttonRow");
-      firebase.database().ref(`users/${auth.currentUser.uid}/experiments/noteButtonLayout`).get().then(function (snapshot) {
-         if (snapshot.val()) {
-            buttonRow.classList.add("buttonRowExperiment");
-         }
-      })
+      if (firebase.auth().currentUser) {
+         firebase.database().ref(`users/${auth.currentUser.uid}/experiments/noteButtonLayout`).get().then(function (snapshot) {
+            if (snapshot.val()) {
+               buttonRow.classList.add("buttonRowExperiment");
+            }
+         });
+      }
 
       // TODO: figure out what to do about this duplication
       const loveBtn = document.createElement("p");
@@ -1433,7 +1435,7 @@ if (pathName.startsWith("/home") ||
       if (noteData.likes) {
          loveBtn.innerHTML = `${faIcon("heart").outerHTML} ${noteData.likes}`;
 
-         if (noteData.whoLiked && noteData.whoLiked[auth.currentUser.uid]) {
+         if (firebase.auth().currentUser && noteData.whoLiked && noteData.whoLiked[auth.currentUser.uid]) {
             loveBtn.classList.add("liked");
          }
       } else {
