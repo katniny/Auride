@@ -25,7 +25,10 @@
                 { src: "/assets/js/changePronouns.js", async: false },
                 { src: "/assets/js/changeBio.js", async: false },
                 { src: "/assets/js/changePfp.js", async: false },
-                { src: "/assets/js/changeBanner.js", async: false }
+                { src: "/assets/js/changeBanner.js", async: false },
+                { src: "/assets/js/ui/changeMatureContentPref.js", async: false },
+                { src: "/assets/js/ui/changeSensitiveContentPref.js", async: false },
+                { src: "/assets/js/ui/changePoliticalContentPref.js", async: false }
             ).then(() => {
                console.log("Scripts for /home have been loaded successfully.");
             }).catch((error) => {
@@ -140,7 +143,8 @@
                         <a id="personalizationTab" onclick="switchTab('personalization')">Personalization</a>
                         <a id="subscriptionTab" onclick="switchTab('subscription')">Donate</a>
                         <a id="environmentTab" onclick="switchTab('environment')">Accessibility</a>
-                        <a href="/remembering" id="unknownTab" onclick="unknownTab()">Remembering</a>
+                        <!-- below is temp commented out -->
+                        <!-- <a href="/remembering" id="unknownTab" onclick="unknownTab()">Remembering</a> -->
                     </div>
 
                     <!-- Tab #1 (Profile) -->
@@ -264,29 +268,22 @@
                     <br />
 
                     <p>Show Mature Content (NSFW Content)</p>
-                    <p id="updatedMatureContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successfully!</p>
-                    <button onclick="setMatureContent('Hide')">Hide</button>
-                    <button onclick="setMatureContent('Blur')">Blur</button>
-                    <button onclick="setMatureContent('Show')">Show</button>
+                    <p style="font-size: 14px; color: var(--text-semi-transparent);">Learn what each NSFW flag means. <a href="/blog/nsfw-flags" target="_blank">Learn more</a>.</p>
+                    <button onclick="showMatureContentPrefChangeModal()">Change Preferences</button>
 
                     <br />
                     <br />
 
                     <p>Show Sensitive Content</p>
-                    <p id="updatedSensitiveContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successfully!</p>
-                    <button onclick="setSensitiveContent('Hide')">Hide</button>
-                    <button onclick="setSensitiveContent('Blur')">Blur</button>
-                    <button onclick="setSensitiveContent('Show')">Show</button>
+                    <p style="font-size: 14px; color: var(--text-semi-transparent);">Learn what each sensitive flag means. <a href="/blog/sensitive-flags" target="_blank">Learn more</a>.</p>
+                    <button onclick="showSensitivePrefChangeModal()">Change Preferences</button>
 
                     <br />
                     <br />
 
                     <p>Show Political Content</p>
-                    <p style="font-size: 14px; color: var(--text-semi-transparent);">Please see what qualifies as political on TransSocial. <a href="/blog/what-qualifies-as-political.html" target="_blank" style="color: var(--main-color)">See notice</a>.</p>
-                    <p id="updatedPoliticalContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successfully!</p>
-                    <button onclick="setPoliticalContent('Hide')">Hide</button>
-                    <button onclick="setPoliticalContent('Blur')">Blur</button>
-                    <button onclick="setPoliticalContent('Show')">Show</button>
+                    <p style="font-size: 14px; color: var(--text-semi-transparent);">Learn what each political flag means. <a href="/blog/political-flags" target="_blank">Learn more</a>.</p>
+                    <button onclick="showPoliticalPrefChangeModal()">Change Preferences</button>
 
                     <br />
                     <br />

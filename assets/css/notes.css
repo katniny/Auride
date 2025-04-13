@@ -273,7 +273,7 @@
    font-size: 12px;
    margin-left: 15px;
    color: var(--text-semi-transparent);
-   margin-bottom: 5px;
+   margin-top: 10px;
 }
 
 .notes .note .contentWarning-showBelowText i {
@@ -313,11 +313,12 @@
 
 .notes .note .warningInfo {
    position: absolute;
-   top: 20px;
+   top: 5px;
    left: 0;
    display: flex;
    justify-content: center;
    align-items: center;
+   text-align: left;
    z-index: 1;
    border-radius: 35px;
    padding: 10px;
@@ -325,7 +326,7 @@
 
 .notes .note .closeWarning {
    position: absolute;
-   top: 50px;
+   top: 75px;
    left: 8px;
    display: flex;
    justify-content: center;

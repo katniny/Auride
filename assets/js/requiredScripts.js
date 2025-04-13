@@ -50,6 +50,7 @@ async function loadAllScripts() {
 
       // temp
       await loadScript("/assets/js/ui/editNoteUI.js", false);
+      await loadScript("/assets/js/cwDescriptions.js", false);
 
       // finished!
       console.log("All-page scripts loaded successfully.");

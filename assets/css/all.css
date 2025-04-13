@@ -519,6 +519,12 @@
 */
 @import url("/assets/css/selectionColors.css");
 
+/*
+   the buttons for mature/sensitive/political 
+   prefs popups
+*/
+@import url("/assets/css/resizeButtons.css");
+
 /* fonts */
 @font-face {
    font-family: "Gabarito";

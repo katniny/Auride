@@ -48,17 +48,42 @@ const modal = `
         <h2 style="margin-top: 10px;">Add a content warning</h2> 
         <p style="font-size: 14px; color: var(--text-semi-transparent);">Add a content warning to this note by selecting a category. This helps people see only the content they want to on TransSocial.</p>
 
-        <!-- NSFW Checkbox -->
-        <input type="checkbox" id="isNsfw" /> <span class="noteContainsNsfwContent">Note contains NSFW content.</span> 
-        <p class="optionAlt">This may include nudity, intercourse, intense violence, etc.</p>
+        <!-- NSFW Dropdown -->
+        <span class="noteContainsNsfwContent">Does your note contain NSFW content?</span> 
+        <select id="nsfwDropdown">
+            <option value="noNsfwContent">None</option>
+            <option value="adultContent">Adult Content</option>
+            <option value="sexuallySuggestive">Sexually Suggestive</option>
+            <option value="nonSexualNudity">Non-Sexual Nudity</option>
+            <option value="fetishContent">Fetish Content</option>
+            <option value="erotica">Erotic Writings</option>
+        </select> 
+        <p class="optionAlt">This may include adult material, explicit nudity, sexual themes, or other mature content. <a href="/blog/nsfw-flags">Learn more about these flags</a>.</p>
 
-        <!-- Content Warning Checkbox -->
-        <input type="checkbox" id="isSensitive" /> Note contains sensitive content.
-        <p class="optionAlt">Select this if your note has potentionally triggering content.</p>
+        <!-- Sensitive Content Dropdown -->
+        Does your note contain sensitive content?
+        <select id="sensitiveDropdown">
+            <option value="noSensitiveContent">None</option>
+            <option value="graphicViolence">Graphic Violence</option>
+            <option value="horrorImagery">Horror Imagery</option>
+            <option value="abuseTraumaMentions">Abuse/Trauma Mentions</option>
+            <option value="selfHarmSuicideMentions">Self-Harm/Suicide Mentions</option>
+            <option value="drugUse">Drug Use</option>
+            <option value="flashSeizureRisk">Flash-Seizure Risk</option>
+        </select> 
+        <p class="optionAlt">This may include violence, trauma, abuse, or other potentially triggering material. <a href="/blog/sensitive-flags">Learn more about these flags</a>.</p>
 
-        <!-- Political Checkbox -->
-        <input type="checkbox" id="isPolitical" /> Note contains political content.
-        <p class="optionAlt">Select this if your note has political content.</p>
+        <!-- Political Dropdown -->
+        Does your note have political content?
+        <select id="politicalDropdown">
+            <option value="noPoliticalContent">None</option>
+            <option value="politicalDiscussion">Political Discussion</option>
+            <option value="warNConflict">War & Conflict</option>
+            <option value="identityDebates">Identify Debates</option>
+            <option value="conspiracyTheories">Conspiracy Theories</option>
+            <option value="newsMedia">News Media</option>
+        </select> 
+        <p class="optionAlt">This may include political discussions, debates, or sensitive topics related to current events, war, or ideologies. <a href="/blog/political-flags">Learn more about these flags</a>.</p>
 
         <br />
     </div>
@@ -144,19 +169,10 @@ function createNotePopup() {
 function closeCreateNotePopup() {
     const notePopup = document.getElementById("createNote-popup");
 
-    document.getElementById("noteContent-textarea").value = "";
-    document.getElementById("uploadingImage").style.display = "none";
-    removeImage();
-    document.getElementById("hasntBeenUploadedNotice").style.display = "none";
     if (pathName === "/note" || pathName === "/note.html" || pathName.startsWith("/note/")) {
         isReplying_notehtml = false;
     }
-    document.getElementById("isNsfw").checked = false;
-    document.getElementById("isSensitive").checked = false;
-    document.getElementById("isPolitical").checked = false;
     renotingNote = null;
-    document.getElementById("spotifyPlayer").innerHTML = "";
-    document.getElementById("songQuery").value = "";
     pickedMusic = null;
 
     notePopup.close();
