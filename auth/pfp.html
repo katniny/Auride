@@ -21,7 +21,7 @@
    <script src="/assets/js/scriptLoader.js"></script>
    <script defer>
       ScriptLoader.load(
-         //...
+         { src: "/assets/js/registration/uploadPfp.js", async: false }
       ).then(() => {
          console.log("Scripts for /home have been loaded successfully.");
       }).catch((error) => {
