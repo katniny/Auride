@@ -207,6 +207,17 @@
    max-width: 50px;
 }
 
+.note .noteIsBeingPreviewed {
+   color: var(--text-semi-transparent);
+   font-size: smaller;
+   margin-left: 10px;
+   margin-top: 10px;
+}
+
+.note .noteIsBeingPreviewed i {
+   color: var(--text-semi-transparent);
+}
+
 #quoteRenoteButton {
    width: auto;
    cursor: pointer;
