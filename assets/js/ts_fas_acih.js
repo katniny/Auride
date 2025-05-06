@@ -2063,7 +2063,7 @@ if (pathName.startsWith("/home") ||
 
             renderNotes(notesArray);
          });
-      } else if (pathName === "/note" || pathName.startsWith("/note/")) {
+      } else if (pathName === "/note" || pathName.startsWith("/note/") || pathName === "/note.html") {
          const url = new URL(window.location.href);
          let noteParam = null;
 
@@ -2219,7 +2219,7 @@ if (pathName.startsWith("/home") ||
             database.ref(`users/${auth.currentUser.uid}/favorites/${noteData.id}`).get().then(function (snapshot) {
                if (snapshot.exists()) notesContainer.appendChild(noteDiv);
             });
-         } else if (pathName === "/note" || pathName.startsWith("/note/")) {
+         } else if (pathName === "/note" || pathName.startsWith("/note/") || pathName === "/note.html") {
             let noteId = undefined;
 
             if (pathName.startsWith("/note/")) {
@@ -2251,8 +2251,12 @@ if (pathName.startsWith("/home") ||
       const data = snapshot.val();
 
       // Check if any specific field (child) is updated
-      document.getElementById(`like-${data.id}`).innerHTML = `<i class="fa-solid fa-heart"></i> ${data.likes}`;
-      document.getElementById(`renote-${data.id}`).innerHTML = `<i class="fa-solid fa-retweet"></i> ${data.renotes}`;
+      if (document.getElementById(`like-${data.id}`)) {
+         document.getElementById(`like-${data.id}`).innerHTML = `<i class="fa-solid fa-heart"></i> ${data.likes}`;
+      }
+      if (document.getElementById(`renote-${data.id}`)) {
+         document.getElementById(`renote-${data.id}`).innerHTML = `<i class="fa-solid fa-retweet"></i> ${data.renotes}`;
+      }
 
       firebase.auth().onAuthStateChanged((user) => {
          const uid = user.uid;
@@ -2261,14 +2265,18 @@ if (pathName.startsWith("/home") ||
          if (data.whoLiked && data.whoLiked[uid]) {
             document.getElementById(`like-${data.id}`).classList.add("liked");
          } else {
-            document.getElementById(`like-${data.id}`).classList.remove("liked");
+            if (document.getElementById(`like-${data.id}`)) {
+               document.getElementById(`like-${data.id}`).classList.remove("liked");
+            }
          }
 
          // If user renoted the note, update the UI to display that.
          if (data.whoRenoted && data.whoRenoted[uid]) {
             document.getElementById(`renote-${data.id}`).classList.add("renoted");
          } else {
-            document.getElementById(`renote-${data.id}`).classList.remove("renoted");
+            if (document.getElementById(`renote-${data.id}`)) {
+               document.getElementById(`renote-${data.id}`).classList.remove("renoted");
+            }
          }
       })
    });
@@ -3354,13 +3362,13 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
          const regex = /@(\w+)/; // Capture usernames with letters, numbers, or underscores
          const match = fullUsernameText.match(regex);
 
+         createNotePopup();
+
          if (match) {
             const username = match[1];
 
             document.getElementById("noteContent-textarea").value = `@${username} `;
          }
-
-         createNotePopup();
       } else {
          createNotePopup();
       }
