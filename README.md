@@ -4,27 +4,27 @@
    ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/katniny/transsocial/firebase-hosting-merge.yml) <a href="/LICENSE"><img alt="Static Badge" src="https://img.shields.io/badge/license-CC BY–NC–SA 4.0-blue"></a>
 </a>
 
-🌎 <a href="https://transs.social/" target="_blank">TransSocial</a> is an open source social media platform built from the ground up with Firebase! 🚀
+💖 <a href="https://transs.social/" target="_blank">TransSocial</a> is an social media platform built to be a safe place for everyone! 💝
 </div>
 
 
 --- 
 
 ## 🚀 Features
-- Privacy-Focused
-   - TransSocial is 100% privacy focused! TransSocial does not track you across the web, force an algorithm on you, just pure TransSocial.
-- Experiments
-   - Try TransSocial features before they're fully released! Go to your Settings > Personalization then "Experiments"!
-- Themes
-   - Try multiple themes! Such as the classic Dark and Light modes, but also Midnight Purple, Mint, and more! You can even create your own themes! 🎨
-### and much more available, and to come soon!
+<img src="assets/readme-promo/themes.png">
 
-<br />
+**Themes**: Use one of the 8 default themes, get a theme from [TransSocial's User Studio](https://transs.social/userstudio), or create your own!
+
+
+<img src="assets/readme-promo/flagging.png">
+
+**Flagging System**: Welcome to the most comprehensive flagging system on any social media ever. With 16 flags under NSFW, Sensitive Content, and Political content, customize your feed and hide what you don't want to see. 
+
+### and much more available now, and even more to come soon!
 
 ## 🧑‍💻 How to Contribute
-See our <a href="/CONTRIBUTING.md">CONTRIBUTING.md</a> guide! This is just temporary, as TransSocial is being rewritten, available [here](https://github.com/katniny/transsocial/tree/rewritten)
+See our <a href="/CONTRIBUTING.md">CONTRIBUTING.md</a> guide!
 
-<br />
 
 ## 📃 License
 Copyright (c) 2025 katniny and contributors. All rights reserved.
@@ -44,4 +44,4 @@ The above copyright notice covers all contents of this repository barring the fo
 
 Further copyright related information can be found at <https://transs.social/opensource>
 
-## 🙌 Thank you to everyone that's contributed to TransSocial!
+**🙌 Thank you to everyone that's contributed to TransSocial, and thank you to everyone that uses TransSocial!**
