@@ -525,6 +525,21 @@
 */
 @import url("/assets/css/resizeButtons.css");
 
+/* 
+   the cta on transsocial /index.html
+*/
+@import url("callToAction.css");
+
+/*
+   the main selling point on the front page
+*/
+@import url("sellingPoint.css");
+
+/* 
+   the main points on the front page
+*/
+@import url("mainPoint.css");
+
 /* fonts */
 @font-face {
    font-family: "Gabarito";
