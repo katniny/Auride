@@ -23,8 +23,7 @@
 ### and much more available now, and even more to come soon!
 
 ## 🧑‍💻 How to Contribute
-See our <a href="/CONTRIBUTING.md">CONTRIBUTING.md</a> guide!
-
+See our <a href="/CONTRIBUTING.md">CONTRIBUTING.md</a> guide if you're interested!
 
 ## 📃 License
 Copyright (c) 2025 katniny and contributors. All rights reserved.
