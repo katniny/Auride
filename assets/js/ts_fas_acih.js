@@ -2607,6 +2607,19 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
 
                document.getElementById("interactingWithWho").textContent = `User Actions for @${profileData.username}`;
 
+               if (profileData.memorialAccount && profileData.memorialAccount.isDeceased === true) {
+                  // open popup
+                  setTimeout(() => {
+                     openDeceasedUserPopup(profileData.username);
+                  }, 350);
+
+                  // add "remembering" after the username
+                  const rememberingTxt = document.createElement("p");
+                  rememberingTxt.innerHTML = `<i class="fa-solid fa-dove"></i> Remembering @${profileData.username}. <a href="/blog/memorialized-accounts">Learn more about memorial accounts</a>.`;
+                  rememberingTxt.className = "rememberingUser";
+                  document.getElementById("bio-profile").parentNode.insertBefore(rememberingTxt, document.getElementById("bio-profile"));
+               }
+
                firebase.auth().onAuthStateChanged((user) => {
                   if (user) {
                      if (user.uid === profileExists.user) {
@@ -2614,7 +2627,18 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
                         document.getElementById("interactingWithWho_desc").textContent = "Would you like to do with your profile?";
                         document.getElementById("profileSidebar").classList.add("active");
                      } else {
-                        document.getElementById("editProfile").remove();
+                        if (profileData.memorialAccount && profileData.memorialAccount.isDeceased === true) {
+                           // remove all interactions
+                           document.getElementById("blockUser").remove();
+                           document.getElementById("unblockUser").remove();
+                           document.getElementById("editProfile").remove();
+                           document.getElementById("reportUser").remove();
+
+                           // then, display a notice
+                           document.getElementById("deceasedUserInteractions").innerHTML = `@${profileData.username} is a memorial account. You cannot follow, block, report or interact with a memorial account. <a href="/blog/memorialized-accounts">Learn more about memorial accounts</a>.`;
+                        } else {
+                           document.getElementById("editProfile").remove();
+                        }
                      }
 
                      firebase.database().ref(`users/${user.uid}/blocked/${profileExists.user}`).once("value", (snapshot) => {
@@ -2701,8 +2725,16 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
                   currentUserFollowsRef.once('value', (snapshot) => {
                      const followersData = snapshot.val();
 
+                     if (profileData.memorialAccount && profileData.memorialAccount.isDeceased === true) {
+                        document.getElementById("followButton").setAttribute("onclick", "");
+                        document.getElementById("followButton").textContent = "Cannot Follow";
+                     }
+
                      if (followersData && followersData[currentUserUid]) {
-                        document.getElementById("followButton").textContent = "Following";
+                        if (profileData.memorialAccount && profileData.memorialAccount.isDeceased === true) {
+                           document.getElementById("followButton").setAttribute("onclick", "");
+                           document.getElementById("followButton").textContent = "Cannot Unfollow";
+                        }
                      }
                   });
                }

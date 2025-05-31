@@ -540,6 +540,11 @@
 */
 @import url("mainPoint.css");
 
+/*
+   the "remembering [user] text on a deceased users profile
+*/
+@import url("rememberingUser.css");
+
 /* fonts */
 @font-face {
    font-family: "Gabarito";

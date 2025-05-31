@@ -20,7 +20,7 @@
          <script src="/assets/js/scriptLoader.js"></script>
          <script defer>
             ScriptLoader.load(
-               //...
+               { src: "/assets/js/ui/deceasedUserPopup.js", async: false }
             ).then(() => {
                console.log("Scripts for /home have been loaded successfully.");
             }).catch((error) => {
@@ -403,7 +403,8 @@
             <a href="/settings" id="editProfile"><button style="width: 100%;"><i class="fa-solid fa-user-pen"></i> Edit Profile</button></a>
             <button id="blockUser" onclick="blockUser()" style="width: 100%;"><i class="fa-solid fa-ban"></i> Block User</button>
             <button id="unblockUser" onclick="unblockUser()" style="width: 100%; display: none;"><i class="fa-solid fa-ban"></i> Unblock User</button>
-            <button onclick="reportUser()" style="width: 100%;"><i class="fa-solid fa-flag"></i> Report User</button>
+            <button onclick="reportUser()" id="reportUser" style="width: 100%;"><i class="fa-solid fa-flag"></i> Report User</button>
+            <p id="deceasedUserInteractions"></p>
 
             <br />
             <br />
