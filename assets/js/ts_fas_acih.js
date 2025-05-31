@@ -4069,7 +4069,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                            }).then(() => {
                               firebase.database().ref(`users/${user.uid}/themeColors`)
                                  .update(themeData.themeColors)
-                                 .then(function () { window.location.reload(); });
+                                 .then(function () { setGlobalCustomTheme(themeData.themeColors) });
                            });
                         };
                         button.style.width = "100%";
@@ -4096,7 +4096,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          if (user) {
             firebase.database().ref(`users/${user.uid}`).update({
                theme
-            }).then(function () { window.location.reload(); });
+            }).then(function () { setGlobalTheme(theme) });
          }
       })
    }

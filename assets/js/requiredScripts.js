@@ -34,6 +34,7 @@ async function loadAllScripts() {
       await loadScript("/assets/js/ts_fas_acih.js", false);
 
       // page loader
+      await loadScript("/assets/js/setTheme.js", false);
       await loadScript("/assets/js/pageLoader.js", false);
 
       // our icons
