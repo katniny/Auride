@@ -149,21 +149,21 @@ firebase.auth().onAuthStateChanged((user) => {
 
             console.log(getTheme.theme);
             if (getTheme && getTheme.theme === "Dark" || getTheme && getTheme.theme === undefined) {
-                setGlobalTheme("Dark");
+                setGlobalTheme("Dark", getTheme.showPrideFlag);
             } else if (getTheme && getTheme.theme === "Light") {
-                setGlobalTheme("Light");
+                setGlobalTheme("Light", getTheme.showPrideFlag);
             } else if (getTheme && getTheme.theme === "Mint (Light)") {
-                setGlobalTheme("Mint (Light)");
+                setGlobalTheme("Mint (Light)", getTheme.showPrideFlag);
             } else if (getTheme && getTheme.theme === "Mint (Dark)") {
-                setGlobalTheme("Mint (Dark)");
+                setGlobalTheme("Mint (Dark)", getTheme.showPrideFlag);
             } else if (getTheme && getTheme.theme === "High Contrast") {
-                setGlobalTheme("High Contrast");
+                setGlobalTheme("High Contrast", getTheme.showPrideFlag);
             } else if (getTheme && getTheme.theme === "TransSocial Classic") {
-                setGlobalTheme("TransSocial Classic");
+                setGlobalTheme("TransSocial Classic", getTheme.showPrideFlag);
             } else if (getTheme && getTheme.theme === "Midnight Purple") {
-                setGlobalTheme("Midnight Purple");
+                setGlobalTheme("Midnight Purple", getTheme.showPrideFlag);
             } else if (getTheme && getTheme.theme === "Darker") {
-                setGlobalTheme("Darker");
+                setGlobalTheme("Darker", getTheme.showPrideFlag);
             } else if (getTheme && getTheme.theme === "Custom") {
                 setGlobalCustomTheme(getTheme.themeColors);
             }
