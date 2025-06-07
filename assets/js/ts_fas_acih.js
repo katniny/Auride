@@ -2170,6 +2170,7 @@ if (pathName.startsWith("/home") ||
       notesArray.forEach(noteData => {
          let noteDiv = renderNote(noteData);
          if (noteDiv == null) return;
+         if (document.getElementById(noteData.id)) return;
 
          // i wanted to refactor this too but touching this actually gives you a curse until you put it back exactly as it was
 
@@ -6493,12 +6494,12 @@ if (pathName === "/search") {
                })
 
                // If all is okay, do it fine.
-               if (noteContent.isDeleted !== true) {
-                  document.getElementById("queriedNotes").appendChild(noteDiv);
+               if (document.getElementById(`note-${noteContent.id}`)) {
+                  noteDiv.remove();
                }
 
-               if (document.getElementById('note-${noteId}')) {
-                  noteDiv.remove();
+               if (noteContent.isDeleted !== true) {
+                  document.getElementById("queriedNotes").appendChild(noteDiv);
                }
             }
          });
