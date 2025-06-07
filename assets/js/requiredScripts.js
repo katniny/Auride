@@ -31,6 +31,7 @@ async function loadAllScripts() {
       await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js", false);
       await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js", false);
       await loadScript("/assets/js/firebase.js", false);
+      await loadScript("/assets/js/utils.js", false);
       await loadScript("/assets/js/ts_fas_acih.js", false);
 
       // page loader

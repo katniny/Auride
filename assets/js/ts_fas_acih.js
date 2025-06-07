@@ -200,13 +200,13 @@ if (hasUpdateNotes) {
 
             if (!hasDoneIt) {
                if (document.getElementById("updatesBtn")) {
-                  document.getElementById("updatesBtn").innerHTML = `<i class="fa-solid fa-wrench"></i> Updates <span class="badge">New!</span>`;
+                  document.getElementById("updatesBtn").innerHTML = `${faIcon("wrench").outerHTML} Updates <span class="badge">New!</span>`;
                }
             }
          })
       } else {
          if (document.getElementById("updatesBtn") && pathName !== "/updates") {
-            document.getElementById("updatesBtn").innerHTML = `<i class="fa-solid fa-wrench"></i> Updates <span class="badge">New!</span>`;
+            document.getElementById("updatesBtn").innerHTML = `${faIcon("wrench").outerHTML} Updates <span class="badge">New!</span>`;
          }
       }
    })
@@ -236,9 +236,9 @@ if (pathName === "/auth/register" || pathName === "/auth/register.html") {
    const urlParam = url.searchParams.get("return_to");
 
    if (urlParam && urlParam === "https://music.transs.social/") {
-      document.getElementById("redirectNotice").innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> You'll be returned to TransMusic after you create your account.`;
+      document.getElementById("redirectNotice").innerHTML = `${faIcon("triangle-exclamation").outerHTML} You'll be returned to TransMusic after you create your account.`;
    } else if (urlParam && urlParam !== "https://music.transs.social/") {
-      document.getElementById("redirectNotice").innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> You'll be returned to ${urlParam} after you create your account.`;
+      document.getElementById("redirectNotice").innerHTML = `${faIcon("triangle-exclamation").outerHTML} You'll be returned to ${urlParam} after you create your account.`;
    } else {
       document.getElementById("redirectNotice").remove();
    }
@@ -314,7 +314,7 @@ if (pathName === "/auth/pfp") {
 
 function displayAndUsernameReserve() {
    document.getElementById("errorTxt").style.display = "none";
-   document.getElementById("displayAndUsernameBtn").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Checking display...`;
+   document.getElementById("displayAndUsernameBtn").innerHTML = `${faIcon("spinner", animatian = "spin-pulse").outerHTML} Checking display...`;
    document.getElementById("displayAndUsernameBtn").classList.add("disabled");
 
    // make sure display name isn't empty
@@ -337,7 +337,7 @@ function displayAndUsernameReserve() {
                display : displayName
             })
             .then(() => {
-               document.getElementById("displayAndUsernameBtn").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Checking username...`;
+               document.getElementById("displayAndUsernameBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Checking username...`;
 
                firebase.database().ref(`taken-usernames/${username}`).once("value", (snapshot) => {
                   if (snapshot.exists()) {
@@ -352,7 +352,7 @@ function displayAndUsernameReserve() {
                   } else {
                      firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
-                           document.getElementById("displayAndUsernameBtn").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Applying username...`;
+                           document.getElementById("displayAndUsernameBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Applying username...`;
 
                            // reserve the name
                            firebase.database().ref(`taken-usernames/${username}`).update({
@@ -403,7 +403,7 @@ if (pathName === "/auth/done") {
 // Register Function
 function register() {
    if (pathName === "/auth/register.html" || pathName === "/auth/register") {
-      document.getElementById("registerBtn").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Registering...`;
+      document.getElementById("registerBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Registering...`;
       document.getElementById("registerBtn").classList.add("disabled");
       document.getElementById("errorTxt").style.display = "none";
 
@@ -413,7 +413,7 @@ function register() {
 
       firebase.auth().createUserWithEmailAndPassword(email, password)
          .then((userCredential) => {
-            document.getElementById("registerBtn").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Starting...`;
+            document.getElementById("registerBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Starting...`;
             firebase.database().ref(`users/${userCredential.uid}`).update({
                email : email
             }).then(() => {
@@ -438,7 +438,7 @@ function register() {
 
 // Login Function
 function login() {
-   document.getElementById("loginBtn").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Logging in...`;
+   document.getElementById("loginBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Logging in...`;
    document.getElementById("loginBtn").classList.add("disabled");
    document.getElementById("errorTxt").style.display = "none";
 
@@ -1069,17 +1069,6 @@ if (pathName.startsWith("/home") ||
          } else {
             return `@${username} • ${displayDate}`;
          }
-      }
-
-      // TODO: we actually use fontawesome everywhere so lift this to somewhere toplevel
-      function faIcon(name, sm = false, xs = false) {
-         const icon = document.createElement("i");
-         icon.classList.add("fa-solid");
-         icon.classList.add("fa-" + name);
-         // unsure of the meaning of these but they were there so whatevs
-         if (sm) icon.classList.add("fa-sm");
-         if (xs) icon.classList.add("fa-xs");
-         return icon;
       }
 
       if (noteData.id === undefined) return null;
@@ -1777,9 +1766,9 @@ if (pathName.startsWith("/home") ||
 
          const badges = document.createElement("span");
          badges.className = "noteBadges";
-         if (userData.isVerified) badges.appendChild(faIcon("circle-check", sm = true));
-         if (userData.isSubscribed) badges.appendChild(faIcon("heart", sm = true));
-         if (userData.activeContributor) badges.appendChild(faIcon("handshake-angle", sm = true));
+         if (userData.isVerified) badges.appendChild(faIcon("circle-check", size = "sm"));
+         if (userData.isSubscribed) badges.appendChild(faIcon("heart", size = "sm"));
+         if (userData.activeContributor) badges.appendChild(faIcon("handshake-angle", size = "sm"));
 
          // only append badges if there actually are any
          if (badges.innerHTML) displayName.appendChild(badges);
@@ -2013,7 +2002,7 @@ if (pathName.startsWith("/home") ||
 
       const favoriteBtn = document.createElement("p");
       favoriteBtn.classList.add("favoriteBtn");
-      const favIcon = faIcon("bookmark", xs = true);
+      const favIcon = faIcon("bookmark", size = "xs");
       // apply the id to the favorites button or it will not change colors <-- im low key scared to look into the css
       favIcon.id = `favorite-${noteData.id}`;
       firebase.auth().onAuthStateChanged(function (user) {
@@ -2252,10 +2241,10 @@ if (pathName.startsWith("/home") ||
 
       // Check if any specific field (child) is updated
       if (document.getElementById(`like-${data.id}`)) {
-         document.getElementById(`like-${data.id}`).innerHTML = `<i class="fa-solid fa-heart"></i> ${data.likes}`;
+         document.getElementById(`like-${data.id}`).innerHTML = `${faIcon("heart").outerHTML} ${data.likes}`;
       }
       if (document.getElementById(`renote-${data.id}`)) {
-         document.getElementById(`renote-${data.id}`).innerHTML = `<i class="fa-solid fa-retweet"></i> ${data.renotes}`;
+         document.getElementById(`renote-${data.id}`).innerHTML = `${faIcon("retweet").outerHTML} ${data.renotes}`;
       }
 
       firebase.auth().onAuthStateChanged((user) => {
@@ -2530,7 +2519,9 @@ if (!pathName.startsWith("/auth/")) {
       const data = snapshot.val();
       if (data !== null) {
          document.getElementById(`katninyPfp`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2FG6GaJr8vPpeVdvenAntjOFYlbwr2%2F${data.pfp}?alt=media`;
-         document.getElementById(`katninyDisplay`).innerHTML = format(data.display, [ "html", "emoji" ]) + ` <i class="fa-solid fa-circle-check" style="color: var(--main-color);"></i> <i class="fa-solid fa-heart" style="color: var(--main-color);"></i>`;
+         document.getElementById(`katninyDisplay`).innerHTML = format(data.display, [ "html", "emoji" ]);
+         document.getElementById("katninyDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
+         document.getElementById("katninyDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
          document.getElementById(`followBtn-1`).href = `/u/${data.username}`;
          document.getElementById(`katninyUser-pronouns`).textContent = `@${data.username}`;
       }
@@ -2540,7 +2531,9 @@ if (!pathName.startsWith("/auth/")) {
       const data = snapshot.val();
       if (data !== null) {
          document.getElementById(`transsocialPfp`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F80vDnNb0rJbSjCvbiTF9EtvqtXw1%2F${data.pfp}?alt=media`;
-         document.getElementById(`transsocialDisplay`).innerHTML = data.display + ` <i class="fa-solid fa-circle-check" style="color: var(--main-color);"></i>`;
+         document.getElementById(`transsocialDisplay`).innerHTML = data.display;
+         document.getElementById("transsocialDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
+         document.getElementById("transsocialDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
          document.getElementById(`followBtn-2`).href = `/u/${data.username}`;
          document.getElementById(`transsocialUser-pronouns`).textContent = `@${data.username}`;
       }
@@ -2550,7 +2543,9 @@ if (!pathName.startsWith("/auth/")) {
       const data = snapshot.val();
       if (data !== null) {
          document.getElementById(`katninystudiosPfp`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F4luqDI8627asR5EV8hOqb0YrRQF3%2F${data.pfp}?alt=media`;
-         document.getElementById(`katninystudiosDisplay`).innerHTML = data.display + ` <i class="fa-solid fa-circle-check" style="color: var(--main-color);"></i>`;
+         document.getElementById(`katninystudiosDisplay`).innerHTML = data.display;
+         document.getElementById("katninystudiosDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
+         document.getElementById("katninystudiosDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
          document.getElementById(`followBtn-3`).href = `/u/${data.username}`;
          document.getElementById(`katninystudiosUser-pronouns`).textContent = `@${data.username}`;
       }
@@ -2586,19 +2581,19 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
                document.getElementById(`melissa`).style.display = "block";
                document.getElementById(`userImage-profile`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${profileExists.user}%2F${profileData.pfp}?alt=media`;
                document.getElementById(`display-profile`).innerHTML = format(profileData.display, [ "html", "emoji" ]);
-               const verifiedBadge = document.createElement("span");
+               const badges = document.createElement("span");
                if (profileData.isVerified) {
-                  verifiedBadge.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
-                  verifiedBadge.style.marginLeft = "7px";
+                  badges.appendChild(faIcon("circle-check"));
+                  badges.style.marginLeft = "7px";
                }
-               if (profileData.isSubscribed === true) {
-                  verifiedBadge.innerHTML = `${verifiedBadge.innerHTML}<i class="fa-solid fa-heart" style="margin-left: 3px;"></i>`;
+               if (profileData.isSubscribed) {
+                  badges.appendChild(faIcon("heart", marginLeft = "3px"));
                }
-               if (profileData.activeContributor === true) {
-                  verifiedBadge.innerHTML = `${verifiedBadge.innerHTML}<i class="fa-solid fa-handshake-angle fa-sm"></i>`;
+               if (profileData.activeContributor) {
+                  badges.appendChild(faIcon("handshake-angle", size = "sm"));
                }
-               verifiedBadge.classList.add("noteBadges");
-               document.getElementById(`display-profile`).appendChild(verifiedBadge);
+               badges.classList.add("noteBadges");
+               document.getElementById(`display-profile`).appendChild(badges);
                document.getElementById(`username-profile`).textContent = `@${profileData.username}`;
 
                if (profileData.banner) {
@@ -2615,7 +2610,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
 
                   // add "remembering" after the username
                   const rememberingTxt = document.createElement("p");
-                  rememberingTxt.innerHTML = `<i class="fa-solid fa-dove"></i> Remembering @${profileData.username}. <a href="/blog/memorialized-accounts">Learn more about memorial accounts</a>.`;
+                  rememberingTxt.innerHTML = `${faIcon("dove").outerHTML} Remembering @${profileData.username}. <a href="/blog/memorialized-accounts">Learn more about memorial accounts</a>.`;
                   rememberingTxt.className = "rememberingUser";
                   document.getElementById("bio-profile").parentNode.insertBefore(rememberingTxt, document.getElementById("bio-profile"));
                }
@@ -3160,19 +3155,19 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                   document.getElementById(`userImage-profile`).addEventListener("click", () => window.location.href = `/u/${profileData.username}`);
                   document.getElementById(`display-profile`).innerHTML = format(profileData.display, [ "html", "emoji" ]);
                   document.getElementById(`display-profile`).addEventListener("click", () => window.location.href = `/u/${profileData.username}`);
-                  const verifiedBadge = document.createElement("span");
-                  if (profileData.isVerified === true) {
-                     verifiedBadge.innerHTML = `<i class="fa-solid fa-circle-check fa-sm"></i>`;
-                     verifiedBadge.classList.add("noteBadges");
-                     verifiedBadge.style.marginLeft = "7px";
+                  const badges = document.createElement("span");
+                  if (profileData.isVerified) {
+                     badges.appendChild(faIcon("circle-check", size = "sm"));
+                     badges.style.marginLeft = "7px";
                   }
-                  if (profileData.isSubscribed === true) {
-                     verifiedBadge.innerHTML = `${verifiedBadge.innerHTML}<i class="fa-solid fa-heart fa-sm" style="margin-left: 3px;"></i>`
+                  if (profileData.isSubscribed) {
+                     badges.appendChild(faIcon("heart", size = "sm", marginLeft = "3px"));
                   }
-                  if (profileData.activeContributor === true) {
-                     verifiedBadge.innerHTML = `${verifiedBadge.innerHTML}<i class="fa-solid fa-handshake-angle fa-sm" style="margin-left: 3px;"></i>`;
+                  if (profileData.activeContributor) {
+                     badges.appendChild(faIcon("handshake-angle", size = "sm", marginLeft = "3px"));
                   }
-                  document.getElementById("display-profile").appendChild(verifiedBadge);
+                  badges.classList.add("noteBadges");
+                  document.getElementById("display-profile").appendChild(badges);
                   document.getElementById(`username-profile`).textContent = `@${profileData.username}`;
                   document.getElementById(`username-profile`).addEventListener("click", () => window.location.href = `/u/${profileData.username}`);
                   if (profileData.pronouns === undefined || profileData.pronouns === null || profileData.pronouns === "") {
@@ -3183,8 +3178,8 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                   }
 
                   document.getElementById("noteContent").innerHTML = format(noteData.text);
-                  document.getElementById("likeButton").innerHTML = `<i class="fa-solid fa-heart"></i> ${noteData.likes}`;
-                  document.getElementById("renoteButton").innerHTML = `<i class="fa-solid fa-retweet"></i> ${noteData.renotes}`;
+                  document.getElementById("likeButton").innerHTML = `${faIcon("heart").outerHTML} ${noteData.likes}`;
+                  document.getElementById("renoteButton").innerHTML = `${faIcon("retweet").outerHTML} ${noteData.renotes}`;
 
                   if (noteData.image) {
                      let imageFileName = noteData.image;
@@ -3280,7 +3275,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                   database.ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
                      const newData = snapshot.val();
 
-                     document.getElementById("likeButton").innerHTML = `<i class="fa-solid fa-heart"></i> ${newData.likes}`;
+                     document.getElementById("likeButton").innerHTML = `${faIcon("heart").outerHTML} ${newData.likes}`;
                      document.getElementById("likeButton").classList.remove("liked");
                   })
                } else {
@@ -3295,7 +3290,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                   database.ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
                      const newData = snapshot.val();
 
-                     document.getElementById("likeButton").innerHTML = `<i class="fa-solid fa-heart"></i> ${newData.likes}`;
+                     document.getElementById("likeButton").innerHTML = `${faIcon("heart").outerHTML} ${newData.likes}`;
                      document.getElementById("likeButton").classList.add("liked");
                   })
 
@@ -3337,7 +3332,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                   database.ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
                      const newData = snapshot.val();
 
-                     document.getElementById("renoteButton").innerHTML = `<i class="fa-solid fa-retweet"></i> ${newData.renotes}`;
+                     document.getElementById("renoteButton").innerHTML = `${faIcon("retweet").outerHTML} ${newData.renotes}`;
                      document.getElementById("renoteButton").classList.remove("renoted");
                   })
                } else {
@@ -3356,7 +3351,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                   database.ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
                      const newData = snapshot.val();
 
-                     document.getElementById("renoteButton").innerHTML = `<i class="fa-solid fa-retweet"></i> ${newData.renotes}`;
+                     document.getElementById("renoteButton").innerHTML = `${faIcon("retweet").outerHTML} ${newData.renotes}`;
                      document.getElementById("renoteButton").classList.add("renoted");
                   })
 
@@ -3789,7 +3784,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
       if (!document.getElementById("sendPasswordReset").classList.contains("disabled")) {
          document.getElementById("sendPasswordReset").classList.add("disabled")
          const email = document.getElementById("email-address").value;
-         document.getElementById("sendPasswordReset").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Sending...`;
+         document.getElementById("sendPasswordReset").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Sending...`;
 
          firebase.auth().sendPasswordResetEmail(email)
             .then(() => {
@@ -4220,7 +4215,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
    }
 
    function enableDms() {
-      document.getElementById("enableDms").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Enabling...`;
+      document.getElementById("enableDms").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Enabling...`;
       document.getElementById("enableDms").classList.add("disabled");
       document.getElementById("disableDms").classList.add("disabled");
 
@@ -4236,7 +4231,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
    }
 
    function disableDms() {
-      document.getElementById("disableDms").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Disabling...`;
+      document.getElementById("disableDms").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Disabling...`;
       document.getElementById("enableDms").classList.add("disabled");
       document.getElementById("disableDms").classList.add("disabled");
 
@@ -4295,7 +4290,7 @@ if (pathName === "/notifications" || pathName === "/notifications.html") {
                      firebase.database().ref(`users/${notification.who}`).on("value", (snapshot) => {
                         const user = snapshot.exists() ? snapshot.val() : fakeUserData;
 
-                        newNotificationDiv.innerHTML = `<i class="fa-solid fa-user-plus fa-lg" style="color: var(--main-color);"></i> <img class="notificationPfp" draggable=false src="https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${notification.who}%2F${user.pfp}?alt=media" /> @${user.username} followed you!`;
+                        newNotificationDiv.innerHTML = `${faIcon("user-plus", size = "lg", color = "var(--main-color)").outerHTML} <img class="notificationPfp" draggable=false src="https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${notification.who}%2F${user.pfp}?alt=media" /> @${user.username} followed you!`;
                         newNotificationDiv.addEventListener("click", () => window.location.href = `/u/${user.username}`);
                      })
                   } else if (notification.type === "Reply") {
@@ -4304,7 +4299,7 @@ if (pathName === "/notifications" || pathName === "/notifications.html") {
                      firebase.database().ref(`users/${notification.who}`).on("value", (snapshot) => {
                         const user = snapshot.exists() ? snapshot.val() : fakeUserData;
 
-                        newNotificationDiv.innerHTML = `<i class="fa-solid fa-comment fa-lg" style="color: var(--main-color);"></i> <img class="notificationPfp" draggable=false src="https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${notification.who}%2F${user.pfp}?alt=media" /> @${user.username} replied to your note!`;
+                        newNotificationDiv.innerHTML = `${faIcon("comment", size = "lg", color = "var(--main-color)").outerHTML} <img class="notificationPfp" draggable=false src="https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${notification.who}%2F${user.pfp}?alt=media" /> @${user.username} replied to your note!`;
                      })
                   } else if (notification.type === "Love") {
                      newNotificationDiv.addEventListener("click", () => window.location.href = `/note/${notification.postId}`);
@@ -4312,7 +4307,7 @@ if (pathName === "/notifications" || pathName === "/notifications.html") {
                      firebase.database().ref(`users/${notification.who}`).on("value", (snapshot) => {
                         const user = snapshot.exists() ? snapshot.val() : fakeUserData;
 
-                        newNotificationDiv.innerHTML = `<i class="fa-solid fa-heart fa-lg" style="color: var(--like-color);"></i> <img class="notificationPfp" draggable=false src="https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${notification.who}%2F${user.pfp}?alt=media" /> @${user.username} loved your note!`;
+                        newNotificationDiv.innerHTML = `${faIcon("heart", size = "lg", color = "var(--like-color)").outerHTML} <img class="notificationPfp" draggable=false src="https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${notification.who}%2F${user.pfp}?alt=media" /> @${user.username} loved your note!`;
                      })
                   } else if (notification.type === "Renote") {
                      newNotificationDiv.addEventListener("click", () => window.location.href = `/note/${notification.postId}`);
@@ -4320,7 +4315,7 @@ if (pathName === "/notifications" || pathName === "/notifications.html") {
                      firebase.database().ref(`users/${notification.who}`).on("value", (snapshot) => {
                         const user = snapshot.exists() ? snapshot.val() : fakeUserData;
 
-                        newNotificationDiv.innerHTML = `<i class="fa-solid fa-retweet fa-lg" style="color: var(--renote-color);"></i> <img class="notificationPfp" draggable=false src="https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${notification.who}%2F${user.pfp}?alt=media" /> @${user.username} renoted your note!`;
+                        newNotificationDiv.innerHTML = `${faIcon("retweet", size = "lg", color = "var(--renote-color)").outerHTML} <img class="notificationPfp" draggable=false src="https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${notification.who}%2F${user.pfp}?alt=media" /> @${user.username} renoted your note!`;
                      })
                   } else if (notification.type === "Mention") {
                      newNotificationDiv.addEventListener("click", () => window.location.href = `/note/${notification.postId}`);
@@ -4328,7 +4323,7 @@ if (pathName === "/notifications" || pathName === "/notifications.html") {
                      firebase.database().ref(`users/${notification.who}`).on("value", (snapshot) => {
                         const user = snapshot.exists() ? snapshot.val() : fakeUserData;
 
-                        newNotificationDiv.innerHTML = `<i class="fa-solid fa-at fa-lg" style="color: var(--main-color);"></i> <img class="notificationPfp" draggable=false src="https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${notification.who}%2F${user.pfp}?alt=media" /> @${user.username} mentioned you!`;
+                        newNotificationDiv.innerHTML = `${faIcon("at", size = "lg", color = "var(--main-color)").outerHTML} <img class="notificationPfp" draggable=false src="https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${notification.who}%2F${user.pfp}?alt=media" /> @${user.username} mentioned you!`;
                      })
                   } else {
                      // Handle other notification types...
@@ -4340,7 +4335,7 @@ if (pathName === "/notifications" || pathName === "/notifications.html") {
             } else {
                // Handle the case where there are no notifications
                const noNotificationsMessage = document.createElement("h1");
-               noNotificationsMessage.innerHTML = `<i class="fa-solid fa-face-frown"></i> You have no notifications.`;
+               noNotificationsMessage.innerHTML = `${faIcon("face-frown").outerHTML} You have no notifications.`;
                notificationsDiv.appendChild(noNotificationsMessage);
             }
          });
@@ -5116,7 +5111,7 @@ function unlockAchievement(achievement) {
                   new Audio("/assets/audio/transsocial_achievement_chime.wav").play();
                   document.getElementById("achievementUnlock").style.display = "block";
                   document.getElementById("achievementName").textContent = achievement;
-                  document.getElementById("achievementIcon").innerHTML = `<i class="fa-solid fa-comments"></i>`;
+                  document.getElementById("achievementIcon").appendChild(faIcon("comments"));
 
                   // unlock it
                   const date = new Date();
@@ -5142,7 +5137,7 @@ function unlockAchievement(achievement) {
                   new Audio("/assets/audio/transsocial_achievement_chime.wav").play();
                   document.getElementById("achievementUnlock").style.display = "block";
                   document.getElementById("achievementName").textContent = achievement;
-                  document.getElementById("achievementIcon").innerHTML = `<i class="fa-solid fa-user-plus"></i>`;
+                  document.getElementById("achievementIcon").appendChild(faIcon("user-plus"));
 
                   // unlock it
                   const date = new Date();
@@ -5168,7 +5163,7 @@ function unlockAchievement(achievement) {
                   new Audio("/assets/audio/transsocial_achievement_chime.wav").play();
                   document.getElementById("achievementUnlock").style.display = "block";
                   document.getElementById("achievementName").textContent = achievement;
-                  document.getElementById("achievementIcon").innerHTML = `<i class="fa-solid fa-bullhorn"></i>`;
+                  document.getElementById("achievementIcon").appendChild(faIcon("bullhorn"));
 
                   // unlock it
                   const date = new Date();
@@ -5342,7 +5337,7 @@ if (pathName === "/create_theme") {
          // this will prevent users from running functions they aren't supposed to while saving
          document.getElementById("saveThemeBtn").classList.add("disabled");
          document.getElementById("dontSaveThemeBtn").classList.add("disabled");
-         document.getElementById("saveThemeBtn").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Saving...`;
+         document.getElementById("saveThemeBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Saving...`;
 
          // check if the name already exists
          firebase.auth().onAuthStateChanged((user) => {
@@ -5514,7 +5509,7 @@ if (pathName === "/create_theme") {
                      button.addEventListener("click", () => {
                         // when clicked, we want the user to know their theme is being loaded
                         document.getElementById("savedThemes").style.display = "none"; // to ensure they aren't opening multiple
-                        document.getElementById("fetchingThemes").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Loading ${themeName}...`;
+                        document.getElementById("fetchingThemes").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Loading ${themeName}...`;
                         document.getElementById("fetchingThemes").style.display = "block";
 
                         // actually load the theme
@@ -5764,7 +5759,7 @@ if (pathName === "/create_theme") {
 
                            // after setting everything, close the modal and show the "savedThemes" again (just in case)
                            document.getElementById("loadTheme").close();
-                           document.getElementById("fetchingThemes").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Loading themes...`;
+                           document.getElementById("fetchingThemes").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Loading themes...`;
                            document.getElementById("savedThemes").style.display = "block";
                         });
                      });
@@ -6000,7 +5995,7 @@ if (pathName === "/userstudio" || pathName.startsWith("/userstudio/")) {
             if (themeData.legacy) {
                const warning = document.createElement("div");
                warning.className = "badge";
-               warning.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> Core`;
+               warning.innerHTML = `${faIcon("triangle-exclamation").outerHTML} Core`;
                themeDiv.appendChild(warning);
             }
 
