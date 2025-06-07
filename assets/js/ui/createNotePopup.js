@@ -157,7 +157,7 @@ function createNotePopup() {
             firebase.database().ref(`users/${noteData.whoSentIt}`).once("value", (snapshot) => {
                 const userData = snapshot.val();
 
-                document.getElementById("notePopupQuotePfp").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${noteData.whoSentIt}%2F${userData.pfp}?alt=media`;
+                document.getElementById("notePopupQuotePfp").src = storageLink(`images/pfp/${noteData.whoSentIt}/${userData.pfp}`);
                 document.getElementById("notePopupQuoteDisplay").textContent = userData.display;
                 document.getElementById("notePopupQuoteUsername").textContent = `@${userData.username}`;
                 document.getElementById("notePopupQuoteText").textContent = noteData.text;
