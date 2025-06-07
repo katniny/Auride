@@ -6498,8 +6498,8 @@ if (pathName === "/search") {
                }
                
                if (document.getElementById('note-${noteId}')) {
-                     noteDiv.remove();
-                  }
+                  noteDiv.remove();
+               } 
             }
          });
       });
