@@ -145,3 +145,11 @@
 .recommendedAccounts {
    margin-top: 285px;
 }
+
+.transsocialAccounts i {
+   color: var(--main-color);
+}
+
+.transsocialAccounts i.fa-solid.fa-circle-check {
+   margin-left: 5px;
+}
