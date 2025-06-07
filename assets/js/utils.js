@@ -9,3 +9,11 @@ function faIcon(name, size = null, anim = null, color = null, marginLeft = null)
    return icon;
 }
 
+function storageLink(path) {
+   let link = undefined;
+   storage.ref(path).getDownloadURL().then(function (url) {
+       link = url;
+   });
+   return link;
+}
+

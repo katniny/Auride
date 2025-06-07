@@ -172,14 +172,6 @@ if (pathName === "/suspended.html" || pathName === "/suspended") {
    });
 }
 
-function storageLink(path) {
-   let link = undefined;
-   storage.ref(path).getDownloadURL().then(function (url) {
-       link = url;
-   });
-   return link;
-}
-
 // Get notifications
 let unreadNotifications = null;
 
