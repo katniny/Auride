@@ -837,16 +837,10 @@ function getUserPfpSidebar() {
          // Get the users PFP and set it as userPfp.src
          const pfpRef = firebase.database().ref(`users/${uid}/pfp`);
 
-         pfpRef.once("value")
-            .then(function (snapshot) {
-               const step = snapshot.val();
-               const imageRef = storageRef.child(`images/pfp/${uid}/${step}`)
-
-               imageRef.getDownloadURL()
-                  .then((url) => {
-                     userPfp.src = url;
-                  })
-            })
+         pfpRef.get().then(function (snapshot) {
+            const pfp = snapshot.val();
+            userPfp.src = storageLink(`images/pfp/${uid}/${pfp}`);
+         })
       }
    })
 }
@@ -1749,8 +1743,7 @@ if (pathName.startsWith("/home") ||
       userPfp.className = "notePfp";
       firebase.database().ref("users/" + noteData.whoSentIt).get().then(function (snapshot) {
          const userData = snapshot.val();
-         // theres a way to get this url without hardcoding anything, right?
-         userPfp.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${noteData.whoSentIt}%2F${userData.pfp}?alt=media`;
+         userPfp.src = storageLink(`images/pfp/${noteData.whoSentIt}/${userData.pfp}`);
       });
       userPfp.draggable = false;
       userPfp.loading = "lazy";
@@ -1892,7 +1885,7 @@ if (pathName.startsWith("/home") ||
                if (isSuspended) {
                   quotePfp.src = "/assets/imgs/defaultPfp.png";
                } else {
-                  quotePfp.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${quoteData.whoSentIt}%2F${quoteUser.pfp}?alt=media`;
+                  quotePfp.src = storageLink(`images/pfp/${quoteData.whoSentIt}/${quoteUser.pfp}`);
                }
                container.appendChild(quotePfp);
 
@@ -2519,7 +2512,7 @@ if (!pathName.startsWith("/auth/")) {
    database.ref("users/G6GaJr8vPpeVdvenAntjOFYlbwr2").once("value", (snapshot) => {
       const data = snapshot.val();
       if (data !== null) {
-         document.getElementById(`katninyPfp`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2FG6GaJr8vPpeVdvenAntjOFYlbwr2%2F${data.pfp}?alt=media`;
+         document.getElementById(`katninyPfp`).src = storageLink(`images/pfp/G6GaJr8vPpeVdvenAntjOFYlbwr2/${data.pfp}`);
          document.getElementById(`katninyDisplay`).innerHTML = format(data.display, [ "html", "emoji" ]);
          document.getElementById("katninyDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
          document.getElementById("katninyDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
@@ -2531,7 +2524,7 @@ if (!pathName.startsWith("/auth/")) {
    database.ref("users/80vDnNb0rJbSjCvbiTF9EtvqtXw1").once("value", (snapshot) => {
       const data = snapshot.val();
       if (data !== null) {
-         document.getElementById(`transsocialPfp`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F80vDnNb0rJbSjCvbiTF9EtvqtXw1%2F${data.pfp}?alt=media`;
+         document.getElementById(`transsocialPfp`).src = storageLink(`images/pfp/80vDnNb0rJbSjCvbiTF9EtvqtXw1/${data.pfp}`);
          document.getElementById(`transsocialDisplay`).innerHTML = data.display;
          document.getElementById("transsocialDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
          document.getElementById("transsocialDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
@@ -2543,7 +2536,7 @@ if (!pathName.startsWith("/auth/")) {
    database.ref("users/4luqDI8627asR5EV8hOqb0YrRQF3").once("value", (snapshot) => {
       const data = snapshot.val();
       if (data !== null) {
-         document.getElementById(`katninystudiosPfp`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F4luqDI8627asR5EV8hOqb0YrRQF3%2F${data.pfp}?alt=media`;
+         document.getElementById(`katninystudiosPfp`).src = storageLink(`images/pfp/4luqDI8627asR5EV8hOqb0YrRQF3/${data.pfp}`);
          document.getElementById(`katninystudiosDisplay`).innerHTML = data.display;
          document.getElementById("katninystudiosDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
          document.getElementById("katninystudiosDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
@@ -2580,7 +2573,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
             if (profileData.suspensionStatus !== "suspended") {
                document.title = `${profileData.display} (@${profileData.username}) | TransSocial`;
                document.getElementById(`melissa`).style.display = "block";
-               document.getElementById(`userImage-profile`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${profileExists.user}%2F${profileData.pfp}?alt=media`;
+               document.getElementById(`userImage-profile`).src = storageLink(`images/pfp/${profileExists.user}/${profileData.pfp}`);
                document.getElementById(`display-profile`).innerHTML = format(profileData.display, [ "html", "emoji" ]);
                const badges = document.createElement("span");
                if (profileData.isVerified) {
@@ -2598,7 +2591,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
                document.getElementById(`username-profile`).textContent = `@${profileData.username}`;
 
                if (profileData.banner) {
-                  document.getElementById(`userImage-banner`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fbanner%2F${profileExists.user}%2F${profileData.banner}?alt=media`;
+                  document.getElementById(`userImage-banner`).src = storageLink(`images/banner/${profileExists.user}/${profileData.banner}`);
                }
 
                document.getElementById("interactingWithWho").textContent = `User Actions for @${profileData.username}`;
@@ -3092,7 +3085,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                         const quoteUser = snapshot.val();
 
                         if (quoteUser.suspensionStatus !== "suspended") {
-                           document.getElementById("noteQuotePfp").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${quoteData.whoSentIt}%2F${quoteUser.pfp}?alt=media`;
+                           document.getElementById("noteQuotePfp").src = storageLink(`images/pfp/${quoteData.whoSentIt}/${quoteUser.pfp}`);
                            document.getElementById("noteQuoteDisplay").textContent = quoteUser.display;
                            document.getElementById("noteQuoteUsername").textContent = `@${quoteUser.username}`;
                            document.getElementById("noteQuoteText").innerHTML = format(quoteData.text);
@@ -3152,7 +3145,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                      document.title = `@${profileData.username} on TransSocial`;
                   }
                   document.getElementById(`melissa`).style.display = "block";
-                  document.getElementById(`userImage-profile`).src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${noteData.whoSentIt}%2F${profileData.pfp}?alt=media`;
+                  document.getElementById(`userImage-profile`).src = storageLink(`images/pfp/${noteData.whoSentIt}/${profileData.pfp}`);
                   document.getElementById(`userImage-profile`).addEventListener("click", () => window.location.href = `/u/${profileData.username}`);
                   document.getElementById(`display-profile`).innerHTML = format(profileData.display, [ "html", "emoji" ]);
                   document.getElementById(`display-profile`).addEventListener("click", () => window.location.href = `/u/${profileData.username}`);
@@ -3631,11 +3624,11 @@ if (pathName === "/settings" || pathName === "/settings.html") {
 
             // Set user profile picture
             if (userData.pfp) {
-               document.getElementById("profilePicture_settings").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${user.uid}%2F${userData.pfp}?alt=media`;
+               document.getElementById("profilePicture_settings").src = storageLink(`images/pfp/${user.uid}/${userData.pfp}`);
             }
 
             if (userData.banner) {
-               document.getElementById("banner_settings").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fbanner%2F${user.uid}%2F${userData.banner}?alt=media`;
+               document.getElementById("banner_settings").src = storageLink(`images/banner/${user.uid}/${userData.banner}`);
             }
 
             // Display name
@@ -4738,7 +4731,7 @@ if (pathName === "/messages") {
                               const otherPerson = snapshot.val();
 
                               // Get pfp
-                              otherPersonPfp.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${dmData.user2}%2F${otherPerson.pfp}?alt=media`;
+                              otherPersonPfp.src = storageLink(`images/pfp/${dmData.user2}/${otherPerson.pfp}`);
                               otherPersonPfp.setAttribute("draggable", "false");
                               otherPersonPfp.classList.add("pfp");
                               dmDiv.appendChild(otherPersonPfp);
@@ -4767,7 +4760,7 @@ if (pathName === "/messages") {
                               const otherPerson = snapshot.val();
 
                               // Get pfp
-                              otherPersonPfp.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${dmData.user1}%2F${otherPerson.pfp}?alt=media`;
+                              otherPersonPfp.src = storageLink(`images/pfp/${dmData.user}/${otherPerson.pfp}`);
                               otherPersonPfp.setAttribute("draggable", "false");
                               otherPersonPfp.classList.add("pfp");
                               dmDiv.appendChild(otherPersonPfp);
@@ -4824,7 +4817,7 @@ if (pathName === "/messages") {
 
                      // Get user pfp
                      const userId_pfp = document.createElement("img");
-                     userId_pfp.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${userId}%2F${data.pfp}?alt=media`;
+                     userId_pfp.src = storageLink(`images/pfp/${userId}/${data.pfp}`);
                      userId_pfp.classList.add("selectUser-pfp");
                      userId_pfp.setAttribute("draggable", "false");
                      profileHolder.appendChild(userId_pfp);
@@ -4989,7 +4982,7 @@ firebase.auth().onAuthStateChanged((user) => {
          const data = snapshot.val();
 
          if (document.getElementById("userPfp-header")) {
-            document.getElementById("userPfp-header").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${user.uid}%2F${data.pfp}?alt=media`;
+            document.getElementById("userPfp-header").src = storageLink(`images/pfp/${user.uid}/${data.pfp}`);
          }
       })
    } else {
@@ -6002,7 +5995,7 @@ if (pathName === "/userstudio" || pathName.startsWith("/userstudio/")) {
 
             const thumbnail = document.createElement("img");
             if (themeData.hasThumbnail) {
-               thumbnail.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fthemes%2F${themeKey}%2Fthumbnail.png?alt=media`;
+               thumbnail.src = storageLink(`images/themes/${themeKey}/thumbnail.png`);
             } else {
                thumbnail.src = `/assets/imgs/themeimgunavailable.png`;
             }
@@ -6051,7 +6044,7 @@ if (pathName === "/userstudio" || pathName.startsWith("/userstudio/")) {
             document.getElementById("themeSelected").style.display = "block";
             console.log(themeData);
             if (themeData.hasThumbnail) {
-               document.getElementById("themeImg").src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fthemes%2F${themeKey}%2Fthumbnail.png?alt=media`;
+               document.getElementById("themeImg").src = storageLink(`images/themes/${themeKey}/thumbnail.png`);
             }
             if (!themeData.legacy) {
                document.getElementById("legacyTheme").remove();
@@ -6431,7 +6424,7 @@ if (pathName === "/search") {
 
                   const pfp = document.createElement("img");
                   pfp.classList.add("notePfp");
-                  pfp.src = `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/images%2Fpfp%2F${uid}%2F${userData.pfp}?alt=media`
+                  pfp.src = storageLink(`images/pfp/${uid}/${userData.pfp}`);
                   pfp.setAttribute("draggable", "false");
                   pfp.setAttribute("loading", "lazy");
 
