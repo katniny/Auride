@@ -1743,7 +1743,6 @@ if (pathName.startsWith("/home") ||
       userPfp.className = "notePfp";
       firebase.database().ref("users/" + noteData.whoSentIt).get().then(function (snapshot) {
          const userData = snapshot.val();
-         // theres a way to get this url without hardcoding anything, right?
          userPfp.src = storageLink(`images/pfp/${noteData.whoSentIt}/${userData.pfp}`);
       });
       userPfp.draggable = false;

@@ -10,10 +10,6 @@ function faIcon(name, size = null, anim = null, color = null, marginLeft = null)
 }
 
 function storageLink(path) {
-    let link = undefined;
-    storage.ref(path).getDownloadURL().then(function (url) {
-        link = url;
-    });
-    return link;
+    return `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/` + path.replaceAll("/", "%2F") + "?alt=media";
 }
 
