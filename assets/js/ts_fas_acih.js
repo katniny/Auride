@@ -173,7 +173,11 @@ if (pathName === "/suspended.html" || pathName === "/suspended") {
 }
 
 function storageLink(path) {
-   return `https://firebasestorage.googleapis.com/v0/b/${firebaseConfig.storageBucket}/o/` + path.replaceAll("/", "%2F") + "?alt=media";
+   let link = undefined;
+   storage.ref(path).getDownloadURL().then(function (url) {
+       link = url;
+   });
+   return link;
 }
 
 // Get notifications
@@ -841,16 +845,10 @@ function getUserPfpSidebar() {
          // Get the users PFP and set it as userPfp.src
          const pfpRef = firebase.database().ref(`users/${uid}/pfp`);
 
-         pfpRef.once("value")
-            .then(function (snapshot) {
-               const step = snapshot.val();
-               const imageRef = storageRef.child(`images/pfp/${uid}/${step}`)
-
-               imageRef.getDownloadURL()
-                  .then((url) => {
-                     userPfp.src = url;
-                  })
-            })
+         pfpRef.get().then(function (snapshot) {
+            const pfp = snapshot.val();
+            userPfp.src = storageLink(`images/pfp/${uid}/${pfp}`);
+         })
       }
    })
 }
