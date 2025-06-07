@@ -6496,6 +6496,10 @@ if (pathName === "/search") {
                if (noteContent.isDeleted !== true) {
                   document.getElementById("queriedNotes").appendChild(noteDiv);
                }
+
+               if (document.getElementById('note-${noteId}')) {
+                  noteDiv.remove();
+               }
             }
          });
       });
