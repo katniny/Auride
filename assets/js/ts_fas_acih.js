@@ -172,17 +172,6 @@ if (pathName === "/suspended.html" || pathName === "/suspended") {
    });
 }
 
-function faIcon(name, size = null, anim = null, color = null, marginLeft = null) {
-   const icon = document.createElement("i");
-   icon.classList.add("fa-solid");
-   icon.classList.add("fa-" + name);
-   if (size) icon.classList.add("fa-" + size);
-   if (anim) icon.classList.add("fa-" + anim);
-   if (color) icon.style.color = color;
-   if (marginLeft) icon.style.marginLeft = marginLeft;
-   return icon;
-}
-
 // Get notifications
 let unreadNotifications = null;
 
