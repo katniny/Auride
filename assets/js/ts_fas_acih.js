@@ -172,13 +172,14 @@ if (pathName === "/suspended.html" || pathName === "/suspended") {
    });
 }
 
-function faIcon(name, size = null, animation = null, color = null) {
+function faIcon(name, size = null, anim = null, color = null, marginLeft = null) {
    const icon = document.createElement("i");
    icon.classList.add("fa-solid");
    icon.classList.add("fa-" + name);
    if (size) icon.classList.add("fa-" + size);
-   if (animation) icon.classList.add("fa-" + animation);
+   if (anim) icon.classList.add("fa-" + anim);
    if (color) icon.style.color = color;
+   if (marginLeft) icon.style.marginLeft = marginLeft;
    return icon;
 }
 
@@ -347,7 +348,7 @@ function displayAndUsernameReserve() {
                display : displayName
             })
             .then(() => {
-               document.getElementById("displayAndUsernameBtn").innerHTML = `${faIcon("spinner", animation = "spin-pulse").outerHTML} Checking username...`;
+               document.getElementById("displayAndUsernameBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Checking username...`;
 
                firebase.database().ref(`taken-usernames/${username}`).once("value", (snapshot) => {
                   if (snapshot.exists()) {
@@ -362,7 +363,7 @@ function displayAndUsernameReserve() {
                   } else {
                      firebase.auth().onAuthStateChanged((user) => {
                         if (user) {
-                           document.getElementById("displayAndUsernameBtn").innerHTML = `${faIcon("spinner", animation = "spin-pulse").outerHTML} Applying username...`;
+                           document.getElementById("displayAndUsernameBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Applying username...`;
 
                            // reserve the name
                            firebase.database().ref(`taken-usernames/${username}`).update({
@@ -413,7 +414,7 @@ if (pathName === "/auth/done") {
 // Register Function
 function register() {
    if (pathName === "/auth/register.html" || pathName === "/auth/register") {
-      document.getElementById("registerBtn").innerHTML = `${faIcon("spinner", animation = "spin-pulse").outerHTML} Registering...`;
+      document.getElementById("registerBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Registering...`;
       document.getElementById("registerBtn").classList.add("disabled");
       document.getElementById("errorTxt").style.display = "none";
 
@@ -423,7 +424,7 @@ function register() {
 
       firebase.auth().createUserWithEmailAndPassword(email, password)
          .then((userCredential) => {
-            document.getElementById("registerBtn").innerHTML = `${faIcon("spinner", animation = "spin-pulse").outerHTML} Starting...`;
+            document.getElementById("registerBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Starting...`;
             firebase.database().ref(`users/${userCredential.uid}`).update({
                email : email
             }).then(() => {
@@ -448,7 +449,7 @@ function register() {
 
 // Login Function
 function login() {
-   document.getElementById("loginBtn").innerHTML = `${faIcon("spinner", animation = "spin-pulse").outerHTML} Logging in...`;
+   document.getElementById("loginBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Logging in...`;
    document.getElementById("loginBtn").classList.add("disabled");
    document.getElementById("errorTxt").style.display = "none";
 
@@ -2597,7 +2598,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
                   badges.style.marginLeft = "7px";
                }
                if (profileData.isSubscribed) {
-                  badges.innerHTML += '<i class="fa-solid fa-heart" style="margin-left: 3px;"></i>';
+                  badges.appendChild(faIcon("heart", marginLeft = "3px"));
                }
                if (profileData.activeContributor) {
                   badges.appendChild(faIcon("handshake-angle", size = "sm"));
@@ -2620,7 +2621,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
 
                   // add "remembering" after the username
                   const rememberingTxt = document.createElement("p");
-                  rememberingTxt.innerHTML = `<i class="fa-solid fa-dove"></i> Remembering @${profileData.username}. <a href="/blog/memorialized-accounts">Learn more about memorial accounts</a>.`;
+                  rememberingTxt.innerHTML = `${faIcon("dove").outerHTML} Remembering @${profileData.username}. <a href="/blog/memorialized-accounts">Learn more about memorial accounts</a>.`;
                   rememberingTxt.className = "rememberingUser";
                   document.getElementById("bio-profile").parentNode.insertBefore(rememberingTxt, document.getElementById("bio-profile"));
                }
@@ -3171,10 +3172,10 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                      badges.style.marginLeft = "7px";
                   }
                   if (profileData.isSubscribed) {
-                     badges.innerHTML += '<i class="fa-solid fa-heart fa-sm" style="margin-left: 3px;"></i>';
+                     badges.appendChild(faIcon("heart", size = "sm", marginLeft = "3px"));
                   }
                   if (profileData.activeContributor) {
-                     badges.innerHTML += '<i class="fa-solid fa-handshake-angle fa-sm" style="margin-left: 3px;"></i>';
+                     badges.appendChild(faIcon("handshake-angle", size = "sm", marginLeft = "3px"));
                   }
                   badges.classList.add("noteBadges");
                   document.getElementById("display-profile").appendChild(badges);
@@ -3794,7 +3795,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
       if (!document.getElementById("sendPasswordReset").classList.contains("disabled")) {
          document.getElementById("sendPasswordReset").classList.add("disabled")
          const email = document.getElementById("email-address").value;
-         document.getElementById("sendPasswordReset").innerHTML = `${faIcon("spinner", animation = "spin-pulse").outerHTML} Sending...`;
+         document.getElementById("sendPasswordReset").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Sending...`;
 
          firebase.auth().sendPasswordResetEmail(email)
             .then(() => {
@@ -4225,7 +4226,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
    }
 
    function enableDms() {
-      document.getElementById("enableDms").innerHTML = `${faIcon("spinner", animation = "spin-pulse").outerHTML} Enabling...`;
+      document.getElementById("enableDms").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Enabling...`;
       document.getElementById("enableDms").classList.add("disabled");
       document.getElementById("disableDms").classList.add("disabled");
 
@@ -4241,7 +4242,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
    }
 
    function disableDms() {
-      document.getElementById("disableDms").innerHTML = `${faIcon("spinner", animation = "spin-pulse").outerHTML} Disabling...`;
+      document.getElementById("disableDms").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Disabling...`;
       document.getElementById("enableDms").classList.add("disabled");
       document.getElementById("disableDms").classList.add("disabled");
 
@@ -5347,7 +5348,7 @@ if (pathName === "/create_theme") {
          // this will prevent users from running functions they aren't supposed to while saving
          document.getElementById("saveThemeBtn").classList.add("disabled");
          document.getElementById("dontSaveThemeBtn").classList.add("disabled");
-         document.getElementById("saveThemeBtn").innerHTML = `${faIcon("spinner", animation = "spin-pulse").outerHTML} Saving...`;
+         document.getElementById("saveThemeBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Saving...`;
 
          // check if the name already exists
          firebase.auth().onAuthStateChanged((user) => {
@@ -5519,7 +5520,7 @@ if (pathName === "/create_theme") {
                      button.addEventListener("click", () => {
                         // when clicked, we want the user to know their theme is being loaded
                         document.getElementById("savedThemes").style.display = "none"; // to ensure they aren't opening multiple
-                        document.getElementById("fetchingThemes").innerHTML = `${faIcon("spinner", animation = "spin-pulse").outerHTML} Loading ${themeName}...`;
+                        document.getElementById("fetchingThemes").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Loading ${themeName}...`;
                         document.getElementById("fetchingThemes").style.display = "block";
 
                         // actually load the theme
@@ -5769,7 +5770,7 @@ if (pathName === "/create_theme") {
 
                            // after setting everything, close the modal and show the "savedThemes" again (just in case)
                            document.getElementById("loadTheme").close();
-                           document.getElementById("fetchingThemes").innerHTML = `${faIcon("spinner", animation = "spin-pulse").outerHTML} Loading themes...`;
+                           document.getElementById("fetchingThemes").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Loading themes...`;
                            document.getElementById("savedThemes").style.display = "block";
                         });
                      });

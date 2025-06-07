@@ -10,7 +10,7 @@ document.getElementById("fileInput").addEventListener("change", function (event)
     firebase.auth().onAuthStateChanged((user) => {
         const file = event.target.files[0];
 
-        document.getElementById("changePfp").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Checking file...`;
+        document.getElementById("changePfp").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Checking file...`;
         document.getElementById("changePfp").classList.add("disabled");
 
         if (file) {
@@ -29,7 +29,7 @@ document.getElementById("fileInput").addEventListener("change", function (event)
                         const storageRef = firebase.storage().ref();
                         const fileRef = storageRef.child(`images/pfp/${user.uid}/${file.name}`);
 
-                        document.getElementById("changePfp").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Uploading image...`;
+                        document.getElementById("changePfp").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Uploading image...`;
 
                         fileRef.put(file).then(function (snapshot) {
                             snapshot.ref.getDownloadURL().then(function (downloadURL) {
@@ -44,7 +44,7 @@ document.getElementById("fileInput").addEventListener("change", function (event)
                                                 if (oldPfpName) {
                                                     const oldFileRef = storageRef.child(`images/pfp/${user.uid}/${oldPfpName}`);
                                                     oldFileRef.delete().then(() => {
-                                                        document.getElementById("changePfp").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Checking...`;
+                                                        document.getElementById("changePfp").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Checking...`;
                                                     }).catch((error) => {
                                                         document.getElementById("errorUploadingPfp").style.display = "block";
                                                         document.getElementById("errorUploadingPfp").textContent = `Failed to upload profile picture: ${error.message}`;
@@ -54,7 +54,7 @@ document.getElementById("fileInput").addEventListener("change", function (event)
                                     })
                                 });
 
-                                document.getElementById("changePfp").innerHTML = `<i class="fa-solid fa-spinner fa-spin-pulse"></i> Done!`;
+                                document.getElementById("changePfp").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Done!`;
                                 window.location.reload();
                             });
                         }).catch(function (error) {
