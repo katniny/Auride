@@ -545,6 +545,12 @@
 */
 @import url("rememberingUser.css");
 
+/* 
+   banner on the home.html page when a service outage
+   is occurring
+*/
+@import url("serviceOutage.css");
+
 /* fonts */
 @font-face {
    font-family: "Gabarito";
