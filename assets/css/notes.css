@@ -297,6 +297,7 @@
    max-height: 425px;
    border-radius: 5px;
    margin: 5px;
+   cursor: zoom-in;
 }
 
 @media (max-width: 425px) {

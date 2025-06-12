@@ -1808,11 +1808,47 @@ if (pathName.startsWith("/home") ||
          if (isVideo) {
             media.controls = true;
             media.muted = true;
-            // honestly why are we even doing this?
             media.loop = true;
             media.autoplay = userAutoplayPreference;
          } else {
-            media.draggable = "false";
+            media.draggable = false;
+            media.onclick = () => {
+               // create modal elements
+               const modal = document.createElement("div");
+               const modalImg = document.createElement("img");
+
+               // style modal
+               Object.assign(modal.style, {
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  width: "100vw",
+                  height: "100vh",
+                  background: "rgba(0, 0, 0, 0.8)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  zIndex: 9999,
+                  cursor: "zoom-out"
+               });
+
+               Object.assign(modalImg.style, {
+                  maxWidth: "90%",
+                  maxHeight: "90%",
+                  borderRadius: "8px",
+                  boxShadow: "0 0 15px rgba(0, 0, 0, 0.5)"
+               });
+
+               modalImg.src = media.src;
+
+               // close modal on click
+               modal.onclick = () => {
+                  document.body.removeChild(modal);
+               };
+
+               modal.appendChild(modalImg);
+               document.body.appendChild(modal);
+            };
          }
 
          noteDiv.appendChild(media);
