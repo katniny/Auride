@@ -9,6 +9,7 @@ dialog {
    animation: openPopup 0.25s ease;
    max-height: 600px;
    overflow-y: auto;
+   -webkit-app-region: no-drag;
 }
 
 

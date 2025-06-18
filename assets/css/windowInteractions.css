@@ -1,0 +1,17 @@
+.windowInteraction {
+    margin-left: 5px;
+    cursor: pointer;
+    
+}
+
+.windowInteraction i {
+    transition: all 0.1s ease;
+}
+
+.windowInteraction:hover i {
+    color: var(--main-color);
+}
+
+.windowInteraction.close:hover i {
+    color: var(--error-text);
+}

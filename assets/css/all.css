@@ -556,6 +556,11 @@
 */
 @import url("info.css");
 
+/*
+   for the window interactions in the app
+*/
+@import url("windowInteractions.css");
+
 /* fonts */
 @font-face {
    font-family: "Gabarito";
