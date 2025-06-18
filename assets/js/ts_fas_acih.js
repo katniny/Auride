@@ -172,25 +172,6 @@ if (pathName === "/suspended.html" || pathName === "/suspended") {
    });
 }
 
-// Get notifications
-let unreadNotifications = null;
-
-firebase.auth().onAuthStateChanged((user) => {
-   if (user) {
-      firebase.database().ref(`users/${user.uid}/notifications/unread`).on("value", (snapshot) => {
-         unreadNotifications = snapshot.val();
-         if (unreadNotifications !== null && unreadNotifications !== 0) {
-            document.getElementById("notificationsCount").classList.add("show");
-            document.getElementById("notificationsCount").textContent = `${unreadNotifications}`;
-         } else {
-            if (document.getElementById("notificationsCount")) {
-               document.getElementById("notificationsCount").classList.remove("show");
-            }
-         }
-      })
-   }
-})
-
 // TransSocial Update
 if (hasUpdateNotes) {
    firebase.auth().onAuthStateChanged((user) => {
@@ -4289,11 +4270,6 @@ function acceptCookies() {
 if (pathName === "/notifications" || pathName === "/notifications.html") {
    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-         // Clear notifications
-         firebase.database().ref(`users/${user.uid}/notifications`).update({
-            unread: 0
-         })
-
          // Show notifications
          const notificationsRef = firebase.database().ref(`users/${user.uid}/notifications`);
 

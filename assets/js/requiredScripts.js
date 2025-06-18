@@ -50,6 +50,9 @@ async function loadAllScripts() {
       // our note creation modal
       await loadScript("/assets/js/ui/createNotePopup.js", false);
 
+      // notifications
+      await loadScript("/assets/js/notifications.js", false);
+
       // temp
       await loadScript("/assets/js/ui/editNoteUI.js", false);
       await loadScript("/assets/js/cwDescriptions.js", false);

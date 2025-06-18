@@ -551,6 +551,11 @@
 */
 @import url("serviceOutage.css");
 
+/*
+   for good, warning, and caution info types
+*/
+@import url("info.css");
+
 /* fonts */
 @font-face {
    font-family: "Gabarito";

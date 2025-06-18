@@ -1,5 +1,5 @@
-let transsocialVersion = "v2025.6.11";
-let transsocialUpdate = "v20250611-3";
+let transsocialVersion = "v2025.6.17";
+let transsocialUpdate = "v20250617-3";
 let transsocialReleaseVersion = "pre-alpha";
 let hasUpdateNotes = true;
 
