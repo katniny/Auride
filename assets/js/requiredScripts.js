@@ -53,6 +53,9 @@ async function loadAllScripts() {
       // notifications
       await loadScript("/assets/js/notifications.js", false);
 
+      // for the transsocial app
+      await loadScript("/assets/js/app/detectApp.js", false);
+
       // temp
       await loadScript("/assets/js/ui/editNoteUI.js", false);
       await loadScript("/assets/js/cwDescriptions.js", false);
