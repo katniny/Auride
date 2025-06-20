@@ -3567,7 +3567,7 @@ async function publishNote() {
                // then, make note div
                const newNote = document.createElement("div");
                newNote.innerHTML = `
-                  <img class="notePfp" draggable="false" loading="lazy" style="visibility: visible; opacity: 1;" src="${document.getElementById("userPfp-sidebar").src}"><a class="noteDisplay" href="/u/${document.getElementById("displayName-sidebar").textContent}">katty!</a>
+                  <img class="notePfp" draggable="false" loading="lazy" style="visibility: visible; opacity: 1;" src="${document.getElementById("userPfp-sidebar").src}"><a class="noteDisplay" href="/u/${document.getElementById("displayName-sidebar").textContent}">${document.getElementById("displayName-sidebar").textContent}</a>
                   <br><a class="noteUsername" href="/u/${document.getElementById("username-pronouns-sidebar")}">${document.getElementById("username-pronouns-sidebar").textContent} • 1s</a><p class="noteText">${postData.text}</p><div class="buttonRow"><p class="likeBtn" id="like-${postData.id}"><i class="fa-solid fa-heart" aria-hidden="true"></i> 0</p><p class="renoteBtn" id="renote-${postData.id}"><i class="fa-solid fa-retweet" aria-hidden="true"></i> 0</p></div>
                   <p class="noteIsBeingPreviewed"><i class="fa-solid fa-eye"></i> Your note was successfully sent, but this is a preview. To edit, favorite, or quote renote it, please refresh the page. <a href="/blog/note-previews.html">Learn more</a>.</p>
                `
