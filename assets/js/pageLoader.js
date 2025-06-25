@@ -180,7 +180,7 @@ firebase.auth().onAuthStateChanged((user) => {
       loader.classList.add("loader-hidden");
 
       loader.addEventListener("transitioned", () => {
-         document.body.removeChild("loader");
+        document.body.removeChild("loader");
       })
     }
 })
