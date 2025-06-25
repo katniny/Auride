@@ -2,20 +2,20 @@ const pageLoaderHTML = `
    <div class="loader" id="loader">
       <p style="position: fixed; left: 0; top: 0; color: var(--text-semi-transparent); transform: translateY(0px);">&copy; Katniny Studios 2025</p>
       <p style="position: fixed; left: 0; top: 17px; color: var(--text-semi-transparent); transform: translateY(0px);">Katniny Online Services</p>
-      <p style="position: fixed; left: 0; top: 35px; color: var(--text-semi-transparent); transform: translateY(0px);" class="loaderVersion">TransSocial ${transsocialVersion}_${transsocialReleaseVersion}</p>
-      <img src="/assets/imgs/favicon.png" alt="TransSocial logo" draggable="false" />
+      <p style="position: fixed; left: 0; top: 35px; color: var(--text-semi-transparent); transform: translateY(0px);" class="loaderVersion">Auride ${aurideVersion}_${aurideReleaseVersion}</p>
+      <img src="/assets/imgs/favicon.png" alt="Auride logo" draggable="false" />
       <p><strong>Did you know?</strong></p>
       <p id="loaderQuote" style="position: absolute; margin-top: 40px;">
-         <!-- If someone tries to use TransSocial with JavaScript -->
+         <!-- If someone tries to use Auride with JavaScript -->
          <noscript>
             <div class="noJavaScript">
-               TransSocial requires JavaScript to run
+               Auride requires JavaScript to run
             </div>
          </noscript>
       </p>
 
-      <div class="transSocialLoadLong" id="transSocialLoadLong">
-         <p>TransSocial not loading?</p>
+      <div class="aurideLoadLong" id="aurideLoadLong">
+         <p>Auride not loading?</p>
          <a href="https://twitter.com/transs_ocial" target="_blank" style="position: absolute; top: 100px; left: 30px; color: var(--main-color); text-decoration: none;"><i class="fa-brands fa-twitter" style="color: var(--main-color); margin-right: 3px;"></i> Let us know</a>
       </div>
    </div>
@@ -56,7 +56,7 @@ const quotes = [
    "Cats have a special 'kitty loaf' position where they tuck their paws underneath themselves. It's a sign of contentment and security.",
    "When cats follow you around the house, it's their way of showing affection and wanting to be close to you.",
    "Many cats enjoy playing with boxes and paper bags, finding them irresistible for their fun and cozy hideouts.",
-   "TransSocial has 31 cats facts just for the loading quote.",
+   "Auride has 31 cats facts just for the loading quote.",
    "A cat was mayor of a town in Alaska for 20 years.",
    "The richest cat in the world had £7,000,000!",
    "In 1963, a cat went to space.",
@@ -135,7 +135,7 @@ firebase.auth().onAuthStateChanged((user) => {
                             font-family: "OpenDyslexic", sans-serif;
                         }
 
-                        .transsocialAccounts {
+                        .aurideAccounts {
                             font-size: 0.85rem;
                         }
 
@@ -195,7 +195,7 @@ const timerId = setInterval(countdown, 1000);
 function countdown() {
     if (timeLeft == 0) {
         clearTimeout(timerId);
-        var loadingWarning = document.getElementById("transSocialLoadLong");
+        var loadingWarning = document.getElementById("aurideLoadLong");
         loadingWarning.style.display = "block";
     } else {
         timeLeft--;

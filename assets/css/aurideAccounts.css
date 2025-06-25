@@ -1,4 +1,4 @@
-.transsocialAccounts,
+.aurideAccounts,
 .recommendedAccounts {
    top: 0;
    right: 0;
@@ -17,7 +17,7 @@
       display: none;
    }
 
-   .transsocialAccounts {
+   .aurideAccounts {
       display: none;
    }
 }
@@ -27,12 +27,12 @@
       display: none;
    }
 
-   .transsocialAccounts {
+   .aurideAccounts {
       display: none;
    }
 }
 
-.transsocialAccounts .recommendAcc-pfp,
+.aurideAccounts .recommendAcc-pfp,
 .recommendedAccounts .recommendAcc-pfp {
    width: 50px;
    height: 50px;
@@ -41,7 +41,7 @@
    margin-top: 10px;
 }
 
-.transsocialAccounts #katninyDisplay,
+.aurideAccounts #katninyDisplay,
 .recommendedAccounts #user1Display {
    float: left;
    margin-top: 10px;
@@ -50,7 +50,7 @@
    overflow-wrap: break-word;
 }
 
-.transsocialAccounts #katninyDisplay .emoji,
+.aurideAccounts #katninyDisplay .emoji,
 .recommendedAccounts #user1Display .emoji {
    height: 1em;
    width: 1em;
@@ -58,7 +58,7 @@
    vertical-align: -0.1em;
 }
 
-.transsocialAccounts #katninyUser-pronouns,
+.aurideAccounts #katninyUser-pronouns,
 .recommendedAccounts #user1User-pronouns {
    float: left;
    margin-top: 10px;
@@ -72,7 +72,7 @@
    transform: translate(-98px, 5px);
 }
 
-.transsocialAccounts #transsocialPfp,
+.aurideAccounts #auridePfp,
 .recommendedAccounts #user2Pfp {
    width: 50px;
    height: 50px;
@@ -80,7 +80,7 @@
    float: left;
 }
 
-.transsocialAccounts #transsocialDisplay,
+.aurideAccounts #aurideDisplay,
 .recommendedAccounts #user2Display {
    float: left;
    margin-top: 10px;
@@ -88,7 +88,7 @@
    transform: translateY(5px);
 }
 
-.transsocialAccounts #transsocialUser-pronouns,
+.aurideAccounts #aurideUser-pronouns,
 .recommendedAccounts #user2User-pronouns {
    float: left;
    margin-top: 10px;
@@ -96,7 +96,7 @@
    color: var(--text-semi-transparent);
 }
 
-.transsocialAccounts #katninystudiosPfp,
+.aurideAccounts #katninystudiosPfp,
 .recommendedAccounts #user2Pfp {
    width: 50px;
    height: 50px;
@@ -104,7 +104,7 @@
    float: left;
 }
 
-.transsocialAccounts #katninystudiosDisplay,
+.aurideAccounts #katninystudiosDisplay,
 .recommendedAccounts #user2Display {
    float: left;
    margin-top: 10px;
@@ -112,7 +112,7 @@
    transform: translateY(5px);
 }
 
-.transsocialAccounts #katninystudiosUser-pronouns,
+.aurideAccounts #katninystudiosUser-pronouns,
 .recommendedAccounts #user2User-pronouns {
    float: left;
    margin-top: 10px;
@@ -124,7 +124,7 @@
    transform: translate(-122px, 5px);
 }
 
-.transsocialAccounts .followBtn,
+.aurideAccounts .followBtn,
 .recommendedAccounts .followBtn {
    background: transparent;
    padding: 5px;
@@ -135,7 +135,7 @@
    transition: all 0.1s linear;
 }
 
-.transsocialAccounts .followBtn:hover,
+.aurideAccounts .followBtn:hover,
 .recommendedAccounts .followBtn:hover {
    background: var(--main-color);
    padding: 5px;
@@ -146,10 +146,10 @@
    margin-top: 285px;
 }
 
-.transsocialAccounts i {
+.aurideAccounts i {
    color: var(--main-color);
 }
 
-.transsocialAccounts i.fa-solid.fa-circle-check {
+.aurideAccounts i.fa-solid.fa-circle-check {
    margin-left: 5px;
 }

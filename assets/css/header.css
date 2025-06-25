@@ -78,7 +78,7 @@
 }
 
 @media (max-width: 510px) {
-   #transsocialHeaderLogo {
+   #aurideHeaderLogo {
       transform: translate(45px, 0px);
    }
 }

@@ -34,7 +34,7 @@ const modal = `
             </div>
         </div>
 
-        <p style="font-size: small; color: var(--text-semi-transparent); display: none; transform: translateY(-10px);" id="hasntBeenUploadedNotice">Image hasn't been uploaded to TransSocial's server yet. This is just a preview.</p>
+        <p style="font-size: small; color: var(--text-semi-transparent); display: none; transform: translateY(-10px);" id="hasntBeenUploadedNotice">Image hasn't been uploaded to Auride's server yet. This is just a preview.</p>
         <a href="javascript:void(0);" style="display: none; float: left; max-width: auto; transform: translateY(-10px);" id="removeUploadedImage" onclick="removeImage()">Remove Image</a> <a href="javascript:void(0);" style="display: none; float: left; max-width: auto; transform: translateY(-10px); margin-left: 7px;" id="addAltTextToImage" onclick="addAltText()">Add Alt Text</a>
         <p id="noteError"></p>
     </div>
@@ -46,7 +46,7 @@ const modal = `
         <br />
 
         <h2 style="margin-top: 10px;">Add a content warning</h2> 
-        <p style="font-size: 14px; color: var(--text-semi-transparent);">Add a content warning to this note by selecting a category. This helps people see only the content they want to on TransSocial.</p>
+        <p style="font-size: 14px; color: var(--text-semi-transparent);">Add a content warning to this note by selecting a category. This helps people see only the content they want to on Auride.</p>
 
         <!-- NSFW Dropdown -->
         <span class="noteContainsNsfwContent">Does your note contain NSFW content?</span> 

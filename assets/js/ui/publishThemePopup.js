@@ -7,7 +7,7 @@ const publishThemePopupHTML = `
 
     <textarea id="themeDescription" placeholder="Enter a description for this theme!"></textarea>
     <p id="characterLimit_ThemeDescription" style="color: var(--text-semi-transparent)">0/250</p>
-    <p id="themeSuccessfullyPublished" style="color: var(--success-color); display: none;">Your theme has been successfully published! It is available on the TransSocial User Studio <a href="/userstudio" style="color: var(--main-color)">here.</a></p>
+    <p id="themeSuccessfullyPublished" style="color: var(--success-color); display: none;">Your theme has been successfully published! It is available on the Auride User Studio <a href="/userstudio" style="color: var(--main-color)">here.</a></p>
 
     <br />
 

@@ -25,7 +25,7 @@
    text-align: center;
 }
 
-.loader #transSocialLoadLong {
+.loader #aurideLoadLong {
    /*display: none;*/
    position: fixed;
    left: 46vw;
@@ -34,10 +34,10 @@
    transform: translateY(0px);
    width: 100%;
    display: none;
-   animation: transsocialLoadLong 0.25s ease;
+   animation: aurideLoadLong 0.25s ease;
 }
 
-@keyframes transsocialLoadLong {
+@keyframes aurideLoadLong {
    0% {
       transform: translateY(100px);
    }
@@ -46,7 +46,7 @@
    }
 }
 
-.loader #transSocialLoadFail {
+.loader #aurideLoadFail {
    color: var(--error-text);
    transform: translateY(100px);
    display: none;

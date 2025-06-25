@@ -1,12 +1,12 @@
 name: Enhancement
-description: "File an enhancement request for TransSocial"
+description: "File an enhancement request for Auride"
 title: "[Enhancement]: "
 labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thank you for taking the time to help us improve TransSocial! Please note that these tickets are to be treated seriously, any content deemed disrespectful, non-serious, or does not adequately follow the steps below will be immediately closed and potentially removed.
+        Thank you for taking the time to help us improve Auride! Please note that these tickets are to be treated seriously, any content deemed disrespectful, non-serious, or does not adequately follow the steps below will be immediately closed and potentially removed.
 
         This is an English-only form. If you do not speak English, please use Google Translate or similar to translate into English.
   - type: textarea
@@ -17,7 +17,7 @@ body:
       required: true
   - type: textarea
     attributes:
-      label: How would your feature improve TransSocial?
+      label: How would your feature improve Auride?
     validations:
       required: true
   - type: textarea

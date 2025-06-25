@@ -98,28 +98,28 @@ function pushNotification(title, body, clickCallback) {
 function getNotificationType(who, type, noteId) {
     if (type === "Reply") {
         const title = `${who} replied to your note!`;
-        const body = "Click on this notification to see the reply, or go to TransSocial!";
+        const body = "Click on this notification to see the reply, or go to Auride!";
         
         pushNotification(title, body, () => {
             window.location.href = `/note/${noteId}`;
         });
     } else if (type === "Love") {
         const title = `${who} loved your note!`;
-        const body = `Click on this notification to see the note ${who} loved, or go to TransSocial!`;
+        const body = `Click on this notification to see the note ${who} loved, or go to Auride!`;
         
         pushNotification(title, body, () => {
             window.location.href = `/note/${noteId}`;
         });
     } else if (type === "Renote") {
         const title = `${who} renoted your note!`;
-        const body = `Click on this notification to see the note ${who} renoted, or go to TransSocial!`;
+        const body = `Click on this notification to see the note ${who} renoted, or go to Auride!`;
         
         pushNotification(title, body, () => {
             window.location.href = `/note/${noteId}`;
         });
     } else if (type === "Mention") {
         const title = `${who} mentioned you!`;
-        const body = `Click on this notification to see the note ${who} mentioned you in, or go to TransSocial!`;
+        const body = `Click on this notification to see the note ${who} mentioned you in, or go to Auride!`;
         
         pushNotification(title, body, () => {
             window.location.href = `/note/${noteId}`;
