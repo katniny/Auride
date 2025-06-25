@@ -1,6 +1,6 @@
-let aurideVersion = "v2025.6.17";
-let aurideUpdate = "v20250617-3";
-let aurideReleaseVersion = "pre-alpha";
+let aurideVersion = "v2025.6.25";
+let aurideUpdate = "v20250625-1";
+let aurideReleaseVersion = "alpha";
 let hasUpdateNotes = true;
 
 const notices = document.getElementsByClassName("version-notice");
