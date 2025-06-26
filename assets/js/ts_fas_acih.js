@@ -57,7 +57,7 @@ if (document.getElementById("userBrowser")) { // environment settings
    document.getElementById("userBrowserVer").textContent = browserVersion;
 }
 
-// if on outdated browser, dont let the user use transsocial
+// if on outdated browser, dont let the user use auride
 // dont bother with ie, dont even work at all
 const outdatedBrowsers = [
    ["Mozilla Firefox", 98  ],
@@ -70,7 +70,7 @@ const outdatedBrowsers = [
 
 for (const [browser, version] of outdatedBrowsers) {
    if (browserName === browser) {
-      // when <dialog> (the latest web tech transsocial uses) started getting supported
+      // when <dialog> (the latest web tech auride uses) started getting supported
       if (document.getElementById("version_browser")) {
          document.getElementById("version_browser").textContent = `${browser} version ${version}`;
       }
@@ -172,11 +172,11 @@ if (pathName === "/suspended.html" || pathName === "/suspended") {
    });
 }
 
-// TransSocial Update
+// Auride Update
 if (hasUpdateNotes) {
    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-         firebase.database().ref(`users/${user.uid}/readUpdates/${transsocialUpdate}`).on("value", (snapshot) => {
+         firebase.database().ref(`users/${user.uid}/readUpdates/${aurideUpdate}`).on("value", (snapshot) => {
             const hasDoneIt = snapshot.exists();
 
             if (!hasDoneIt) {
@@ -195,7 +195,7 @@ if (hasUpdateNotes) {
    firebase.auth().onAuthStateChanged((user) => {
       if (pathName === "/updates") {
          if (user) {
-            firebase.database().ref(`users/${user.uid}/readUpdates/${transsocialUpdate}`).update({
+            firebase.database().ref(`users/${user.uid}/readUpdates/${aurideUpdate}`).update({
                read: true,
             })
          }
@@ -216,9 +216,9 @@ if (pathName === "/auth/register" || pathName === "/auth/register.html") {
    const url = new URL(window.location.href);
    const urlParam = url.searchParams.get("return_to");
 
-   if (urlParam && urlParam === "https://music.transs.social/") {
+   if (urlParam && urlParam === "https://music.auride.xyz/") {
       document.getElementById("redirectNotice").innerHTML = `${faIcon("triangle-exclamation").outerHTML} You'll be returned to TransMusic after you create your account.`;
-   } else if (urlParam && urlParam !== "https://music.transs.social/") {
+   } else if (urlParam && urlParam !== "https://music.auride.xyz/") {
       document.getElementById("redirectNotice").innerHTML = `${faIcon("triangle-exclamation").outerHTML} You'll be returned to ${urlParam} after you create your account.`;
    } else {
       document.getElementById("redirectNotice").remove();
@@ -2452,9 +2452,9 @@ function hideSidebarButtons() {
 
 // Close help prompt
 function closeHelpPrompt() {
-   const supportTransSocial = document.getElementById("pleaseDonate");
+   const supportAuride = document.getElementById("pleaseDonate");
 
-   supportTransSocial.style.display = "none";
+   supportAuride.style.display = "none";
 }
 
 // Swap Note Settings/Creation Tab
@@ -2524,7 +2524,7 @@ function loadEverything() {
    })
 }
 
-// TransSocial account stuff
+// Auride account stuff
 if (!pathName.startsWith("/auth/")) {
    database.ref("users/G6GaJr8vPpeVdvenAntjOFYlbwr2").once("value", (snapshot) => {
       const data = snapshot.val();
@@ -2541,12 +2541,12 @@ if (!pathName.startsWith("/auth/")) {
    database.ref("users/80vDnNb0rJbSjCvbiTF9EtvqtXw1").once("value", (snapshot) => {
       const data = snapshot.val();
       if (data !== null) {
-         document.getElementById(`transsocialPfp`).src = storageLink(`images/pfp/80vDnNb0rJbSjCvbiTF9EtvqtXw1/${data.pfp}`);
-         document.getElementById(`transsocialDisplay`).innerHTML = data.display;
-         document.getElementById("transsocialDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
-         document.getElementById("transsocialDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
+         document.getElementById(`auridePfp`).src = storageLink(`images/pfp/80vDnNb0rJbSjCvbiTF9EtvqtXw1/${data.pfp}`);
+         document.getElementById(`aurideDisplay`).innerHTML = data.display;
+         document.getElementById("aurideDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
+         document.getElementById("aurideDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
          document.getElementById(`followBtn-2`).href = `/u/${data.username}`;
-         document.getElementById(`transsocialUser-pronouns`).textContent = `@${data.username}`;
+         document.getElementById(`aurideUser-pronouns`).textContent = `@${data.username}`;
       }
    });
 
@@ -2588,7 +2588,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
             profileData = snapshot.val();
 
             if (profileData.suspensionStatus !== "suspended") {
-               document.title = `${profileData.display} (@${profileData.username}) | TransSocial`;
+               document.title = `${profileData.display} (@${profileData.username}) | Auride`;
                document.getElementById(`melissa`).style.display = "block";
                document.getElementById(`userImage-profile`).src = storageLink(`images/pfp/${profileExists.user}/${profileData.pfp}`);
                document.getElementById(`display-profile`).innerHTML = format(profileData.display, [ "html", "emoji" ]);
@@ -2687,7 +2687,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
 
                document.getElementById("userNotFound").innerHTML = `
                   <h1>User is unavailable.</h1>
-                  <p>This user is suspended from TransSocial, so you cannot view their profile. If they get unsuspended--if ever--their profile will be available to view again.</p>
+                  <p>This user is suspended from Auride, so you cannot view their profile. If they get unsuspended--if ever--their profile will be available to view again.</p>
 
                   <a href="/home"><button>Go Home</button></a>
                `
@@ -2755,7 +2755,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
 
          if (unlocked === true) {
             document.getElementById("firstStepsAchievement").classList.remove("locked");
-            document.getElementById("unlockDescription_fs").textContent = "You've taken the plunge! Welcome to TransSocial! (Create a note)";
+            document.getElementById("unlockDescription_fs").textContent = "You've taken the plunge! Welcome to Auride! (Create a note)";
             document.getElementById("unlockDate_fs").textContent = `Unlocked ${data.unlockedWhen}`;
          } else {
             firebase.database().ref(`users/${profileExists.user}`).once("value", (snapshot) => {
@@ -2789,7 +2789,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
 
          if (unlocked === true) {
             document.getElementById("theSocialButterflyAchievement").classList.remove("locked");
-            document.getElementById("unlockDescription_tsb").textContent = "Spread your wings and fly! (Follow another user on TransSocial)";
+            document.getElementById("unlockDescription_tsb").textContent = "Spread your wings and fly! (Follow another user on Auride)";
             document.getElementById("unlockDate_tsb").textContent = `Unlocked ${data.unlockedWhen}`;
          } else {
             firebase.database().ref(`users/${profileExists.user}`).once("value", (snapshot) => {
@@ -3157,9 +3157,9 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                const profileData = snapshot.val();
                if (profileData.suspensionStatus !== "suspended") {
                   if (noteData.text !== "") {
-                     document.title = `"${noteData.text}" / @${profileData.username} on TransSocial`;
+                     document.title = `"${noteData.text}" / @${profileData.username} on Auride`;
                   } else {
-                     document.title = `@${profileData.username} on TransSocial`;
+                     document.title = `@${profileData.username} on Auride`;
                   }
                   document.getElementById(`melissa`).style.display = "block";
                   document.getElementById(`userImage-profile`).src = storageLink(`images/pfp/${noteData.whoSentIt}/${profileData.pfp}`);
@@ -3249,7 +3249,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
 
                   document.getElementById("noteNotFound").innerHTML = `
                      <h1>This note is unavailable</h1>
-                     <p>TransSocial cannot show you this note because the creator is suspended from TransSocial. If this user gets unsuspended--if ever--this note will be available to view again.</p>
+                     <p>Auride cannot show you this note because the creator is suspended from Auride. If this user gets unsuspended--if ever--this note will be available to view again.</p>
 
                      <a href="/home"><button>Go Home</button></a>
                   `;
@@ -3446,7 +3446,7 @@ async function publishNote() {
          try {
             const response = await fetch("/nsfw_words.json");
             if (!response.ok) {
-               throw new Error("Network response not okay. User needs to check their connection. Let TransSocial handle the error later down, do not return.");
+               throw new Error("Network response not okay. User needs to check their connection. Let Auride handle the error later down, do not return.");
             }
 
             const nsfwWords = await response.json();
@@ -4037,8 +4037,8 @@ if (pathName === "/settings" || pathName === "/settings.html") {
       document.getElementById("themeSelect").showModal();
    }
 
-   function transsocialThemes() {
-      document.getElementById("transsocialThemes").showModal();
+   function aurideThemes() {
+      document.getElementById("aurideThemes").showModal();
       document.getElementById("themeSelect").close();
    }
 
@@ -4088,7 +4088,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                   // the user has no themes installed
                   const p = document.createElement("p");
 
-                  p.innerHTML = `You have no custom themes! You can get some at the <a href="/userstudio" style="color: var(--main-color);">TransSocial User Studio!</a>`;
+                  p.innerHTML = `You have no custom themes! You can get some at the <a href="/userstudio" style="color: var(--main-color);">Auride User Studio!</a>`;
 
                   document.getElementById("themeSelection").appendChild(p);
                }
@@ -4187,7 +4187,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                         font-family: "OpenDyslexic", sans-serif;
                      }
 
-                     .transsocialAccounts {
+                     .aurideAccounts {
                         font-size: 0.85rem;
                      }
 
@@ -4961,7 +4961,7 @@ if (pathName === "/download") {
       document.getElementById("systemRequirement").textContent = "Unavailable for Windows Phone.";
    } else if (/win/i.test(userAgent)) {
       document.getElementById("downloadButton").addEventListener("click", () => window.location.href='/assets/releases/windows/ts_installer.msi');
-      document.getElementById("downloadButton").textContent = "Get TransSocial for Windows";
+      document.getElementById("downloadButton").textContent = "Get Auride for Windows";
       document.getElementById("systemRequirement").textContent = "Requires Windows 8 or later.";
       // macOS    
    } else if (/macintosh|mac os x/i.test(userAgent)) {
@@ -4974,7 +4974,7 @@ if (pathName === "/download") {
       // Android
    } else if (/android/i.test(userAgent)) {
       document.getElementById("downloadButton").addEventListener("click", () => window.location.href = '/assets/releases/android/app-release.apk');
-      document.getElementById("downloadButton").textContent = "Get TransSocial for Windows";
+      document.getElementById("downloadButton").textContent = "Get Auride for Windows";
       document.getElementById("systemRequirement").textContent = "Requires Android 6 or later.";
       // Linux
    } else if (/linux/i.test(userAgent)) {
@@ -5052,7 +5052,7 @@ if (pathName === "/achievements") {
             if (achievement) {
                if (achievement.firstSteps) {
                   document.getElementById("firstStepsAchievement").classList.remove("locked");
-                  document.getElementById("unlockDescription_fs").textContent = "You've taken the plunge! Welcome to TransSocial! (Create a note)";
+                  document.getElementById("unlockDescription_fs").textContent = "You've taken the plunge! Welcome to Auride! (Create a note)";
                   document.getElementById("unlockDate_fs").textContent = `Unlocked ${achievement.firstSteps.unlockedWhen}`;
                }
 
@@ -5064,7 +5064,7 @@ if (pathName === "/achievements") {
 
                if (achievement.theSocialButterfly) {
                   document.getElementById("theSocialButterflyAchievement").classList.remove("locked");
-                  document.getElementById("unlockDescription_tsb").textContent = "Spread your wings and fly! (Follow another user on TransSocial)";
+                  document.getElementById("unlockDescription_tsb").textContent = "Spread your wings and fly! (Follow another user on Auride)";
                   document.getElementById("unlockDate_tsb").textContent = `Unlocked ${achievement.theSocialButterfly.unlockedWhen}`;
                }
 
@@ -5089,7 +5089,7 @@ function unlockAchievement(achievement) {
 
                if (hasAchievement === false) {
                   // Play the sound and show the achievement
-                  new Audio("/assets/audio/transsocial_achievement_chime.wav").play();
+                  new Audio("/assets/audio/auride_achievement_chime.wav").play();
                   document.getElementById("achievementUnlock").style.display = "block";
                   document.getElementById("achievementName").textContent = achievement;
 
@@ -5114,7 +5114,7 @@ function unlockAchievement(achievement) {
 
                if (hasAchievement === false) {
                   // Play the sound and show the achievement
-                  new Audio("/assets/audio/transsocial_achievement_chime.wav").play();
+                  new Audio("/assets/audio/auride_achievement_chime.wav").play();
                   document.getElementById("achievementUnlock").style.display = "block";
                   document.getElementById("achievementName").textContent = achievement;
                   document.getElementById("achievementIcon").appendChild(faIcon("comments"));
@@ -5140,7 +5140,7 @@ function unlockAchievement(achievement) {
 
                if (hasAchievement === false) {
                   // Play the sound and show the achievement
-                  new Audio("/assets/audio/transsocial_achievement_chime.wav").play();
+                  new Audio("/assets/audio/auride_achievement_chime.wav").play();
                   document.getElementById("achievementUnlock").style.display = "block";
                   document.getElementById("achievementName").textContent = achievement;
                   document.getElementById("achievementIcon").appendChild(faIcon("user-plus"));
@@ -5166,7 +5166,7 @@ function unlockAchievement(achievement) {
 
                if (hasAchievement === false) {
                   // Play the sound and show the achievement
-                  new Audio("/assets/audio/transsocial_achievement_chime.wav").play();
+                  new Audio("/assets/audio/auride_achievement_chime.wav").play();
                   document.getElementById("achievementUnlock").style.display = "block";
                   document.getElementById("achievementName").textContent = achievement;
                   document.getElementById("achievementIcon").appendChild(faIcon("bullhorn"));
@@ -5530,7 +5530,7 @@ if (pathName === "/create_theme") {
                               hasThemeBeenPublished = `${themeData.published}`;
                            }
 
-                           // let transsocial know what theme is applied
+                           // let auride know what theme is applied
                            appliedTheme = themeName;
 
                            // set background
@@ -5790,7 +5790,7 @@ if (pathName === "/create_theme") {
 
    // apply theme
    function applyTheme() {
-      // update this, as transsocial needs to know
+      // update this, as auride needs to know
       wantsToApplyTheme = true;
 
       // prompt the user to save the theme first
@@ -5908,7 +5908,7 @@ if (pathName === "/create_theme") {
                               // let the user know its finished
                               document.getElementById("themeSuccessfullyPublished").style.display = "block";
                               document.getElementById("themeSuccessfullyPublished").style.color = "var(--success-color)";
-                              document.getElementById("themeSuccessfullyPublished").innerHTML = `Your theme has been successfully published! It is available on the TransSocial User Studio <a href="/userstudio/${newKey}" style="color: var(--main-color)">here.</a>`;
+                              document.getElementById("themeSuccessfullyPublished").innerHTML = `Your theme has been successfully published! It is available on the Auride User Studio <a href="/userstudio/${newKey}" style="color: var(--main-color)">here.</a>`;
                            }
                         });
                      } else if (input.type === "rgb") {
@@ -6138,7 +6138,7 @@ firebase.auth().onAuthStateChanged((user) => {
                // this means their account isn't in the db AT ALL
                if (pathName !== "/settings") {
                   // ensure their set in the db isn't empty as that causes SEVERAL issues
-                  // (well, several issues besides the fact their account basically doesnt exist in transsocial's eyes)
+                  // (well, several issues besides the fact their account basically doesnt exist in auride's eyes)
                   firebase.database().ref(`users/${user.uid}`).update({
                      email : user.email
                   }).then(() => {
@@ -6174,7 +6174,7 @@ HTMLDialogElement.prototype.close = function() {
 };
 
 // prevent modals from being closed with esc as it can break things (such as 
-// letting the user use transsocial without verifying their email... oopsies)
+// letting the user use auride without verifying their email... oopsies)
 // this is just default <dialog> behavior, not something i manually coded :p
 document.addEventListener("keydown", function(event) {
    if (event.key === "Escape") {
@@ -6256,7 +6256,7 @@ function favoriteNoteView(note) { // yes. this is the exact code but for the not
 
 // allow users to filter through versions (indev, pre-alpha, etc.)
 if (pathName === "/updates") {
-   let filteredVersion = transsocialReleaseVersion; // by default, set it to what transsocial currently is
+   let filteredVersion = aurideReleaseVersion; // by default, set it to what auride currently is
 
    // allow user to switch filters
    function filterInDev() {
@@ -6336,7 +6336,7 @@ function openLink(link) {
    let domain = parts.join(".");
    let greyedOutPart = hostname.replace(domain, "");
 
-   if (domain !== "transs.social") {
+   if (domain !== "auride.xyz") {
       // display link with greyed out subdomain
       document.getElementById("linkyLink").innerHTML = `<span style="color: var(--text-half-transparent)">${protocol}${greyedOutPart}</span>${domain}<span style="color: var(--text-half-transparent)">${pathname}</span>`;
 
@@ -6407,7 +6407,7 @@ if (pathName === "/search") {
       document.getElementById("term").style.display = "block";
 
       // add feedback
-      document.title = `"${query}" | TransSocial`;
+      document.title = `"${query}" | Auride`;
       document.getElementById("queryInput").value = query;
 
       // first, show users
@@ -6787,19 +6787,19 @@ function setNoteMusic(trackId) {
 if (pathName === "/home") {
    const info = [
       {
-         text: `Did you know TransSocial has custom themes? <a href="/userstudio">Check them out</a>!`,
+         text: `Did you know Auride has custom themes? <a href="/userstudio">Check them out</a>!`,
          lore: false
       },
       {
-         text: `Download our app <a href="/download">here</a> and bring TransSocial with you anywhere!`,
+         text: `Download our app <a href="/download">here</a> and bring Auride with you anywhere!`,
          lore: false
       },
       {
-         text: `TransSocial is open source!`,
+         text: `Auride is open source!`,
          lore: false
       },
       {
-         text: `TransSocial has achievements you can unlock! But it's up to you to find them!`,
+         text: `Auride has achievements you can unlock! But it's up to you to find them!`,
          lore: false
       },
       // below is temp commented out
@@ -6860,7 +6860,7 @@ firebase.auth().onAuthStateChanged((user) => {
             modal.innerHTML = 
             `
                <h1 style="display: flex; align-items: center; gap: 10px;"><img class="aurora auroraFloat" src="/assets/mascot/excited.png" draggable="false" /> Say hello!</h1>
-               <p style="margin-top: 5px;">Welcome Aurora, the newest member of the TransSocial family! Born December 24, 2024, she's now here and usable in your notes, bio and display name in the form of her own emojis!</p>
+               <p style="margin-top: 5px;">Welcome Aurora, the newest member of the Auride family! Born December 24, 2024, she's now here and usable in your notes, bio and display name in the form of her own emojis!</p>
                <p>We have a blog post with more information -> <a href="/blog/welcome-aurora">we recommend reading</a> (we also have a cheat sheet on how to use her emojis in this blog)!</p>
             `
             const dismiss = document.createElement("button");

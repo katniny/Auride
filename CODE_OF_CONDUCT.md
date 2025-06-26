@@ -26,7 +26,7 @@ project maintainers have the right and responsibility to remove, edit, or reject
 this code of conduct applies both within project spaces and in public spaces when an individual is representing the project or its community. examples of representing a project or community include using an official project email address, posting via an official social media account, or acting as an appointed representative at an online or offline event. representation of a project may be further defined and clarified by project maintainers.
 
 ## enforcement
-instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team on TransSocial by mentioning  @katniny. all complaints will be reviewed and investigated and will result in a response that is deemed necessary and appropriate to the circumstances. the project team is obligated to maintain confidentiality with regard to the reporter of an incident. further details of specific enforcement policies may be posted separately.
+instances of abusive, harassing, or otherwise unacceptable behavior may be reported by contacting the project team on Auride by mentioning  @katniny. all complaints will be reviewed and investigated and will result in a response that is deemed necessary and appropriate to the circumstances. the project team is obligated to maintain confidentiality with regard to the reporter of an incident. further details of specific enforcement policies may be posted separately.
 
 project maintainers who do not follow or enforce the code of conduct in good faith may face temporary or permanent repercussions as determined by other members of the project’s leadership.
 

@@ -33,7 +33,7 @@ function setDisplayName() {
                     display: document.getElementById("displayName-text").value
                 })
                     .then(() => {
-                        document.getElementById("errorUsingDisplay").textContent = `Saved successfully! This change will apply across TransSocial.`;
+                        document.getElementById("errorUsingDisplay").textContent = `Saved successfully! This change will apply across Auride.`;
                         document.getElementById("errorUsingDisplay").style.display = "block";
                         document.getElementById("errorUsingDisplay").style.color = `var(--success-color)`;
                         document.getElementById("saveDisplay").innerHTML = `Save`;

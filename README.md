@@ -1,10 +1,10 @@
 <div align="center">
-   <img src="https://transs.social/assets/imgs/All_transparent.png" />
+   <img src="https://auride.xyz/assets/imgs/All_transparent.png" />
    
-   ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/katniny/transsocial/firebase-hosting-merge.yml) <a href="/LICENSE"><img alt="Static Badge" src="https://img.shields.io/badge/license-CC BY–NC–SA 4.0-blue"></a>
+   ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/katniny/auride/firebase-hosting-merge.yml) <a href="/LICENSE"><img alt="Static Badge" src="https://img.shields.io/badge/license-CC BY–NC–SA 4.0-blue"></a>
 </a>
 
-💖 <a href="https://transs.social/" target="_blank">TransSocial</a> is an social media platform built to be a safe place for everyone! 💝
+💖 <a href="https://auride.xyz/" target="_blank">Auride</a> is an social media platform built to be a safe place for everyone! 💝
 </div>
 
 
@@ -13,7 +13,7 @@
 ## 🚀 Features
 <img src="assets/readme-promo/themes.png">
 
-**Themes**: Use one of the 8 default themes, get a theme from [TransSocial's User Studio](https://transs.social/userstudio), or create your own!
+**Themes**: Use one of the 8 default themes, get a theme from [Auride's User Studio](https://auride.xyz/userstudio), or create your own!
 
 
 <img src="assets/readme-promo/flagging.png">
@@ -28,12 +28,12 @@ See our <a href="/CONTRIBUTING.md">CONTRIBUTING.md</a> guide if you're intereste
 ## 📃 License
 Copyright (c) 2025 katniny and contributors. All rights reserved.
 
-TransSocial's code is licensed under CC BY-NC-SA 4.0: <https://creativecommons.org/licenses/by-nc-sa/4.0/>\
+Auride's code is licensed under CC BY-NC-SA 4.0: <https://creativecommons.org/licenses/by-nc-sa/4.0/>\
 The license is also available in the [LICENSE](/LICENSE) file in the root of this repository.
 
-TransSocial is property of Katniny Studios.
+Auride is property of Katniny Studios.
 
-A full list of contributors can be found at <https://transs.social/contributors>
+A full list of contributors can be found at <https://auride.xyz/contributors>
 
 The above copyright notice covers all contents of this repository barring the following exceptions:
 - assets/emojis:\
@@ -41,6 +41,6 @@ The above copyright notice covers all contents of this repository barring the fo
   Copyright 2019 Twitter, Inc and other contributors\
   Licensed under CC-BY 4.0: <https://creativecommons.org/licenses/by/4.0/>
 
-Further copyright related information can be found at <https://transs.social/opensource>
+Further copyright related information can be found at <https://auride.xyz/opensource>
 
-**🙌 Thank you to everyone that's contributed to TransSocial, and thank you to everyone that uses TransSocial!**
+**🙌 Thank you to everyone that's contributed to Auride, and thank you to everyone that uses Auride!**

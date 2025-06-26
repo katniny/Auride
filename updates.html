@@ -3,20 +3,20 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TransSocial | All Updates</title>
+        <title>Auride | All Updates</title>
         <link rel="stylesheet" href="/assets/css/all.css">
         <link rel="shortcut icon" href="/assets/imgs/favicon.png" type="image/png">
         <link rel="manifest" href="/manifest.json">
         
         <meta name="robots" content="nofollow, noai, noimageai">
          <meta name="og:type" content="website">
-         <meta name="og:url" content="https://transs.social/">
-         <meta name="og:title" content="TransSocial">
-         <meta name="og:site_name" content="transs.social">
-         <meta name="og:description" content="TransSocial - a safe place for everyone.">
-         <meta name="description" content="TransSocial - a safe place for everyone.">
-         <meta property="og:image" content="https://transs.social/assets/imgs/favicon.png">
-         <meta name="theme-color" content="#ff869a">
+         <meta name="og:url" content="https://auride.xyz/">
+         <meta name="og:title" content="Auride">
+         <meta name="og:site_name" content="auride.xyz">
+         <meta name="og:description" content="Auride - a safe place for everyone.">
+         <meta name="description" content="Auride - a safe place for everyone.">
+         <meta property="og:image" content="https://auride.xyz/assets/imgs/favicon.png">
+         <meta name="theme-color" content="#ef97be">
          <script src="/assets/js/requiredScripts.js"></script>
          <script src="/assets/js/scriptLoader.js"></script>
          <script defer>
@@ -35,11 +35,11 @@
         <!-- Header -->
    <div class="header" id="header">
       <div class="left">
-         <button id="hamburgerMenu"><i class="fa-solid fa-bars"></i></button> <a href="/home"><img class="headerLogo" id="transsocialHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" /></a>
+         <button id="hamburgerMenu"><i class="fa-solid fa-bars"></i></button> <a href="/home"><img class="headerLogo" id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" /></a>
       </div>
 
       <div class="center">
-         <input id="searchBar" placeholder="Search TransSocial" />
+         <input id="searchBar" placeholder="Search Auride" />
       </div>
 
       <div class="right">
@@ -93,7 +93,7 @@
             <a href="https://discord.gg/SmhATjRxvc" target="_blank"><i class="fa-brands fa-discord fa-lg"></i></a>
             <a href="https://twitter.com/transs_ocial" target="_blank"><i class="fa-brands fa-twitter fa-lg"></i></a>
             <a href="https://tiktok.com/@transs_ocial" target="_blank"><i class="fa-brands fa-tiktok fa-lg"></i></a>
-            <a href="https://github.com/katniny/transsocial" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+            <a href="https://github.com/katniny/auride" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
             
             <!-- Profile -->
             <div class="profileContainer" >
@@ -124,9 +124,6 @@
             </div>
             
             <div class="noteFilter">
-                <!--<p class="version-notice">TransSocial is currently in the InDev stage (version 0.0.1). A lot of features are missing and will be added with updates. <a href="/indev">Learn more</a>.</p>-->
-                <!--<button class="active" style="border-right: 1px solid gray;">All Notes</button><button>Following</button>-->
-
                 <div class="blogStyle" style="margin: 15px;">
                     <h3>Filter Version:</h3>
                     <button onclick="filterInDev()">Indev</button> <button onclick="filterPreAlpha()">Pre-Alpha</button> <button onclick="filterAlpha()">Alpha</button> <button onclick="filterBeta()">Beta</button> <button onclick="filterRelease()">Release</button>
@@ -134,10 +131,25 @@
                     <br />
                     <br />
 
-                    <h1 id="selectedFilter" style="text-decoration: underline; margin-bottom: 5px;">Pre-Alpha Versions</h1>
+                    <h1 id="selectedFilter" style="text-decoration: underline; margin-bottom: 5px;">Alpha Versions</h1>
 
-                     <div id="prealphaVersions">
-                        <p>Trying to find older updates? You may be interested in the InDev tab, since TransSocial is no longer in InDev!</p>
+                     <div id="alphaVersions">
+                        <p>Trying to find older updates? You may be interested in the Pre-Alpha tab, since Auride is no longer in Pre-Alpha!</p>
+
+                        <div class="update">
+                           <h2>v2025.6.25_alpha</h2>
+                           <h3 style="color: var(--text-semi-transparent);">Released: June 25, 2025</h3>
+                              <li><a href="/blog/retiring-transsocial">Rebranded TransSocial to Auride</a></li>
+                              <li>NOTICE: transs.social will redirect until April 5, 2026, please start using auride.xyz</li>
+                              <li>Minor UI changes</li>
+                              <li><a href="/contributors">Added new contributor, wassupgeorgiie!</a></li>
+                        </div>
+                     </div> 
+                    
+                    <br />
+
+                     <div id="prealphaVersions" style="display: none;">
+                        <p>Trying to find older updates? You may be interested in the InDev tab, since Auride is no longer in InDev!</p>
 
                         <div class="update">
                            <h2>v2025.6.17_pre-alpha</h2>
@@ -470,7 +482,7 @@
                            <h2>v2024.10.27_pre-alpha</h2>
                            <h3 style="color: var(--text-semi-transparent);">Released: October 27, 2024</h3>
                               <li>Switched hosting providers</li>
-                              <li>When visiting users, notes or user studio store pages, it will now use /type/id instead of /type?id=id (e.g. <a href="https://transs.social/u/katniny">https://transs.social/u/katniny</a>). The old type is no longer supported and may have instability</li>
+                              <li>When visiting users, notes or user studio store pages, it will now use /type/id instead of /type?id=id (e.g. <a href="https://auride.xyz/u/katniny">https://auride.xyz/u/katniny</a>). The old type is no longer supported and may have instability</li>
                               <li>Fixed header on smaller resolutions (e.g. small phones)</li>
                         </div>
                         
@@ -991,25 +1003,16 @@
                   <div id="betaVersions" style="display: none;">
                      <p>Unfortunately, there are no any beta versions yet. We're working to get there!</p>
                   </div>
-
-                  <div id="alphaVersions" style="display: none;">
-                     <p>Unfortunately, there are no any alpha versions yet. We're working to get there!</p>
-                  </div>
                </div> 
             </div>
 
-            <!-- Please Donate -->
-            <!--<div class="pleaseDonate" id="pleaseDonate">
-                <p>Hey, please don't skip this read. We need your support to keep TransSocial thriving. <a href="https://patreon.com/katniny" target="_blank">My Patreon</a> is the heartbeat of TransSocial, and right now, TransSocial is running on passion but could use some funds (aka funds). Join the Patreon for perks, behind the scenes content, and most importantly - helping TransSocial. Let's make TransSocial better together - your contribution makes a huge difference!</p>
-                <a href="https://patreon.com/katniny" target="_blank"><button>Help TransSocial</button></a>
-                <button onclick="closeHelpPrompt()">Maybe Later</button>
-            </div>-->
+             
         </div>
 
-        <!-- TransSocial Accounts -->
-        <div class="transsocialAccounts">
-            <h3>TransSocial Accounts</h3>
-            <p>Follow accounts associated with TransSocial.</p>
+        <!-- Auride Accounts -->
+        <div class="aurideAccounts">
+            <h3>Auride Accounts</h3>
+            <p>Follow accounts associated with Auride.</p>
 
             <div class="katniny">
                 <!-- Me :3 -->
@@ -1021,11 +1024,11 @@
 
                 <br />
 
-                <!-- TransSocial -->
-                <div class="transsocial">
-                    <img class="recommendAcc-pfp" src="" id="transsocialPfp" draggable="false" /> <p id="transsocialDisplay"></p>
+                <!-- Auride -->
+                <div class="auride">
+                    <img class="recommendAcc-pfp" src="" id="auridePfp" draggable="false" /> <p id="aurideDisplay"></p>
                     <br /> <a href="/u" id="followBtn-2"><button class="followBtn">Follow</button></a>
-                    <p id="transsocialUser-pronouns"></p>
+                    <p id="aurideUser-pronouns"></p>
                 </div>
 
                 <br />
@@ -1044,7 +1047,7 @@
         </div>
 
         <div id="notSignedIn-banner">
-            <p>Join the fun on TransSocial!</p>
+            <p>Join the fun on Auride!</p>
             <a href="/auth/login"><button>Login</button></a>
             <a href="/auth/register"><button>Create an account</button></a>
         </div>
@@ -1067,7 +1070,7 @@
         <dialog id="signInPrompt">
             <img src="/assets/imgs/All_transparent.png" draggable="false" style="width: 450px; height: 100px; margin-left: 17%; margin-right: 15%;" />
             <h2>You must be signed in.</h2>
-            <p>To perform this action, you need to be signed into TransSocial!</p>
+            <p>To perform this action, you need to be signed into Auride!</p>
             <br />
             <a href="/auth/login"><button>Login</button></a>
             <div style="margin-top: 5px;"></div>
@@ -1075,7 +1078,7 @@
         </dialog>
 
       <dialog id="openLink">
-         <h2>Leaving TransSocial</h2>
+         <h2>Leaving Auride</h2>
          <p>This link is taking you to the following website:</p>
 
          <br />
@@ -1179,20 +1182,20 @@
 
         <dialog id="accountWarning">
             <h2>Account Warning</h2>
-            <p>Your behavior on TransSocial has been in violation of our <a href="/policies/terms" style="color: var(--main-color);">Terms of Service</a>, therefore has received a warning. Repeat offenses can result in account suspension or other account related punishments.</p>
+            <p>Your behavior on Auride has been in violation of our <a href="/policies/terms" style="color: var(--main-color);">Terms of Service</a>, therefore has received a warning. Repeat offenses can result in account suspension or other account related punishments.</p>
 
             <br />
 
             <p style="color: var(--text-semi-transparent);">Reason: <span id="warningReason"></span></p>
 
             <br />
-            <p>Please abide by TransSocial's <a href="/policies/guidelines" style="color: var(--main-color);">Community Guidelines</a> so TransSocial remains a safe place for everyone.</p>
-            <p>You can continue using TransSocial after agreeing to our Terms of Service.</p>
+            <p>Please abide by Auride's <a href="/policies/guidelines" style="color: var(--main-color);">Community Guidelines</a> so Auride remains a safe place for everyone.</p>
+            <p>You can continue using Auride after agreeing to our Terms of Service.</p>
 
             <input type="checkbox" id="warningAgreeToTerms" style="width: 15px;"> I agree
             <p style="color: var(--error-text); display: none;" id="warningAcknowledge">Please agree to the Terms before continuing.</p>
             <br />
-            <button onclick="acknowledgeWarning()">Continue using TransSocial</button>
+            <button onclick="acknowledgeWarning()">Continue using Auride</button>
         </dialog>
     </body>
 </html>

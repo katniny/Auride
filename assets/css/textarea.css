@@ -14,6 +14,7 @@ textarea {
 
 textarea:focus {
    border: 1px solid var(--main-color);
+   box-shadow: 0 0 8px var(--main-color);
 }
 
 textarea.borderBlack {

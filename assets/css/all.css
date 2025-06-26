@@ -20,7 +20,7 @@
 @import url("/assets/css/pageLoader.css");
 
 /* 
-   default colors for transsocial
+   default colors for auride
    may be overriden by a theme, if user has one applied.
    please see /assets/js/pageLoader.js for other themes!
    (note: custom themes created by users cannot be modified)
@@ -35,7 +35,7 @@
 
 /* 
    .fa-brands 
-   TransSocial, by default, assumes that they're going to be buttons,
+   Auride, by default, assumes that they're going to be buttons,
    but if they're not, you can just add: 
    style="color: var(--text);" to make them a solid color
 
@@ -52,10 +52,10 @@
 @import url("/assets/css/notesContainer.css");
 
 /* 
-   this is the "TransSocial Accounts" area
+   this is the "Auride Accounts" area
    on the right on desktop
 */
-@import url("/assets/css/transsocialAccounts.css");
+@import url("/assets/css/aurideAccounts.css");
 
 /* 
    these are the NOTES and ITS CHILDREN themselves,
@@ -72,7 +72,7 @@
 
 /* 
    this is the banner you see when not signed into
-   transsocial
+   auride
 */
 @import url("/assets/css/notSignedIn_Banner.css");
 
@@ -83,7 +83,7 @@
 @import url("/assets/css/createNote_sidebarBtn.css");
 
 /* 
-   this is the styling for modals on transsocial,
+   this is the styling for modals on auride,
    which ALL modals use!
 */
 @import url("/assets/css/dialogDefault.css");
@@ -137,7 +137,7 @@
 @import url("/assets/css/newNotesAlert.css");
 
 /*
-   the "TransSocial is currently in the..." string
+   the "Auride is currently in the..." string
 */
 @import url("/assets/css/versionNotice.css");
 
@@ -150,14 +150,14 @@
 /* 
    user not found
    (when visiting a user doesnt exist,
-   e.g. https://transs.social/u/ISAJFOIASFJSAOIFJASOFIASJ)
+   e.g. https://auride.xyz/u/ISAJFOIASFJSAOIFJASOFIASJ)
 */
 @import url("/assets/css/userNotFound.css");
 
 /* 
    the .melissa element which contains the user profile
    (e.g. the styling for the pfp and whatnot at 
-   https://transs.social/u/katniny)
+   https://auride.xyz/u/katniny)
 
    my girlfriend named the element and gave it 
    a literal name lol
@@ -204,7 +204,7 @@
 /*
    the cookie you notice when you have not clicked
    "Accept" yet (or your cookies were cleared for 
-   transs.social)
+   auride.xyz)
 */
 @import url("/assets/css/cookieNotice.css");
 
@@ -239,7 +239,7 @@
 @import url("/assets/css/notifications.css");
 
 /* 
-   the policies under "TransSocial Accounts"
+   the policies under "Auride Accounts"
 */
 @import url("/assets/css/policiesSide.css");
 
@@ -441,7 +441,7 @@
 @import url("/assets/css/animateGradient.css");
 
 /* 
-   transsocial's footer in the rare instance its used
+   auride's footer in the rare instance its used
 */
 @import url("/assets/css/footer.css");
 
@@ -526,7 +526,7 @@
 @import url("/assets/css/resizeButtons.css");
 
 /* 
-   the cta on transsocial /index.html
+   the cta on auride /index.html
 */
 @import url("callToAction.css");
 

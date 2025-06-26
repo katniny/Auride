@@ -24,8 +24,8 @@ const app = express();
 app.use(cors({ origin: "*" }));
 
 app.use((req, res, next) => {
-   // only allow transs.social to access this data
-   const allowedDomain = "transs.social";
+   // only allow auride.xyz to access this data
+   const allowedDomain = "auride.xyz";
    const requestHost = req.get("host");
    const origin = req.headers["origin"];
 

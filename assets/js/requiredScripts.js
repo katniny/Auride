@@ -2,7 +2,7 @@
 // if not literally developing though
 if (!window.location.origin.startsWith("http://127.0.0.1") && !window.location.origin.startsWith("http://localhost")) {
    console.log("%cStop!", "color: red; font-size: 35px;");
-   console.log("%cThis is a browser feature intended for developers. If someone told you to copy-paste something here to enable a TransSocial feature or 'hack' someone's account, it is a scam and will give them access to your TransSocial account.", "color: white; font-size: 15px; font-family: sans-serif;");
+   console.log("%cThis is a browser feature intended for developers. If someone told you to copy-paste something here to enable a Auride feature or 'hack' someone's account, it is a scam and will give them access to your Auride account.", "color: white; font-size: 15px; font-family: sans-serif;");
    console.log(" ");
 }
 

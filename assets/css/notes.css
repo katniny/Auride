@@ -1,16 +1,19 @@
 .notes .note {
    max-width: 99.5%;
    border: 1px solid var(--note-seperator);
-   padding-top: 10px;
-   padding-bottom: 1em;
-   position: relative;
    background: var(--note-seperator);
+   padding: 10px 14px 1em 14px;
+   position: relative;
    cursor: pointer;
-   border-radius: 10px;
-   padding-left: 10px;
-   margin-left: 12px;
-   margin-right: 12px;
-   margin-top: 12px;
+   border-radius: 12px;
+   margin: 12px;
+   transition: box-shadow 0.2s ease, transform 0.15s ease;
+   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.notes .note:hover {
+   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+   transform: translateY(-1px);
 }
 
 .notes .note.inactive {
