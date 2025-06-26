@@ -87,6 +87,10 @@
    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
+.sidebar button.createNote-sidebar:active {
+   transform: translateY(35px) scale(0.98);
+}
+
 .sidebar .fa-solid {
    color: transparent;
    -webkit-text-stroke-width: 1px;
