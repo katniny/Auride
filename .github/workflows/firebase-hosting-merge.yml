@@ -16,6 +16,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
+    
+    - name: Install dependencies
+      run: npm install
+
     - name: Inject Firebase config into firebase.js
       run: |
         sed -i \
@@ -28,6 +36,9 @@ jobs:
         -e 's|appId: ".*"|appId: "${{ secrets.FIREBASE_APP_ID }}"|' \
         -e 's|measurementId: ".*"|measurementId: "${{ secrets.FIREBASE_MEASUREMENT_ID }}"|' \
         ./assets/js/firebase.js
+      
+    - name: Build project 
+      run: npm run build
 
     - uses: FirebaseExtended/action-hosting-deploy@v0
       with:
@@ -35,3 +46,4 @@ jobs:
         firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHAT_TRANSSOCIAL_TEST }}
         channelId: live
         projectId: chat-transsocial-test
+        entryPoint: dist

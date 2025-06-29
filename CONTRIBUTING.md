@@ -1,4 +1,4 @@
-Last updated: June 25, 2025
+Last updated: June 29, 2025
 # 👋 Welcome to the Auride contributing guide!
 Thank you for your interest in contributing to Auride! We try to make Auride as easy as possible to contribute to.
 
@@ -13,7 +13,7 @@ Thank you for your interest in contributing to Auride! We try to make Auride as 
    - If someone requests a change, please change it. If you feel strongly that your original way is better, calmly explain way but do not argue about it.
       - Please note that grammar corrections are not arguable or something to be discussed. Discussing about phrasing is okay, but if we ask you to change something small (e.g "were" to "we're"), please do.
       - e.g. "please make this comment easier to read" should not be argued nor discussed about. An implementation can be discussed.
-- When contributing, please update `/assets/js/versioning.js` and `updates.html`
+- When contributing, please update `/public/assets/js/versioning.js` and `updates.html`
    - Please note that this is required.
    - Format for versioning.js:
    ```js
@@ -49,15 +49,14 @@ Thank you for your interest in contributing to Auride! We try to make Auride as 
 
 ## 👩‍💻 Recommendations
 These are just recommendations, but they will help aid you while contributing to Auride.
-- HTML/CSS/JavaScript experience (Node experience is also recommended)
+- HTML/CSS/JavaScript/NodeJS experience
    - Moderate experience in JavaScript at minimum, as we rely heavily on JavaScript, but this also depends on *what* you're contributing.
 - Experience with Firebase tools (any version before 9, but version 9+ should be okay as well but please note we use 8.6.8, so it is slightly different from versions 9 and up)
    - This is less necessary, as Firebase has documentation at https://firebase.google.com/docs/. We use authentication, realtime database, storage, and functions, just as a reference point.
 
 ## ✨ Required
-We only have **two** requirements for contributing to Auride (dependencies), as we build most things ourselves.
+We only have **one** requirement for contributing to Auride (dependencies), as we build most things ourselves.
 - NodeJS
-- A way to localhost or 127.0.0.1 to test, rather than opening the file directory in your browser
 
 ## 🛠 Getting Started
 1. Visit the [Auride GitHub repo](https://github.com/katniny/auride)
@@ -71,9 +70,11 @@ We only have **two** requirements for contributing to Auride (dependencies), as 
 ```bash
    git remote add upstream https://github.com/katniny/auride
 ```
-5. Go to /assets/js/firebase.js and replace the default firebaseConfig with your own. If you do not have one, please get one from the [Firebase Console](https://console.firebase.google.com/). **Make sure you do not commit these keys!**
+5. Go to /public/assets/js/firebase.js and replace the default firebaseConfig with your own. If you do not have one, please get one from the [Firebase Console](https://console.firebase.google.com/). **Make sure you do not commit these keys!**
 6. If your Firebase project does not have the Blaze plan, please upgrade it to the Blaze plan. The reason is stated below.
-7. You're ready!
+7. Run `npm install` to install all of Auride's dependencies
+8. Run `npm run dev` to start a local development server
+9. You're ready!
 
 ## ❓ Why do I need the Firebase Blaze plan?
 We use Firebase Storage. To access the Storage at all, it is required that you have the Blaze plan.

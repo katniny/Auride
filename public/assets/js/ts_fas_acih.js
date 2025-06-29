@@ -1982,7 +1982,7 @@ if (pathName.startsWith("/home") ||
       if (noteData.renotes) {
          renoteBtn.innerHTML = `${faIcon("retweet").outerHTML} ${noteData.renotes}`;
 
-         if (noteData.whoRenoted && noteData.whoRenoted[auth.currentUser.uid]) {
+         if (auth.currentUser && noteData.whoRenoted && noteData.whoRenoted[auth.currentUser.uid]) {
             renoteBtn.classList.add("renoted");
          }
       } else {
