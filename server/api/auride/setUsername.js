@@ -98,7 +98,7 @@ export default async function handler(req, res) {
         // check if the username is taken
         const checkUsernameTaken = await getDatabase().ref(`/taken-usernames/${requestedUsername}`).get();
 
-        if (checkUsernameTaken.exists()) {
+        if (checkUsernameTaken.exists() && requestedUsername.trim() !== "") {
             return res.status(403).json({ error: "This username is already taken." });
         }
 
@@ -110,6 +110,17 @@ export default async function handler(req, res) {
                 user: null
             });
         }
+
+        // make sure their username follows our rules
+        if (requestedUsername.trim() === "")
+            return res.status(403).json({ error: "Username cannot be empty." });
+    
+        if (requestedUsername.length > 20)
+            return res.status(403).json({ error: "Your username is above the character limit of 20 characters." });
+
+        if (!/^[a-z1-9._]+$/.test(requestedUsername))
+            return res.status(403).json({ error: "Username contains invalid characters." });
+         
 
         // then, write their requested username
         await userRef.update({

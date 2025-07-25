@@ -4,7 +4,7 @@ export async function setNewDisplayName(display) {
 
     if (!user) {
         console.error("User not logged in.");
-        return false;
+        return { success: false, error: "Not logged in." };
     }
 
     try {
@@ -23,16 +23,16 @@ export async function setNewDisplayName(display) {
 
         if (!response.ok) {
             const error = await response.json();
-            console.log("Response not ok. Server response::", error);
-            return false;
+            console.log("Response not ok. Server response:", error);
+            return { success: false, error: error?.error || "Failed to set display name." };
         }
 
         const responseData = await response.json();
         console.log("Server succeeded:", responseData);
-        return true;
+        return { success: true };
     } catch (err) {
         console.error("Failed to set user data", err);
-        return false;
+        return { success: false, error: "Network or server error. Please try again later." };
     }
 }
 

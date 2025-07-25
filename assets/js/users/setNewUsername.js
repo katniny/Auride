@@ -19,8 +19,13 @@ export async function setNewUsername(username) {
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            return { success: false, error: errorData?.message || "Failed to set username." };
+            let errorData;
+            try {
+                errorData = await response.json();
+            } catch (e) {
+                errorData = { error: "Unknown server error" };
+            }
+            return { success: false, error: errorData?.error || errorData?.message || "Failed to set username." };
         }
 
         return { success: true };

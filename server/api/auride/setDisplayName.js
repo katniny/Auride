@@ -95,7 +95,15 @@ export default async function handler(req, res) {
         const uid = decoded.uid;
         const userRef = getDatabase().ref(`/users/${uid}`);
 
-        // then, write their email just to have their record in the db
+        // make sure their display name isnt blank or
+        // above the character limit
+        if (newDisplay.length > 25)
+            return res.status(403).json({ error: "Your display name is above the character limit of 25 characters." });
+    
+        if (newDisplay.trim() === "")
+            return res.status(403).json({ error: "Display name cannot be empty." });
+
+        // then, write their new display name
         await userRef.update({
             display: newDisplay
         });

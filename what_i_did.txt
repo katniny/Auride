@@ -27,6 +27,15 @@ yes, also the technical details:
     - On pages that have these scripts, they can now be interrupted if it is not necessary when a
     user first signs in. This is used on the registration page to ensure that we do not kick the
     user out of the registration process because they're signed in.
+- Registration steps are modularized
+    - Adding a new registration step--while shouldn't be necessary--is now a lot easier to do,
+    as groundwork has been set to do so, which is used in the profile picture and finished
+    steps.
+- Changing user profile details will now properly check for invalid requests
+    - Example: If a user requests to change their username and it's something like " 0 9390 # 302",
+    it will fail even if the user somehow bypasses client restrictions, which was not
+    previous behavior. This will be the case for all user profile cases (e.g., display name,
+    username, pronouns, profile picture, etc., etc.)
 
 ## user end
 - Added reset password to the login page
@@ -39,3 +48,7 @@ yes, also the technical details:
 - Added welcome animation
     - When you sign up for Auride, you will now get a welcome message before
     completing the onboarding process (setting your names, pronouns, etc., etc.)
+- Fixed visual bug related to character limits
+    - Auride would say that you were 1 character above the character limit
+    (e.g. 26/25) if you continued typing once the limit was reached, while 
+    this was not the case whatsoever.
