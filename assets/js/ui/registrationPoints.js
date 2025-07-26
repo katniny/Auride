@@ -123,6 +123,41 @@ export function usernameStep() {
 // chose their starting pfp!
 function profilePictureStep() {
     moveOnToNewStep();
+
+    // change the html
+    const formBox = document.querySelector(`div[class="formBox center"]`);
+    formBox.innerHTML = `
+        <h1 style="margin-top: 10px;"><i class="fa-solid fa-image-portrait fa-2xl"></i></h1>
+        <br />
+        <h1>Choose a Profile Picture</h1>
+        <p>Let fellow Auride users know who you are at just a glance.</p>
+
+        <br />
+
+        <input id="profilePicture" type="file" accept="image/png, image/jpeg, image/webp" onchange="uploadedPfp()" />
+        <p id="errorTxt" class="infoCaution" style="display: none; margin-top: 5px;">No error to display.</p>
+    `;
+}
+
+// final step
+// just prompt the user to continue customizing or,
+// see the home page!
+function finishedStep() {
+    moveOnToNewStep();
+
+    // change the html
+    const formBox = document.querySelector(`div[class="formBox center"]`);
+    formBox.innerHTML = `
+        <h1 style="margin-top: 10px;"><i class="fa-solid fa-check-double"></i></h1>
+        <br />
+        <h1>Finished!</h1>
+        <p>You're all done setting up your Auride account! You can continue customizing, for example--customizing your theme, or see notes made by fellow Auride users!</p>
+
+        <br />
+
+        <a href="/settings"><button style="width: 100%;">Continue Customizing</button></a>
+        <a href="/home"><button style="width: 100%;">Go to the Home Page</button></a>
+    `;
 }
 
 // moving onto next step
@@ -156,7 +191,10 @@ export function setIsButtonUsed(value, moveOntoNextStep) {
                 currentStep = "profile_picture";
                 profilePictureStep();
                 break;
-        
+            case "profile_picture":
+                currentStep = "finished";
+                finishedStep();
+                break;
             default:
                 currentStep = "???";
                 break;
@@ -179,13 +217,18 @@ function updateButton() {
             case "usernames":
                 formBtn.innerHTML = `Set Display Name and Username`;
                 break;
+            case "profile_picture":
+                break;
         
             default:
+                formBtn.innerHTML = `Child: Mama? Where am I? I'm scared...\n\nMom: Don't worry love, you're at ${currentStep}. You're probably not safe, though, since this message shouldn't be seen!`;
                 break;
         }
         
-        formBtn.style.opacity = "1";
-        formBtn.style.cursor = "pointer";
+        if (formBtn) {
+            formBtn.style.opacity = "1";
+            formBtn.style.cursor = "pointer";
+        }
     }
 }
 

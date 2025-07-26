@@ -21,7 +21,9 @@
                 { src: "../assets/js/auth/registration/setDisplayAndUsername.js", async: false, type: "module" },
                 { src: "../assets/js/users/setNewDisplayName.js", async: false, type: "module" },
                 { src: "../assets/js/users/setNewUsername.js", async: false, type: "module" },
-                { src: "../assets/js/ui/usernameCharactersLimits.js", async: false, type: "module" }
+                { src: "../assets/js/ui/usernameCharactersLimits.js", async: false, type: "module" },
+                { src: "../assets/js/users/setNewProfilePicture.js", async: false, type: "module" },
+                { src: "../assets/js/ui/confirmPfpUpload.js", async: false, type: "module" }
             ).then(() => {
                 console.log("Scripts for this page have been loaded successfully.");
             }).catch((error) => {
@@ -29,10 +31,6 @@
             });
         </script>
     </head>
-    
-    <!-- TO:DO -->
-    <!-- add display/username limits on client-server side (finish: server-side )-->
-    <!-- add profile picture uploading -->
 
     <body>
         <div class="formBox">

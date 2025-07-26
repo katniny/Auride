@@ -36,6 +36,9 @@ yes, also the technical details:
     it will fail even if the user somehow bypasses client restrictions, which was not
     previous behavior. This will be the case for all user profile cases (e.g., display name,
     username, pronouns, profile picture, etc., etc.)
+- Fixed bug where multiple old profile pictures would stay stored
+    - While not an issue on the user end, Auride had a bug for a while where when a user changed their
+    profile picture, it would not properly remove old ones. It now handles this properly on the server-side.
 
 ## user end
 - Added reset password to the login page
@@ -52,3 +55,8 @@ yes, also the technical details:
     - Auride would say that you were 1 character above the character limit
     (e.g. 26/25) if you continued typing once the limit was reached, while 
     this was not the case whatsoever.
+- Added confirmation for profile picture uploading
+    - When uploading your profile picture, Auride will now confirm if you
+    are sure that you are using the profile picture you want. If you confirm,
+    it will upload your profile picture. If you cancel, it will not use that profile
+    picture.

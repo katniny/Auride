@@ -13,6 +13,7 @@
     "vite": "^7.0.4"
   },
   "dependencies": {
+    "@cropper/element-canvas": "^2.0.1",
     "vercel": "^44.5.0"
   }
 }
