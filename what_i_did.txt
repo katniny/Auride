@@ -64,3 +64,8 @@ yes, also the technical details:
     - A while ago, we depreciated Twitter/X as a supported platform, but Auride's links
     never reflected this, but now, Twitter/X links were replaced by Bluesky, as it is a
     supported platform.
+- Themes are now cached
+    - On the previous versions of Auride, each page load would cause the screen to go
+    to the default theme, then to your preferred theme, causing your screen to flash. 
+    Now, Auride caches your theme and it will be loaded immediately so your colors 
+    aren't jumping around.

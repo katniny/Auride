@@ -33,6 +33,7 @@ async function loadAllScripts() {
 
         // page loader & theme loader
         await loadScript("/assets/js/ui/setTheme.js", false, "module");
+        await loadScript("/assets/js/ui/loadCachedTheme.js", false, "module");
         await loadScript("/assets/js/ui/pageLoader.js", false, "module");
 
         // load scripts necessary for fetching data

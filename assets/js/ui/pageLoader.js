@@ -1,4 +1,5 @@
 import { aurideReleaseVersion, aurideVersion } from "../versioning";
+import { setCachedTheme } from "./loadCachedTheme";
 
 // all the quotes
 const quotes = [
@@ -108,10 +109,14 @@ firebase.auth().onAuthStateChanged((user) => {
             const data = snapshot.val();
 
             // set theme
-            if (data && data.theme !== "Custom")
+            if (data && data.theme !== "Custom") {
+                setCachedTheme(data.theme);
                 setGlobalTheme(data.theme, data.showPrideFlag);
-            else if (data && data.theme === "Custom")
+            }
+            else if (data && data.theme === "Custom") {
+                setCachedTheme("", data.themeColors);
                 setGlobalCustomTheme(data.themeColors, data.showPrideFlag);
+            }
             
 
             // set zoom pref
@@ -170,7 +175,7 @@ firebase.auth().onAuthStateChanged((user) => {
 // if running out of time, show warning because auride might
 // be experiencing issues!
 // (or they just have slow ass internet)
-let timeLeft = 5;
+let timeLeft = 30;
 const timerElement = document.getElementById("Timer");
 const timerId = setInterval(countdown, 1000);
 function countdown() {
