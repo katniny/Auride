@@ -126,7 +126,7 @@
 body {
    background: var(--background);
    zoom: var(--zoom-level);
-   /*visibility: hidden;*/
+   visibility: hidden;
 }
 
 body.loaderReady {
