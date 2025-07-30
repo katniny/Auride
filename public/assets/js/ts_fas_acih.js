@@ -1058,6 +1058,7 @@ if (pathName.startsWith("/home") ||
                const userData = snapshot.val();
 
                if (noteData.isNsfw === true) {
+                  console.log("hi");
                   if (userData.showNsfw === "Blur") {
                      // create the cover, which is the actual warning itself
                      const cover = document.createElement("div");
@@ -1156,6 +1157,23 @@ if (pathName.startsWith("/home") ||
             return;
          }
       } else if (noteData.isNsfw !== "noNsfwContent") {
+         // check if user in a blocked location
+         fetch("https://ipapi.co/json/")
+            .then(res => res.json())
+            .then(data => {
+               if (data.country === "GB") {
+                  noteDiv.innerHTML = `
+                     <p><i class="fa-solid fa-location-pin-lock"></i> Due to restrictions in your area, Auride has to block NSFW content. We're looking into privacy-safe ways to verify your age, so we can show this content to you again. <a href="/blog/nsfw-blocked">Learn more</a>.</p>
+                  `;
+                  // set timeout so it removes successfully
+                  setTimeout(() => {
+                     document.querySelector(`p[class="contentWarning-showBelowText"]`).remove();
+                  }, 150);
+                  return;
+               }
+            })
+            .catch(err => console.error("Failed to detect location:", err));
+
          if (firebase.auth().currentUser) {
             firebase.database().ref(`users/${firebase.auth().currentUser.uid}`).once("value", (snapshot) => {
                const userData = snapshot.val();
