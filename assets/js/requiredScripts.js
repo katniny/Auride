@@ -31,6 +31,10 @@ async function loadAllScripts() {
         await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js", false);
         await loadScript("/assets/js/firebase.js", false, "module");
 
+        // page loader & theme loader
+        await loadScript("/assets/js/ui/setTheme.js", false, "module");
+        await loadScript("/assets/js/ui/pageLoader.js", false, "module");
+
         // load scripts necessary for fetching data
         await loadScript("/assets/js/users/fetchUserData.js", false, "module");
 

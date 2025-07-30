@@ -60,3 +60,7 @@ yes, also the technical details:
     are sure that you are using the profile picture you want. If you confirm,
     it will upload your profile picture. If you cancel, it will not use that profile
     picture.
+- Twitter/X links are now Bluesky links
+    - A while ago, we depreciated Twitter/X as a supported platform, but Auride's links
+    never reflected this, but now, Twitter/X links were replaced by Bluesky, as it is a
+    supported platform.
