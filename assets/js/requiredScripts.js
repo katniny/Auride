@@ -42,6 +42,12 @@ async function loadAllScripts() {
         // load user info
         await loadScript("/assets/js/users/userInfo.js", false, "module");
 
+        // sidebar
+        await loadScript("/assets/js/ui/sidebar.js", false, "module");
+
+        // header
+        await loadScript("/assets/js/ui/header.js", false, "module");
+
         // page loader & theme loader
         await loadScript("/assets/js/ui/setTheme.js", false, "module");
         await loadScript("/assets/js/ui/loadCachedTheme.js", false, "module");
@@ -49,9 +55,6 @@ async function loadAllScripts() {
 
         // load scripts necessary for fetching data
         await loadScript("/assets/js/users/fetchUserData.js", false, "module");
-
-        // sidebar
-        await loadScript("/assets/js/ui/sidebar.js", false, "module");
 
         // html element behaviors
         await loadScript("/assets/js/closeModalBehavior.js", false);

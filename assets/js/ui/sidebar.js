@@ -81,6 +81,10 @@ firebase.auth().onAuthStateChanged((user) => {
         document.getElementById("enchantedSidebar").remove();
         document.getElementById("linkToAcc").remove();
         document.getElementById("createNote-sidebar").remove();
+
+        document.getElementById("userPfp-sidebar").remove();
+        document.getElementById("displayName-sidebar").remove();
+        document.getElementById("username-pronouns-sidebar").remove();
     }
 });
 
