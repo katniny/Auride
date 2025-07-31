@@ -1,4 +1,7 @@
 // alert dev console users to be careful :p
+
+import { errorOccurred } from "./ui/errorOccurred";
+
 // if not literally developing though
 if (!window.location.origin.startsWith("http://127.0.0.1") && !window.location.origin.startsWith("http://localhost")) {
    console.log("%cStop!", "color: red; font-size: 35px;");
@@ -24,6 +27,11 @@ function loadScript(src, async, type, crossorigin) {
 
 async function loadAllScripts() {
     try {
+        // error occurred ui
+        // should be first, just in case anything should happen during this
+        // process!
+        await loadScript("/assets/js/ui/errorOccurred.js", false, "module");
+
         // load firebase scripts
         await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js", false);
         await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js", false);
@@ -31,6 +39,7 @@ async function loadAllScripts() {
         await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js", false);
         await loadScript("/assets/js/firebase.js", false, "module");
 
+        // load user info
         await loadScript("/assets/js/users/userInfo.js", false, "module");
 
         // page loader & theme loader
@@ -55,6 +64,7 @@ async function loadAllScripts() {
         document.dispatchEvent(new Event("scriptsLoaded"));
     } catch (error) {
         console.error("Error loading scripts: ", error);
+        errorOccurred(error);
     }
 }
 

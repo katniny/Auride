@@ -2,6 +2,9 @@
 // use in several ways!
 // please dont use this if up-to-date information
 // is VITAL and this script was loaded A WHILE AGO!
+
+// also, dont use this in functions that need to be
+// secure. this is meant to DISPLAY information, mainly!
 import { storageLink } from "../storageLink";
 
 export const userInfo = {
