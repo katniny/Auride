@@ -1,6 +1,6 @@
 // alert dev console users to be careful :p
-
 import { errorOccurred } from "./ui/errorOccurred";
+import { pathname } from "./pathname";
 
 // if not literally developing though
 if (!window.location.origin.startsWith("http://127.0.0.1") && !window.location.origin.startsWith("http://localhost")) {
@@ -25,8 +25,14 @@ function loadScript(src, async, type, crossorigin) {
     });
 }
 
-async function loadAllScripts() {
+async function loadAllScripts(minimal) {
     try {
+        // you can set `minimal` to true to only load necessary
+        // scripts, just make sure to define page by adding an or statement!
+        // e.g., if (pathname.startsWith("/auth/") || pathname === "/home")
+        // if minimal is activate, feel free to still import scripts that
+        // will break loading the page, as they will be considered necessary!
+
         // error occurred ui
         // should be first, just in case anything should happen during this
         // process!
@@ -40,17 +46,19 @@ async function loadAllScripts() {
         await loadScript("/assets/js/firebase.js", false, "module");
 
         // load user info
-        await loadScript("/assets/js/users/userInfo.js", false, "module");
+        if (!minimal) {
+            await loadScript("/assets/js/users/userInfo.js", false, "module");
 
-        // sidebar
-        await loadScript("/assets/js/ui/sidebar.js", false, "module");
+            // sidebar
+            await loadScript("/assets/js/ui/sidebar.js", false, "module");
 
-        // header
-        await loadScript("/assets/js/ui/header.js", false, "module");
-
+            // header
+            await loadScript("/assets/js/ui/header.js", false, "module");
+        }
         // page loader & theme loader
         await loadScript("/assets/js/ui/setTheme.js", false, "module");
         await loadScript("/assets/js/ui/loadCachedTheme.js", false, "module");
+
         await loadScript("/assets/js/ui/pageLoader.js", false, "module");
 
         // load scripts necessary for fetching data
@@ -71,4 +79,7 @@ async function loadAllScripts() {
     }
 }
 
-loadAllScripts();
+if (pathname.startsWith("/auth/"))
+    loadAllScripts(true);
+else
+    loadAllScripts(false);
