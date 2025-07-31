@@ -23,7 +23,7 @@ export function register() {
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // make sure that the page wont reload
-            //preventLoggedInRedirect();
+            preventLoggedInRedirect();
 
             // continue...
             const user = userCredential.user;
