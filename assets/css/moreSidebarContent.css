@@ -1,7 +1,7 @@
 .sidebar .moreContent {
    position: fixed;
    background: var(--background);
-   transform: translate(100px, -80px);
+   transform: translate(100px, -130px);
    border-radius: 25px;
    padding: 5px;
    max-width: 250px;

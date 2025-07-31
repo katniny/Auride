@@ -22,7 +22,8 @@ yes, also the technical details:
 - JavaScript is now modularized (Related to "Start utilizing Vite and its modular JavaScript files")
     - Auride now has all its code seperated into several files, rather than having all our code in
     one huge file. This makes Auride easier to work with, but also will less likely result in several
-    things breaking when one thing does, which was the previous behavior.
+    things breaking when one thing does, which was the previous behavior. This includes things such as
+    making our sidebar modular.
 - Checking signed in/out status can be interrupted
     - On pages that have these scripts, they can now be interrupted if it is not necessary when a
     user first signs in. This is used on the registration page to ensure that we do not kick the
