@@ -10,7 +10,7 @@ const sidebarHtml = `
     <a href="/settings?tab=subscription" id="enchantedSidebar"><button><i class="fa-solid fa-heart"></i> Donate</button></a>
     <a href="/updates"><button id="updatesBtn"><i class="fa-solid fa-wrench"></i> Updates</button></a>
     <a href="/u" id="linkToAcc"><button><i class="fa-solid fa-user"></i> Your Profile</button></a>
-    <a href="javascript:void(0);"><button id="showMoreContent"><i class="fa-solid fa-ellipsis"></i> More</button></a>
+    <a href="javascript:void(0);"><button id="showMoreContent" onclick="showMoreSidebarContent()"><i class="fa-solid fa-ellipsis"></i> More</button></a>
     <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar"><i class="fa-solid fa-pen-to-square"></i> Create</button>
     <div id="moreContent" class="moreContent" style="display: none;">
         <a href="/settings" id="settingsSidebar"><button class="settings"><i class="fa-solid fa-gear"></i> Settings</button></a>
@@ -37,7 +37,7 @@ const sidebarHtml = `
         <a href="https://github.com/katniny/Auride" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
             
         <!-- Profile -->
-        <div class="profileContainer" >
+        <div class="profileContainer" onclick="showProfileContainer()">
             <div class="profile" id="profile" style="display: none;">
                 <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
                 <button onclick="signOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
@@ -90,35 +90,21 @@ firebase.auth().onAuthStateChanged((user) => {
 
 // show more content when "More" is clicked
 let showMoreContentOpen = false;
-document.getElementById("showMoreContent").addEventListener("click", () => {
-    // if open, just delete
-    if (showMoreContentOpen && !document.getElementById("moreContent")) {
-        showMoreContentOpen = false;
-        return;
-    } else if (!showMoreContentOpen) {
-        // if not open, then create it
-        const moreContent = document.createElement("div");
-        moreContent.innerHTML = `
-            <a href="/contributors"><button><i class="fa-solid fa-face-smile-beam" aria-hidden="true"></i> Contributors</button></a>
-            <a href="/achievements" id="achievementsSidebar"><button><i class="fa-solid fa-award" aria-hidden="true"></i> Achievements</button></a>
-            <a href="/favorites" id="favoritesSidebar"><button><i class="fa-solid fa-bookmark" aria-hidden="true"></i> Favorites</button></a>
-        `;
-        if (userInfo.signedIn)
-            moreContent.innerHTML += `<a href="/settings" id="settingsSidebar"><button class="settings"><i class="fa-solid fa-gear" aria-hidden="true"></i> Settings</button></a>`;
-        moreContent.id = "moreContent";
-        moreContent.className = "moreContent";
-        // append the element
-        sidebar.appendChild(moreContent);
+export function showMoreSidebarContent() {
+    const moreContent = document.getElementById("moreContent");
+
+    // if open, just show
+    if (!showMoreContentOpen) {
+        moreContent.style.display = "block";
         showMoreContentOpen = true;
-    } else if (document.getElementById("moreContent")) {
-        document.getElementById("moreContent").remove();
-        document.getElementById("showMoreContent").click();
+    } else {
+        moreContent.style.display = "none";
         showMoreContentOpen = false;
     }
-});
+}
 
 // show the profile area (if the user is signed in)
-document.querySelector(`div[class="profileContainer"]`).addEventListener("click", () => {
+export function showProfileContainer() {
     const profile = document.getElementById("profile");
     if (userInfo.signedIn === true) {
         if (profile.style.display === "" || profile.style.display === "block")
@@ -126,4 +112,7 @@ document.querySelector(`div[class="profileContainer"]`).addEventListener("click"
         else
             profile.style.display = "block";
     }
-});
+}
+
+window.showMoreSidebarContent = showMoreSidebarContent;
+window.showProfileContainer = showProfileContainer;
