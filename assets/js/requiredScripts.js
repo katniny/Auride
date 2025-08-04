@@ -54,6 +54,9 @@ async function loadAllScripts(minimal) {
 
             // header
             await loadScript("/assets/js/ui/header.js", false, "module");
+
+            // auride accounts
+            await loadScript("/assets/js/ui/aurideAccounts.js", false, "module");
         }
         // page loader & theme loader
         await loadScript("/assets/js/ui/setTheme.js", false, "module");

@@ -92,7 +92,7 @@
 .recommendedAccounts #user2User-pronouns {
    float: left;
    margin-top: 10px;
-   transform: translate(-96px, 5px);
+   transform: translate(-68px, 5px);
    color: var(--text-semi-transparent);
 }
 

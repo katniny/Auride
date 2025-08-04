@@ -20,12 +20,13 @@ export async function fetchProtectedUserData(uid) {
 
         if (!response.ok) {
             const error = await response.json();
-            console.log("User data from server:", userData);
+            console.log("Failed to fetch:", error);
             return;
         }
 
         const userData = await response.json();
         console.log("User data from server:", userData);
+        return userData;
     } catch (err) {
         console.error("Failed to fetch user data", err);
     }

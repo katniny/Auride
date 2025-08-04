@@ -70,3 +70,7 @@ yes, also the technical details:
     to the default theme, then to your preferred theme, causing your screen to flash. 
     Now, Auride caches your theme and it will be loaded immediately so your colors 
     aren't jumping around.
+- Retired the supporter badge
+    - Since the Katniny+ subscription service has been retired for quite a while now,
+    and there is no way to achieve this badge otherwise, the heart badge is no longer
+    available on Auride.

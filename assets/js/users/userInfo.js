@@ -31,7 +31,10 @@ firebase.auth().onAuthStateChanged((user) => {
             // then, mark as done!
             document.dispatchEvent(new Event("userInfoReady"));
         }).catch((error) => {
-            
+            console.log(error);
+            document.dispatchEvent(new Event("userInfoReady"));
         });
+    } else {
+        document.dispatchEvent(new Event("userInfoReady"));
     }
 });
