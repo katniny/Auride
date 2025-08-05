@@ -76,10 +76,27 @@ export default async function handler(req, res) {
         }
         const snapshot = await getDatabase().ref(`/users/${uid}`).get();
 
+        // we need to filter through data so we're not sending
+        // personal/unnecessary data to the client
+        const unfilteredData = snapshot.val(); 
+        const filteredData = {
+            achievements: unfilteredData.achievements.transsocial || null,
+            banner: unfilteredData.banner || null,
+            bio: unfilteredData.bio || null,
+            display: unfilteredData.display || null,
+            followers: unfilteredData.followers || 0,
+            following: unfilteredData.following || 0,
+            followingWho: unfilteredData.followingWho || 0,
+            isVerified: unfilteredData.isVerified || false,
+            pfp: unfilteredData.pfp || null,
+            pronouns: unfilteredData.pronouns || null,
+            username: unfilteredData.username || null,
+        };
+
         if (!snapshot.exists()) {
             return res.status(404).json({ error: "User not found" });
         }
-        return res.status(200).json(snapshot.val());
+        return res.status(200).json(filteredData);
     } catch (err) {
         console.log(err);
         return res.status(401).json({ error: "Unauthorized request." });
