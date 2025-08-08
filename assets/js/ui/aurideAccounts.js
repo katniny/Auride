@@ -1,4 +1,5 @@
 import { storageLink } from "../storageLink";
+import { fetchProtectedUserData } from "../users/fetchUserData";
 
 // create placeholder html (we'll add it later)
 const aurideAccountsHtml = `
@@ -52,7 +53,6 @@ async function fetchKatniny() {
         if (ranFetchKatniny) return;
 
         profileSection.innerHTML += failedHtml;
-        console.error(e);
         
         ranFetchKatniny = true;
         document.dispatchEvent(new Event("katninyAccAddedToAurideAccsSection"));
@@ -82,7 +82,6 @@ async function fetchAuride() {
         if (ranFetchAuride) return;
 
         profileSection.innerHTML += failedHtml;
-        console.error(e);
         
         ranFetchAuride = true;
         document.dispatchEvent(new Event("aurideAccAddedToAurideAccsSection"));
@@ -116,7 +115,6 @@ async function fetchKatninyStudios() {
         if (ranFetchKatninyStudios) return;
 
         profileSection.innerHTML += failedHtml;
-        console.error(e);
 
         lookingForAurideAccs.remove();
         

@@ -2,18 +2,15 @@ export async function fetchProtectedUserData(uid) {
     const auth = firebase.auth();
     const user = auth.currentUser;
 
-    if (!user) {
-        console.error("User not logged in.");
-        return;
-    }
-
     try {
-        const token = await user.getIdToken();
+        let token = null;
+        if (user)
+            token = await user.getIdToken();
 
         const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auride/getUser`, {
             method: "GET",
             headers: {
-                "Authorization": `Bearer ${token}`,
+                "Authorization": `Bearer ${token || null}`,
                 "X-Auride-UID": uid
             }
         });

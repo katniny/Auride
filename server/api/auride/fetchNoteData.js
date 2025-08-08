@@ -63,13 +63,17 @@ export default async function handler(req, res) {
 
     // validate auth & data
     const authHeader = req.headers.authorization || "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
-    console.log("token: ", token);
+    let decoded = null;
+    let token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
 
     try {
-        let decoded = null;
-        if (token)
-            decoded = await getAuth().verifyIdToken(token);
+        if (typeof token === "string" && token.trim() !== "") {
+            try {
+                decoded = await getAuth().verifyIdToken(token);
+            } catch (err) {
+                decoded = null;
+            }
+        }
         const noteId = req.headers["x-auride-noteid"];
         if (!noteId) {
             return res.status(400).json({ error: "Missing note ID. Please try again with a note ID." });

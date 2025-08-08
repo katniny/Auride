@@ -80,18 +80,22 @@ export default async function handler(req, res) {
 
     // validate auth & data
     const authHeader = req.headers.authorization || "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
-
-    if (!token) {
-        return res.status(401).json({ error: "Missing token" });
-    }
+    let decoded = null;
+    let token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
 
     try {
+        if (typeof token === "string" && token.trim() !== "") {
+            try {
+                decoded = await getAuth().verifyIdToken(token);
+            } catch (err) {
+                decoded = null;
+            }
+        }
+        
         const rawBody = await getRawBody(req);
         const body = JSON.parse(rawBody);
         const { newDisplay } = body;
-
-        const decoded = await getAuth().verifyIdToken(token);
+        
         const uid = decoded.uid;
         const userRef = getDatabase().ref(`/users/${uid}`);
 
@@ -110,6 +114,7 @@ export default async function handler(req, res) {
 
         return res.status(200).json({ message: "Successfully set the users display name." });
     } catch (err) {
+        console.log(err);
         return res.status(401).json({ error: "Unauthorized request." });
     }
 }

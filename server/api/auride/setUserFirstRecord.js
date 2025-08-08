@@ -63,13 +63,17 @@ export default async function handler(req, res) {
 
     // validate auth & data
     const authHeader = req.headers.authorization || "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
-    if (!token) {
-        return res.status(401).json({ error: "Missing token" });
-    }
+    let decoded = null;
+    let token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
 
     try {
-        const decoded = await getAuth().verifyIdToken(token);
+        if (typeof token === "string" && token.trim() !== "") {
+            try {
+                decoded = await getAuth().verifyIdToken(token);
+            } catch (err) {
+                return res.status(403).json({ error: "You aren't signed in!" });
+            }
+        }
         const uid = decoded.uid;
 
         const snapshot = await getDatabase().ref(`/users/${uid}`).get();

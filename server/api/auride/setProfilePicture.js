@@ -83,18 +83,22 @@ export default async function handler(req, res) {
 
     // validate auth & data
     const authHeader = req.headers.authorization || "";
-    const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
-
-    if (!token) {
-        return res.status(401).json({ error: "Missing token" });
-    }
+    let decoded = null;
+    let token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : null;
 
     try {
+        if (typeof token === "string" && token.trim() !== "") {
+            try {
+                decoded = await getAuth().verifyIdToken(token);
+            } catch (err) {
+                decoded = null;
+            }
+        }
+
         const rawBody = await getRawBody(req);
         const body = JSON.parse(rawBody);
         const { uploadedPfp } = body;
 
-        const decoded = await getAuth().verifyIdToken(token);
         const uid = decoded.uid;
         const userRef = getDatabase().ref(`/users/${uid}`);
 
