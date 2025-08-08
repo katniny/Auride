@@ -1,4 +1,5 @@
 import { fetchNoteData } from "./fetchNoteData";
+import { renderNoteUI } from "./renderNoteUI";
 
 // create the notes container
 const notesContainer = document.createElement("div");
@@ -42,9 +43,6 @@ function loadNotes(missing = batchSize) {
         }
 
         // render newest -> oldest
-        // also, use fragment to avoid triggering layout thrashing
-        const fragment = document.createDocumentFragment();
-
         // make an array of fetch promises
         const fetchPromises = notesArr.map(note => {
             return fetchNoteData(note.key).then(noteData => ({ note, noteData }));
@@ -62,15 +60,18 @@ function loadNotes(missing = batchSize) {
                 // TO:DO make specific functions for note, user, search and favorites pages
                 if (note.replyingTo) return;
 
-                const p = document.createElement("p");
-                p.textContent = `Hi, my key is ${note.key} and I have the following text: "${note.text}". Oh, also, I might be a reply: ${note.replyingTo || null}!`;
-                p.style.marginTop = "75px";
-                fragment.appendChild(p);
+                // const p = document.createElement("p");
+                // p.textContent = `Hi, my key is ${note.key} and I have the following text: "${note.text}". Oh, also, I might be a reply: ${note.replyingTo || null}!`;
+                // p.style.marginTop = "75px";
+                // fragment.appendChild(p);
+
+                // then, fetch user data and display note
+                fetchProtectedUserData(note.whoSentIt).then((userData) => {
+                    renderNoteUI(note, userData);
+                });
 
                 renderedNotes++;
             });
-
-            notesContainer.appendChild(fragment);
 
             if (notesArr.length > 0)
                 lastCreatedAt = notesArr[notesArr.length - 1].createdAt;

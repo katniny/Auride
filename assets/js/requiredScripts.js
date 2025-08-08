@@ -47,6 +47,9 @@ async function loadAllScripts(minimal) {
 
         // load user info
         if (!minimal) {
+            // user info
+            await loadScript("/assets/js/users/userInfo.js", false, "module");
+
             // sidebar
             await loadScript("/assets/js/ui/sidebar.js", false, "module");
 
@@ -55,8 +58,6 @@ async function loadAllScripts(minimal) {
 
             // auride accounts
             await loadScript("/assets/js/ui/aurideAccounts.js", false, "module");
-
-            await loadScript("/assets/js/users/userInfo.js", false, "module");
         }
         // page loader & theme loader
         await loadScript("/assets/js/ui/setTheme.js", false, "module");
