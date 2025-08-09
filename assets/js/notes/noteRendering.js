@@ -19,6 +19,25 @@ function loadNotes(missing = batchSize) {
     if (loading || missing <= 0) return;
     loading = true;
 
+    // create loading icon
+    const loadingIcon = document.createElement("p");
+    let loadingIconHtml = null;
+    loadingIcon.style.textAlign = "center";
+    loadingIcon.style.marginTop = "10px";
+
+    if (missing !== batchSize) {
+        let amountOfNotes = null;
+        if (missing > 1)
+            amountOfNotes = "notes";
+        else
+            amountOfNotes = "note";
+        loadingIconHtml = `<i class="fa-solid fa-circle-notch fa-spin"></i> Finding ${missing} more ${amountOfNotes} for you... (Failed to fulfill loaded notes size of ${batchSize})`;
+    } else
+        loadingIconHtml = `<i class="fa-solid fa-circle-notch fa-spin"></i> Finding notes for you...`;
+
+    loadingIcon.innerHTML = loadingIconHtml;
+    notesContainer.appendChild(loadingIcon);
+
     let query = firebase.database().ref(`/notes`).orderByChild("createdAt");
 
     if (lastCreatedAt !== null)
@@ -30,6 +49,7 @@ function loadNotes(missing = batchSize) {
         const data = snapshot.val();
         if (!data) {
             loading = false;
+            loadingIcon.remove();
             return;
         }
 
@@ -77,6 +97,7 @@ function loadNotes(missing = batchSize) {
                 lastCreatedAt = notesArr[notesArr.length - 1].createdAt;
 
             loading = false;
+            loadingIcon.remove();
 
             // if we skipped any (say deleted notes, private notes, etc.)
             // then fill in the gap
