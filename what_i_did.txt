@@ -74,3 +74,15 @@ yes, also the technical details:
     - Since the Katniny+ subscription service has been retired for quite a while now,
     and there is no way to achieve this badge otherwise, the heart badge is no longer
     available on Auride.
+- Adding loading indicator for notes
+    - Since notes are now fetched from the server, fetching notes may take oh, so slightly, longer.
+    So, now, since of nothing showing up and Auride looking like its doing nothing -- there will now
+    be a loading indicator letting you know how many notes Auride is attempting to load. If it does not
+    tell you, it's loading an entire new batch, which is 7.
+- Boosted notes from 5 to 7
+    - Since notes are now more optimized in terms of rendering, Auride now loads 7 notes at a time rather
+    than 5! While this isn't a huge change, it's a slight demonstration in the power of the note rendering, since
+    7 would previously make Auride lag.
+- Fixed renotes not appearing on user profiles
+    - Bet you didn't know this was broken! Well, thanks to the new note rendering system, renotes will now appear 
+    on a user's profile correctly, and should *hopefully* never break again.

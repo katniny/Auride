@@ -10,7 +10,7 @@ export function renderNoteUI(noteData, userData) {
 
     // get username html
     let noteUsernameHtml = null;
-    if (userData.pronouns)
+    if (userData && userData.pronouns)
         noteUsernameHtml = `@${userData.username} • ${userData.pronouns}`;
     else
         noteUsernameHtml = `@${userData.username}`;
@@ -19,7 +19,8 @@ export function renderNoteUI(noteData, userData) {
     const howLongAgo = timeAgo(noteData.createdAt);
     noteUsernameHtml += ` • ${howLongAgo}`;
 
-    // then, put the html in
+    // add the base html, for elements that will always be true
+    // we'll add more to the html where needed
     noteDiv.innerHTML = `
         <img class="notePfp" draggable="false" loading="lazy" src="${storageLink(`images/pfp/${noteData.whoSentIt}/${userData.pfp}`)}" alt="Profile picture of ${userData.username}" />
         <a class="noteDisplay" href="/u/${userData.username}">${userData.display}</a>
@@ -27,6 +28,23 @@ export function renderNoteUI(noteData, userData) {
         <a class="noteUsername" href="/u/${userData.username}">${noteUsernameHtml}</a>
         <p class="noteText">${noteData.text}</p>
     `;
+
+    // does note have img/video? if so, render it
+    if (noteData.image) {
+        // check if ends with video or image format
+        // remove params and lowercase it, just in case
+        const rawUrl = noteData.image?.split("?")[0].toLowerCase(); 
+
+        if (rawUrl.endsWith(".mp4")) {
+            noteDiv.innerHTML += `
+                <video class="uploadedImg" src="${noteData.image}" controls loading="lazy" loop />
+            `;
+        } else {
+            noteDiv.innerHTML += `
+                <img class="uploadedImg" src="${noteData.image}" loading="lazy" draggable="false" />
+            `;
+        }
+    }
     
     // get container of notes
     const notesContainer = document.getElementById("notes");
