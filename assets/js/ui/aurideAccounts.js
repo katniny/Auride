@@ -37,6 +37,9 @@ async function fetchKatniny() {
     try {
         const katninyData = await fetchProtectedUserData(import.meta.env.VITE_KATNINY_UID);
 
+        if (ranFetchKatniny) return;
+        if (document.querySelector(`div[class="katninyProfile"]`)) return;
+
         profileSection.innerHTML += `
             <div class="katninyProfile">
                 <img class="recommendAcc-pfp" src="${storageLink(`images/pfp/${import.meta.env.VITE_KATNINY_UID}/${katninyData.pfp}`)}" id="katninyPfp" draggable="false"> <p id="katninyDisplay">${katninyData.display}<i class="fa-solid fa-circle-check fa-var(--main-color)" aria-hidden="true"></i></p>
@@ -65,6 +68,9 @@ async function fetchAuride() {
 
     try {
         const aurideData = await fetchProtectedUserData(import.meta.env.VITE_AURIDE_UID);
+
+        if (ranFetchAuride) return;
+        if (document.querySelector(`div[class="auride"]`)) return;
 
         profileSection.innerHTML += `
             <div class="auride">
@@ -96,6 +102,9 @@ async function fetchKatninyStudios() {
 
     try {
         const kStudiosData = await fetchProtectedUserData(import.meta.env.VITE_KATNINYSTUDIOS_UID);
+
+        if (ranFetchKatninyStudios) return;
+        if (document.querySelector(`div[class="katninystudios"]`)) return;
 
         profileSection.innerHTML += `
             <div class="katninystudios">
