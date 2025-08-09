@@ -31,7 +31,7 @@ function loadNotes(missing = batchSize) {
             amountOfNotes = "notes";
         else
             amountOfNotes = "note";
-        loadingIconHtml = `<i class="fa-solid fa-circle-notch fa-spin"></i> Finding ${missing} more ${amountOfNotes} for you... (Failed to fulfill loaded notes size of ${batchSize})`;
+        loadingIconHtml = `<i class="fa-solid fa-circle-notch fa-spin"></i> Finding ${missing} more ${amountOfNotes} for you...`;
     } else
         loadingIconHtml = `<i class="fa-solid fa-circle-notch fa-spin"></i> Finding notes for you...`;
 
