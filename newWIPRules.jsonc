@@ -1,0 +1,13 @@
+// these rules are WIP, and should not be used in prod!
+// these will be hacked at until it's in a secure state.
+{
+  "rules": {
+    ".read": "true",
+    ".write": "newData.exists()",
+    "notes": {
+      ".indexOn": [
+        "createdAt" // indexes our notes based on their createdAt value, allowing us to filter through notes faster
+      ]
+    }
+  }
+}
