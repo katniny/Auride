@@ -1,4 +1,4 @@
-Last updated: June 29, 2025
+Last updated: September XX, 2025
 # 👋 Welcome to the Auride contributing guide!
 Thank you for your interest in contributing to Auride! We try to make Auride as easy as possible to contribute to.
 

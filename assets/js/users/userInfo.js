@@ -54,28 +54,28 @@ firebase.auth().onAuthStateChanged((user) => {
 
             // set nsfw flags data
             userInfo.flagPrefs.nsfw.classic = data.showNsfw || null;
-            userInfo.flagPrefs.nsfw.adultContent = data.flagPrefs.adultContent || null;
-            userInfo.flagPrefs.nsfw.erotica = data.flagPrefs.erotica || null;
-            userInfo.flagPrefs.nsfw.fetishContent = data.flagPrefs.fetishContent || null;
-            userInfo.flagPrefs.nsfw.nonSexualNudity = data.flagPrefs.nonSexualNudity || null;
-            userInfo.flagPrefs.nsfw.sexuallySuggestive = data.flagPrefs.sexuallySuggestive || null;
+            userInfo.flagPrefs.nsfw.adultContent = data.flagPrefs?.adultContent || null;
+            userInfo.flagPrefs.nsfw.erotica = data.flagPrefs?.erotica || null;
+            userInfo.flagPrefs.nsfw.fetishContent = data.flagPrefs?.fetishContent || null;
+            userInfo.flagPrefs.nsfw.nonSexualNudity = data.flagPrefs?.nonSexualNudity || null;
+            userInfo.flagPrefs.nsfw.sexuallySuggestive = data.flagPrefs?.sexuallySuggestive || null;
 
             // set sensitive flags data
             userInfo.flagPrefs.sensitive.classic = data.showSensitive || null;
-            userInfo.flagPrefs.sensitive.abuseTraumaMentions = data.flagPrefs.abuseTraumaMentions || null;
-            userInfo.flagPrefs.sensitive.drugUse = data.flagPrefs.drugUse || null;
-            userInfo.flagPrefs.sensitive.flashSeizureRisk = data.flagPrefs.flashSeizureRisk || null;
-            userInfo.flagPrefs.sensitive.graphicViolence = data.flagPrefs.graphicViolence || null;
-            userInfo.flagPrefs.sensitive.horrorImagery = data.flagPrefs.horrorImagery || null;
-            userInfo.flagPrefs.sensitive.selfHarmSuicideMentions = data.flagPrefs.selfHarmSuicideMentions || null;
+            userInfo.flagPrefs.sensitive.abuseTraumaMentions = data.flagPrefs?.abuseTraumaMentions || null;
+            userInfo.flagPrefs.sensitive.drugUse = data.flagPrefs?.drugUse || null;
+            userInfo.flagPrefs.sensitive.flashSeizureRisk = data.flagPrefs?.flashSeizureRisk || null;
+            userInfo.flagPrefs.sensitive.graphicViolence = data.flagPrefs?.graphicViolence || null;
+            userInfo.flagPrefs.sensitive.horrorImagery = data.flagPrefs?.horrorImagery || null;
+            userInfo.flagPrefs.sensitive.selfHarmSuicideMentions = data.flagPrefs?.selfHarmSuicideMentions || null;
 
             // set political flags data
             userInfo.flagPrefs.political.classic = data.showPolitics || null;
-            userInfo.flagPrefs.political.conspiracyTheories = data.flagPrefs.conspiracyTheories || null;
-            userInfo.flagPrefs.political.identityDebates = data.flagPrefs.identityDebates || null;
-            userInfo.flagPrefs.political.newsMedia = data.flagPrefs.newsMedia || null;
-            userInfo.flagPrefs.political.politicalDiscussion = data.flagPrefs.politicalDiscussion || null;
-            userInfo.flagPrefs.political.warNConflict = data.flagPrefs.warNConflict || null;
+            userInfo.flagPrefs.political.conspiracyTheories = data.flagPrefs?.conspiracyTheories || null;
+            userInfo.flagPrefs.political.identityDebates = data.flagPrefs?.identityDebates || null;
+            userInfo.flagPrefs.political.newsMedia = data.flagPrefs?.newsMedia || null;
+            userInfo.flagPrefs.political.politicalDiscussion = data.flagPrefs?.politicalDiscussion || null;
+            userInfo.flagPrefs.political.warNConflict = data.flagPrefs?.warNConflict || null;
 
             // then, mark as done!
             document.dispatchEvent(new Event("userInfoReady"));
