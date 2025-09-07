@@ -21,6 +21,8 @@ function loadScript(src, async) {
 
 async function loadAllScripts() {
    try {
+      await loadScript("/assets/js/ui/underConstruction.js", false);
+
       // required before ts_fas_acih.js
       await loadScript("/assets/js/pathName.js", false);
       await loadScript("/assets/js/versioning.js", false);
