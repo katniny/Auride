@@ -26,37 +26,31 @@ document.getElementById("fileInput").addEventListener("change", function (event)
 
                 if (file.size <= 5 * 1024 * 1024) {
                     if (allowedTypes.includes(file.type)) {
-                        const storageRef = firebase.storage().ref();
-                        const fileRef = storageRef.child(`images/pfp/${user.uid}/${file.name}`);
-
                         document.getElementById("changePfp").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Uploading image...`;
-
+                        
+                        const fileRef = storageRef(`images/pfp/${user.uid}/${file.name}`);
                         fileRef.put(file).then(function (snapshot) {
-                            snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                                firebase.database().ref(`users/${user.uid}/pfp`).once("value", (snapshot) => {
-                                    firebase.database().ref(`users/${user.uid}/pfp`).once("value", (snapshot) => {
-                                        const oldPfpName = snapshot.val();
+                            firebase.database().ref(`users/${user.uid}/pfp`).once("value", (snapshot) => {
+                                const oldPfpName = snapshot.val();
 
-                                        firebase.database().ref(`users/${user.uid}`).update({
-                                            pfp: file.name
-                                        })
-                                            .then(() => {
-                                                if (oldPfpName) {
-                                                    const oldFileRef = storageRef.child(`images/pfp/${user.uid}/${oldPfpName}`);
-                                                    oldFileRef.delete().then(() => {
-                                                        document.getElementById("changePfp").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Checking...`;
-                                                    }).catch((error) => {
-                                                        document.getElementById("errorUploadingPfp").style.display = "block";
-                                                        document.getElementById("errorUploadingPfp").textContent = `Failed to upload profile picture: ${error.message}`;
-                                                    })
-                                                }
+                                firebase.database().ref(`users/${user.uid}`).update({
+                                    pfp: file.name
+                                })
+                                    .then(() => {
+                                        if (oldPfpName) {
+                                            const oldFileRef = storageRef(`images/pfp/${user.uid}/${oldPfpName}`);
+                                            return oldFileRef.delete().then(() => {
+                                                document.getElementById("changePfp").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Checking...`;
+                                            }).catch((error) => {
+                                                document.getElementById("errorUploadingPfp").style.display = "block";
+                                                document.getElementById("errorUploadingPfp").textContent = `Failed to upload profile picture: ${error.message}`;
                                             })
+                                        }
+                                    }).finally(() => {
+                                        document.getElementById("changePfp").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Done!`;
+                                        setTimeout(() => window.location.reload(), 500);
                                     })
-                                });
-
-                                document.getElementById("changePfp").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Done!`;
-                                window.location.reload();
-                            });
+                                })
                         }).catch(function (error) {
                             document.getElementById("errorUploadingPfp").style.display = "block";
                             document.getElementById("errorUploadingPfp").textContent = `Failed to upload profile picture: ${error.message}`;

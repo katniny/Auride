@@ -27,9 +27,12 @@ async function loadAllScripts() {
 
       // firebase initialization
       await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js", false);
-      await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js", false);
-      await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js", false);
-      await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-storage.js", false);
+      await Promise.all([
+         loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js", false),
+         loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js", false),
+         // TUS is the temporary replacement for Firebase storage
+         loadScript("https://cdn.jsdelivr.net/npm/tus-js-client@latest/dist/tus.min.js", false),
+      ]);
       await loadScript("/assets/js/firebase.js", false);
       await loadScript("/assets/js/utils.js", false);
       await loadScript("/assets/js/ts_fas_acih.js", false);

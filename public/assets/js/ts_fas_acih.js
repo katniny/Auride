@@ -652,69 +652,40 @@ function previewPfp() {
 
 // Allow user to upload profile picture
 function uploadPfp() {
-   const storageRef = firebase.storage().ref();
    const uploadedImg = document.getElementById('pfpUploader').files[0];
    const reader = new FileReader();
    const error = document.getElementById('errorTxt');
 
-   const metadata = {
-      contentType: "image/pfp",
-   };
-
    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
          const uid = user.uid;
-         const imgRef = firebase.database().ref("users/" + uid)
-         const storageRef = firebase.storage().ref();
-
          if (uploadedImg) {
             reader.readAsDataURL(uploadedImg);
-            const uploadTask = storageRef.child(`images/pfp/${uid}/${uploadedImg.name}`).put(uploadedImg);
-            uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-               (snapshot) => {
-                  // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-                  const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                  errorTxt.style.display = 'block';
-                  errorTxt.style.color = 'green';
-                  errorTxt.innerHTML = 'Uploading...' + progress + '%';
-                  switch (snapshot.state) {
-                     case firebase.storage.TaskState.RUNNING: // or 'running'
-                        //console.log('Upload is running.');
-                        break;
-                  }
-               },
-               (error) => {
-                  switch (error.code) {
-                     case 'storage/unauthorized':
-                        // User doesn't have permission to access the object
-                        break;
-                     case 'storage/canceled':
-                        // User canceled the upload
-                        break;
+            const uploadTask = storageRef(`images/pfp/${uid}/${uploadedImg.name}`);
 
-                     // ...
+            uploadTask.onUploadProgress((snapshot) => {
+               // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+               const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+               errorTxt.style.display = "block";
+               errorTxt.style.color = "green";
+               errorTxt.innerHTML = "Uploading..." + progress + "%";
+            });
 
-                     case 'storage/unknown':
-                        // Unknown error occurred, inspect error.serverResponse
-                        break;
-                  }
-               },
-               () => {
-                  // Upload completed successfully, now we can get the download URL
-                  uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                     firebase.database().ref('users/' + uid).update({
+            uploadTask.put(uploadedImg).then(() => {
+               firebase
+                  .database()
+                  .ref("users/" + uid)
+                  .update({
                         pfp: `${uploadedImg.name}`,
                         preRegister_Step: "pronouns",
-                     });
-
-                     window.location.replace('/ts/prepare/pronouns.html');
                   });
-               }
-            );
+
+               window.location.replace("/ts/prepare/pronouns.html");
+            });
          } else {
-            error.innerHTML = 'No image provided.';
-            error.style.display = 'block';
-            error.style.color = 'red';
+            error.innerHTML = "No image provided.";
+            error.style.display = "block";
+            error.style.color = "red";
             return false;
          }
       }
@@ -760,12 +731,7 @@ function profileCard() {
          pfpRef.once("value")
             .then(function (snapshot) {
                const step = snapshot.val();
-               const imageRef = storageRef.child(`images/pfp/${uid}/${step}`)
-
-               imageRef.getDownloadURL()
-                  .then((url) => {
-                     userPfp.src = url;
-                  })
+               userPfp.src = storageLink(`images/pfp/${uid}/${step}`);
             })
 
          // Display user display name
@@ -3599,12 +3565,9 @@ async function publishNote() {
 
          try {
             if (file) {
-               const storageRef = firebase.storage().ref();
-               const imageRef = storageRef.child(`images/notes/${user.uid}/${newNoteKey}-${file.name}`);
+               const imageRef = storageRef(`images/notes/${user.uid}/${newNoteKey}-${file.name}`);
                const snapshot = await imageRef.put(file);
-
-               const imageUrl = await snapshot.ref.getDownloadURL();
-               postData.image = imageUrl;
+               postData.image = imageRef.getDownloadUrl();
             }
 
             await notesRef.child(newNoteKey).set(postData);
@@ -3849,7 +3812,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
 
          // delete the image (if it exists)
          if (note.image) {
-            firebase.storage().ref(`images/notes/${noteId}`).delete()
+            storageRef(`images/notes/${noteId}`).delete()
                .catch((err) => {
                   console.error("Error deleting image: ", err.message);
                });
@@ -4005,7 +3968,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                new Promise((resolve) => {
                   log("Deleting profile picture, please do not close the tab");
                   if (userData.pfp) {
-                     firebase.storage().ref(`images/pfp/${uid}/${userData.pfp}`).delete()
+                     storageRef(`images/pfp/${uid}/${userData.pfp}`).delete()
                         .then(resolve)
                         .catch((err) => {
                            log("Error deleting profile picture: " + err.message, true);

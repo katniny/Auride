@@ -20,43 +20,39 @@ document.getElementById("pfpUploader").addEventListener("change", function (even
         // get user uid
         firebase.auth().onAuthStateChanged((user) => {
             // create a reference to where you want to upload the file
-            const fileRef = storageRef.child(`images/pfp/${user.uid}/${file.name}`);
+            const fileRef = storageRef(`images/pfp/${user.uid}/${file.name}`);
+
+            fileRef.onUploadProgress(function (snapshot) {
+                // log progress
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                document.getElementById("errorTxt").textContent = `Uploading profile picture! ${progress}% done`;
+                document.getElementById("errorTxt").style.display = "block";
+                document.getElementById("errorTxt").style.color = "var(--success-color)";
+            })
 
             // upload the file
-            const uploadTask = fileRef.put(file);
+            fileRef
+                .put(file)
+                .then(function () {
+                    firebase.database().ref(`users/${user.uid}`).update({
+                        pfp: file.name,
+                    })
+                    .then(() => {
+                        const url = new URL(window.location.href);
+                        const urlParam = url.searchParams.get("return_to");
 
-            uploadTask.on("state_changed",
-                function (snapshot) {
-                    // log progress
-                    const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    document.getElementById("errorTxt").textContent = `Uploading profile picture! ${progress}% done`;
-                    document.getElementById("errorTxt").style.display = "block";
-                    document.getElementById("errorTxt").style.color = "var(--success-color)";
-                },
-                function (error) {
+                        if (!urlParam) {
+                            window.location.replace("/auth/names");
+                        } else {
+                            window.location.replace(`/auth/names?return_to=${urlParam}`);
+                        }
+                    });
+                })
+                .catch(function (error) {
                     document.getElementById("errorTxt").textContent = `${error.message}`;
                     document.getElementById("errorTxt").style.display = "block";
                     document.getElementById("errorTxt").style.color = "var(--error-text)";
-                },
-                function () {
-                    // complete!
-                    uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                        firebase.database().ref(`users/${user.uid}`).update({
-                            pfp: file.name
-                        })
-                            .then(() => {
-                                const url = new URL(window.location.href);
-                                const urlParam = url.searchParams.get("return_to");
-
-                                if (!urlParam) {
-                                    window.location.replace("/auth/names");
-                                } else {
-                                    window.location.replace(`/auth/names?return_to=${urlParam}`);
-                                }
-                            });
-                    })
-                }
-            )
+                });
         })
     }
 })
