@@ -68,14 +68,14 @@ app.get("/", async (req, res) => {
       // create an object to store only the specific fields
       const filteredUserData = {
          achievements: userData.achievements || {},
-         banner: `https://firebasestorage.googleapis.com/v0/b/chat-transsocial-test.appspot.com/o/images%2Fbanner%2F${user.val()}%2F${userData.banner}?alt=media` || null,
+         banner: userData.banner ? `https://best-energy-drink-is.fucking.monster/images/banner/${user.val()}/${userData.banner}` : null,
          bio: userData.bio || null,
          display: userData.display || null,
          followers: userData.followers || 0,
          following: userData.following || 0,
          isSubscribed: userData.isSubscribed || false,
          isVerified: userData.isVerified || false,
-         pfp: `https://firebasestorage.googleapis.com/v0/b/chat-transsocial-test.appspot.com/o/images%2Fpfp%2F${user.val()}%2F${userData.pfp}?alt=media` || null,
+         pfp: userData.pfp ? `https://best-energy-drink-is.fucking.monster/images/pfp/${user.val()}/${userData.pfp}` : null,
          posts: userData.posts || {},
          pronouns: userData.pronouns || null,
          suspensionNotes: userData.suspensionNotes || {},

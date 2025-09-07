@@ -52,7 +52,7 @@ These are just recommendations, but they will help aid you while contributing to
 - HTML/CSS/JavaScript/NodeJS experience
    - Moderate experience in JavaScript at minimum, as we rely heavily on JavaScript, but this also depends on *what* you're contributing.
 - Experience with Firebase tools (any version before 9, but version 9+ should be okay as well but please note we use 8.6.8, so it is slightly different from versions 9 and up)
-   - This is less necessary, as Firebase has documentation at https://firebase.google.com/docs/. We use authentication, realtime database, storage, and functions, just as a reference point.
+   - This is less necessary, as Firebase has documentation at https://firebase.google.com/docs/. We use authentication, realtime database, and functions, just as a reference point.
 
 ## ✨ Required
 We only have **one** requirement for contributing to Auride (dependencies), as we build most things ourselves.
@@ -75,11 +75,6 @@ We only have **one** requirement for contributing to Auride (dependencies), as w
 7. Run `npm install` to install all of Auride's dependencies
 8. Run `npm run dev` to start a local development server
 9. You're ready!
-
-## ❓ Why do I need the Firebase Blaze plan?
-We use Firebase Storage. To access the Storage at all, it is required that you have the Blaze plan.
-
-Unfortunately, this is not a decision on our part, but a decision on Firebase.
 
 ## 📝 Please note
 Auride is being worked on to make the codebase nice to work with. Right now, there are several repeated elements (and as a consequence, a change to one will require you to do it on ALL pages it appears on) and indentation that does not match our requirements.

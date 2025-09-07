@@ -26,36 +26,30 @@ document.getElementById("fileInput_banner").addEventListener("change", function 
 
                 if (file.size <= 5 * 1024 * 1024) {
                     if (allowedTypes.includes(file.type)) {
-                        const storageRef = firebase.storage().ref();
-                        const fileRef = storageRef.child(`images/banner/${user.uid}/${file.name}`);
-
                         document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Uploading image...`;
+                        
+                        const fileRef = storageRef(`images/banner/${user.uid}/${file.name}`);
+                        fileRef.put(file).then(function () {
+                            firebase.database().ref(`users/${user.uid}/banner`).once("value", (snapshot) => {
+                                const oldPfpName = snapshot.val();
 
-                        fileRef.put(file).then(function (snapshot) {
-                            snapshot.ref.getDownloadURL().then(function (downloadURL) {
-                                firebase.database().ref(`users/${user.uid}/banner`).once("value", (snapshot) => {
-                                    firebase.database().ref(`users/${user.uid}/banner`).once("value", (snapshot) => {
-                                        const oldPfpName = snapshot.val();
-
-                                        firebase.database().ref(`users/${user.uid}`).update({
-                                            banner: file.name
+                                firebase.database().ref(`users/${user.uid}`).update({
+                                    banner: file.name
+                                })
+                                .then(() => {
+                                    if (oldPfpName) {
+                                        const oldFileRef = storageRef(`images/banner/${user.uid}/${oldPfpName}`);
+                                        return oldFileRef.delete().then(() => {
+                                            document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Checking...`;
+                                        }).catch((error) => {
+                                            document.getElementById("errorUploadingBanner").style.display = "block";
+                                            document.getElementById("errorUploadingBanner").textContent = `Failed to upload profile picture: ${error.message}`;
                                         })
-                                            .then(() => {
-                                                if (oldPfpName) {
-                                                    const oldFileRef = storageRef.child(`images/banner/${user.uid}/${oldPfpName}`);
-                                                    oldFileRef.delete().then(() => {
-                                                        document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Checking...`;
-                                                    }).catch((error) => {
-                                                        document.getElementById("errorUploadingBanner").style.display = "block";
-                                                        document.getElementById("errorUploadingBanner").textContent = `Failed to upload profile picture: ${error.message}`;
-                                                    })
-                                                }
-                                            })
-                                    })
-                                });
-
-                                document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Done!`;
-                                window.location.reload();
+                                    }
+                                }).finally(() => {
+                                    document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Done!`;
+                                    setTimeout(() => window.location.reload(), 500);
+                                })
                             });
                         }).catch(function (error) {
                             document.getElementById("errorUploadingBanner").style.display = "block";
