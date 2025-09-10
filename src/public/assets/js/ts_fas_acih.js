@@ -431,8 +431,14 @@ function login() {
          .then(() => {
             window.location.replace("/home");
          }).catch((error) => {
+            let err = null;
+            if (error.message.startsWith(`{"error"`)) // theres a better way to do this.
+               err = "You need a Firebase configuration! If you're on the main Auride site and are seeing this, please report this on our GitHub.";
+            else
+               err = error.message;
+
             document.getElementById("errorTxt").style.display = "block";
-            document.getElementById("errorTxt").textContent = error.message;
+            document.getElementById("errorTxt").textContent = err;
             document.getElementById("loginBtn").innerHTML = `Login`;
             document.getElementById("loginBtn").classList.remove("disabled");
          });
@@ -6691,6 +6697,19 @@ async function getAccessToken() {
       body: new URLSearchParams({
          "grant_type": "client_credentials"
       })
+   }).catch((err) => {
+      const spotifyPlayerDiv = document.getElementById("spotifyPlayer");
+      spotifyPlayerDiv.innerHTML = `
+         <p style="color: var(--error-text)">Unable to fetch results from Spotify. 
+         You may have a browser extension (e.g., uBlock Origin or Privacy Badger) blocking access to accounts.spotify.com, which is required for us to use our Spotify access token. 
+         Please allow Auride to access these links to attach music to your note.
+         
+         <br />
+         <br />
+         
+         We take appropriate measures to protect your privacy. See our <a href="/policies/privacy">Privacy Policy</a>.
+         </p>
+      `;
    });
 
    const data = await response.json();
