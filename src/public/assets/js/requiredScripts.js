@@ -38,17 +38,14 @@ async function loadAllScripts() {
       await loadScript("/assets/js/ts_fas_acih.js", false);
 
       // page loader
-      await loadScript("/assets/js/setTheme.js", false);
-      await loadScript("/assets/js/pageLoader.js", false);
+      await loadScript("/assets/js/ui/setTheme.js", false);
+      await loadScript("/assets/js/ui/pageLoader.js", false);
 
       // our icons
       await loadScript("https://kit.fontawesome.com/be7c331826.js", false);
 
       // the sidebar opener
-      await loadScript("/assets/js/sidebarOpen.js", false);
-
-      // our emojis
-      await loadScript("/assets/js/twemoji.js", false);
+      await loadScript("/assets/js/ui/sidebarOpen.js", false);
 
       // our note creation modal
       await loadScript("/assets/js/ui/createNotePopup.js", false);
@@ -58,7 +55,7 @@ async function loadAllScripts() {
 
       // temp
       await loadScript("/assets/js/ui/editNoteUI.js", false);
-      await loadScript("/assets/js/cwDescriptions.js", false);
+      await loadScript("/assets/js/ui/cwDescriptions.js", false);
 
       // finished!
       console.log("All-page scripts loaded successfully.");
