@@ -1,4 +1,4 @@
-Last updated: June 29, 2025
+Last updated: September 9, 2025
 # 👋 Welcome to the Auride contributing guide!
 Thank you for your interest in contributing to Auride! We try to make Auride as easy as possible to contribute to.
 
@@ -12,7 +12,7 @@ Thank you for your interest in contributing to Auride! We try to make Auride as 
 - Please don't argue about requested changes
    - If someone requests a change, please change it. If you feel strongly that your original way is better, calmly explain way but do not argue about it.
       - Please note that grammar corrections are not arguable or something to be discussed. Discussing about phrasing is okay, but if we ask you to change something small (e.g "were" to "we're"), please do.
-      - e.g. "please make this comment easier to read" should not be argued nor discussed about. An implementation can be discussed.
+      - e.g., "please make this comment easier to read" should not be argued nor discussed about. An implementation can be discussed.
 - When contributing, please update `/public/assets/js/versioning.js` and `updates.html`
    - Please note that this is required.
    - Format for versioning.js:
@@ -59,22 +59,23 @@ We only have **one** requirement for contributing to Auride (dependencies), as w
 - NodeJS
 
 ## 🛠 Getting Started
-1. Visit the [Auride GitHub repo](https://github.com/katniny/auride)
+1. Visit the [Auride GitHub repo](https://github.com/katniny/Auride)
 2. Click the "Fork" button in the top right, so you can work on Auride and make seperate commits
 3. Clone your fork into an empty folder:
 ```bash
-   git clone https://github.com/YOUR_USERNAME/auride
+   git clone https://github.com/YOUR_USERNAME/Auride
    cd auride
 ```
 4. Add the upstream remote:
 ```bash
-   git remote add upstream https://github.com/katniny/auride
+   git remote add upstream https://github.com/katniny/Auride
 ```
-5. Go to /public/assets/js/firebase.js and replace the default firebaseConfig with your own. If you do not have one, please get one from the [Firebase Console](https://console.firebase.google.com/). **Make sure you do not commit these keys!**
-6. If your Firebase project does not have the Blaze plan, please upgrade it to the Blaze plan. The reason is stated below.
-7. Run `npm install` to install all of Auride's dependencies
-8. Run `npm run dev` to start a local development server
-9. You're ready!
+5. In your terminal, run `cd src` to go into the source file
+6. Go to /public/assets/js/firebase.js and replace the default firebaseConfig with your own. If you do not have one, please get one from the [Firebase Console](https://console.firebase.google.com/). **Make sure you do not commit these keys!**
+7. If your Firebase project does not have the Blaze plan, please upgrade it to the Blaze plan. The reason is stated below.
+8. Run `npm install` to install all of Auride's dependencies
+9. Run `npm run dev` to start a local development server
+10. You're ready!
 
 ## 📝 Please note
 Auride is being worked on to make the codebase nice to work with. Right now, there are several repeated elements (and as a consequence, a change to one will require you to do it on ALL pages it appears on) and indentation that does not match our requirements.
@@ -82,4 +83,4 @@ Auride is being worked on to make the codebase nice to work with. Right now, the
 We're working on making Auride's codebase nice to work with, but temporarily, please keep this mind.
 
 ## 📔 License
-By contributing to Auride, you agree that your contributions will be licensed under [Auride's license](https://github.com/katniny/auride/blob/main/LICENSE). Once merged, your contributions may be kept, modified, or removed by the project maintainers -- even if you later choose to leave or revoke your involvement.
+By contributing to Auride, you agree that your contributions will be licensed under [Auride's license](https://github.com/katniny/Auride/blob/main/LICENSE). Once merged, your contributions may be kept, modified, or removed by the project maintainers -- even if you later choose to leave or revoke your involvement.
