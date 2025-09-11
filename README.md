@@ -11,12 +11,12 @@
 --- 
 
 ## 🚀 Features
-<img src="assets/readme-promo/themes.png">
+<img src="src/assets/readme-promo/themes.png">
 
 **Themes**: Use one of the 8 default themes, get a theme from [Auride's User Studio](https://auride.xyz/userstudio), or create your own!
 
 
-<img src="assets/readme-promo/flagging.png">
+<img src="src/assets/readme-promo/flagging.png">
 
 **Flagging System**: Welcome to the most comprehensive flagging system on any social media ever. With 16 flags under NSFW, Sensitive Content, and Political content, customize your feed and hide what you don't want to see. 
 
