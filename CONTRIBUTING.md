@@ -1,4 +1,4 @@
-Last updated: September 9, 2025
+Last updated: September 15, 2025
 # 👋 Welcome to the Auride contributing guide!
 Thank you for your interest in contributing to Auride! We try to make Auride as easy as possible to contribute to.
 
@@ -46,6 +46,9 @@ Thank you for your interest in contributing to Auride! We try to make Auride as 
 
 - No AI code or speech.
    - While AI is okay to use as an assistant to help guide you if you are truly stuck on a problem, please do not use it to create your speech or entire code blocks.
+
+- Please treat ts_fas_acih.js as depreciated
+   - When it comes to adding new code that is not reliant on existing code within ts_fas_acih.js, please create a new file. This code file is considered depreciated, and should only be modified if you are touching existing code, otherwise, please create a new file.
 
 ## 👩‍💻 Recommendations
 These are just recommendations, but they will help aid you while contributing to Auride.
