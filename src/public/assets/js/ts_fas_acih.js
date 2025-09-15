@@ -2020,7 +2020,7 @@ if (pathName.startsWith("/home") ||
 
    function loadInitalNotes() {
       if (pathName !== "/note" && pathName !== "/u" && !pathName.startsWith("/u/") && !pathName.startsWith("/note/")) {
-         notesRef.limitToLast(15).once("value").then(function (snapshot) {
+         notesRef.limitToLast(25).once("value").then(function (snapshot) {
             const notesArray = [];
             snapshot.forEach(function (childSnapshot) {
                const noteContent = childSnapshot.val();
@@ -2125,7 +2125,7 @@ if (pathName.startsWith("/home") ||
    function loadMoreNotes() {
       if (!lastNoteKey) return;
 
-      notesRef.orderByKey().endBefore(lastNoteKey).limitToLast(15).once('value').then(function (snapshot) {
+      notesRef.orderByKey().endBefore(lastNoteKey).limitToLast(25).once('value').then(function (snapshot) {
          const notesArray = [];
 
          snapshot.forEach(function (childSnapshot) {
