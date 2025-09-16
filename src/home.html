@@ -23,7 +23,8 @@
       <script src="/assets/js/scriptLoader.js"></script>
       <script defer>
          ScriptLoader.load(
-            //...
+            { src: "/assets/js/notes/renderNoteDiv.js", async: false },
+            { src: "/assets/js/notes/notes.js", async: false }
          ).then(() => {
             console.log("Scripts for /home have been loaded successfully.");
          }).catch((error) => {
@@ -145,6 +146,8 @@
 
             <div class="replyToNote homepage" onclick="createNotePopup()" style="width: 95=7%">What's on your mind?</div>
          </div>
+
+         <h2 style="text-align: center; margin-top: 15px;" id="noteLoadingIndicator"><i class="fa-solid fa-circle-notch fa-spin"></i></h2>
       </div>
 
       <!-- Auride Accounts -->

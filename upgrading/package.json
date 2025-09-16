@@ -1,0 +1,16 @@
+{
+  "name": "upgrading",
+  "version": "1.0.0",
+  "description": "",
+  "main": "upgradeReplies.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "firebase-admin": "^13.5.0"
+  }
+}

@@ -20,7 +20,9 @@
          <script src="/assets/js/scriptLoader.js"></script>
          <script defer>
             ScriptLoader.load(
-               { src: "/assets/js/ui/deceasedUserPopup.js", async: false }
+                { src: "/assets/js/notes/renderNoteDiv.js", async: false },
+                { src: "/assets/js/notes/notes.js", async: false },
+                { src: "/assets/js/ui/deceasedUserPopup.js", async: false },
             ).then(() => {
                console.log("Scripts for /home have been loaded successfully.");
             }).catch((error) => {
