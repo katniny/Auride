@@ -9,7 +9,7 @@ const admin = require("firebase-admin");
 const serviceAccount = require("./serviceAccountKey.json");
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://database-7f229-default-rtdb.firebaseio.com"
+    databaseURL: "REPLACE"
 });
 
 const db = admin.database();

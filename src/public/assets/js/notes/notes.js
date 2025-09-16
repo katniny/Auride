@@ -4,12 +4,12 @@
 // 2) bug fixing
 // but a lot of these should be new scripts!
 
-let notesRef = null;
+let notesPageRef = null;
 
 // get the notes ref path
 switch(true) {
     case pathName === "/home":
-        notesRef = firebase.database().ref("notes");
+        notesPageRef = firebase.database().ref("notes");
         loadInitalNotes();
         break;
     case pathName.startsWith("/u/"):
@@ -21,7 +21,7 @@ switch(true) {
         firebase.database().ref(`/taken-usernames/${username}`).once("value").then(snapshot => {
             uid = snapshot.val().user;
 
-            notesRef = firebase.database().ref(`users/${uid}/posts`);
+            notesPageRef = firebase.database().ref(`users/${uid}/posts`);
             loadInitalNotes();
         });
         break;
@@ -29,13 +29,13 @@ switch(true) {
         // get note id
         const noteId = pathName.split("/")[2];
 
-        notesRef = firebase.database().ref(`/notes/${noteId}/notesReplying`);
-        console.log(notesRef.toString());
+        notesPageRef = firebase.database().ref(`/notes/${noteId}/notesReplying`);
+        console.log(notesPageRef.toString());
         loadInitalNotes();
 
         break;
     default:
-        notesRef = firebase.database().ref("pleaseDefinePathInNotesDotJS");
+        notesPageRef = firebase.database().ref("pleaseDefinePathInNotesDotJS");
         break;
 }
 
@@ -107,7 +107,7 @@ async function loadInitalNotes() {
     //if (pathName !== "/note" && pathName !== "/u" && !pathName.startsWith("/u/") && !pathName.startsWith("/note/")) {
 
     // get the notes
-    const snapshot = await notesRef.limitToLast(25).once("value");
+    const snapshot = await notesPageRef.limitToLast(25).once("value");
     console.log(snapshot.val());
 
     const notesArray = [];
@@ -138,83 +138,6 @@ async function loadInitalNotes() {
     lastNoteKey = notesArray[notesArray.length - 1]?.key;
 
     renderNotes(notesArray);
-
-    // } else if (pathName === "/note" || pathName.startsWith("/note/") || pathName === "/note.html") {
-    //     const url = new URL(window.location.href);
-    //     let noteParam = null;
-
-    //     if (pathName.startsWith("/note/")) {
-    //         const segments = pathName.split("/");
-    //         noteParam = segments[2];
-
-    //         console.log(noteParam);
-    //     } else {
-    //         noteParam = url.searchParams.get("id");
-    //     }
-
-    //     notesRef.once("value").then(function (snapshot) {
-    //         notesRef.limitToLast(snapshot.numChildren()).once("value").then(function (snapshot) {
-    //             const notesArray = [];
-    //             snapshot.forEach(function (childSnapshot) {
-    //                 const noteContent = childSnapshot.val();
-    //                 noteContent.key = childSnapshot.key;
-    //                 notesArray.push(noteContent);
-    //             });
-
-    //             notesArray.sort((a, b) => b.createdAt - a.createdAt);
-
-    //             lastNoteKey = notesArray[notesArray.length - 1]?.key;
-
-    //             const filteredNotes = notesArray.filter((currentNote) => currentNote.replyingTo === noteParam);
-
-    //             if (filteredNotes.length > 0) {
-    //                 renderNotes(filteredNotes);
-    //             } else {
-    //                 renderNotes(notesArray);
-    //             }
-    //         });
-    //     })
-    // } else if (pathName === "/u" || pathName.startsWith("/u/")) {
-    //     const url = new URL(window.location.href);
-    //     let userParam = null;
-
-    //     if (pathName.startsWith("/u/")) {
-    //         const segments = pathName.split("/");
-    //         userParam = segments[2].toLowerCase();
-
-    //         console.log(userParam);
-    //     } else {
-    //         userParam = url.searchParams.get("id").toLowerCase();
-    //     }
-
-    //     firebase.database().ref(`taken-usernames/${userParam}`).once("value", (snapshot) => {
-    //         const id = snapshot.val();
-
-    //         firebase.database().ref(`users/${id.user}/posts`).get().then(function (snapshot) {
-    //             notesRef.limitToLast(snapshot.numChildren()).get().then(function (snapshot) {
-    //                 const notesArray = [];
-    //                 snapshot.forEach(function (childSnapshot) {
-    //                     const noteContent = childSnapshot.val();
-    //                     noteContent.key = childSnapshot.key;
-    //                     notesArray.push(noteContent);
-    //                 });
-
-    //                 notesArray.sort((a, b) => b.createdAt - a.createdAt);
-
-    //                 lastNoteKey = notesArray[notesArray.length - 1]?.key;
-
-    //                 const filteredNotes = notesArray.filter((currentNote) => currentNote.replyingTo === userParam);
-
-    //                 // doesnt have to be reversed anymore for some reason?
-    //                 if (filteredNotes.length > 0) {
-    //                     renderNotes(filteredNotes);
-    //                 } else {
-    //                     renderNotes(notesArray);
-    //                 }
-    //             });
-    //         })
-    //     })
-    // }
 }
 
 //loadInitalNotes();
@@ -229,7 +152,7 @@ window.addEventListener("scroll", () => {
 async function loadMoreNotes() {
     if (!lastNoteKey) return;
 
-    const snapshot = await notesRef.orderByKey().endBefore(lastNoteKey).limitToLast(25).once("value");
+    const snapshot = await notesPageRef.orderByKey().endBefore(lastNoteKey).limitToLast(25).once("value");
 
     const notesArray = [];
     const promises = [];
