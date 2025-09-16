@@ -240,7 +240,7 @@
    object-fit: contain;
 }
 
-@media (max-width: 425px) {
+@media (max-width: 520px) {
    .melissa .info .uploadedImg {
       margin: 0px;
       max-width: 100%;

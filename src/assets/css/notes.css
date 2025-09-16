@@ -303,7 +303,7 @@
    cursor: zoom-in;
 }
 
-@media (max-width: 425px) {
+@media (max-width: 520px) {
    .notes .note .uploadedImg {
       margin: 0px;
       max-width: 100%;
