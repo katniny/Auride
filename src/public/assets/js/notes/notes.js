@@ -5,12 +5,17 @@
 // but a lot of these should be new scripts!
 
 let notesPageRef = null;
+let notesPageRefString = null;
 
 // get the notes ref path
 switch(true) {
     case pathName === "/home":
         notesPageRef = firebase.database().ref("notes");
+        notesPageRefString = "notes";
+
         loadInitalNotes();
+        attachListeners();
+
         break;
     case pathName.startsWith("/u/"):
         // get username
@@ -21,8 +26,11 @@ switch(true) {
         firebase.database().ref(`/taken-usernames/${username}`).once("value").then(snapshot => {
             uid = snapshot.val().user;
 
-            notesPageRef = firebase.database().ref(`users/${uid}/posts`);
+            notesPageRef = firebase.database().ref(`/users/${uid}/posts`);
+            notesPageRefString = `/users/${uid}/posts`;
+
             loadInitalNotes();
+            attachListeners();
         });
         break;
     case pathName.startsWith("/note/"):
@@ -30,12 +38,21 @@ switch(true) {
         const noteId = pathName.split("/")[2];
 
         notesPageRef = firebase.database().ref(`/notes/${noteId}/notesReplying`);
-        console.log(notesPageRef.toString());
+        notesPageRefString = `/notes/${noteId}/notesReplying`;
+
         loadInitalNotes();
+        attachListeners();
 
         break;
     default:
         notesPageRef = firebase.database().ref("pleaseDefinePathInNotesDotJS");
+        notesPageRefString = "pleaseDefinePathInNotesDotJS";
+        console.log(`
+            Please define the path for this page in /public/assets/js/notes/notes.js.\n
+            If you are a user and are experiencing this error, please report this to our GitHub Issues:
+            https://github.com/katniny/Auride/issues
+        `);
+        // don't dispatch event here. dev needs to know path is broken!
         break;
 }
 
@@ -104,11 +121,8 @@ const mediaObserver = new IntersectionObserver((entries, _observer) => {
 
 
 async function loadInitalNotes() {
-    //if (pathName !== "/note" && pathName !== "/u" && !pathName.startsWith("/u/") && !pathName.startsWith("/note/")) {
-
     // get the notes
     const snapshot = await notesPageRef.limitToLast(25).once("value");
-    console.log(snapshot.val());
 
     const notesArray = [];
     const promises = [];
@@ -139,8 +153,6 @@ async function loadInitalNotes() {
 
     renderNotes(notesArray);
 }
-
-//loadInitalNotes();
 
 // infinite loading
 window.addEventListener("scroll", () => {
@@ -279,39 +291,44 @@ firebase.database().ref("notes/").on("child_added", (snapshot) => {
     }
 })
 
-firebase.database().ref("notes/").on("child_changed", (snapshot) => {
-    const data = snapshot.val();
+// we can attach listeners within a function,
+// as to prevent race conditions on pages that take longer than a few
+// milliseconds to run!
+function attachListeners() {
+    notesPageRef.on("child_changed", (snapshot) => {
+        const data = snapshot.val();
 
-    // Check if any specific field (child) is updated
-    if (document.getElementById(`like-${data.id}`)) {
-        document.getElementById(`like-${data.id}`).innerHTML = `${faIcon("heart").outerHTML} ${data.likes}`;
-    }
-    if (document.getElementById(`renote-${data.id}`)) {
-        document.getElementById(`renote-${data.id}`).innerHTML = `${faIcon("retweet").outerHTML} ${data.renotes}`;
-    }
-
-    firebase.auth().onAuthStateChanged((user) => {
-        const uid = user.uid;
-
-        // If user loved the note, update the UI to display that.
-        if (data.whoLiked && data.whoLiked[uid]) {
-            document.getElementById(`like-${data.id}`).classList.add("liked");
-        } else {
-            if (document.getElementById(`like-${data.id}`)) {
-                document.getElementById(`like-${data.id}`).classList.remove("liked");
-            }
+        // Check if any specific field (child) is updated
+        if (document.getElementById(`like-${data.id}`)) {
+            document.getElementById(`like-${data.id}`).innerHTML = `${faIcon("heart").outerHTML} ${data.likes}`;
+        }
+        if (document.getElementById(`renote-${data.id}`)) {
+            document.getElementById(`renote-${data.id}`).innerHTML = `${faIcon("retweet").outerHTML} ${data.renotes}`;
         }
 
-        // If user renoted the note, update the UI to display that.
-        if (data.whoRenoted && data.whoRenoted[uid]) {
-            document.getElementById(`renote-${data.id}`).classList.add("renoted");
-        } else {
-            if (document.getElementById(`renote-${data.id}`)) {
-                document.getElementById(`renote-${data.id}`).classList.remove("renoted");
+        firebase.auth().onAuthStateChanged((user) => {
+            const uid = user.uid;
+
+            // If user loved the note, update the UI to display that.
+            if (data.whoLiked && data.whoLiked[uid]) {
+                document.getElementById(`like-${data.id}`).classList.add("liked");
+            } else {
+                if (document.getElementById(`like-${data.id}`)) {
+                    document.getElementById(`like-${data.id}`).classList.remove("liked");
+                }
             }
-        }
-    })
-});
+
+            // If user renoted the note, update the UI to display that.
+            if (data.whoRenoted && data.whoRenoted[uid]) {
+                document.getElementById(`renote-${data.id}`).classList.add("renoted");
+            } else {
+                if (document.getElementById(`renote-${data.id}`)) {
+                    document.getElementById(`renote-${data.id}`).classList.remove("renoted");
+                }
+            }
+        })
+    });
+}
 
 document.addEventListener('click', function (event) {
     firebase.auth().onAuthStateChanged((user) => {
@@ -322,34 +339,47 @@ document.addEventListener('click', function (event) {
                 const likeButton = event.target;
                 const noteId = findNoteId(likeButton);
 
-                const loveCountRef = firebase.database().ref(`notes/${noteId}/likes`);
+                let pathToUse = null;
+                if (notesPageRefString.startsWith("/users/"))
+                    pathToUse = `/notes/`;
+                else
+                    pathToUse = notesPageRefString;
+
+                const loveCountRef = firebase.database().ref(`${pathToUse}/${noteId}/likes`);
                 loveCountRef.once("value", (snapshot) => {
                     const data = snapshot.val();
 
-                    firebase.database().ref(`notes/${noteId}/whoLiked`).once("value", (snapshot) => {
+                    firebase.database().ref(`${pathToUse}/${noteId}/whoLiked`).once("value", (snapshot) => {
                         const likedData = snapshot.val();
                         if (likedData && likedData[uid]) {
-                            firebase.database().ref(`notes/${noteId}`).update({
+                            firebase.database().ref(`${pathToUse}/${noteId}`).update({
                                 likes: data - 1
                             });
 
-                            firebase.database().ref(`notes/${noteId}/whoLiked/${uid}`).remove();
+                            firebase.database().ref(`${pathToUse}/${noteId}/whoLiked/${uid}`).remove();
+                            // TODO: get this pathName independent... this is hacky
+                            const loveBtn = document.getElementById(`like-${noteId}`);
+                            if (pathName.startsWith("/u/") && loveBtn) {
+                                loveBtn.classList.remove("liked");
+                                const renoteCount = parseInt(loveBtn.textContent.trim());
+                                loveBtn.innerHTML = `${faIcon("heart").outerHTML} ${renoteCount - 1}`;
+                            }
                         } else {
-                            firebase.database().ref(`notes/${noteId}`).update({
+                            firebase.database().ref(`${pathToUse}/${noteId}`).update({
                                 likes: data + 1
                             });
 
-                            firebase.database().ref(`notes/${noteId}/whoLiked/${uid}`).update({
+                            firebase.database().ref(`${pathToUse}/${noteId}/whoLiked/${uid}`).update({
                                 uid: uid
                             });
 
                             loveCountRef.off();
 
-                            firebase.database().ref(`notes/${noteId}`).once("value", (snapshot) => {
+                            firebase.database().ref(`${pathToUse}/${noteId}`).once("value", (snapshot) => {
                                 const whoSentIt_note = snapshot.val();
 
                                 if (user.uid !== whoSentIt_note.whoSentIt) {
-                                    firebase.database().ref(`notes/${noteId}`).once("value", (snapshot) => {
+                                    firebase.database().ref(`${pathToUse}/${noteId}`).once("value", (snapshot) => {
                                         const getUser = snapshot.val();
                                         sendNotification(getUser.whoSentIt, {
                                             type: "Love",
@@ -359,6 +389,14 @@ document.addEventListener('click', function (event) {
                                     })
                                 }
                             })
+
+                            // TODO: get this pathName independent... this is hacky
+                            const loveBtn = document.getElementById(`like-${noteId}`);
+                            if (pathName.startsWith("/u/") && loveBtn) {
+                                loveBtn.classList.add("liked");
+                                const renoteCount = parseInt(loveBtn.textContent.trim());
+                                loveBtn.innerHTML = `${faIcon("heart").outerHTML} ${renoteCount + 1}`;
+                            }
                         }
                     });
                 })
@@ -381,25 +419,38 @@ document.addEventListener('click', function (event) {
                 const renoteButton = event.target;
                 const noteId = findNoteId(renoteButton);
 
-                const renoteCountRef = firebase.database().ref(`notes/${noteId}/renotes`);
+                let pathToUse = null;
+                if (notesPageRefString.startsWith("/users/"))
+                    pathToUse = `/notes/`;
+                else
+                    pathToUse = notesPageRefString;
+
+                const renoteCountRef = firebase.database().ref(`${pathToUse}/${noteId}/renotes`);
                 renoteCountRef.once("value", (snapshot) => {
                     const data = snapshot.val();
 
-                    firebase.database().ref(`notes/${noteId}/whoRenoted`).once("value", (snapshot) => {
+                    firebase.database().ref(`${pathToUse}/${noteId}/whoRenoted`).once("value", (snapshot) => {
                         const renotedData = snapshot.val();
                         if (renotedData && renotedData[uid]) {
-                            firebase.database().ref(`notes/${noteId}`).update({
+                            firebase.database().ref(`${pathToUse}/${noteId}`).update({
                                 renotes: data - 1
                             });
 
-                            firebase.database().ref(`notes/${noteId}/whoRenoted/${uid}`).remove();
+                            firebase.database().ref(`${pathToUse}/${noteId}/whoRenoted/${uid}`).remove();
                             firebase.database().ref(`users/${uid}/posts/${noteId}`).remove();
+                            // TODO: get this pathName independent... this is hacky
+                            const renoteBtn = document.getElementById(`renote-${noteId}`);
+                            if (pathName.startsWith("/u/") && renoteBtn) {
+                                renoteBtn.classList.remove("renoted");
+                                const renoteCount = parseInt(renoteBtn.textContent.trim());
+                                renoteBtn.innerHTML = `${faIcon("retweet").outerHTML} ${renoteCount - 1}`;
+                            }
                         } else {
-                            firebase.database().ref(`notes/${noteId}`).update({
+                            firebase.database().ref(`${pathToUse}/${noteId}`).update({
                                 renotes: data + 1
                             });
 
-                            firebase.database().ref(`notes/${noteId}/whoRenoted/${uid}`).update({
+                            firebase.database().ref(`${pathToUse}/${noteId}/whoRenoted/${uid}`).update({
                                 uid: uid
                             });
 
@@ -411,7 +462,7 @@ document.addEventListener('click', function (event) {
 
                             renoteCountRef.off();
 
-                            firebase.database().ref(`notes/${noteId}`).once("value", (snapshot) => {
+                            firebase.database().ref(`${pathToUse}/${noteId}`).once("value", (snapshot) => {
                                 const whoSentIt_note = snapshot.val();
 
                                 if (user.uid !== whoSentIt_note.whoSentIt) {
@@ -425,6 +476,14 @@ document.addEventListener('click', function (event) {
                                     })
                                 }
                             })
+
+                            // TODO: get this pathName independent... this is hacky
+                            const renoteBtn = document.getElementById(`renote-${noteId}`);
+                            if (pathName.startsWith("/u/") && renoteBtn) {
+                                renoteBtn.classList.add("renoted");
+                                const renoteCount = parseInt(renoteBtn.textContent.trim());
+                                renoteBtn.innerHTML = `${faIcon("retweet").outerHTML} ${renoteCount + 1}`;
+                            }
                         }
                     });
 
