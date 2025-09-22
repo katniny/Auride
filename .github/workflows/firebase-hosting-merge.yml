@@ -34,6 +34,12 @@ jobs:
         -e 's|appId: ".*"|appId: "${{ secrets.FIREBASE_APP_ID }}"|' \
         -e 's|measurementId: ".*"|measurementId: "${{ secrets.FIREBASE_MEASUREMENT_ID }}"|' \
         ./src/public/assets/js/firebase.js
+    
+    - name: Update envVars.js for deployment
+      run: |
+        sed -i \
+        -e 's|const serverUrl = ".*"|const serverUrl = "${{ secrets.SERVER_URL }}"|' \
+        ./src/public/assets/js/envVars.js
       
     - name: Build project 
       run: npm run build
