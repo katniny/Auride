@@ -5,8 +5,14 @@ const db = admin.database();
 
 router.get("/api/auride/getNoteData", async (req, res) => {
     try {
-        const { endBefore, limit } = req.query;
-        const notesRef = db.ref("notes");
+        const { endBefore, limit, path } = req.query;
+        let notesRef = null;
+
+        // if there's a path, use that for the db. else, use notes
+        if (path)
+            notesRef = db.ref(path);
+        else
+            notesRef = db.ref("notes");
 
         let query = notesRef.orderByKey();
 
@@ -33,7 +39,7 @@ router.get("/api/auride/getNoteData", async (req, res) => {
             // that contain replyingTo.
             // if you do, please go to /upgrading/upgradeReplies.js, we end support for this soon!
             // TODO: end support for replyingTo
-            if (note.replyingTo)
+            if (note.replyingTo && !path.startsWith("/notes/-"))
                 return;
 
             // is it deleted? if so, ignore it

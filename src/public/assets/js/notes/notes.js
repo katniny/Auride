@@ -36,6 +36,7 @@ switch(true) {
         break;
     case pathName.startsWith("/note/"):
         // get note id
+        console.log("note");
         const noteId = pathName.split("/")[2];
 
         notesPageRef = firebase.database().ref(`/notes/${noteId}/notesReplying`);
@@ -60,6 +61,7 @@ switch(true) {
 const notesDiv = document.getElementById("notes");
 const batchSize = null;
 const noteLoadingIndicator = document.getElementById("noteLoadingIndicator");
+const newNotesAvailable = document.getElementById("newNotesAvailable");
 let isLoading = false;
 let lastNoteKey = null;
 let loadedNotesId = new Set();
@@ -128,9 +130,10 @@ async function loadInitalNotes() {
     // create loading indicator to give some visual feedback
     await createLoadingIndicator("lg", "notes");
     const loadingIndicator = document.getElementById("noteLoadingIndicator");
+    console.log(notesPageRefString);
     
     // fetch note data from server
-    const response = await fetch(`${serverUrl}/api/auride/getNoteData?limit=25`);
+    const response = await fetch(`${serverUrl}/api/auride/getNoteData?limit=25&path=${notesPageRefString}`);
     if (!response.ok) {
         console.error("Failed to fetch notes: ", response.statusText);
         currentLoadingNotes = false;
@@ -140,6 +143,7 @@ async function loadInitalNotes() {
 
     // then, parse and render notes
     const notesArray = await response.json();
+    console.log(notesArray);
 
     if (notesArray.length > 0) {
         // update lastNoteKey
@@ -150,7 +154,8 @@ async function loadInitalNotes() {
         renderNotes(notesArray);
         currentLoadingNotes = false;
         document.getElementById("noteLoadingIndicator").remove(); // FIXME: loadingIndicator.remove() doesnt work here?
-        document.getElementById("newNotesAvailable").style.display = "none";
+        if (newNotesAvailable)
+            newNotesAvailable.style.display = "none";
     }
 }
 
@@ -173,7 +178,7 @@ async function loadMoreNotes() {
     const loadingIndicator = document.getElementById("noteLoadingIndicator");
     
     // fetch note data from server
-    const response = await fetch(`${serverUrl}/api/auride/getNoteData?endBefore=${lastNoteKey}&limit=25`);
+    const response = await fetch(`${serverUrl}/api/auride/getNoteData?endBefore=${lastNoteKey}&limit=25&path=${notesPageRefString}`);
     if (!response.ok) {
         console.error("Failed to fetch notes: ", response.statusText);
         currentLoadingNotes = false;
@@ -208,7 +213,6 @@ function renderNotes(notesArray) {
         if (document.getElementById(noteData.id)) return;
 
         loadedNotesId.add(noteData.id);
-        console.log(loadedNotesId);
 
         // i wanted to refactor this too but touching this actually gives you a curse until you put it back exactly as it was
 
@@ -281,7 +285,8 @@ function renderNotes(notesArray) {
         }
     });
 
-    document.getElementById("newNotesAvailable").style.display = "none";
+    if (newNotesAvailable)
+        newNotesAvailable.style.display = "none";
 }
 
 // When a new note is added, let the user know.
@@ -291,10 +296,10 @@ firebase.database().ref("notes/").on("child_added", (snapshot) => {
     if (isReply.replyingTo === undefined) {
         if (pathName === "/home" || pathName === "/home.html") {
             if (!loadedNotesId.has(isReply.id) && amountOfTimesShown === 1) { // FIXME: shows regardless...? hacky fix.
-                document.getElementById("newNotesAvailable").style.display = "block";
+                newNotesAvailable.style.display = "block";
                 console.log(amountOfTimesShown);
             } else {
-                document.getElementById("newNotesAvailable").style.display = "none";
+                newNotesAvailable.style.display = "none";
                 amountOfTimesShown++;
             }
         }
