@@ -9,7 +9,7 @@ const admin = require("firebase-admin");
 const serviceAccount = require("./serviceAccountKey.json");
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "REPLACE"
+    databaseURL: "https://chat-transsocial-test-default-rtdb.firebaseio.com"
 });
 
 const db = admin.database();
@@ -34,6 +34,10 @@ async function migrateReplies() {
                     id: noteId,
                     ...note
                 });
+
+                // now remove the old entry
+                await db.ref(`/notes/${noteId}`).remove();
+
                 console.log(`Moved note ${noteId} under replies of ${parentId}!`);
             } else {
                 console.log("Not a reply! Skipping.");
