@@ -1,0 +1,1 @@
+const serverUrl = "http://localhost:10000";

@@ -28,3 +28,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# we want our sensitive files ignored!
+# massive security risk if that gets out...
+*/serviceAccount.json
+*/.env

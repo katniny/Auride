@@ -22,8 +22,10 @@ function loadScript(src, async) {
 async function loadAllScripts() {
    try {
       // required before ts_fas_acih.js
+      await loadScript("/assets/js/envVars.js", false);
       await loadScript("/assets/js/pathName.js", false);
       await loadScript("/assets/js/versioning.js", false);
+      await loadScript("/assets/js/ui/loadingIndicator.js", false);
 
       // firebase initialization
       await loadScript("https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js", false);

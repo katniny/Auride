@@ -6,6 +6,7 @@
 
 let notesPageRef = null;
 let notesPageRefString = null;
+let currentLoadingNotes = false; // has to be at the top or loadInitialNotes() breaks...
 
 // get the notes ref path
 switch(true) {
@@ -61,7 +62,7 @@ const batchSize = null;
 const noteLoadingIndicator = document.getElementById("noteLoadingIndicator");
 let isLoading = false;
 let lastNoteKey = null;
-let loadedNotesId = [];
+let loadedNotesId = new Set();
 let userAutoplayPreference = null;
 
 // function to fetch and cache user's autoplay pref
@@ -119,39 +120,38 @@ const mediaObserver = new IntersectionObserver((entries, _observer) => {
     threshold: 0.1
 });
 
-
 async function loadInitalNotes() {
-    // get the notes
-    const snapshot = await notesPageRef.limitToLast(25).once("value");
+    // if loading notes, return 
+    if (currentLoadingNotes) return;
+    currentLoadingNotes = true;
 
-    const notesArray = [];
-    const promises = [];
+    // create loading indicator to give some visual feedback
+    await createLoadingIndicator("lg", "notes");
+    const loadingIndicator = document.getElementById("noteLoadingIndicator");
+    
+    // fetch note data from server
+    const response = await fetch(`${serverUrl}/api/auride/getNoteData?limit=25`);
+    if (!response.ok) {
+        console.error("Failed to fetch notes: ", response.statusText);
+        currentLoadingNotes = false;
+        document.getElementById("noteLoadingIndicator").remove(); // FIXME: loadingIndicator.remove() doesnt work here?
+        return;
+    }
 
-    snapshot.forEach(childSnapshot => {
-        const noteKey = childSnapshot.key;
-        const val = childSnapshot.val();
+    // then, parse and render notes
+    const notesArray = await response.json();
 
-        if (val.content || val.createdAt) {
-            val.key = noteKey;
-            notesArray.push(val);
-        } else {
-            const p = firebase.database().ref(`/notes/${noteKey}`).once("value").then(snap => {
-                if (snap.exists()) {
-                    const note = snap.val();
-                    note.key = snap.key;
-                    notesArray.push(note);
-                }
-            });
-            promises.push(p);
-        }
-    });
+    if (notesArray.length > 0) {
+        // update lastNoteKey
+        notesArray.sort((a, b) => b.createdAt - a.createdAt);
+        lastNoteKey = notesArray[notesArray.length - 1]?.key;
 
-    await Promise.all(promises);
-
-    notesArray.sort((a, b) => b.createdAt - a.createdAt);
-    lastNoteKey = notesArray[notesArray.length - 1]?.key;
-
-    renderNotes(notesArray);
+        // keep newest at bottom
+        renderNotes(notesArray);
+        currentLoadingNotes = false;
+        document.getElementById("noteLoadingIndicator").remove(); // FIXME: loadingIndicator.remove() doesnt work here?
+        document.getElementById("newNotesAvailable").style.display = "none";
+    }
 }
 
 // infinite loading
@@ -161,34 +161,28 @@ window.addEventListener("scroll", () => {
     }
 });
 
+let canLoadMore = false;
 async function loadMoreNotes() {
+    // if has no lastNoteKey or is loading notes, return 
     if (!lastNoteKey) return;
+    if (currentLoadingNotes) return;
+    currentLoadingNotes = true;
 
-    const snapshot = await notesPageRef.orderByKey().endBefore(lastNoteKey).limitToLast(25).once("value");
+    // create loading indicator to give some visual feedback
+    createLoadingIndicator("lg", "notes");
+    const loadingIndicator = document.getElementById("noteLoadingIndicator");
+    
+    // fetch note data from server
+    const response = await fetch(`${serverUrl}/api/auride/getNoteData?endBefore=${lastNoteKey}&limit=25`);
+    if (!response.ok) {
+        console.error("Failed to fetch notes: ", response.statusText);
+        currentLoadingNotes = false;
+        noteLoadingIndicator.remove();
+        return;
+    }
 
-    const notesArray = [];
-    const promises = [];
-
-    snapshot.forEach(childSnapshot => {
-        const noteKey = childSnapshot.key;
-        const val = childSnapshot.val();
-
-        if (val.content || val.createdAt) {
-            val.key = noteKey;
-            notesArray.push(val);
-        } else {
-            const p = firebase.database().ref(`/notes/${noteKey}`).once("value").then(snap => {
-                if (snap.exists()) {
-                    const note = snap.val();
-                    note.key = snap.key;
-                    notesArray.push(note);
-                }
-            });
-            promises.push(p);
-        }
-    });
-
-    await Promise.all(promises);
+    // then, parse and render notes
+    const notesArray = await response.json();
 
     if (notesArray.length > 0) {
         // update lastNoteKey
@@ -196,22 +190,25 @@ async function loadMoreNotes() {
         lastNoteKey = notesArray[notesArray.length - 1]?.key;
 
         // keep newest at bottom
-        renderNotes(notesArray.reverse());
+        renderNotes(notesArray);
+        currentLoadingNotes = false;
+        loadingIndicator.remove();
     }
 }
 
 // retrieve data from the "notes" node
+let currentlyRendering = false;
 function renderNotes(notesArray) {
+    if (currentlyRendering) return;
     const notesContainer = document.getElementById("notes");
-
-    if (document.getElementById("newNotesAvailable")) {
-        document.getElementById("newNotesAvailable").style.display = "none";
-    }
 
     notesArray.forEach(noteData => {
         let noteDiv = renderNote(noteData);
         if (noteDiv == null) return;
         if (document.getElementById(noteData.id)) return;
+
+        loadedNotesId.add(noteData.id);
+        console.log(loadedNotesId);
 
         // i wanted to refactor this too but touching this actually gives you a curse until you put it back exactly as it was
 
@@ -226,6 +223,7 @@ function renderNotes(notesArray) {
                     if (noteLoadingIndicator)
                         noteLoadingIndicator.remove();
                     notesContainer.appendChild(noteDiv);
+                    currentlyRendering = false;
                 }
             }
         } else if (pathName == "/u" || pathName.startsWith("/u/")) {
@@ -249,6 +247,7 @@ function renderNotes(notesArray) {
                             if (noteLoadingIndicator)
                                 noteLoadingIndicator.remove();
                             notesContainer.appendChild(noteDiv);
+                            currentlyRendering = false;
                         }
                     }
                 }
@@ -259,6 +258,7 @@ function renderNotes(notesArray) {
                     if (noteLoadingIndicator)
                         noteLoadingIndicator.remove();
                     notesContainer.appendChild(noteDiv);
+                    currentlyRendering = false;
                 }
             });
         } else if (pathName === "/note" || pathName.startsWith("/note/") || pathName === "/note.html") {
@@ -275,18 +275,28 @@ function renderNotes(notesArray) {
                     if (noteLoadingIndicator)
                         noteLoadingIndicator.remove();
                     notesContainer.appendChild(noteDiv);
+                    currentlyRendering = false;
                 }
             }
         }
-    })
+    });
+
+    document.getElementById("newNotesAvailable").style.display = "none";
 }
 
 // When a new note is added, let the user know.
+let amountOfTimesShown = 0;
 firebase.database().ref("notes/").on("child_added", (snapshot) => {
     const isReply = snapshot.val();
     if (isReply.replyingTo === undefined) {
         if (pathName === "/home" || pathName === "/home.html") {
-            document.getElementById("newNotesAvailable").style.display = "block";
+            if (!loadedNotesId.has(isReply.id) && amountOfTimesShown === 1) { // FIXME: shows regardless...? hacky fix.
+                document.getElementById("newNotesAvailable").style.display = "block";
+                console.log(amountOfTimesShown);
+            } else {
+                document.getElementById("newNotesAvailable").style.display = "none";
+                amountOfTimesShown++;
+            }
         }
     }
 })
