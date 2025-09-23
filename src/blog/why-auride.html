@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,108 +8,107 @@
         <link rel="shortcut icon" href="/assets/imgs/favicon.png" type="image/png">
         <link rel="manifest" href="/manifest.json">
         <meta name="robots" content="nofollow, noai, noimageai">
-         <meta name="og:type" content="website">
-         <meta name="og:url" content="https://auride.xyz/">
-         <meta name="og:title" content="Auride">
-         <meta name="og:site_name" content="auride.xyz">
-         <meta name="og:description" content="Auride - a safe place for everyone.">
-         <meta name="description" content="Auride - a safe place for everyone.">
-         <meta property="og:image" content="https://auride.xyz/assets/imgs/favicon.png">
-         <meta name="theme-color" content="#ef97be">
-         <script src="/assets/js/requiredScripts.js"></script>
-         <script src="/assets/js/scriptLoader.js"></script>
-         <script defer>
+        <meta name="og:type" content="website">
+        <meta name="og:url" content="https://auride.xyz/">
+        <meta name="og:title" content="Auride">
+        <meta name="og:site_name" content="auride.xyz">
+        <meta name="og:description" content="Auride - a safe place for everyone.">
+        <meta name="description" content="Auride - a safe place for everyone.">
+        <meta property="og:image" content="https://auride.xyz/assets/imgs/favicon.png">
+        <meta name="theme-color" content="#ef97be">
+        <script src="/assets/js/requiredScripts.js"></script>
+        <script src="/assets/js/scriptLoader.js"></script>
+        <script defer>
             ScriptLoader.load(
-               //...
+                //...
             ).then(() => {
-               console.log("Scripts for /home have been loaded successfully.");
+                console.log("Scripts for /home have been loaded successfully.");
             }).catch((error) => {
-               console.error("An error occurred: ", error, " please try refreshing.");
+                console.error("An error occurred: ", error, " please try refreshing.");
             });
-         </script>
+        </script>
     </head>
-    
+
     <body onload="loadEverything()">
         <!-- Header -->
-        <!-- Header -->
-   <div class="header" id="header">
-      <div class="left">
-         <button id="hamburgerMenu"><i class="fa-solid fa-bars"></i></button> <a href="/home"><img class="headerLogo" id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" /></a>
-      </div>
+        <div class="header" id="header">
+            <div class="left">
+                <button id="hamburgerMenu"><i class="fa-solid fa-bars"></i></button> <a href="/home"><img class="headerLogo" id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" /></a>
+            </div>
 
-      <div class="center">
-         <input id="searchBar" placeholder="Search Auride" />
-      </div>
+            <div class="center">
+                <input id="searchBar" placeholder="Search Auride" />
+            </div>
 
-      <div class="right">
-         <a href="/download"><button style="margin-right: 20px; transform: translateY(-23px);" id="headerGetApp">Get App</button></a> <a href="/notifications"><i class="fa-solid fa-bell fa-lg"></i></a> <a href="/achievements"><i class="fa-solid fa-trophy fa-lg" style="margin-right: 0px;"></i></a> <img src="" alt="Your profile picture" draggable="false" id="userPfp-header" onclick="accountManager()" />
-      </div>
-      <div class="accountManager" id="accountManager" style="display: none;">
-         <h3 id="greetingManager">Hello, {user}</h3>
-         <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
-         <a href="/achievements"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
-      </div>
-   </div>
+            <div class="right">
+                <a href="/download"><button style="margin-right: 20px; transform: translateY(-23px);" id="headerGetApp">Get App</button></a> <a href="/notifications"><i class="fa-solid fa-bell fa-lg"></i></a> <a href="/achievements"><i class="fa-solid fa-trophy fa-lg" style="margin-right: 0px;"></i></a> <img src="" alt="Your profile picture" draggable="false" id="userPfp-header" onclick="accountManager()" />
+            </div>
+            <div class="accountManager" id="accountManager" style="display: none;">
+                <h3 id="greetingManager">Hello, {user}</h3>
+                <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
+                <a href="/achievements"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
+            </div>
+        </div>
 
-      <!-- Bottom Nav (mobile) -->
-      <!--<div class="mobileBottomNav" id="mobileBottomNav">
-         <div class="nav">
+        <!-- Bottom Nav (mobile) -->
+        <!--<div class="mobileBottomNav" id="mobileBottomNav">
+            <div class="nav">
             <a href="/home" style="margin-left: 20px;"><i class="fa-solid fa-house fa-xl"></i></a> <a href="/notifications"><i class="fa-solid fa-bell fa-xl"></i></a> <a href="/settings"><i class="fa-solid fa-gear fa-xl"></i></a> <a href="javascript:void();" onclick="createNotePopup()"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
-         </div>
-      </div>-->
+            </div>
+        </div>-->
 
         <!-- Sidebar -->
         <header class="sidebar" id="sidebar">
             <!-- Navigation Buttons -->
-         <a href="/home"><button style="margin-top: 15px;"><i class="fa-solid fa-house"></i> Home</button></a>
-         <a href="/notifications" id="notificationsSidebar"><button><i class="fa-solid fa-bell"></i> Notifications</button></a> <a href="/notifications"><p id="notificationsCount">0</p></a>
-         <a href="/search"><button><i class="fa-solid fa-magnifying-glass"></i> Explore</button></a>
-         <a href="/messages" id="messagesSidebar"><button><i class="fa-solid fa-envelope"></i> Messages (0)</button></a>
-         <a href="/settings?tab=subscription" id="enchantedSidebar"><button><i class="fa-solid fa-heart"></i> Donate</button></a>
-         <a href="/updates"><button id="updatesBtn"><i class="fa-solid fa-wrench"></i> Updates</button></a>
-         <a href="/u" id="linkToAcc"><button><i class="fa-solid fa-user"></i> Your Profile</button></a>
-         <a href="javascript:void(0);"><button id="showMoreContent"><i class="fa-solid fa-ellipsis"></i> More</button></a>
-         <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar"><i class="fa-solid fa-pen-to-square"></i> Create</button>
-         <div id="moreContent" class="moreContent" style="display: none;">
-            <a href="/settings" id="settingsSidebar"><button class="settings"><i class="fa-solid fa-gear"></i> Settings</button></a>
-            <a href="/contributors"><button><i class="fa-solid fa-face-smile-beam"></i> Contributors</button></a>
-            <a href="/achievements" id="achievementsSidebar"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
-            <a href="/favorites" id="favoritesSidebar"><button><i class="fa-solid fa-bookmark"></i> Favorites</button></a>
-         </div>
-
-         <br />
-         <br />
-         <br />
-         <br />
-
-         <div class="sidebarPolicies">
-            <a href="/policies/terms">Terms of Service</a>, <a href="/policies/privacy">Privacy Policy</a>, <a href="/policies/child-safety">Child Safety</a>, <a href="/policies/cookies">Cookies</a>, <a href="/policies/copyright">Copyright</a>, <a href="/policies/guidelines">Community Guidelines</a>
-         </div>
-
-         <!-- Social Icons & Links -->
-         <div class="bottom">
-            <!-- Socials -->
-            <a href="https://discord.gg/SmhATjRxvc" target="_blank"><i class="fa-brands fa-discord fa-lg"></i></a>
-            <a href="https://twitter.com/transs_ocial" target="_blank"><i class="fa-brands fa-twitter fa-lg"></i></a>
-            <a href="https://tiktok.com/@transs_ocial" target="_blank"><i class="fa-brands fa-tiktok fa-lg"></i></a>
-            <a href="https://github.com/katniny/auride" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
-            
-            <!-- Profile -->
-            <div class="profileContainer" >
-               <div class="profile" id="profile" style="display: none;">
-                  <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
-                  <button onclick="signOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
-               </div>
-
-               <strong><p id="notSignedIn">Create an account to explore!</p></strong>
-               <img class="userPfp-sidebar" id="userPfp-sidebar" src="" draggable="false" /><p id="displayName-sidebar">Display Name</p>
-               <p id="username-pronouns-sidebar">@username</p>
+            <a href="/home"><button style="margin-top: 15px;"><i class="fa-solid fa-house"></i> Home</button></a>
+            <a href="/notifications" id="notificationsSidebar"><button><i class="fa-solid fa-bell"></i> Notifications</button></a> <a href="/notifications"><p id="notificationsCount">0</p></a>
+            <a href="/search"><button><i class="fa-solid fa-magnifying-glass"></i> Explore</button></a>
+            <a href="/messages" id="messagesSidebar"><button><i class="fa-solid fa-envelope"></i> Messages (0)</button></a>
+            <a href="/settings?tab=subscription" id="enchantedSidebar"><button><i class="fa-solid fa-heart"></i> Donate</button></a>
+            <a href="/updates"><button id="updatesBtn"><i class="fa-solid fa-wrench"></i> Updates</button></a>
+            <a href="/u" id="linkToAcc"><button><i class="fa-solid fa-user"></i> Your Profile</button></a>
+            <a href="javascript:void(0);"><button id="showMoreContent"><i class="fa-solid fa-ellipsis"></i> More</button></a>
+            <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar"><i class="fa-solid fa-pen-to-square"></i> Create</button>
+            <div id="moreContent" class="moreContent" style="display: none;">
+                <a href="/settings" id="settingsSidebar"><button class="settings"><i class="fa-solid fa-gear"></i> Settings</button></a>
+                <a href="/contributors"><button><i class="fa-solid fa-face-smile-beam"></i> Contributors</button></a>
+                <a href="/achievements" id="achievementsSidebar"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
+                <a href="/favorites" id="favoritesSidebar"><button><i class="fa-solid fa-bookmark"></i> Favorites</button></a>
             </div>
-         </div>
-       </header>
 
-       <!-- Note successfully sent -->
-       <div id="successfullySent" style="display: none;"><p>Note successfully sent!</p></div>
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <div class="sidebarPolicies">
+                <a href="/policies/terms">Terms of Service</a>, <a href="/policies/privacy">Privacy Policy</a>, <a href="/policies/child-safety">Child Safety</a>, <a href="/policies/cookies">Cookies</a>, <a href="/policies/copyright">Copyright</a>, <a href="/policies/guidelines">Community Guidelines</a>
+            </div>
+
+            <!-- Social Icons & Links -->
+            <div class="bottom">
+                <!-- Socials -->
+                <a href="https://discord.gg/SmhATjRxvc" target="_blank"><i class="fa-brands fa-discord fa-lg"></i></a>
+                <a href="https://twitter.com/transs_ocial" target="_blank"><i class="fa-brands fa-twitter fa-lg"></i></a>
+                <a href="https://tiktok.com/@transs_ocial" target="_blank"><i class="fa-brands fa-tiktok fa-lg"></i></a>
+                <a href="https://github.com/katniny/auride" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+
+                <!-- Profile -->
+                <div class="profileContainer" >
+                    <div class="profile" id="profile" style="display: none;">
+                        <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
+                        <button onclick="signOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+
+                    <strong><p id="notSignedIn">Create an account to explore!</p></strong>
+                    <img class="userPfp-sidebar" id="userPfp-sidebar" src="" draggable="false" /><p id="displayName-sidebar">Display Name</p>
+                    <p id="username-pronouns-sidebar">@username</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Note successfully sent -->
+        <div id="successfullySent" style="display: none;"><p>Note successfully sent!</p></div>
 
         <!-- New Note Alert -->
         <!--<div class="notesAlert" id="notesAlert">
@@ -121,151 +120,151 @@
             <div class="newNotesAdded" id="newNotesAdded">
                 <!-- Notes go here. This content is user-generated, no default HTML should be here. -->
             </div>
-            
+
             <div class="noteFilter">
-               <div class="blogStyle" style="margin: 15px;">
-                  <h1>Why choose Auride over anything else?</h1>
-                  <p style="color: var(--text-semi-transparent);">Created: 10/20/2024</p>
-                  <p style="color: var(--text-semi-transparent);">Updated: 6/25/2025</p>
+                <div class="blogStyle" style="margin: 15px;">
+                    <h1>Why choose Auride over anything else?</h1>
+                    <p style="color: var(--text-semi-transparent);">Created: 10/20/2024</p>
+                    <p style="color: var(--text-semi-transparent);">Updated: 6/25/2025</p>
 
-                  <br />
+                    <br />
 
-                  <p>You're probably seeing this through our advertising and you're likely wondering "Why choose Auride over anything else when alternatives like Bluesky are more popular?"</p>
-                  <p>Well, here's why:</p>
+                    <p>You're probably seeing this through our advertising and you're likely wondering "Why choose Auride over anything else when alternatives like Bluesky are more popular?"</p>
+                    <p>Well, here's why:</p>
 
-                  <br />
+                    <br />
 
-                  <b>Legend:</b>
-                  <p>✅ Yes
-                     <br/>〰️ Kind of
-                     <br/>❌ No
-                     <br/>🔗 With Restrictions
-                  </p>
-                  <table border="1" style="border-collapse: collapse; width: 100%; margin-top: 10px;">
-                     <thead>
-                        <tr>
-                           <th>Feature</th>
-                           <th>Auride</th>
-                           <th>Twitter</th>
-                           <th>Bluesky</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        <tr>
-                           <td>🖼️ Training AI with your posts</td>
-                           <td>❌</td>
-                           <td>✅</td>
-                           <td>❌</td>
-                        </tr>
-                        <tr>
-                           <td>🚫 Blocking</td>
-                           <td>✅</td>
-                           <td>〰️</td>
-                           <td>✅</td>
-                        </tr>
-                        <tr>
-                           <td>📽️ GIF Support</td>
-                           <td>✅</td>
-                           <td>🔗</td>
-                           <td>❌</td>
-                        </tr>
-                        <tr>
-                           <td>🎨 Custom Themes</td>
-                           <td>✅</td>
-                           <td>❌</td>
-                           <td>❌</td>
-                        </tr>
-                        <tr>
-                           <td>🧑‍💻 Open Source</td>
-                           <td>✅</td>
-                           <td>❌</td>
-                           <td>✅</td>
-                        </tr>
-                        <tr>
-                           <td>🚩 Post Flagging</td>
-                           <td>✅</td>
-                           <td>❌</td>
-                           <td>❌</td>
-                        </tr>
-                        <tr>
-                           <td>✔️ Pay to Verify</td>
-                           <td>❌</td>
-                           <td>✅</td>
-                           <td>❌</td>
-                        </tr>
-                        <tr>
-                           <td>🛠️ Proper Moderation</td>
-                           <td>✅</td>
-                           <td>❌</td>
-                           <td>✅</td>
-                        </tr>
-                        <tr>
-                           <td>⭐ Suggest Features to Devs</td>
-                           <td>✅</td>
-                           <td>❌</td>
-                           <td>〰️🔗</td>
-                        </tr>
-                     </tbody>
-                  </table>
+                    <b>Legend:</b>
+                    <p>✅ Yes
+                    <br/>〰️ Kind of
+                    <br/>❌ No
+                    <br/>🔗 With Restrictions
+                    </p>
+                    <table border="1" style="border-collapse: collapse; width: 100%; margin-top: 10px;">
+                        <thead>
+                            <tr>
+                                <th>Feature</th>
+                                <th>Auride</th>
+                                <th>Twitter</th>
+                                <th>Bluesky</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>🖼️ Training AI with your posts</td>
+                                <td>❌</td>
+                                <td>✅</td>
+                                <td>❌</td>
+                            </tr>
+                            <tr>
+                                <td>🚫 Blocking</td>
+                                <td>✅</td>
+                                <td>〰️</td>
+                                <td>✅</td>
+                            </tr>
+                            <tr>
+                                <td>📽️ GIF Support</td>
+                                <td>✅</td>
+                                <td>🔗</td>
+                                <td>❌</td>
+                            </tr>
+                            <tr>
+                                <td>🎨 Custom Themes</td>
+                                <td>✅</td>
+                                <td>❌</td>
+                                <td>❌</td>
+                            </tr>
+                            <tr>
+                                <td>🧑‍💻 Open Source</td>
+                                <td>✅</td>
+                                <td>❌</td>
+                                <td>✅</td>
+                            </tr>
+                            <tr>
+                                <td>🚩 Post Flagging</td>
+                                <td>✅</td>
+                                <td>❌</td>
+                                <td>❌</td>
+                            </tr>
+                            <tr>
+                                <td>✔️ Pay to Verify</td>
+                                <td>❌</td>
+                                <td>✅</td>
+                                <td>❌</td>
+                            </tr>
+                            <tr>
+                                <td>🛠️ Proper Moderation</td>
+                                <td>✅</td>
+                                <td>❌</td>
+                                <td>✅</td>
+                            </tr>
+                            <tr>
+                                <td>⭐ Suggest Features to Devs</td>
+                                <td>✅</td>
+                                <td>❌</td>
+                                <td>〰️🔗</td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                  <br />
+                    <br />
 
-                  <h2>Your Art, Your Control</h2>
-                  <p>Unlike many other platforms, Auride respects your creative work. We will <b>never train AI</b> with your notes, ensuring your content remains yours. We believe in putting creators first, allowing you to share freely without the worry of your art being used against your will.</p>
+                    <h2>Your Art, Your Control</h2>
+                    <p>Unlike many other platforms, Auride respects your creative work. We will <b>never train AI</b> with your notes, ensuring your content remains yours. We believe in putting creators first, allowing you to share freely without the worry of your art being used against your will.</p>
 
-                  <br />
+                    <br />
 
-                  <h2>Say Goodbye to Sneaky Blocking</h2>
-                  <p>Our blocking feature is straightforward: When you block someone on Auride, they're truly gone from your timeline. No more peeking from blocked accounts or unwanted interactions. This is how blocking should work and this is how it will always work on Auride!</p>
+                    <h2>Say Goodbye to Sneaky Blocking</h2>
+                    <p>Our blocking feature is straightforward: When you block someone on Auride, they're truly gone from your timeline. No more peeking from blocked accounts or unwanted interactions. This is how blocking should work and this is how it will always work on Auride!</p>
 
-                  <br />
+                    <br />
 
-                  <h2>GIFs Galore!</h2>
-                  <p>If you love GIFs, you're in luck! Unlike Bluesky, Auride allows you to express yourself with GIFs. Whether you're sharing a funny moment or want to share something outside a video, we've got you covered!</p>
+                    <h2>GIFs Galore!</h2>
+                    <p>If you love GIFs, you're in luck! Unlike Bluesky, Auride allows you to express yourself with GIFs. Whether you're sharing a funny moment or want to share something outside a video, we've got you covered!</p>
 
-                  <br />
+                    <br />
 
-                  <h2>Make It Your Own</h2>
-                  <p>With <b>Custom Themes</b>, you can personalize your Auride experience. Choose colors and styles that resonate with you and make your profile stand out from the crowd.</p>
+                    <h2>Make It Your Own</h2>
+                    <p>With <b>Custom Themes</b>, you can personalize your Auride experience. Choose colors and styles that resonate with you and make your profile stand out from the crowd.</p>
 
-                  <br />
+                    <br />
 
-                  <h2>Safe and Secure</h2>
-                  <p>Our note flagging system keeps the community safe by allowing users to report inappropriate content easily, as well as filter it from their timeline. With proper moderation in place, we ensure that everyone has a positive experience on Auride.</p>
+                    <h2>Safe and Secure</h2>
+                    <p>Our note flagging system keeps the community safe by allowing users to report inappropriate content easily, as well as filter it from their timeline. With proper moderation in place, we ensure that everyone has a positive experience on Auride.</p>
 
-                  <br />
+                    <br />
 
-                  <h2>Transparency Matters</h2>
-                  <p>We're proud to be open source, giving you the complete view on how Auride operates. This means you can contribute, suggest improvements, and help shape the future of our platform. We believe in community-driven development!</p>
+                    <h2>Transparency Matters</h2>
+                    <p>We're proud to be open source, giving you the complete view on how Auride operates. This means you can contribute, suggest improvements, and help shape the future of our platform. We believe in community-driven development!</p>
 
-                  <br />
+                    <br />
 
-                  <h2>No Paywalls for Verification</h2>
-                  <p>Unlike Twitter, we believe verification should be accessible to all. There's no need to pay for a badge; your voice matters regardless of your wallet size.</p>
+                    <h2>No Paywalls for Verification</h2>
+                    <p>Unlike Twitter, we believe verification should be accessible to all. There's no need to pay for a badge; your voice matters regardless of your wallet size.</p>
 
-                  <br />
+                    <br />
 
-                  <h2>Feature Suggestions Welcome</h2>
-                  <p>At Auride, we value your input. Our platform is built around our community, and we encourage you to suggest features directly to our developers by creating a note or on Discord. If you have an idea that could enhance your experience, we want to hear it!</p>
+                    <h2>Feature Suggestions Welcome</h2>
+                    <p>At Auride, we value your input. Our platform is built around our community, and we encourage you to suggest features directly to our developers by creating a note or on Discord. If you have an idea that could enhance your experience, we want to hear it!</p>
 
-                  <br />
+                    <br />
 
-                  <h2>Introducing TransMusic</h2>
-                  <p>We're excited to announce that our TransMusic platform is on the way! This upcoming platform will allow you to share and discover music like never before. Whether you're an aspiring artist looking to share your music or a music lover searching for new music, TransMusic will be your go-to hub for all things music.</p>
-                  <p>Just like Auride, our music platform will prioritize user rights and creative freedom, ensuring you have the best experience possible.</p>
+                    <h2>Introducing TransMusic</h2>
+                    <p>We're excited to announce that our TransMusic platform is on the way! This upcoming platform will allow you to share and discover music like never before. Whether you're an aspiring artist looking to share your music or a music lover searching for new music, TransMusic will be your go-to hub for all things music.</p>
+                    <p>Just like Auride, our music platform will prioritize user rights and creative freedom, ensuring you have the best experience possible.</p>
 
-                  <br />
+                    <br />
 
-                  <h2>Join Us Today!</h2>
-                  <p>In a world where social media often prioritizes profit over people, Auride stands out as a platform dedicated to user rights, creativity, and community engagement. If you're looking for a social media experience that puts you first, come join us and be part of something special!</p>
-                  <a href="/auth/register"><button>Join Us Today</button></a>
+                    <h2>Join Us Today!</h2>
+                    <p>In a world where social media often prioritizes profit over people, Auride stands out as a platform dedicated to user rights, creativity, and community engagement. If you're looking for a social media experience that puts you first, come join us and be part of something special!</p>
+                    <a href="/auth/register"><button>Join Us Today</button></a>
 
-                  <br />
-                  <br />
-               </div>
+                    <br />
+                    <br />
+                </div>
             </div>
 
-             
+
         </div>
 
         <!-- Auride Accounts -->
@@ -324,7 +323,7 @@
         </dialog>
 
         <!-- Modals -->
-        
+
 
         <dialog id="signInPrompt">
             <img src="/assets/imgs/All_transparent.png" draggable="false" style="width: 450px; height: 100px; margin-left: 17%; margin-right: 15%;" />
@@ -336,18 +335,18 @@
             <a href="/auth/register"><button>Register</button></a>
         </dialog>
 
-      <dialog id="openLink">
-         <h2>Leaving Auride</h2>
-         <p>This link is taking you to the following website:</p>
+        <dialog id="openLink">
+            <h2>Leaving Auride</h2>
+            <p>This link is taking you to the following website:</p>
 
-         <br />
+            <br />
 
-         <p style="text-align: center;" id="linkyLink">https://link.com/</p>
+            <p style="text-align: center;" id="linkyLink">https://link.com/</p>
 
-         <br />
+            <br />
 
-         <a href="link" id="externalLink" target="_blank"><button onclick="document.getElementById('openLink').close()">Visit Site</button></a> <a href="javascript:void(1);" onclick="document.getElementById('openLink').close()" style="color: var(--main-color); font-size: 14px;">Go Back</a>
-      </dialog>
+            <a href="link" id="externalLink" target="_blank"><button onclick="document.getElementById('openLink').close()">Visit Site</button></a> <a href="javascript:void(1);" onclick="document.getElementById('openLink').close()" style="color: var(--main-color); font-size: 14px;">Go Back</a>
+        </dialog>
 
         <dialog id="addAltText">
             <h2>Add Alt Text</h2>
@@ -391,7 +390,7 @@
 
             <br />
             <br />
-            
+
             <button onclick="document.getElementById('editWhatPartofNote').close()">Nevermind</button>
         </dialog>
 

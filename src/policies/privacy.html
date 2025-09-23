@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,108 +8,107 @@
         <link rel="shortcut icon" href="/assets/imgs/favicon.png" type="image/png">
         <link rel="manifest" href="/manifest.json">
         <meta name="robots" content="nofollow, noai, noimageai">
-         <meta name="og:type" content="website">
-         <meta name="og:url" content="https://auride.xyz/">
-         <meta name="og:title" content="Auride">
-         <meta name="og:site_name" content="auride.xyz">
-         <meta name="og:description" content="Auride - a safe place for everyone.">
-         <meta name="description" content="Auride - a safe place for everyone.">
-         <meta property="og:image" content="https://auride.xyz/assets/imgs/favicon.png">
-         <meta name="theme-color" content="#ef97be">
-         <script src="/assets/js/requiredScripts.js"></script>
-         <script src="/assets/js/scriptLoader.js"></script>
-         <script defer>
+        <meta name="og:type" content="website">
+        <meta name="og:url" content="https://auride.xyz/">
+        <meta name="og:title" content="Auride">
+        <meta name="og:site_name" content="auride.xyz">
+        <meta name="og:description" content="Auride - a safe place for everyone.">
+        <meta name="description" content="Auride - a safe place for everyone.">
+        <meta property="og:image" content="https://auride.xyz/assets/imgs/favicon.png">
+        <meta name="theme-color" content="#ef97be">
+        <script src="/assets/js/requiredScripts.js"></script>
+        <script src="/assets/js/scriptLoader.js"></script>
+        <script defer>
             ScriptLoader.load(
-               //...
+                //...
             ).then(() => {
-               console.log("Scripts for /home have been loaded successfully.");
+                console.log("Scripts for /home have been loaded successfully.");
             }).catch((error) => {
-               console.error("An error occurred: ", error, " please try refreshing.");
+                console.error("An error occurred: ", error, " please try refreshing.");
             });
-         </script>
+        </script>
     </head>
-    
+
     <body onload="loadEverything()">
         <!-- Header -->
-        <!-- Header -->
-   <div class="header" id="header">
-      <div class="left">
-         <button id="hamburgerMenu"><i class="fa-solid fa-bars"></i></button> <a href="/home"><img class="headerLogo" id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" /></a>
-      </div>
+        <div class="header" id="header">
+            <div class="left">
+                <button id="hamburgerMenu"><i class="fa-solid fa-bars"></i></button> <a href="/home"><img class="headerLogo" id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" /></a>
+            </div>
 
-      <div class="center">
-         <input id="searchBar" placeholder="Search Auride" />
-      </div>
+            <div class="center">
+                <input id="searchBar" placeholder="Search Auride" />
+            </div>
 
-      <div class="right">
-         <a href="/download"><button style="margin-right: 20px; transform: translateY(-23px);" id="headerGetApp">Get App</button></a> <a href="/notifications"><i class="fa-solid fa-bell fa-lg"></i></a> <a href="/achievements"><i class="fa-solid fa-trophy fa-lg" style="margin-right: 0px;"></i></a> <img src="" alt="Your profile picture" draggable="false" id="userPfp-header" onclick="accountManager()" />
-      </div>
-      <div class="accountManager" id="accountManager" style="display: none;">
-         <h3 id="greetingManager">Hello, {user}</h3>
-         <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
-         <a href="/achievements"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
-      </div>
-   </div>
+            <div class="right">
+                <a href="/download"><button style="margin-right: 20px; transform: translateY(-23px);" id="headerGetApp">Get App</button></a> <a href="/notifications"><i class="fa-solid fa-bell fa-lg"></i></a> <a href="/achievements"><i class="fa-solid fa-trophy fa-lg" style="margin-right: 0px;"></i></a> <img src="" alt="Your profile picture" draggable="false" id="userPfp-header" onclick="accountManager()" />
+            </div>
+            <div class="accountManager" id="accountManager" style="display: none;">
+                <h3 id="greetingManager">Hello, {user}</h3>
+                <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
+                <a href="/achievements"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
+            </div>
+        </div>
 
-      <!-- Bottom Nav (mobile) -->
-      <!--<div class="mobileBottomNav" id="mobileBottomNav">
-         <div class="nav">
+        <!-- Bottom Nav (mobile) -->
+        <!--<div class="mobileBottomNav" id="mobileBottomNav">
+            <div class="nav">
             <a href="/home" style="margin-left: 20px;"><i class="fa-solid fa-house fa-xl"></i></a> <a href="/notifications"><i class="fa-solid fa-bell fa-xl"></i></a> <a href="/settings"><i class="fa-solid fa-gear fa-xl"></i></a> <a href="javascript:void();" onclick="createNotePopup()"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
-         </div>
-      </div>-->
+            </div>
+        </div>-->
 
         <!-- Sidebar -->
         <header class="sidebar" id="sidebar">
             <!-- Navigation Buttons -->
-         <a href="/home"><button style="margin-top: 15px;"><i class="fa-solid fa-house"></i> Home</button></a>
-         <a href="/notifications" id="notificationsSidebar"><button><i class="fa-solid fa-bell"></i> Notifications</button></a> <a href="/notifications"><p id="notificationsCount">0</p></a>
-         <a href="/search"><button><i class="fa-solid fa-magnifying-glass"></i> Explore</button></a>
-         <a href="/messages" id="messagesSidebar"><button><i class="fa-solid fa-envelope"></i> Messages (0)</button></a>
-         <a href="/settings?tab=subscription" id="enchantedSidebar"><button><i class="fa-solid fa-heart"></i> Donate</button></a>
-         <a href="/updates"><button id="updatesBtn"><i class="fa-solid fa-wrench"></i> Updates</button></a>
-         <a href="/u" id="linkToAcc"><button><i class="fa-solid fa-user"></i> Your Profile</button></a>
-         <a href="javascript:void(0);"><button id="showMoreContent"><i class="fa-solid fa-ellipsis"></i> More</button></a>
-         <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar"><i class="fa-solid fa-pen-to-square"></i> Create</button>
-         <div id="moreContent" class="moreContent" style="display: none;">
-            <a href="/settings" id="settingsSidebar"><button class="settings"><i class="fa-solid fa-gear"></i> Settings</button></a>
-            <a href="/contributors"><button><i class="fa-solid fa-face-smile-beam"></i> Contributors</button></a>
-            <a href="/achievements" id="achievementsSidebar"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
-            <a href="/favorites" id="favoritesSidebar"><button><i class="fa-solid fa-bookmark"></i> Favorites</button></a>
-         </div>
-
-         <br />
-         <br />
-         <br />
-         <br />
-
-         <div class="sidebarPolicies">
-            <a href="/policies/terms">Terms of Service</a>, <a href="/policies/privacy">Privacy Policy</a>, <a href="/policies/child-safety">Child Safety</a>, <a href="/policies/cookies">Cookies</a>, <a href="/policies/copyright">Copyright</a>, <a href="/policies/guidelines">Community Guidelines</a>
-         </div>
-
-         <!-- Social Icons & Links -->
-         <div class="bottom">
-            <!-- Socials -->
-            <a href="https://discord.gg/SmhATjRxvc" target="_blank"><i class="fa-brands fa-discord fa-lg"></i></a>
-            <a href="https://twitter.com/transs_ocial" target="_blank"><i class="fa-brands fa-twitter fa-lg"></i></a>
-            <a href="https://tiktok.com/@transs_ocial" target="_blank"><i class="fa-brands fa-tiktok fa-lg"></i></a>
-            <a href="https://github.com/katniny/auride" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
-            
-            <!-- Profile -->
-            <div class="profileContainer" >
-               <div class="profile" id="profile" style="display: none;">
-                  <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
-                  <button onclick="signOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
-               </div>
-
-               <strong><p id="notSignedIn">Create an account to explore!</p></strong>
-               <img class="userPfp-sidebar" id="userPfp-sidebar" src="" draggable="false" /><p id="displayName-sidebar">Display Name</p>
-               <p id="username-pronouns-sidebar">@username</p>
+            <a href="/home"><button style="margin-top: 15px;"><i class="fa-solid fa-house"></i> Home</button></a>
+            <a href="/notifications" id="notificationsSidebar"><button><i class="fa-solid fa-bell"></i> Notifications</button></a> <a href="/notifications"><p id="notificationsCount">0</p></a>
+            <a href="/search"><button><i class="fa-solid fa-magnifying-glass"></i> Explore</button></a>
+            <a href="/messages" id="messagesSidebar"><button><i class="fa-solid fa-envelope"></i> Messages (0)</button></a>
+            <a href="/settings?tab=subscription" id="enchantedSidebar"><button><i class="fa-solid fa-heart"></i> Donate</button></a>
+            <a href="/updates"><button id="updatesBtn"><i class="fa-solid fa-wrench"></i> Updates</button></a>
+            <a href="/u" id="linkToAcc"><button><i class="fa-solid fa-user"></i> Your Profile</button></a>
+            <a href="javascript:void(0);"><button id="showMoreContent"><i class="fa-solid fa-ellipsis"></i> More</button></a>
+            <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar"><i class="fa-solid fa-pen-to-square"></i> Create</button>
+            <div id="moreContent" class="moreContent" style="display: none;">
+                <a href="/settings" id="settingsSidebar"><button class="settings"><i class="fa-solid fa-gear"></i> Settings</button></a>
+                <a href="/contributors"><button><i class="fa-solid fa-face-smile-beam"></i> Contributors</button></a>
+                <a href="/achievements" id="achievementsSidebar"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
+                <a href="/favorites" id="favoritesSidebar"><button><i class="fa-solid fa-bookmark"></i> Favorites</button></a>
             </div>
-         </div>
-       </header>
 
-       <!-- Note successfully sent -->
-       <div id="successfullySent" style="display: none;"><p>Note successfully sent!</p></div>
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <div class="sidebarPolicies">
+                <a href="/policies/terms">Terms of Service</a>, <a href="/policies/privacy">Privacy Policy</a>, <a href="/policies/child-safety">Child Safety</a>, <a href="/policies/cookies">Cookies</a>, <a href="/policies/copyright">Copyright</a>, <a href="/policies/guidelines">Community Guidelines</a>
+            </div>
+
+            <!-- Social Icons & Links -->
+            <div class="bottom">
+                <!-- Socials -->
+                <a href="https://discord.gg/SmhATjRxvc" target="_blank"><i class="fa-brands fa-discord fa-lg"></i></a>
+                <a href="https://twitter.com/transs_ocial" target="_blank"><i class="fa-brands fa-twitter fa-lg"></i></a>
+                <a href="https://tiktok.com/@transs_ocial" target="_blank"><i class="fa-brands fa-tiktok fa-lg"></i></a>
+                <a href="https://github.com/katniny/auride" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+
+                <!-- Profile -->
+                <div class="profileContainer" >
+                    <div class="profile" id="profile" style="display: none;">
+                        <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
+                        <button onclick="signOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+
+                    <strong><p id="notSignedIn">Create an account to explore!</p></strong>
+                    <img class="userPfp-sidebar" id="userPfp-sidebar" src="" draggable="false" /><p id="displayName-sidebar">Display Name</p>
+                    <p id="username-pronouns-sidebar">@username</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Note successfully sent -->
+        <div id="successfullySent" style="display: none;"><p>Note successfully sent!</p></div>
 
         <!-- New Note Alert -->
         <!--<div class="notesAlert" id="notesAlert">
@@ -121,69 +120,69 @@
             <div class="newNotesAdded" id="newNotesAdded">
                 <!-- Notes go here. This content is user-generated, no default HTML should be here. -->
             </div>
-            
+
             <div class="noteFilter">
-               <div class="blogStyle" style="margin: 15px;">
-                  <h1>Privacy Policy</h1>
-                  <p style="color: var(--text-semi-transparent);">Last Updated: 7/30/2025</p>
-                  <p style="color: var(--text-semi-transparent);">All policy changes take effect immediately upon being posted.</p>
+                <div class="blogStyle" style="margin: 15px;">
+                    <h1>Privacy Policy</h1>
+                    <p style="color: var(--text-semi-transparent);">Last Updated: 7/30/2025</p>
+                    <p style="color: var(--text-semi-transparent);">All policy changes take effect immediately upon being posted.</p>
 
-                  <br />
+                    <br />
 
-                  <p>This Privacy Policy outlines how Auride collects, uses, and protects your personal information when you use our Service. We deeply value your privacy and aim to be transparent about our data practices.</p>
+                    <p>This Privacy Policy outlines how Auride collects, uses, and protects your personal information when you use our Service. We deeply value your privacy and aim to be transparent about our data practices.</p>
 
-                  <br />
+                    <br />
 
-                  <h2>Information We Collect</h2>
-                  <li><b>Account Information:</b> When you create an account, you provide us with information such as your username, email address, and birth date to verify your age.</li>
-                  <li><b>Profile Information:</b> You may choose to provide additional information, like your display name, bio, profile picture, and pronouns.</li>
-                  <li><b>User Content:</b> This includes any posts, comments, or messages you create on Auride.</li>
-                  <li><b>Device Data:</b> We may collect information about the device you use to access Auride, such as IP address, browser type, and operating system.</li>
-                  <li><b>Location Data (Non-Persistent):</b> We may temporarily check your general region (such as country) based on your IP address for content filtering purposes. This data is not stored.</li>
+                    <h2>Information We Collect</h2>
+                    <li><b>Account Information:</b> When you create an account, you provide us with information such as your username, email address, and birth date to verify your age.</li>
+                    <li><b>Profile Information:</b> You may choose to provide additional information, like your display name, bio, profile picture, and pronouns.</li>
+                    <li><b>User Content:</b> This includes any posts, comments, or messages you create on Auride.</li>
+                    <li><b>Device Data:</b> We may collect information about the device you use to access Auride, such as IP address, browser type, and operating system.</li>
+                    <li><b>Location Data (Non-Persistent):</b> We may temporarily check your general region (such as country) based on your IP address for content filtering purposes. This data is not stored.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>How We Use Your Information</h2>
-                  <li><b>Provide the Service:</b> We use your information to operate Auride, personalize your experience, and connect you with other users.</li>
-                  <li><b>Communicate:</b> We may use your contact information to send important updates, security notices, or to respond to your inquiries.</li>
-                  <li><b>Security:</b> We use information to help maintain the security and integrity of Auride, and to detect and prevent fraud or abuse.</li>
-                  <li><b>Legal Compliance:</b> We may check your region to comply with local laws, such as restricting access to certain content based on age or content safety requirements.</li>
+                    <h2>How We Use Your Information</h2>
+                    <li><b>Provide the Service:</b> We use your information to operate Auride, personalize your experience, and connect you with other users.</li>
+                    <li><b>Communicate:</b> We may use your contact information to send important updates, security notices, or to respond to your inquiries.</li>
+                    <li><b>Security:</b> We use information to help maintain the security and integrity of Auride, and to detect and prevent fraud or abuse.</li>
+                    <li><b>Legal Compliance:</b> We may check your region to comply with local laws, such as restricting access to certain content based on age or content safety requirements.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>Information Sharing</h2>
-                  <li><b>Payments:</b> All payments are handled through <a href="https://stripe.com/" target="_blank" style="color: var(--main-color)">Stripe</a>. Auride does not store or process payment information. <a href="https://stripe.com/privacy" target="_blank" style="color: var(--main-color);">Stripe's privacy policy</a> governs how payment data is managed.</li>
-                  <li><b>We do NOT share your personal information with third parties for their marketing or advertising purposes.</b></li>
-                  <li><b>Service Providers:</b> In very limited circumstances, we may share necessary information with trusted service providers who assist us in operating Auride (e.g., web hosting). These providers are bound to protect your information.</li>
-                  <li><b>Legal Compliance:</b> We may disclose your information if required to do so by law or if we believe, in good faith, that such disclosure is necessary to protect our rights or safety, investigate fraud, or comply with a legal process.</li>
+                    <h2>Information Sharing</h2>
+                    <li><b>Payments:</b> All payments are handled through <a href="https://stripe.com/" target="_blank" style="color: var(--main-color)">Stripe</a>. Auride does not store or process payment information. <a href="https://stripe.com/privacy" target="_blank" style="color: var(--main-color);">Stripe's privacy policy</a> governs how payment data is managed.</li>
+                    <li><b>We do NOT share your personal information with third parties for their marketing or advertising purposes.</b></li>
+                    <li><b>Service Providers:</b> In very limited circumstances, we may share necessary information with trusted service providers who assist us in operating Auride (e.g., web hosting). These providers are bound to protect your information.</li>
+                    <li><b>Legal Compliance:</b> We may disclose your information if required to do so by law or if we believe, in good faith, that such disclosure is necessary to protect our rights or safety, investigate fraud, or comply with a legal process.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>Your Choices</h2>
-                  <li><b>Account Information:</b> You can update or modify your account information in your <a href="/settings">profile settings</a>.</li>
-                  <li><b>Content:</b>You can edit or delete the content you post. Keep in mind that content may be cached or retained by others.</li>
-                  
-                  
-                  <br />
+                    <h2>Your Choices</h2>
+                    <li><b>Account Information:</b> You can update or modify your account information in your <a href="/settings">profile settings</a>.</li>
+                    <li><b>Content:</b>You can edit or delete the content you post. Keep in mind that content may be cached or retained by others.</li>
 
-                  <h2>Data Security</h2>
-                  <p>We implement reasonable security measures to protect your information. However, no transmission over the internet is 100% secure. You're responsible for protecting your login credentials.</p>
 
-                  <br />
+                    <br />
 
-                  <h2>Children's Privacy</h2>
-                  <p>Auride is not directed towards children under 13. We do not knowingly collect personal information from anyone under the minimum age in their jurisdiction.</p>
+                    <h2>Data Security</h2>
+                    <p>We implement reasonable security measures to protect your information. However, no transmission over the internet is 100% secure. You're responsible for protecting your login credentials.</p>
 
-                  <br />
+                    <br />
 
-                  <h2>Changes to this Privacy Policy</h2>
-                  <p>We may update this Privacy Policy from time to time. We'll notify you of significant changes by posting a notice on Auride or via email. Your continued use after changes signifies your acceptance.</p>
+                    <h2>Children's Privacy</h2>
+                    <p>Auride is not directed towards children under 13. We do not knowingly collect personal information from anyone under the minimum age in their jurisdiction.</p>
 
-                  <br />
-               </div>
+                    <br />
+
+                    <h2>Changes to this Privacy Policy</h2>
+                    <p>We may update this Privacy Policy from time to time. We'll notify you of significant changes by posting a notice on Auride or via email. Your continued use after changes signifies your acceptance.</p>
+
+                    <br />
+                </div>
             </div>
 
-             
+
         </div>
 
         <!-- Auride Accounts -->
@@ -242,7 +241,7 @@
         </dialog>
 
         <!-- Modals -->
-        
+
 
         <dialog id="signInPrompt">
             <img src="/assets/imgs/All_transparent.png" draggable="false" style="width: 450px; height: 100px; margin-left: 17%; margin-right: 15%;" />
@@ -254,18 +253,18 @@
             <a href="/auth/register"><button>Register</button></a>
         </dialog>
 
-      <dialog id="openLink">
-         <h2>Leaving Auride</h2>
-         <p>This link is taking you to the following website:</p>
+        <dialog id="openLink">
+            <h2>Leaving Auride</h2>
+            <p>This link is taking you to the following website:</p>
 
-         <br />
+            <br />
 
-         <p style="text-align: center;" id="linkyLink">https://link.com/</p>
+            <p style="text-align: center;" id="linkyLink">https://link.com/</p>
 
-         <br />
+            <br />
 
-         <a href="link" id="externalLink" target="_blank"><button onclick="document.getElementById('openLink').close()">Visit Site</button></a> <a href="javascript:void(1);" onclick="document.getElementById('openLink').close()" style="color: var(--main-color); font-size: 14px;">Go Back</a>
-      </dialog>
+            <a href="link" id="externalLink" target="_blank"><button onclick="document.getElementById('openLink').close()">Visit Site</button></a> <a href="javascript:void(1);" onclick="document.getElementById('openLink').close()" style="color: var(--main-color); font-size: 14px;">Go Back</a>
+        </dialog>
 
         <dialog id="addAltText">
             <h2>Add Alt Text</h2>
@@ -309,7 +308,7 @@
 
             <br />
             <br />
-            
+
             <button onclick="document.getElementById('editWhatPartofNote').close()">Nevermind</button>
         </dialog>
 

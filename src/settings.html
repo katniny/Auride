@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,17 +8,17 @@
         <link rel="shortcut icon" href="/assets/imgs/favicon.png" type="image/png">
         <link rel="manifest" href="/manifest.json">
         <meta name="robots" content="nofollow, noai, noimageai">
-         <meta name="og:type" content="website">
-         <meta name="og:url" content="https://auride.xyz/">
-         <meta name="og:title" content="Auride">
-         <meta name="og:site_name" content="auride.xyz">
-         <meta name="og:description" content="Auride - a safe place for everyone.">
-         <meta name="description" content="Auride - a safe place for everyone.">
-         <meta property="og:image" content="https://auride.xyz/assets/imgs/favicon.png">
-         <meta name="theme-color" content="#ef97be">
-         <script src="/assets/js/requiredScripts.js"></script>
-         <script src="/assets/js/scriptLoader.js"></script>
-         <script defer>
+        <meta name="og:type" content="website">
+        <meta name="og:url" content="https://auride.xyz/">
+        <meta name="og:title" content="Auride">
+        <meta name="og:site_name" content="auride.xyz">
+        <meta name="og:description" content="Auride - a safe place for everyone.">
+        <meta name="description" content="Auride - a safe place for everyone.">
+        <meta property="og:image" content="https://auride.xyz/assets/imgs/favicon.png">
+        <meta name="theme-color" content="#ef97be">
+        <script src="/assets/js/requiredScripts.js"></script>
+        <script src="/assets/js/scriptLoader.js"></script>
+        <script defer>
             ScriptLoader.load(
                 { src: "/assets/js/settings/changeDisplayName.js", async: false },
                 { src: "/assets/js/settings/changeUsername.js", async: false },
@@ -30,94 +30,93 @@
                 { src: "/assets/js/settings/changeSensitiveContentPref.js", async: false },
                 { src: "/assets/js/settings/changePoliticalContentPref.js", async: false }
             ).then(() => {
-               console.log("Scripts for /home have been loaded successfully.");
+                console.log("Scripts for /home have been loaded successfully.");
             }).catch((error) => {
-               console.error("An error occurred: ", error, " please try refreshing.");
+                console.error("An error occurred: ", error, " please try refreshing.");
             });
-         </script>
+        </script>
     </head>
-    
+
     <body onload="loadEverything() + signedOutCheck()">
         <!-- Header -->
-        <!-- Header -->
-   <div class="header" id="header">
-      <div class="left">
-         <button id="hamburgerMenu"><i class="fa-solid fa-bars"></i></button> <a href="/home"><img class="headerLogo" id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" /></a>
-      </div>
+        <div class="header" id="header">
+            <div class="left">
+                <button id="hamburgerMenu"><i class="fa-solid fa-bars"></i></button> <a href="/home"><img class="headerLogo" id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" /></a>
+            </div>
 
-      <div class="center">
-         <input id="searchBar" placeholder="Search Auride" />
-      </div>
+            <div class="center">
+                <input id="searchBar" placeholder="Search Auride" />
+            </div>
 
-      <div class="right">
-         <a href="/download"><button style="margin-right: 20px; transform: translateY(-23px);" id="headerGetApp">Get App</button></a> <a href="/notifications"><i class="fa-solid fa-bell fa-lg"></i></a> <a href="/achievements"><i class="fa-solid fa-trophy fa-lg" style="margin-right: 0px;"></i></a> <img src="" alt="Your profile picture" draggable="false" id="userPfp-header" onclick="accountManager()" />
-      </div>
-      <div class="accountManager" id="accountManager" style="display: none;">
-         <h3 id="greetingManager">Hello, {user}</h3>
-         <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
-         <a href="/achievements"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
-      </div>
-   </div>
+            <div class="right">
+                <a href="/download"><button style="margin-right: 20px; transform: translateY(-23px);" id="headerGetApp">Get App</button></a> <a href="/notifications"><i class="fa-solid fa-bell fa-lg"></i></a> <a href="/achievements"><i class="fa-solid fa-trophy fa-lg" style="margin-right: 0px;"></i></a> <img src="" alt="Your profile picture" draggable="false" id="userPfp-header" onclick="accountManager()" />
+            </div>
+            <div class="accountManager" id="accountManager" style="display: none;">
+                <h3 id="greetingManager">Hello, {user}</h3>
+                <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
+                <a href="/achievements"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
+            </div>
+        </div>
 
-      <!-- Bottom Nav (mobile) -->
-      <!--<div class="mobileBottomNav" id="mobileBottomNav">
-         <div class="nav">
+        <!-- Bottom Nav (mobile) -->
+        <!--<div class="mobileBottomNav" id="mobileBottomNav">
+            <div class="nav">
             <a href="/home" style="margin-left: 20px;"><i class="fa-solid fa-house fa-xl"></i></a> <a href="/notifications"><i class="fa-solid fa-bell fa-xl"></i></a> <a href="/settings" class="active"><i class="fa-solid fa-gear fa-xl"></i></a> <a href="javascript:void();" onclick="createNotePopup()"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
-         </div>
-      </div>-->
+            </div>
+        </div>-->
 
         <!-- Sidebar -->
         <header class="sidebar" id="sidebar">
             <!-- Navigation Buttons -->
-         <a href="/home"><button style="margin-top: 15px;"><i class="fa-solid fa-house"></i> Home</button></a>
-         <a href="/notifications" id="notificationsSidebar"><button><i class="fa-solid fa-bell"></i> Notifications</button></a> <a href="/notifications"><p id="notificationsCount">0</p></a>
-         <a href="/search"><button><i class="fa-solid fa-magnifying-glass"></i> Explore</button></a>
-         <a href="/messages" id="messagesSidebar"><button><i class="fa-solid fa-envelope"></i> Messages (0)</button></a>
-         <a href="/settings?tab=subscription" id="enchantedSidebar"><button><i class="fa-solid fa-heart"></i> Donate</button></a>
-         <a href="/updates"><button id="updatesBtn"><i class="fa-solid fa-wrench"></i> Updates</button></a>
-         <a href="/u" id="linkToAcc"><button><i class="fa-solid fa-user"></i> Your Profile</button></a>
-         <a href="javascript:void(0);"><button id="showMoreContent"><i class="fa-solid fa-ellipsis"></i> More</button></a>
-         <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar"><i class="fa-solid fa-pen-to-square"></i> Create</button>
-         <div id="moreContent" class="moreContent" style="display: none;">
-            <a href="/settings" id="settingsSidebar"><button class="settings active"><i class="fa-solid fa-gear"></i> Settings</button></a>
-            <a href="/contributors"><button><i class="fa-solid fa-face-smile-beam"></i> Contributors</button></a>
-            <a href="/achievements" id="achievementsSidebar"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
-            <a href="/favorites" id="favoritesSidebar"><button><i class="fa-solid fa-bookmark"></i> Favorites</button></a>
-         </div>
-
-         <br />
-         <br />
-         <br />
-         <br />
-
-         <div class="sidebarPolicies">
-            <a href="/policies/terms">Terms of Service</a>, <a href="/policies/privacy">Privacy Policy</a>, <a href="/policies/child-safety">Child Safety</a>, <a href="/policies/cookies">Cookies</a>, <a href="/policies/copyright">Copyright</a>, <a href="/policies/guidelines">Community Guidelines</a>
-         </div>
-
-         <!-- Social Icons & Links -->
-         <div class="bottom">
-            <!-- Socials -->
-            <a href="https://discord.gg/SmhATjRxvc" target="_blank"><i class="fa-brands fa-discord fa-lg"></i></a>
-            <a href="https://twitter.com/transs_ocial" target="_blank"><i class="fa-brands fa-twitter fa-lg"></i></a>
-            <a href="https://tiktok.com/@transs_ocial" target="_blank"><i class="fa-brands fa-tiktok fa-lg"></i></a>
-            <a href="https://github.com/katniny/auride" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
-            
-            <!-- Profile -->
-            <div class="profileContainer" >
-               <div class="profile" id="profile" style="display: none;">
-                  <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
-                  <button onclick="signOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
-               </div>
-
-               <strong><p id="notSignedIn">Create an account to explore!</p></strong>
-               <img class="userPfp-sidebar" id="userPfp-sidebar" src="" draggable="false" /><p id="displayName-sidebar">Display Name</p>
-               <p id="username-pronouns-sidebar">@username</p>
+            <a href="/home"><button style="margin-top: 15px;"><i class="fa-solid fa-house"></i> Home</button></a>
+            <a href="/notifications" id="notificationsSidebar"><button><i class="fa-solid fa-bell"></i> Notifications</button></a> <a href="/notifications"><p id="notificationsCount">0</p></a>
+            <a href="/search"><button><i class="fa-solid fa-magnifying-glass"></i> Explore</button></a>
+            <a href="/messages" id="messagesSidebar"><button><i class="fa-solid fa-envelope"></i> Messages (0)</button></a>
+            <a href="/settings?tab=subscription" id="enchantedSidebar"><button><i class="fa-solid fa-heart"></i> Donate</button></a>
+            <a href="/updates"><button id="updatesBtn"><i class="fa-solid fa-wrench"></i> Updates</button></a>
+            <a href="/u" id="linkToAcc"><button><i class="fa-solid fa-user"></i> Your Profile</button></a>
+            <a href="javascript:void(0);"><button id="showMoreContent"><i class="fa-solid fa-ellipsis"></i> More</button></a>
+            <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar"><i class="fa-solid fa-pen-to-square"></i> Create</button>
+            <div id="moreContent" class="moreContent" style="display: none;">
+                <a href="/settings" id="settingsSidebar"><button class="settings active"><i class="fa-solid fa-gear"></i> Settings</button></a>
+                <a href="/contributors"><button><i class="fa-solid fa-face-smile-beam"></i> Contributors</button></a>
+                <a href="/achievements" id="achievementsSidebar"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
+                <a href="/favorites" id="favoritesSidebar"><button><i class="fa-solid fa-bookmark"></i> Favorites</button></a>
             </div>
-         </div>
-       </header>
 
-       <!-- Note successfully sent -->
-       <div id="successfullySent" style="display: none;"><p>Note successfully sent!</p></div>
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <div class="sidebarPolicies">
+                <a href="/policies/terms">Terms of Service</a>, <a href="/policies/privacy">Privacy Policy</a>, <a href="/policies/child-safety">Child Safety</a>, <a href="/policies/cookies">Cookies</a>, <a href="/policies/copyright">Copyright</a>, <a href="/policies/guidelines">Community Guidelines</a>
+            </div>
+
+            <!-- Social Icons & Links -->
+            <div class="bottom">
+                <!-- Socials -->
+                <a href="https://discord.gg/SmhATjRxvc" target="_blank"><i class="fa-brands fa-discord fa-lg"></i></a>
+                <a href="https://twitter.com/transs_ocial" target="_blank"><i class="fa-brands fa-twitter fa-lg"></i></a>
+                <a href="https://tiktok.com/@transs_ocial" target="_blank"><i class="fa-brands fa-tiktok fa-lg"></i></a>
+                <a href="https://github.com/katniny/auride" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+
+                <!-- Profile -->
+                <div class="profileContainer" >
+                    <div class="profile" id="profile" style="display: none;">
+                        <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
+                        <button onclick="signOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+
+                    <strong><p id="notSignedIn">Create an account to explore!</p></strong>
+                    <img class="userPfp-sidebar" id="userPfp-sidebar" src="" draggable="false" /><p id="displayName-sidebar">Display Name</p>
+                    <p id="username-pronouns-sidebar">@username</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Note successfully sent -->
+        <div id="successfullySent" style="display: none;"><p>Note successfully sent!</p></div>
 
         <!-- New Note Alert -->
         <!--<div class="notesAlert" id="notesAlert">
@@ -129,7 +128,7 @@
             <div class="newNotesAdded" id="newNotesAdded">
                 <!-- Notes go here. This content is user-generated, no default HTML should be here. -->
             </div>
-            
+
             <div class="noteFilter">
                 <div class="blogStyle" style="margin: 15px;">
                     <h1>Settings</h1>
@@ -168,34 +167,34 @@
 
 
                         <div style="transform: translateY(-20px);">
-                           <p>Display Name</p>
-                           <input type="text" placeholder="Enter a fun display name!" style="font-size: 15px; margin-top: 3px;" id="displayName-text" class="displayName-text" />
-                           <p id="errorUsingDisplay" style="color: var(--error-text); font-size: 14px; display: none;"></p>
-                           <p id="characterLimit_display" style="color: var(--text-semi-transparent); font-size: 14px; margin-top: 1px;">0/25</p>
-                           <button onclick="setDisplayName()" id="saveDisplay" style="display: none;">Save</button>
+                            <p>Display Name</p>
+                            <input type="text" placeholder="Enter a fun display name!" style="font-size: 15px; margin-top: 3px;" id="displayName-text" class="displayName-text" />
+                            <p id="errorUsingDisplay" style="color: var(--error-text); font-size: 14px; display: none;"></p>
+                            <p id="characterLimit_display" style="color: var(--text-semi-transparent); font-size: 14px; margin-top: 1px;">0/25</p>
+                            <button onclick="setDisplayName()" id="saveDisplay" style="display: none;">Save</button>
 
-                           <br />
+                            <br />
 
-                           <p>Username</p>
-                           <input type="text" placeholder="Enter a unique username!" style="font-size: 15px; margin-top: 3px;" id="username-text" oninput="usernameCharacters()" class="username-text" />
-                           <p id="characterLimit_username" style="color: var(--text-semi-transparent); font-size: 14px; margin-top: 1px;">0/20</p>
-                           <p id="errorTakingUsername" style="color: var(--error-text); font-size: 14px; display: none;"></p>
-                           <p id="usernameNotice" style="color: var(--error-text); font-size: 14px; display: none;">Changing your username will immediately make your old one available to take!</p>
-                           <button onclick="setUsername()" id="saveUsername" style="display: none;">Save</button>
+                            <p>Username</p>
+                            <input type="text" placeholder="Enter a unique username!" style="font-size: 15px; margin-top: 3px;" id="username-text" oninput="usernameCharacters()" class="username-text" />
+                            <p id="characterLimit_username" style="color: var(--text-semi-transparent); font-size: 14px; margin-top: 1px;">0/20</p>
+                            <p id="errorTakingUsername" style="color: var(--error-text); font-size: 14px; display: none;"></p>
+                            <p id="usernameNotice" style="color: var(--error-text); font-size: 14px; display: none;">Changing your username will immediately make your old one available to take!</p>
+                            <button onclick="setUsername()" id="saveUsername" style="display: none;">Save</button>
 
-                           <br />
+                            <br />
 
-                           <p>Pronouns</p>
-                           <input type="text" placeholder="What do you preferred to be called? (Field can be empty)" style="font-size: 15px; margin-top: 3px;" id="pronouns-text" class="pronouns-text" />
-                           <p id="characterLimit_pronouns" style="color: var(--text-semi-transparent); font-size: 14px; margin-top: 1px;">0/15</p>
-                           <button onclick="setPronouns()" id="savePronouns" style="display: none;">Save</button>
+                            <p>Pronouns</p>
+                            <input type="text" placeholder="What do you preferred to be called? (Field can be empty)" style="font-size: 15px; margin-top: 3px;" id="pronouns-text" class="pronouns-text" />
+                            <p id="characterLimit_pronouns" style="color: var(--text-semi-transparent); font-size: 14px; margin-top: 1px;">0/15</p>
+                            <button onclick="setPronouns()" id="savePronouns" style="display: none;">Save</button>
 
-                           <br />
+                            <br />
 
-                           <p>Bio</p>
-                           <textarea id="bioText" class="bioText borderBlack" style="font-size: 14px;"></textarea>
-                           <p id="characterLimit_bio" style="color: var(--text-semi-transparent);">0/500</p>
-                           <button onclick="setBio()" id="saveBio" style="display: none;">Save</button>
+                            <p>Bio</p>
+                            <textarea id="bioText" class="bioText borderBlack" style="font-size: 14px;"></textarea>
+                            <p id="characterLimit_bio" style="color: var(--text-semi-transparent);">0/500</p>
+                            <button onclick="setBio()" id="saveBio" style="display: none;">Save</button>
                         </div>
                     </div>
                 </div> 
@@ -235,11 +234,11 @@
                     <button onclick="seePersonalData()">See or Download My Data</button>
 
                     <!--<br />
-                    <br />
+                        <br />
 
-                    Re-add at some point in time
-                    <p>Verification</p>
-                    <button onclick="verificationRequest()">Get Verified</button>
+                        Re-add at some point in time
+                        <p>Verification</p>
+                        <button onclick="verificationRequest()">Get Verified</button>
                     -->
 
                     <br />
@@ -311,28 +310,28 @@
                     <h2>Subscription</h2>
                     <p style="color: var(--text-semi-transparent); font-size: 14.5px;">Help us keep the lights on! Note that payment is powered and securely processed by Donorbox, and your payment details are never saved in Auride's database. We appreciate your support! :D</p>
 
-                     <br />
+                    <br />
 
-                     <!-- Inactive -->
-                     <div id="subscribe">
+                    <!-- Inactive -->
+                    <div id="subscribe">
                         <h3>Donate to Auride</h3>
                         <p style="font-size: 13px; color: var(--text-semi-transparent);">Payments are handled securely by Donorbox. We only accept PayPal at the moment.</p>
 
                         <br />
 
                         <a href="https://donorbox.org/katninystudios" target="_blank"><button>Donate on Donorbox</button></a>
-                     </div>
+                    </div>
 
-                     <!-- Active -->
-                     <div id="thanksForSubscribing" style="display: none;">
+                    <!-- Active -->
+                    <div id="thanksForSubscribing" style="display: none;">
                         <h3>Thank you for subscribing!</h3>
                         <p style="font-size: 14px; color: var(--text-semi-transparent);">Thank you for subscribing to Katniny+ and helping Auride stay afloat! Enjoy your benefits!</p>
                         <p style="font-size: 14px; color: var(--error-text); display: none;" id="overdueBill">Your subscription is overdue and you'll lose your benefits soon.</p>
                         <ul>
-                           <li>Upload files up to 35MB</li>
-                           <!--<li>Set a custom background on your profile</li> (TO:DO)-->
-                           <li>Set a .gif file as your profile picture</li>
-                           <li>Get a special badge on your profile!</li>
+                            <li>Upload files up to 35MB</li>
+                            <!--<li>Set a custom background on your profile</li> (TO:DO)-->
+                            <li>Set a .gif file as your profile picture</li>
+                            <li>Get a special badge on your profile!</li>
                         </ul>
                         <p>and more benefits coming soon!</p>
 
@@ -344,42 +343,42 @@
                         <br />
 
                         <button onclick="cancelSubscription()">Cancel Subscription</button>
-                     </div>
+                    </div>
                 </div>
 
                 <div id="profileTab-environment" style="display: none;">
-                   <h2>Accessibility</h2>
-                   <p style="color: var(--text-semi-transparent); font-size: 14.5px;">Accessibility settings for your Auride account. We're striving to make Auride accessible to everyone!</p>
+                    <h2>Accessibility</h2>
+                    <p style="color: var(--text-semi-transparent); font-size: 14.5px;">Accessibility settings for your Auride account. We're striving to make Auride accessible to everyone!</p>
 
-                   <br />
+                    <br />
 
-                   <p>Use Dyslexia Font</p>
-                   <p style="font-size: 14px; color: var(--text-semi-transparent);">Enable the OpenDyslexic font, specifically designed to improve readability for users with dyslexia.</p>
-                   <p id="updatedOpenDysContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successfully!</p>
-                   <button onclick="setOpenDyslexia(true)">Enable</button>
-                   <button onclick="setOpenDyslexia(false)">Disable</button>
+                    <p>Use Dyslexia Font</p>
+                    <p style="font-size: 14px; color: var(--text-semi-transparent);">Enable the OpenDyslexic font, specifically designed to improve readability for users with dyslexia.</p>
+                    <p id="updatedOpenDysContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successfully!</p>
+                    <button onclick="setOpenDyslexia(true)">Enable</button>
+                    <button onclick="setOpenDyslexia(false)">Disable</button>
 
-                   <br />
-                   <br />
+                    <br />
+                    <br />
 
-                   <p>Font Scale</p>
-                   <p style="font-size: 14px; color: var(--text-semi-transparent);">Adjust font size for easier reading.</p>
-                   <p id="updatedFontScaleContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
-                   <button onclick="setFontScale('normal')">Normal</button>
-                   <button onclick="setFontScale('large')">Large</button>
+                    <p>Font Scale</p>
+                    <p style="font-size: 14px; color: var(--text-semi-transparent);">Adjust font size for easier reading.</p>
+                    <p id="updatedFontScaleContentPref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
+                    <button onclick="setFontScale('normal')">Normal</button>
+                    <button onclick="setFontScale('large')">Large</button>
 
-                   <br />
-                   <br />
+                    <br />
+                    <br />
 
-                   <p>Larger Note Buttons</p>
-                   <p style="font-size: 14px; color: var(--text-semi-transparent);">Increase button size and spacing for easier interaction.</p>
-                   <p id="updatedNoteSizePref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
-                   <button onclick="setInteractionScale('normal')">Normal</button>
-                   <button onclick="setInteractionScale('large')">Large</button>
-              </div>
+                    <p>Larger Note Buttons</p>
+                    <p style="font-size: 14px; color: var(--text-semi-transparent);">Increase button size and spacing for easier interaction.</p>
+                    <p id="updatedNoteSizePref" style="display: none; font-size: 14px; color: var(--success-color);">Updated preference to "" successful!</p>
+                    <button onclick="setInteractionScale('normal')">Normal</button>
+                    <button onclick="setInteractionScale('large')">Large</button>
+                </div>
             </div>
 
-             
+
         </div>
 
         <!-- Auride Accounts -->
@@ -453,17 +452,17 @@
         <dialog id="themeSelect">
             <h2>Pick a theme type</h2>
             <p style="color: var(--text-semi-transparent);">Use standard Auride themes or try themes created by fellow users!</p>
-            
+
             <br />
 
             <button style="width: 100%; font-size: 15px;" onclick="aurideThemes()">
-               Standard Auride Themes<br/>
-               <span style="color: var(--text-semi-transparent); font-size: 14px;">All the themes created by Auride.</span>
+                Standard Auride Themes<br/>
+                <span style="color: var(--text-semi-transparent); font-size: 14px;">All the themes created by Auride.</span>
             </button>
 
             <button style="width: 100%; font-size: 15px;" onclick="userThemes()">
-               Custom Themes<br/>
-               <span style="color: var(--text-semi-transparent); font-size: 14px;">Themes created by fellow Auride users!</span>
+                Custom Themes<br/>
+                <span style="color: var(--text-semi-transparent); font-size: 14px;">Themes created by fellow Auride users!</span>
             </button>
             <p style="margin-top: 5px;">Want to make your own custom theme? <a href="/create_theme" style="color: var(--main-color);">Now you can!</a></p>
 
@@ -498,24 +497,24 @@
         </dialog>
 
         <dialog id="fatalAccountError">
-         <h2>Fatal Account Error</h2>
-         <p>When creating or updating your account, Auride encountered an error. If it's an error related to just your email,
+            <h2>Fatal Account Error</h2>
+            <p>When creating or updating your account, Auride encountered an error. If it's an error related to just your email,
             this popup will close soon as we automatically resolve email related errors. Otherwise, you're missing your display name, username and/or profile picture. <br />
             Before you can use Auride, you will need to resolve your missing info.
-         </p>
+            </p>
 
-         <br />
+            <br />
 
-         <button onclick="document.getElementById('fatalAccountError').close();">Resolve</button>
+            <button onclick="document.getElementById('fatalAccountError').close();">Resolve</button>
         </dialog>
 
         <dialog id="fatalAccountError_AutomaticFix">
-         <h2>Account Repaired</h2>
-         <p>When creating your account or updating your account, there was a fatal error. However, we were able to automatically resolve this error.
+            <h2>Account Repaired</h2>
+            <p>When creating your account or updating your account, there was a fatal error. However, we were able to automatically resolve this error.
             <br /> You may continue using Auride.
-         </p>
+            </p>
 
-         <a href="/home"><button>Okay</button></a>
+            <a href="/home"><button>Okay</button></a>
         </dialog>
 
         <dialog id="prideFlagModal">
@@ -525,11 +524,11 @@
             <br />
 
             <button onclick="prideFlagHide()" style="text-align: center; width: 100%;">Use Theme Logo (Hide)</button>
-            
+
             <br />
 
             <button onclick="prideFlagShow()" style="text-align: center; width: 100%;">Use Pride Logo (Show)</button>
-            
+
             <br />
             <br />
 
@@ -557,18 +556,18 @@
             <a href="/auth/register"><button>Register</button></a>
         </dialog>
 
-      <dialog id="openLink">
-         <h2>Leaving Auride</h2>
-         <p>This link is taking you to the following website:</p>
+        <dialog id="openLink">
+            <h2>Leaving Auride</h2>
+            <p>This link is taking you to the following website:</p>
 
-         <br />
+            <br />
 
-         <p style="text-align: center;" id="linkyLink">https://link.com/</p>
+            <p style="text-align: center;" id="linkyLink">https://link.com/</p>
 
-         <br />
+            <br />
 
-         <a href="link" id="externalLink" target="_blank"><button onclick="document.getElementById('openLink').close()">Visit Site</button></a> <a href="javascript:void(1);" onclick="document.getElementById('openLink').close()" style="color: var(--main-color); font-size: 14px;">Go Back</a>
-      </dialog>
+            <a href="link" id="externalLink" target="_blank"><button onclick="document.getElementById('openLink').close()">Visit Site</button></a> <a href="javascript:void(1);" onclick="document.getElementById('openLink').close()" style="color: var(--main-color); font-size: 14px;">Go Back</a>
+        </dialog>
 
         <dialog id="addAltText">
             <h2>Add Alt Text</h2>
@@ -640,7 +639,7 @@
 
             <br />
             <br />
-            
+
             <button onclick="document.getElementById('editWhatPartofNote').close()">Nevermind</button>
         </dialog>
 
@@ -713,13 +712,13 @@
             <br />
 
             <input type="text" placeholder="Enter a new display name!" />
-            
+
 
             <br />
             <br />
 
             <button onclick="confirmDisplayChange()">Apply</button> <button onclick="document.getElementById('editDisplayName').close(); document.getElementById('displayName-text').value = ''">Nevermind</button>
-            
+
         </dialog>
 
         <dialog id="editUsername">
@@ -736,7 +735,7 @@
             <br />
 
             <button onclick="confirmUsernameChange()">Apply</button> <button onclick="document.getElementById('editUsername').close(); document.getElementById('username-text').value = ''">Nevermind</button>
-            
+
         </dialog>
 
         <dialog id="editPronouns">
@@ -746,13 +745,13 @@
             <br />
 
             <input type="text" placeholder="Enter your new pronouns!" />
-            
+
 
             <br />
             <br />
 
             <button onclick="confirmPronounsChange()">Apply</button> <button onclick="document.getElementById('editPronouns').close(); document.getElementById('pronouns-text').value = ''">Nevermind</button>
-            
+
         </dialog>
 
         <dialog id="editEmail">
@@ -782,35 +781,35 @@
             <button onclick="changeEmail()">Apply</button> <button onclick="document.getElementById('editEmailThisTime').close(); document.getElementById('newEmail').value = '';">Nevermind</button>
         </dialog>
 
-      <dialog id="seeData">
-         <h2>Sensitive Action</h2>
-         <p>To see your account information, please confirm your identity.</p>
-         <input type="password" id="password_reauth_data" placeholder="Enter your password" />
-         <p style="font-size: 14.5px; color: var(--error-text); display: none;" id="errorWithReauthenticating_email"></p>
+        <dialog id="seeData">
+            <h2>Sensitive Action</h2>
+            <p>To see your account information, please confirm your identity.</p>
+            <input type="password" id="password_reauth_data" placeholder="Enter your password" />
+            <p style="font-size: 14.5px; color: var(--error-text); display: none;" id="errorWithReauthenticating_email"></p>
 
-         <br />
-         <br />
+            <br />
+            <br />
 
-         <button onclick="seeData_reauth()" id="verifyEmail_verification">Verify</button> <button onclick='document.getElementById("editEmail").close()' id="cancelEmailReauthentication">Nevermind</button>
-      </dialog>
+            <button onclick="seeData_reauth()" id="verifyEmail_verification">Verify</button> <button onclick='document.getElementById("editEmail").close()' id="cancelEmailReauthentication">Nevermind</button>
+        </dialog>
 
-      <dialog id="data">
-         <h2>Your Account Data</h2>
-         <p>We know it looks like a lot, but note that most of these are to provide Auride to you. You can download this data as a JSON file. (On smaller screens, when you click "Show", please note that it'll show up on the right, so please scroll to the right to see the shown data)</p>
-         <button onclick="downloadData()" class="downloadData">Download my Data</button> <button onclick="document.getElementById('data').close()">Close</button>
+        <dialog id="data">
+            <h2>Your Account Data</h2>
+            <p>We know it looks like a lot, but note that most of these are to provide Auride to you. You can download this data as a JSON file. (On smaller screens, when you click "Show", please note that it'll show up on the right, so please scroll to the right to see the shown data)</p>
+            <button onclick="downloadData()" class="downloadData">Download my Data</button> <button onclick="document.getElementById('data').close()">Close</button>
 
-         <br />
-         <br />
+            <br />
+            <br />
 
-         <p id="dataDisplay">
+            <p id="dataDisplay">
             <i class="fa-solid fa-spinner fa-spin-pulse"></i> Fetching data...
-         </p>
+            </p>
 
-         <br />
-         <br />
+            <br />
+            <br />
 
-         <button onclick="downloadData()" id="downloadData">Download my Data</button> <button onclick="document.getElementById('data').close()">Close</button>
-      </dialog>
+            <button onclick="downloadData()" id="downloadData">Download my Data</button> <button onclick="document.getElementById('data').close()">Close</button>
+        </dialog>
 
         <dialog id="editPfp">
             <h2>Edit Profile Picture</h2>
@@ -835,15 +834,15 @@
             <br />
 
             <textarea placeholder="I'm ..., my pronouns are ... and I like ..."></textarea>
-            
+
             <p style="color: var(--error-text); display: none; margin-top: 5px;" id="bioError"></p>
-            
+
             <br />
             <br />
 
             <button onclick="confirmBioChange()">Apply</button> <button onclick="document.getElementById('editBio').close(); document.getElementById('bioText').value = '';">Nevermind</button>
         </dialog>
-        
+
         <dialog id="editNsfw">
             <h2>Mature Content Preferences</h2>
             <p>Would you like mature content to not show, be blurred, or show up completely uncensored?</p>
@@ -851,7 +850,7 @@
             <br />
 
             <button onclick="nsfwPreferenceHide()" style="text-align: center; width: 100%;">Hide Mature Content</button>
-            
+
             <br />
 
             <button onclick="nsfwPreferenceBlur()" style="text-align: center; width: 100%;">Blur Mature Content</button>
@@ -859,7 +858,7 @@
             <br />
 
             <button onclick="nsfwPreferenceShow()" style="text-align: center; width: 100%;">Show Mature Content</button>
-            
+
             <br />
             <br />
 
@@ -873,7 +872,7 @@
             <br />
 
             <button onclick="sensitivePreferenceHide()" style="text-align: center; width: 100%;">Hide Sensitive Content</button>
-            
+
             <br />
 
             <button onclick="sensitivePreferenceBlur()" style="text-align: center; width: 100%;">Blur Sensitive Content</button>
@@ -881,7 +880,7 @@
             <br />
 
             <button onclick="sensitivePreferenceShow()" style="text-align: center; width: 100%;">Show Sensitive Content</button>
-            
+
             <br />
             <br />
 
@@ -895,7 +894,7 @@
             <br />
 
             <button onclick="politicalPreferenceHide()" style="text-align: center; width: 100%;">Hide Political Content</button>
-            
+
             <br />
 
             <button onclick="politicalPreferenceBlur()" style="text-align: center; width: 100%;">Blur Political Content</button>
@@ -903,7 +902,7 @@
             <br />
 
             <button onclick="politicalPreferenceShow()" style="text-align: center; width: 100%;">Show Political Content</button>
-            
+
             <br />
             <br />
 
@@ -1016,11 +1015,11 @@
             <br />
 
             <button onclick="enableCustomThemes()" style="text-align: center; width: 100%;">Enable Experiment</button>
-            
+
             <br />
 
             <button onclick="disableCustomThemes()" style="text-align: center; width: 100%;">Disable Experiment (This will break any custom theme you have enabled)</button>
-            
+
             <br />
             <br />
 
@@ -1034,11 +1033,11 @@
             <br />
 
             <button onclick="directMessagesEnable()" style="text-align: center; width: 100%;">Enable Experiment</button>
-            
+
             <br />
 
             <button onclick="directMessagesDisable()" style="text-align: center; width: 100%;">Disable Experiment (This will prevent anyone from DM'ing you)</button>
-            
+
             <br />
             <br />
 
@@ -1081,11 +1080,11 @@
         <dialog id="deleteAccountModal">
             <h2>Are you sure you want to delete your account?</h2>
             <p>
-                This will delete all user data, including all notes and settings. Deleting your account cannot be undone.
-                <br>
-                Your username will be immediately available for anyone to use.
-                <br>
-                <br>
+            This will delete all user data, including all notes and settings. Deleting your account cannot be undone.
+            <br>
+            Your username will be immediately available for anyone to use.
+            <br>
+            <br>
             </p>
             <span>
                 Pleae enter your password to proceed:
@@ -1103,16 +1102,4 @@
             <button onclick="deleteAccount()" class="dangerButton">Delete</button>
         </dialog>
     </body>
-
-    
-    
-    
-    
-    
-
-    
-    
-    
-    
-    
 </html>

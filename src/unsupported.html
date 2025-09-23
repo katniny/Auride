@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,18 +8,18 @@
         <link rel="shortcut icon" href="/assets/imgs/favicon.png" type="image/png">
         <link rel="manifest" href="/manifest.json">
         <script src="/assets/js/requiredScripts.js"></script>
-         <script src="/assets/js/scriptLoader.js"></script>
-         <script defer>
+        <script src="/assets/js/scriptLoader.js"></script>
+        <script defer>
             ScriptLoader.load(
-               //...
+                //...
             ).then(() => {
-               console.log("Scripts for /home have been loaded successfully.");
+                console.log("Scripts for /home have been loaded successfully.");
             }).catch((error) => {
-               console.error("An error occurred: ", error, " please try refreshing.");
+                console.error("An error occurred: ", error, " please try refreshing.");
             });
-         </script>
+        </script>
     </head>
-    
+
     <body style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
         <!-- This'll change if the browser is actually unsupported (I just don't feel like coding functionality to send a user back if their browser is supported) -->
         <h1>Your browser is outdated</h1>

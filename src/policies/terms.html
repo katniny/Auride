@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,108 +8,107 @@
         <link rel="shortcut icon" href="/assets/imgs/favicon.png" type="image/png">
         <link rel="manifest" href="/manifest.json">
         <meta name="robots" content="nofollow, noai, noimageai">
-         <meta name="og:type" content="website">
-         <meta name="og:url" content="https://auride.xyz/">
-         <meta name="og:title" content="Auride">
-         <meta name="og:site_name" content="auride.xyz">
-         <meta name="og:description" content="Auride - a safe place for everyone.">
-         <meta name="description" content="Auride - a safe place for everyone.">
-         <meta property="og:image" content="https://auride.xyz/assets/imgs/favicon.png">
-         <meta name="theme-color" content="#ef97be">
-         <script src="/assets/js/requiredScripts.js"></script>
-         <script src="/assets/js/scriptLoader.js"></script>
-         <script defer>
+        <meta name="og:type" content="website">
+        <meta name="og:url" content="https://auride.xyz/">
+        <meta name="og:title" content="Auride">
+        <meta name="og:site_name" content="auride.xyz">
+        <meta name="og:description" content="Auride - a safe place for everyone.">
+        <meta name="description" content="Auride - a safe place for everyone.">
+        <meta property="og:image" content="https://auride.xyz/assets/imgs/favicon.png">
+        <meta name="theme-color" content="#ef97be">
+        <script src="/assets/js/requiredScripts.js"></script>
+        <script src="/assets/js/scriptLoader.js"></script>
+        <script defer>
             ScriptLoader.load(
-               //...
+                //...
             ).then(() => {
-               console.log("Scripts for /home have been loaded successfully.");
+                console.log("Scripts for /home have been loaded successfully.");
             }).catch((error) => {
-               console.error("An error occurred: ", error, " please try refreshing.");
+                console.error("An error occurred: ", error, " please try refreshing.");
             });
-         </script>
+        </script>
     </head>
-    
+
     <body onload="loadEverything()">
         <!-- Header -->
-        <!-- Header -->
-   <div class="header" id="header">
-      <div class="left">
-         <button id="hamburgerMenu"><i class="fa-solid fa-bars"></i></button> <a href="/home"><img class="headerLogo" id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" /></a>
-      </div>
+        <div class="header" id="header">
+            <div class="left">
+                <button id="hamburgerMenu"><i class="fa-solid fa-bars"></i></button> <a href="/home"><img class="headerLogo" id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" /></a>
+            </div>
 
-      <div class="center">
-         <input id="searchBar" placeholder="Search Auride" />
-      </div>
+            <div class="center">
+                <input id="searchBar" placeholder="Search Auride" />
+            </div>
 
-      <div class="right">
-         <a href="/download"><button style="margin-right: 20px; transform: translateY(-23px);" id="headerGetApp">Get App</button></a> <a href="/notifications"><i class="fa-solid fa-bell fa-lg"></i></a> <a href="/achievements"><i class="fa-solid fa-trophy fa-lg" style="margin-right: 0px;"></i></a> <img src="" alt="Your profile picture" draggable="false" id="userPfp-header" onclick="accountManager()" />
-      </div>
-      <div class="accountManager" id="accountManager" style="display: none;">
-         <h3 id="greetingManager">Hello, {user}</h3>
-         <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
-         <a href="/achievements"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
-      </div>
-   </div>
+            <div class="right">
+                <a href="/download"><button style="margin-right: 20px; transform: translateY(-23px);" id="headerGetApp">Get App</button></a> <a href="/notifications"><i class="fa-solid fa-bell fa-lg"></i></a> <a href="/achievements"><i class="fa-solid fa-trophy fa-lg" style="margin-right: 0px;"></i></a> <img src="" alt="Your profile picture" draggable="false" id="userPfp-header" onclick="accountManager()" />
+            </div>
+            <div class="accountManager" id="accountManager" style="display: none;">
+                <h3 id="greetingManager">Hello, {user}</h3>
+                <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
+                <a href="/achievements"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
+            </div>
+        </div>
 
-      <!-- Bottom Nav (mobile) -->
-      <!--<div class="mobileBottomNav" id="mobileBottomNav">
-         <div class="nav">
+        <!-- Bottom Nav (mobile) -->
+        <!--<div class="mobileBottomNav" id="mobileBottomNav">
+            <div class="nav">
             <a href="/home" style="margin-left: 20px;"><i class="fa-solid fa-house fa-xl"></i></a> <a href="/notifications"><i class="fa-solid fa-bell fa-xl"></i></a> <a href="/settings"><i class="fa-solid fa-gear fa-xl"></i></a> <a href="javascript:void();" onclick="createNotePopup()"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
-         </div>
-      </div>-->
+            </div>
+        </div>-->
 
         <!-- Sidebar -->
         <header class="sidebar" id="sidebar">
             <!-- Navigation Buttons -->
-         <a href="/home"><button style="margin-top: 15px;"><i class="fa-solid fa-house"></i> Home</button></a>
-         <a href="/notifications" id="notificationsSidebar"><button><i class="fa-solid fa-bell"></i> Notifications</button></a> <a href="/notifications"><p id="notificationsCount">0</p></a>
-         <a href="/search"><button><i class="fa-solid fa-magnifying-glass"></i> Explore</button></a>
-         <a href="/messages" id="messagesSidebar"><button><i class="fa-solid fa-envelope"></i> Messages (0)</button></a>
-         <a href="/settings?tab=subscription" id="enchantedSidebar"><button><i class="fa-solid fa-heart"></i> Donate</button></a>
-         <a href="/updates"><button id="updatesBtn"><i class="fa-solid fa-wrench"></i> Updates</button></a>
-         <a href="/u" id="linkToAcc"><button><i class="fa-solid fa-user"></i> Your Profile</button></a>
-         <a href="javascript:void(0);"><button id="showMoreContent"><i class="fa-solid fa-ellipsis"></i> More</button></a>
-         <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar"><i class="fa-solid fa-pen-to-square"></i> Create</button>
-         <div id="moreContent" class="moreContent" style="display: none;">
-            <a href="/settings" id="settingsSidebar"><button class="settings"><i class="fa-solid fa-gear"></i> Settings</button></a>
-            <a href="/contributors"><button><i class="fa-solid fa-face-smile-beam"></i> Contributors</button></a>
-            <a href="/achievements" id="achievementsSidebar"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
-            <a href="/favorites" id="favoritesSidebar"><button><i class="fa-solid fa-bookmark"></i> Favorites</button></a>
-         </div>
-
-         <br />
-         <br />
-         <br />
-         <br />
-
-         <div class="sidebarPolicies">
-            <a href="/policies/terms">Terms of Service</a>, <a href="/policies/privacy">Privacy Policy</a>, <a href="/policies/child-safety">Child Safety</a>, <a href="/policies/cookies">Cookies</a>, <a href="/policies/copyright">Copyright</a>, <a href="/policies/guidelines">Community Guidelines</a>
-         </div>
-
-         <!-- Social Icons & Links -->
-         <div class="bottom">
-            <!-- Socials -->
-            <a href="https://discord.gg/SmhATjRxvc" target="_blank"><i class="fa-brands fa-discord fa-lg"></i></a>
-            <a href="https://twitter.com/transs_ocial" target="_blank"><i class="fa-brands fa-twitter fa-lg"></i></a>
-            <a href="https://tiktok.com/@transs_ocial" target="_blank"><i class="fa-brands fa-tiktok fa-lg"></i></a>
-            <a href="https://github.com/katniny/auride" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
-            
-            <!-- Profile -->
-            <div class="profileContainer" >
-               <div class="profile" id="profile" style="display: none;">
-                  <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
-                  <button onclick="signOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
-               </div>
-
-               <strong><p id="notSignedIn">Create an account to explore!</p></strong>
-               <img class="userPfp-sidebar" id="userPfp-sidebar" src="" draggable="false" /><p id="displayName-sidebar">Display Name</p>
-               <p id="username-pronouns-sidebar">@username</p>
+            <a href="/home"><button style="margin-top: 15px;"><i class="fa-solid fa-house"></i> Home</button></a>
+            <a href="/notifications" id="notificationsSidebar"><button><i class="fa-solid fa-bell"></i> Notifications</button></a> <a href="/notifications"><p id="notificationsCount">0</p></a>
+            <a href="/search"><button><i class="fa-solid fa-magnifying-glass"></i> Explore</button></a>
+            <a href="/messages" id="messagesSidebar"><button><i class="fa-solid fa-envelope"></i> Messages (0)</button></a>
+            <a href="/settings?tab=subscription" id="enchantedSidebar"><button><i class="fa-solid fa-heart"></i> Donate</button></a>
+            <a href="/updates"><button id="updatesBtn"><i class="fa-solid fa-wrench"></i> Updates</button></a>
+            <a href="/u" id="linkToAcc"><button><i class="fa-solid fa-user"></i> Your Profile</button></a>
+            <a href="javascript:void(0);"><button id="showMoreContent"><i class="fa-solid fa-ellipsis"></i> More</button></a>
+            <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar"><i class="fa-solid fa-pen-to-square"></i> Create</button>
+            <div id="moreContent" class="moreContent" style="display: none;">
+                <a href="/settings" id="settingsSidebar"><button class="settings"><i class="fa-solid fa-gear"></i> Settings</button></a>
+                <a href="/contributors"><button><i class="fa-solid fa-face-smile-beam"></i> Contributors</button></a>
+                <a href="/achievements" id="achievementsSidebar"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
+                <a href="/favorites" id="favoritesSidebar"><button><i class="fa-solid fa-bookmark"></i> Favorites</button></a>
             </div>
-         </div>
-       </header>
 
-       <!-- Note successfully sent -->
-       <div id="successfullySent" style="display: none;"><p>Note successfully sent!</p></div>
+            <br />
+            <br />
+            <br />
+            <br />
+
+            <div class="sidebarPolicies">
+                <a href="/policies/terms">Terms of Service</a>, <a href="/policies/privacy">Privacy Policy</a>, <a href="/policies/child-safety">Child Safety</a>, <a href="/policies/cookies">Cookies</a>, <a href="/policies/copyright">Copyright</a>, <a href="/policies/guidelines">Community Guidelines</a>
+            </div>
+
+            <!-- Social Icons & Links -->
+            <div class="bottom">
+                <!-- Socials -->
+                <a href="https://discord.gg/SmhATjRxvc" target="_blank"><i class="fa-brands fa-discord fa-lg"></i></a>
+                <a href="https://twitter.com/transs_ocial" target="_blank"><i class="fa-brands fa-twitter fa-lg"></i></a>
+                <a href="https://tiktok.com/@transs_ocial" target="_blank"><i class="fa-brands fa-tiktok fa-lg"></i></a>
+                <a href="https://github.com/katniny/auride" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
+
+                <!-- Profile -->
+                <div class="profileContainer" >
+                    <div class="profile" id="profile" style="display: none;">
+                        <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
+                        <button onclick="signOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+
+                    <strong><p id="notSignedIn">Create an account to explore!</p></strong>
+                    <img class="userPfp-sidebar" id="userPfp-sidebar" src="" draggable="false" /><p id="displayName-sidebar">Display Name</p>
+                    <p id="username-pronouns-sidebar">@username</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Note successfully sent -->
+        <div id="successfullySent" style="display: none;"><p>Note successfully sent!</p></div>
 
         <!-- New Note Alert -->
         <!--<div class="notesAlert" id="notesAlert">
@@ -121,97 +120,97 @@
             <div class="newNotesAdded" id="newNotesAdded">
                 <!-- Notes go here. This content is user-generated, no default HTML should be here. -->
             </div>
-            
+
             <div class="noteFilter">
-               <div class="blogStyle" style="margin: 15px;">
-                  <h1>Terms of Service</h1>
-                  <p style="color: var(--text-semi-transparent);">Last Updated: 6/25/2025</p>
-                  <p style="color: var(--text-semi-transparent);">All policy changes take effect immediately upon being posted.</p>
+                <div class="blogStyle" style="margin: 15px;">
+                    <h1>Terms of Service</h1>
+                    <p style="color: var(--text-semi-transparent);">Last Updated: 6/25/2025</p>
+                    <p style="color: var(--text-semi-transparent);">All policy changes take effect immediately upon being posted.</p>
 
-                  <br />
+                    <br />
 
-                  <h2>Introduction</h2>
-                  <li>Welcome to Auride, a social platform dedicated to providing a safe and welcoming environment for everyone. These Terms of Service ("Terms") govern your use of Auride's website, mobile applications, and any related services (collectively, the "Service").</li>
-                  <li>By accessing or using our Service, you signify your agreement to these Terms. If you do not agree, you may not use the Service.</li>
-                  <b>Important Notice: Auride is NOT a dating site, hookup site, or any kind of platform for sexual relations. Anyone using Auride inappropriately for romantic or sexual purposes will be banned immediately. We take this very seriously to maintain a safe and respectful community for everyone, especially the trans community.</b>
+                    <h2>Introduction</h2>
+                    <li>Welcome to Auride, a social platform dedicated to providing a safe and welcoming environment for everyone. These Terms of Service ("Terms") govern your use of Auride's website, mobile applications, and any related services (collectively, the "Service").</li>
+                    <li>By accessing or using our Service, you signify your agreement to these Terms. If you do not agree, you may not use the Service.</li>
+                    <b>Important Notice: Auride is NOT a dating site, hookup site, or any kind of platform for sexual relations. Anyone using Auride inappropriately for romantic or sexual purposes will be banned immediately. We take this very seriously to maintain a safe and respectful community for everyone, especially the trans community.</b>
 
-                  <br />
-                  <br />
+                    <br />
+                    <br />
 
-                  <h2>1. Eligibility</h2>
-                  <li>You must be at least 13 years old to use Auride. In certain regions, the minimum age may be higher. It is your responsibility to comply with the age restrictions in your jurisdiction.</li>
-                  <li>You represent and warrant that you have the legal right and capacity to enter into this agreement.</li>
+                    <h2>1. Eligibility</h2>
+                    <li>You must be at least 13 years old to use Auride. In certain regions, the minimum age may be higher. It is your responsibility to comply with the age restrictions in your jurisdiction.</li>
+                    <li>You represent and warrant that you have the legal right and capacity to enter into this agreement.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>2. Account Creation</h2>
-                  <li>You must provide accurate and complete information when creating an account.</li>
-                  <li>You are responsible for maintaining the security of your account credientials and are fully responsible for activities occuring under your account.</li>
-                  <li>You must immediately notify Auride of any unauthorized use of your account.</li>
+                    <h2>2. Account Creation</h2>
+                    <li>You must provide accurate and complete information when creating an account.</li>
+                    <li>You are responsible for maintaining the security of your account credientials and are fully responsible for activities occuring under your account.</li>
+                    <li>You must immediately notify Auride of any unauthorized use of your account.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>3. User Conduct</h2>
-                  <li><b>No Dating or Sexual Content:</b> <b>Auride is not a dating site or sex platform. Romantic or sexual advances, discussions, or interactions are not allowed</b>. Fetishization, objectification, or any other form of harassment directed at users based on their gender identity, sexual orientation, or any other factor will result in a permanent ban.</li>
-                  <li><b>Respectful Community:</b> Auride aims to be a safe and inclusive place. Conduct that is hateful, discriminatory, threatening, or that promotes illegal activities is strictly prohibited.</li>
-                  <li><b>NSFW Content:</b> Content of a sexually explicit nature is permitted ONLY if clearly marked as NSFW (Not Safe for Work). However, NSFW content must not be used to facilitate or encourage romantic or sexual interactions. Failure to mark content or misuse of the NSFW label may result in content removal or account suspension.</li>
-                  <li><b>Sensitive Content:</b> Certain sensitive topics may be allowed but MUST be clearly marked as "sensitive". This helps users make informed choices about the content they engage with.</li>
-                  <li><b>Responsibility:</b> You are solely responsible for your content and interactions on Auride. The views and opinions you express are your own.</li>
-                  <li><b>AI Content Ban</b>: The use of artifical intelligence (AI) or automated tools to generate content, interact with users, or engage with Auride in any way is prohibited. This includes but is not limited to AI-generated posts, comments, or direct messages. Violations may result in content removal and a permanent ban.</li>
-                  <li><b>Security and Exploits</b>: You may not attempt to bypass, exploit, or interfere with Auride's security measures--whether those measures are present or not. This includes, but is not limited to, injecting malicious code (e.g. XSS, SQL injections), manipulating site functionality in unintended ways, or attempting to gain unauthorized access to accounts, data, or system resources. Any such actions will result in an immediate and permanent suspension. If you discover a security vulnerability, you must report it instead of exploiting it.</li>
-                  <li><b>Prohibited Actions:</b> You may not:</li>
-                     <li style="list-style: inside; list-style-type: circle; color: var(--text-semi-transparent); transform: translateX(10px);">Post unlawful content, or content that violates intellectual property rights</li>
-                     <li style="list-style: inside; list-style-type: circle; color: var(--text-semi-transparent); transform: translateX(10px);">Spam, harass, or stalk other users</li>
-                     <li style="list-style: inside; list-style-type: circle; color: var(--text-semi-transparent); transform: translateX(10px);">Use Auride for any commercial purpose without our express consent</li>
-                     <li style="list-style: inside; list-style-type: circle; color: var(--text-semi-transparent); transform: translateX(10px);">Attempt to circumvent any of our security features or technical measures</li>
+                    <h2>3. User Conduct</h2>
+                    <li><b>No Dating or Sexual Content:</b> <b>Auride is not a dating site or sex platform. Romantic or sexual advances, discussions, or interactions are not allowed</b>. Fetishization, objectification, or any other form of harassment directed at users based on their gender identity, sexual orientation, or any other factor will result in a permanent ban.</li>
+                    <li><b>Respectful Community:</b> Auride aims to be a safe and inclusive place. Conduct that is hateful, discriminatory, threatening, or that promotes illegal activities is strictly prohibited.</li>
+                    <li><b>NSFW Content:</b> Content of a sexually explicit nature is permitted ONLY if clearly marked as NSFW (Not Safe for Work). However, NSFW content must not be used to facilitate or encourage romantic or sexual interactions. Failure to mark content or misuse of the NSFW label may result in content removal or account suspension.</li>
+                    <li><b>Sensitive Content:</b> Certain sensitive topics may be allowed but MUST be clearly marked as "sensitive". This helps users make informed choices about the content they engage with.</li>
+                    <li><b>Responsibility:</b> You are solely responsible for your content and interactions on Auride. The views and opinions you express are your own.</li>
+                    <li><b>AI Content Ban</b>: The use of artifical intelligence (AI) or automated tools to generate content, interact with users, or engage with Auride in any way is prohibited. This includes but is not limited to AI-generated posts, comments, or direct messages. Violations may result in content removal and a permanent ban.</li>
+                    <li><b>Security and Exploits</b>: You may not attempt to bypass, exploit, or interfere with Auride's security measures--whether those measures are present or not. This includes, but is not limited to, injecting malicious code (e.g. XSS, SQL injections), manipulating site functionality in unintended ways, or attempting to gain unauthorized access to accounts, data, or system resources. Any such actions will result in an immediate and permanent suspension. If you discover a security vulnerability, you must report it instead of exploiting it.</li>
+                    <li><b>Prohibited Actions:</b> You may not:</li>
+                    <li style="list-style: inside; list-style-type: circle; color: var(--text-semi-transparent); transform: translateX(10px);">Post unlawful content, or content that violates intellectual property rights</li>
+                    <li style="list-style: inside; list-style-type: circle; color: var(--text-semi-transparent); transform: translateX(10px);">Spam, harass, or stalk other users</li>
+                    <li style="list-style: inside; list-style-type: circle; color: var(--text-semi-transparent); transform: translateX(10px);">Use Auride for any commercial purpose without our express consent</li>
+                    <li style="list-style: inside; list-style-type: circle; color: var(--text-semi-transparent); transform: translateX(10px);">Attempt to circumvent any of our security features or technical measures</li>
 
-                  <br />
+                    <br />
 
-                  <h2>4. Content Ownership</h2>
-                  <li>You retain ownership of the content you post on Auride. However, by posting content, you grant Auride a non-exclusive, worldwide, royalty-free license to use, copy, reproduce, adapt, and display your content in connection with the operation of the Service.</li>
+                    <h2>4. Content Ownership</h2>
+                    <li>You retain ownership of the content you post on Auride. However, by posting content, you grant Auride a non-exclusive, worldwide, royalty-free license to use, copy, reproduce, adapt, and display your content in connection with the operation of the Service.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>5. Privacy</h2>
-                  <li>Our <a href="/policies/privacy" style="color: var(--main-color)">Privacy Policy</a> details how your personal information is collected, used, or shared. Please review it carefully.</li>
+                    <h2>5. Privacy</h2>
+                    <li>Our <a href="/policies/privacy" style="color: var(--main-color)">Privacy Policy</a> details how your personal information is collected, used, or shared. Please review it carefully.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>6. Intellectual Property</h2>
-                  <li>Auride's name, logo, and other trademarks are our property. You may not use them without our written permission.</li>
-                  <li>We respect the intellectual property right of others. If you believe your copyright has been infringed, please contact us.</li>
+                    <h2>6. Intellectual Property</h2>
+                    <li>Auride's name, logo, and other trademarks are our property. You may not use them without our written permission.</li>
+                    <li>We respect the intellectual property right of others. If you believe your copyright has been infringed, please contact us.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>7. Disclaimer of Warranties</h2>
-                  <li>The Service is provided on an "AS IS" basis without warranties of any kind. We make no guarantee regarding the uptime, security, or availability of Auride.</li>
+                    <h2>7. Disclaimer of Warranties</h2>
+                    <li>The Service is provided on an "AS IS" basis without warranties of any kind. We make no guarantee regarding the uptime, security, or availability of Auride.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>8. Limitation of Liability</h2>
-                  <li>To the maximum extent permitted by law, Auride shall not be liable for any damages arising from your use of the Service.</li>
+                    <h2>8. Limitation of Liability</h2>
+                    <li>To the maximum extent permitted by law, Auride shall not be liable for any damages arising from your use of the Service.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>9. Termination</h2>
-                  <li>We reserve the right to suspend or terminate your account at any time, with or without notice, if you violate these Terms.</li>
-                  <li>Upon termination or suspension, your right to use the Service will immediately cease.</li>
+                    <h2>9. Termination</h2>
+                    <li>We reserve the right to suspend or terminate your account at any time, with or without notice, if you violate these Terms.</li>
+                    <li>Upon termination or suspension, your right to use the Service will immediately cease.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>10. Dispute Resolution</h2>
-                  <li>These Terms will be governed by the laws of South Dakota. Any disputes shall be resolved through binding arbitration in South Dakota.</li>
+                    <h2>10. Dispute Resolution</h2>
+                    <li>These Terms will be governed by the laws of South Dakota. Any disputes shall be resolved through binding arbitration in South Dakota.</li>
 
-                  <br />
+                    <br />
 
-                  <h2>11. Modification to Terms</h2>
-                  <li>We may modify these Terms at any time. We'll notify you of significant changes by posting a notice on the Service or via email. Your continued use signifies acceptance of the modified Terms.</li>
+                    <h2>11. Modification to Terms</h2>
+                    <li>We may modify these Terms at any time. We'll notify you of significant changes by posting a notice on the Service or via email. Your continued use signifies acceptance of the modified Terms.</li>
 
-                  <br />
-               </div>
+                    <br />
+                </div>
             </div>
 
-             
+
         </div>
 
         <!-- Auride Accounts -->
@@ -270,7 +269,7 @@
         </dialog>
 
         <!-- Modals -->
-        
+
 
         <dialog id="signInPrompt">
             <img src="/assets/imgs/All_transparent.png" draggable="false" style="width: 450px; height: 100px; margin-left: 17%; margin-right: 15%;" />
@@ -282,18 +281,18 @@
             <a href="/auth/register"><button>Register</button></a>
         </dialog>
 
-      <dialog id="openLink">
-         <h2>Leaving Auride</h2>
-         <p>This link is taking you to the following website:</p>
+        <dialog id="openLink">
+            <h2>Leaving Auride</h2>
+            <p>This link is taking you to the following website:</p>
 
-         <br />
+            <br />
 
-         <p style="text-align: center;" id="linkyLink">https://link.com/</p>
+            <p style="text-align: center;" id="linkyLink">https://link.com/</p>
 
-         <br />
+            <br />
 
-         <a href="link" id="externalLink" target="_blank"><button onclick="document.getElementById('openLink').close()">Visit Site</button></a> <a href="javascript:void(1);" onclick="document.getElementById('openLink').close()" style="color: var(--main-color); font-size: 14px;">Go Back</a>
-      </dialog>
+            <a href="link" id="externalLink" target="_blank"><button onclick="document.getElementById('openLink').close()">Visit Site</button></a> <a href="javascript:void(1);" onclick="document.getElementById('openLink').close()" style="color: var(--main-color); font-size: 14px;">Go Back</a>
+        </dialog>
 
         <dialog id="addAltText">
             <h2>Add Alt Text</h2>
@@ -337,7 +336,7 @@
 
             <br />
             <br />
-            
+
             <button onclick="document.getElementById('editWhatPartofNote').close()">Nevermind</button>
         </dialog>
 

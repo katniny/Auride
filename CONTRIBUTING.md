@@ -24,10 +24,10 @@ Thank you for your interest in contributing to Auride! We try to make Auride as 
    - Format for update.html:
    ```html
       <div class="update">
-         <h2>v2025.5.6_pre-alpha</h2>
-         <h3 style="color: var(--text-semi-transparent);">Released: MONTH DAY, YEAR</h3> <!-- e.g. May 1, 2025 -->
-            <li>Change 1 that should be understandable to the user</li>
-            <li>(Dev Env) Change 2 that should be understandable to the user, but ONLY applies to the codebase rather than the end-user</li>
+          <h2>v2025.5.6_pre-alpha</h2>
+          <h3 style="color: var(--text-semi-transparent);">Released: MONTH DAY, YEAR</h3> <!-- e.g. May 1, 2025 -->
+          <li>Change 1 that should be understandable to the user</li>
+          <li>(Dev Env) Change 2 that should be understandable to the user, but ONLY applies to the codebase rather than the end-user</li>
       </div>
 
       <br />
