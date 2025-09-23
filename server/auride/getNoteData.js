@@ -30,9 +30,34 @@ router.get("/api/auride/getNoteData", async (req, res) => {
         const snapshot = await query.once("value");
 
         // parse the notesArray to return
+        // and promises, if necessary!
         const notesArray = [];
+        const promises = [];
         snapshot.forEach(childSnapshot => {
             const note = childSnapshot.val();
+
+            // check... is it notes from a user profile?
+            if (note.isRenote !== undefined && note.isRenote !== null) { // only appears on user profiles! safe to check.
+                console.log(note);
+                // if so, we have to get these separately...
+                promises.push((async () => {
+                    const snap = await db.ref(`notes/${childSnapshot.key}`).once("value");
+                    const fullNote = snap.val();
+
+                    if (!fullNote)
+                        return;
+                    fullNote.key = childSnapshot.key;
+                    
+                    // ignore reply and deletion.. details below
+                    if (fullNote.replyingTo && !path.startsWith("/notes/-"))
+                        return;
+                    if (fullNote.isDeleted)
+                        return;
+
+                    notesArray.push(fullNote);
+                })());
+                return;
+            }
 
             // is it a reply? if so, ignore it
             // note: replyingTo IS depreciated, however, older forks of auride may still have notes 
@@ -50,6 +75,7 @@ router.get("/api/auride/getNoteData", async (req, res) => {
             note.key = childSnapshot.key;
             notesArray.push(note);
         });
+        await Promise.all(promises);
 
         // return :)
         res.json(notesArray);
