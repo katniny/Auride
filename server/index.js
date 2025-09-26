@@ -3,7 +3,6 @@ const fs = require("fs");
 const path = require("path");
 const admin = require("firebase-admin");
 const cors = require("cors");
-const morgan = require("morgan");
 
 const app = express();
 const PORT = 10000;
