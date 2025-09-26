@@ -36,7 +36,6 @@ switch(true) {
         break;
     case pathName.startsWith("/note/"):
         // get note id
-        console.log("note");
         const noteId = pathName.split("/")[2];
 
         notesPageRef = firebase.database().ref(`/notes/${noteId}/notesReplying`);
@@ -49,7 +48,7 @@ switch(true) {
     default:
         notesPageRef = firebase.database().ref("pleaseDefinePathInNotesDotJS");
         notesPageRefString = "pleaseDefinePathInNotesDotJS";
-        console.log(`
+        console.error(`
             Please define the path for this page in /public/assets/js/notes/notes.js.\n
             If you are a user and are experiencing this error, please report this to our GitHub Issues:
             https://github.com/katniny/Auride/issues
@@ -130,10 +129,9 @@ async function loadInitalNotes() {
     // create loading indicator to give some visual feedback
     await createLoadingIndicator("lg", "notes");
     const loadingIndicator = document.getElementById("noteLoadingIndicator");
-    console.log(notesPageRefString);
     
     // fetch note data from server
-    const response = await fetch(`${serverUrl}/api/auride/getNoteData?limit=25&path=${notesPageRefString}`);
+    const response = await fetch(`${serverUrl}/api/auride/getNoteData?limit=15&path=${notesPageRefString}`);
     if (!response.ok) {
         console.error("Failed to fetch notes: ", response.statusText);
         currentLoadingNotes = false;
@@ -143,7 +141,6 @@ async function loadInitalNotes() {
 
     // then, parse and render notes
     const notesArray = await response.json();
-    console.log(notesArray);
 
     if (notesArray.length > 0) {
         // update lastNoteKey
@@ -178,7 +175,7 @@ async function loadMoreNotes() {
     const loadingIndicator = document.getElementById("noteLoadingIndicator");
     
     // fetch note data from server
-    const response = await fetch(`${serverUrl}/api/auride/getNoteData?endBefore=${lastNoteKey}&limit=25&path=${notesPageRefString}`);
+    const response = await fetch(`${serverUrl}/api/auride/getNoteData?endBefore=${lastNoteKey}&limit=15&path=${notesPageRefString}`);
     if (!response.ok) {
         console.error("Failed to fetch notes: ", response.statusText);
         currentLoadingNotes = false;

@@ -38,7 +38,6 @@ router.get("/api/auride/getNoteData", async (req, res) => {
 
             // check... is it notes from a user profile?
             if (note.isRenote !== undefined && note.isRenote !== null) { // only appears on user profiles! safe to check.
-                console.log(note);
                 // if so, we have to get these separately...
                 promises.push((async () => {
                     const snap = await db.ref(`notes/${childSnapshot.key}`).once("value");
