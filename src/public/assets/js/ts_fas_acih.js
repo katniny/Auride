@@ -645,7 +645,7 @@ function usernames() {
 
 function usernameCharacters() {
    // Prevent characters "`~!@#$%^&*()-+=\|]}{[;:'",/?"
-   event.target.value = event.target.value.replace(/[^a-z 1-9 . _]/g, '');
+   event.target.value = event.target.value.replace(/[^a-z 0-9 . _]/g, '');
    // Prevent spaces
    event.target.value = event.target.value.replace(/[ ]/g, '');
 }
