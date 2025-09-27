@@ -4,6 +4,9 @@ const admin = require("firebase-admin");
 const db = admin.database();
 
 router.get("/api/auride/getNoteData", async (req, res) => {
+    if (req.method !== "GET")
+        return res.status(403).json({ error: "This method can only be accessed via GET." });
+
     try {
         const { endBefore, limit, path } = req.query;
         let notesRef = null;
@@ -24,7 +27,7 @@ router.get("/api/auride/getNoteData", async (req, res) => {
         if (limit && limit > 1)
             query = query.limitToLast(parseInt(limit, 10));
         else
-            res.status(500).json({ error: "Please load 2 or more notes." });
+            return res.status(403).json({ error: "Please load 2 or more notes." });
 
         // then, get the snapshot
         const snapshot = await query.once("value");
