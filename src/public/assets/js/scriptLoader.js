@@ -43,6 +43,10 @@ const ScriptLoader = (() => {
       return promise;
    }
 
+   if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' });
+   }
+
    return {
       load: (...scripts) => Promise.all(scripts.map(loadScript)),
       isLoaded: (src) => loadedScripts.has(src),
