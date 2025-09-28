@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
-import { resolve } from "path";
 import { readdirSync, statSync } from "fs";
 import path from "path";
+import { VitePWA } from 'vite-plugin-pwa'
 
 function customRewrite() {
     return {
@@ -29,8 +29,13 @@ function getHtmlInputs(dir = __dirname, inputs = {}) {
         const fullPath = path.join(dir, entry);
         const stat = statSync(fullPath);
 
-        if (stat.isDirectory()) {
-            getHtmlInputs(fullPath, inputs);
+        if (
+          stat.isDirectory() &&
+          // Ignore directories that will not contain application HTML
+          !entry.includes("node_modules") &&
+          !entry.includes("storage")
+        ) {
+          getHtmlInputs(fullPath, inputs);
         } else if (entry.endsWith(".html")) {
             // create a name like "index", "subdir/page", etc.
             const relativePath = path.relative(__dirname, fullPath);
@@ -43,7 +48,21 @@ function getHtmlInputs(dir = __dirname, inputs = {}) {
 }
 
 export default defineConfig({
-    plugins: [customRewrite()],
+    plugins: [customRewrite(), VitePWA({
+        manifest: {
+            name: "Auride",
+            short_name: "Auride",
+            description: "Auride is an social media platform built to be a safe place for everyone! 💝",
+            display: "minimal-ui",
+            id: "auride.xyz",
+            start_url: "/home.html",
+            theme_color: "#ef97be",
+            background_color: "#1d1d1d",
+            icons: [{ src: "/assets/imgs/favicon.png" }]
+        },
+        injectRegister: false,
+        registerType: "autoUpdate",
+    })],
     server: {
         fs: {
             strict: true
