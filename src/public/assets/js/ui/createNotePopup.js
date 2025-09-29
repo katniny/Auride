@@ -180,3 +180,9 @@ function closeCreateNotePopup() {
         notePopup.remove();
     }, 500);
 }
+
+// listen for Ctrl + Enter shortcut
+document.addEventListener("keydown", (event) => {
+    if (event.ctrlKey && event.key === "Enter" && document.getElementById("createNote-popup"))
+        publishNote();
+});

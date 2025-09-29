@@ -1963,8 +1963,13 @@ function addAltText_finish() {
 
 async function publishNote() {
    firebase.auth().onAuthStateChanged(async (user) => {
+      const coverCreateANote = document.getElementById("coverCreateANote");
+   
+      // make sure ones not actively sending
+      if (coverCreateANote.style.display !== "none") return;
+
       if (user) {
-         document.getElementById("coverCreateANote").style.display = "block";
+         coverCreateANote.style.display = "block";
 
          const notesRef = firebase.database().ref("notes");
          const userNotes = firebase.database().ref(`users/${user.uid}/posts`);
@@ -1978,7 +1983,7 @@ async function publishNote() {
 
          if (isTextareaEmpty(noteContent) && !file) {
             document.getElementById("noteError").textContent = "You can't create notes without content! Try adding an image, text or both!";
-            document.getElementById("coverCreateANote").style.display = "none";
+            coverCreateANote.style.display = "none";
             return;
          }
 
@@ -2016,12 +2021,12 @@ async function publishNote() {
                document.body.appendChild(bad);
                bad.showModal();
 
-               document.getElementById("coverCreateANote").style.display = "none";
+               coverCreateANote.style.display = "none";
                return;
             }
          } catch (error) { 
             document.getElementById("noteError").textContent = error;
-            document.getElementById("coverCreateANote").style.display = "none";
+            coverCreateANote.style.display = "none";
             return;
          }
 
@@ -2139,7 +2144,7 @@ async function publishNote() {
          } catch (error) {
             document.getElementById("noteError").textContent = "Error publishing note: " + error.message;
             console.error(error);
-            document.getElementById("coverCreateANote").style.display = "none";
+            coverCreateANote.style.display = "none";
          }
       } else {
          loginPrompt();
