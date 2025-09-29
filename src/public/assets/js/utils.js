@@ -10,6 +10,7 @@ function faIcon(name, size = null, anim = null, color = null, marginLeft = null)
 }
 
 const TUS_ENDPOINT = `https://best-energy-drink-is.fucking.monster`;
+//const TUS_ENDPOINT = `http://localhost:6979`;
 const TUS_UPLOAD_ENDPOINT = `${TUS_ENDPOINT}/files/`;
 var storageLink = (path) => `${TUS_ENDPOINT}/${path}`;
 

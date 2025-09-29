@@ -32,7 +32,8 @@ if (!input.Event.Upload.MetaData.filename) {
   const uploadedFile = Bun.file(input.Event.Upload.Storage.Path);
   await Bun.write(
     `/data/files/${input.Event.Upload.MetaData.filename.replaceAll("..", "")}`,
-    uploadedFile
+    uploadedFile,
+    { createPath: true, mode: 600 }
   );
 }
 
