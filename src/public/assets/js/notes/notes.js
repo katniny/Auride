@@ -287,21 +287,26 @@ function renderNotes(notesArray) {
 }
 
 // When a new note is added, let the user know.
-let amountOfTimesShown = 0;
+let initialNoteLoad = true;
+// lets get all the initial notes as to prevent a flood of notes being called,
+// and being flagged as a "new" note
+firebase.database().ref("notes/").once("value").then((snapshot) => {
+    initialNoteLoad = false;
+});
+
 firebase.database().ref("notes/").on("child_added", (snapshot) => {
-    const isReply = snapshot.val();
-    if (isReply.replyingTo === undefined) {
+    // make sure not to run this on the initial note load
+    if (initialNoteLoad) return;
+
+    // continue if its not the initial note load
+    const note = snapshot.val();
+    if (note.replyingTo === undefined) {
         if (pathName === "/home" || pathName === "/home.html") {
-            if (!loadedNotesId.has(isReply.id) && amountOfTimesShown === 1) { // FIXME: shows regardless...? hacky fix.
-                newNotesAvailable.style.display = "block";
-                console.log(amountOfTimesShown);
-            } else {
-                newNotesAvailable.style.display = "none";
-                amountOfTimesShown++;
-            }
+            newNotesAvailable.style.display = "block";
+            console.log(note);
         }
     }
-})
+});
 
 // we can attach listeners within a function,
 // as to prevent race conditions on pages that take longer than a few
