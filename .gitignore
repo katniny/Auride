@@ -32,4 +32,5 @@ dist-ssr
 # we want our sensitive files ignored!
 # massive security risk if that gets out...
 */serviceAccount.json
+*/serviceAccount_test.json
 */.env

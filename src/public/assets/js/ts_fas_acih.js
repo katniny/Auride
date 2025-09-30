@@ -1492,8 +1492,8 @@ function uploadImage() {
       let fileName = document.getElementById("imageUploadInput").value;
       let extension = fileName.split(".").pop();
 
-      if (extension !== "png" && extension !== "jpg" && extension !== "webp" && extension !== "jpeg" && extension !== "gif" && extension !== "mp4") {
-         document.getElementById("uploadingImage").textContent = "Unsupported file type. Only .png, .jpg (.jpeg), .webp, .gif and .mp4 files are supported.";
+      if (extension !== "png" && extension !== "jpg" && extension !== "webp" && extension !== "jpeg" && extension !== "gif" && extension !== "mp4" && extension !== "mp3") {
+         document.getElementById("uploadingImage").textContent = "Unsupported file type. Only .png, .jpg (.jpeg), .webp, .gif, .mp4 and .mp3 files are supported.";
          document.getElementById("uploadingImage").style.display = "block";
          document.getElementById("imageUploadInput").value = "";
          document.getElementById("uploadingImage").style.color = "var(--error-text)";
@@ -1510,31 +1510,35 @@ function uploadImage() {
                   firebase.database().ref(`users/${user.uid}`).once("value", (snapshot) => {
                      const hi = snapshot.val();
 
-                     if (hi.isSubscribed === true) {
-                        // if subscribed, make their limit 35MB as promised
-                        MAX_FILE_SIZE_BYTES = 35 * 1024 * 1024;
-                     }
-
                      if (file.size > MAX_FILE_SIZE_BYTES) {
-                        if (MAX_FILE_SIZE_BYTES === 35 * 1024 * 1024) {
-                           document.getElementById("uploadingImage").textContent = "File size is over the file size limit (35MB).";
-                        } else {
-                           document.getElementById("uploadingImage").textContent = "File size is over the file size limit (10MB). You can increase the file size limit with a Katniny+ subscription.";
-                        }
+                        document.getElementById("uploadingImage").textContent = "File size is over the file size limit (10MB). You can increase the file size limit with a Katniny+ subscription.";
                         document.getElementById("uploadingImage").style.display = "block";
                         document.getElementById("uploadingImage").style.color = "var(--error-text)";
                         document.getElementById("imageUploadInput").value = "";
                         document.getElementById("imgToBeUploaded").style.display = "none";
                      } else {
-                        if (extension !== "mp4") {
+                        if (extension === "mp4") {
                            const reader = new FileReader();
 
                            reader.addEventListener("load", (event) => {
-                              document.getElementById("imgToBeUploaded").src = event.target.result;
-                              document.getElementById("imgToBeUploaded").style.display = "block";
+                              document.getElementById("vidToBeUploaded").src = event.target.result;
+                              document.getElementById("vidToBeUploaded").style.display = "block";
+                              document.getElementById("vidToBeUploaded").style.display = "block";
                               document.getElementById("hasntBeenUploadedNotice").style.display = "block";
                               document.getElementById("removeUploadedImage").style.display = "block";
                               document.getElementById("addAltTextToImage").style.display = "block";
+                           });
+
+                           reader.readAsDataURL(file);
+                        } else if (extension === "mp3") {
+                           const reader = new FileReader();
+
+                           reader.addEventListener("load", (event) => {
+                              document.getElementById("audioToBeUploaded").src = event.target.result;
+                              document.getElementById("audioToBeUploaded").style.display = "block";
+                              document.getElementById("audioToBeUploaded").style.display = "block";
+                              document.getElementById("hasntBeenUploadedNotice").style.display = "block";
+                              document.getElementById("removeUploadedImage").style.display = "block";
                            });
 
                            reader.readAsDataURL(file);
@@ -1542,9 +1546,8 @@ function uploadImage() {
                            const reader = new FileReader();
 
                            reader.addEventListener("load", (event) => {
-                              document.getElementById("vidToBeUploaded").src = event.target.result;
-                              document.getElementById("vidToBeUploaded").style.display = "block";
-                              document.getElementById("vidToBeUploaded").style.display = "block";
+                              document.getElementById("imgToBeUploaded").src = event.target.result;
+                              document.getElementById("imgToBeUploaded").style.display = "block";
                               document.getElementById("hasntBeenUploadedNotice").style.display = "block";
                               document.getElementById("removeUploadedImage").style.display = "block";
                               document.getElementById("addAltTextToImage").style.display = "block";

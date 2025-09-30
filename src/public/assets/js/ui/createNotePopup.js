@@ -18,7 +18,9 @@ const modal = `
 
             <img id="imgToBeUploaded" draggable="false" />
             <video id="vidToBeUploaded" draggable="false" autoplay="true" muted="true" controls style="display: none;"></video>
+            <audio id="audioToBeUploaded" autoplay="true" muted="true" controls></audio>
 
+            <br />
             <br />
 
             <div id="quotingNote">
@@ -34,9 +36,11 @@ const modal = `
             </div>
         </div>
 
-        <p style="font-size: small; color: var(--text-semi-transparent); display: none; transform: translateY(-10px);" id="hasntBeenUploadedNotice">Image hasn't been uploaded to Auride's server yet. This is just a preview.</p>
-        <a href="javascript:void(0);" style="display: none; float: left; max-width: auto; transform: translateY(-10px);" id="removeUploadedImage" onclick="removeImage()">Remove Image</a> <a href="javascript:void(0);" style="display: none; float: left; max-width: auto; transform: translateY(-10px); margin-left: 7px;" id="addAltTextToImage" onclick="addAltText()">Add Alt Text</a>
+        <p style="font-size: small; color: var(--text-semi-transparent); display: none; transform: translateY(-10px);" id="hasntBeenUploadedNotice">Your media hasn't been uploaded to Auride's server yet. This is just a preview.</p>
+        <a href="javascript:void(0);" style="display: none; float: left; max-width: auto; transform: translateY(-10px);" id="removeUploadedImage" onclick="removeImage()">Remove Media</a> <a href="javascript:void(0);" style="display: none; float: left; max-width: auto; transform: translateY(-10px); margin-left: 7px;" id="addAltTextToImage" onclick="addAltText()">Add Alt Text</a>
         <p id="noteError"></p>
+
+        <br />
     </div>
 
     <!-- Settings Tab -->
@@ -112,7 +116,7 @@ const modal = `
     <!-- Settings -->
     <div class="settingsIcons-noteCreation">
         <div class="icons">
-            <i class="fa-solid fa-flag fa-lg" onclick="swapNoteTab('note')"></i> <i class="fa-solid fa-image fa-lg" onclick="uploadImage()"><input type="file" id="imageUploadInput" accept="image/png, image/jpeg, image/webp, video/mp4, image/gif" style="display: none;"></i> <i class="fa-solid fa-music fa-lg" onclick="swapNoteTab('music')"></i>
+            <i class="fa-solid fa-flag fa-lg" onclick="swapNoteTab('note')"></i> <i class="fa-solid fa-image fa-lg" onclick="uploadImage()"><input type="file" id="imageUploadInput" accept="image/png, image/jpeg, image/webp, video/mp4, image/gif, audio/mp3" style="display: none;"></i> <i class="fa-solid fa-music fa-lg" onclick="swapNoteTab('music')"></i>
         </div>
     </div>
 `;

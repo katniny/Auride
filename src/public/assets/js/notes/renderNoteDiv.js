@@ -738,9 +738,10 @@ function renderNote(noteData) {
 
     if (noteData.image) {
         let ext = noteData.image.split(".").pop();
-        const isVideo = ext.split('?')[0] === "mp4";
+        const isVideo = ext.split("?")[0] === "mp4";
+        const isAudio = ext.split("?")[0] === "mp3";
 
-        const media = document.createElement(isVideo ? "video" : "img");
+        const media = document.createElement(isVideo ? "video" : (isAudio ? "audio" : "img"));
         media.className = "uploadedImg";
         media.src = noteData.image;
         media.alt = noteData.alt;
@@ -749,7 +750,7 @@ function renderNote(noteData) {
         media.style.visibility = "hidden";
         media.style.opacity = "0";
 
-        if (isVideo) {
+        if (isVideo || isAudio) {
             media.controls = true;
             media.muted = true;
             media.loop = true;
