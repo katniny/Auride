@@ -18,7 +18,7 @@ const modal = `
 
             <img id="imgToBeUploaded" draggable="false" />
             <video id="vidToBeUploaded" draggable="false" autoplay="true" muted="true" controls style="display: none;"></video>
-            <audio id="audioToBeUploaded" autoplay="true" muted="true" controls></audio>
+            <audio id="audioToBeUploaded" autoplay="true" muted="true" controls style="display: none;"></audio>
 
             <br />
             <br />
