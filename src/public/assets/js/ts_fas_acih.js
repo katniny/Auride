@@ -1756,14 +1756,33 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                            }
                         })
                         document.getElementById("uploadedImg-main").remove();
+                        document.getElementById("uploadedAudio-main").remove();
+                     } else if (cleanUrl === "mp3") {
+                        document.getElementById("uploadedAudio-main").src = noteData.image;
+                        firebase.auth().onAuthStateChanged((user) => {
+                           if (user) {
+                              firebase.database().ref(`users/${user.uid}/autoplayVideos`).once("value", (snapshot) => {
+                                 const evenExists = snapshot.exists();
+                                 const pref = snapshot.val();
+
+                                 if (evenExists === true && pref === false) {
+                                    document.getElementById("uploadedAudio-main").pause();
+                                 }
+                              })
+                           }
+                        })
+                        document.getElementById("uploadedImg-main").remove();
+                        document.getElementById("uploadedVideo-main").remove();
                      } else {
                         document.getElementById("uploadedImg-main").src = noteData.image;
                         document.getElementById("uploadedImg-main").setAttribute("alt", `${noteData.alt}`);
                         document.getElementById("uploadedVideo-main").remove();
+                        document.getElementById("uploadedAudio-main").remove();
                      }
                   } else {
                      document.getElementById("uploadedImg-main").remove();
                      document.getElementById("uploadedVideo-main").remove();
+                     document.getElementById("uploadedAudio-main").remove();
                   }
 
                   firebase.auth().onAuthStateChanged((user) => {
