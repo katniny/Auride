@@ -10,6 +10,7 @@
     "postinstall": "patch-package"
   },
   "devDependencies": {
+    "patch-package": "^8.0.1",
     "typescript": "^5.9.3",
     "vite": "^7.1.7",
     "vite-plugin-pwa": "^1.0.3"
