@@ -1,0 +1,22 @@
+diff --git a/node_modules/@firebase/database-compat/dist/database-compat/src/index.d.ts b/node_modules/@firebase/database-compat/dist/database-compat/src/index.d.ts
+index 4830a07..179496c 100644
+--- a/node_modules/@firebase/database-compat/dist/database-compat/src/index.d.ts
++++ b/node_modules/@firebase/database-compat/dist/database-compat/src/index.d.ts
+@@ -19,7 +19,7 @@ import * as types from '@firebase/database-types';
+ export declare function registerDatabase(instance: FirebaseNamespace): void;
+ declare module '@firebase/app-compat' {
+     interface FirebaseNamespace {
+-        database?: {
++        database: {
+             (app?: FirebaseApp): types.FirebaseDatabase;
+             enableLogging: typeof types.enableLogging;
+             ServerValue: types.ServerValue;
+@@ -27,7 +27,7 @@ declare module '@firebase/app-compat' {
+         };
+     }
+     interface FirebaseApp {
+-        database?(databaseURL?: string): types.FirebaseDatabase;
++        database(databaseURL?: string): types.FirebaseDatabase;
+     }
+ }
+ 
