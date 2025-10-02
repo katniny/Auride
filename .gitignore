@@ -28,6 +28,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+*.tsbuildinfo
 
 # we want our sensitive files ignored!
 # massive security risk if that gets out...
