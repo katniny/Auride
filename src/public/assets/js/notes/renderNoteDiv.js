@@ -992,19 +992,44 @@ function renderNote(noteData) {
     favoriteBtn.addEventListener("click", function () { favorite(noteData.id); });
     buttonRow.appendChild(favoriteBtn);
 
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            if (user.uid === noteData.whoSentIt) {
-                // no listener or anythin; how does this work?
-                const more = document.createElement("p");
-                more.className = "more";
-                more.appendChild(faIcon("pen-to-square"));
-                buttonRow.appendChild(more);
-            }
-        }
-    })
-
     noteDiv.appendChild(buttonRow);
+
+    // the more menu is now by the display name!
+    const moreMenu = document.createElement("div");
+    moreMenu.appendChild(faIcon("ellipsis"));
+    moreMenu.classList.add("noteMoreMenu");
+    username.parentNode.insertBefore(moreMenu, username);
+
+    // create the submenu to show when "more" is clicked
+    const moreSubMenu = document.createElement("div");
+    if (firebase.auth().currentUser.uid === noteData.whoSentIt) {
+        moreSubMenu.innerHTML = `
+            <button onclick="createEditNoteUI('${noteData.id}');">${faIcon("pen-to-square").outerHTML} Edit Note</button>
+            <button class="danger" onclick="createDeleteNoteUI('${noteData.id}')">${faIcon("trash").outerHTML} Delete Note</button>
+        `;
+    } else {
+        moreSubMenu.innerHTML = `
+            ${faIcon("circle-info").outerHTML} No interactions are currently available.
+        `;
+    }
+    moreSubMenu.classList.add("noteMoreSubMenu");
+    noteDiv.appendChild(moreSubMenu);
+
+    moreSubMenu.tabIndex = -1;
+    moreMenu.onclick = () => {
+        if (moreSubMenu.classList.contains("open")) {
+            moreSubMenu.classList.remove("open");
+        } else {
+            moreSubMenu.classList.add("open");
+            moreSubMenu.focus();
+        }
+    };
+
+    moreSubMenu.addEventListener("focusout", (e) => {
+        // check if focus went outside the submenu
+        if (!moreSubMenu.contains(e.relatedTarget))
+            moreSubMenu.classList.remove("open");
+    });
 
     return noteDiv;
 }

@@ -136,6 +136,18 @@
                         <p>Trying to find older updates? You may be interested in the Pre-Alpha tab, since Auride is no longer in Pre-Alpha!</p>
 
                         <div class="update">
+                            <h2>v2025.10.3_alpha</h2>
+                            <h3 style="color: var(--text-semi-transparent);">Released: October 3, 2025</h3>
+                                <li>(Dev Env) Improved autocomplete in compatible code editors</li>
+                                <li>Removed selection popup for editing/deleting notes in favor of menu on notes</li>
+                                <li>(Dev Env) Removed editWhatPartofNote</li>
+                                <li>(Dev Env) Unified editNoteContent HTML</li>
+                                <li>(Dev Env) Unified checkIfNoteDeletion HTML</li>
+                        </div>
+                        
+                        <br />
+
+                        <div class="update">
                             <h2>v2025.9.29_alpha</h2>
                             <h3 style="color: var(--text-semi-transparent);">Released: September 29, 2025</h3>
                                 <li>(Dev Env) Updated Docker to use ./data instead of /data due to file restrictions</li>
@@ -1260,31 +1272,6 @@
             <button onclick="window.location.reload()">Check Verification Status</button>
         </dialog>
 
-        <dialog id="editWhatPartofNote">
-            <h2>Note Settings</h2>
-            <p>Typo? Need to delete this note? Here's your own personal control panel!</p>
-
-            <br />
-
-            <button onclick="editNoteContent()" style="width: 100%;"><i class="fa-solid fa-pen"></i> Edit Note Content</button>
-            <button onclick="deleteNote()" style="width: 100%;"><i class="fa-solid fa-trash"></i> Delete Note</button>
-
-            <br />
-            <br />
-
-            <button onclick="document.getElementById('editWhatPartofNote').close()">Nevermind</button>
-        </dialog>
-
-        <dialog id="checkIfNoteDeletion">
-            <h2>Delete this note?</h2>
-            <p>Are you sure? This action can't be reverted!</p>
-
-            <br />
-
-            <button onclick="deleteNote_fully()" style="width: 100%;"><i class="fa-solid fa-trash"></i> Yes, delete</button>
-            <button onclick="deleteNote_nevermind()" style="width: 100%;"><i class="fa-solid fa-xmark"></i> Nevermind, I change my mind</button>
-        </dialog>
-
         <dialog id="noteDeleted">
             <h2>Note Deleted</h2>
             <p>Note was successfully deleted.</p>
@@ -1292,22 +1279,6 @@
             <br />
 
             <button onclick="window.location.reload()">Okay</button>
-        </dialog>
-
-        <dialog id="editNoteContent">
-            <!-- Display above everything else when a note is updating -->
-            <div class="coverUpdatingNote" id="coverUpdatingNote" style="display: none;"></div>
-
-            <h2>Edit Note Content</h2>
-            <p>Removing images is currently not supported at this time.</p>
-
-            <textarea id="newTextContent" placeholder="What do you want your note to say now?"></textarea>
-            <p id="newTextContent-characterLimit" style="color: var(--text-semi-transparent)">0/1,250</p>
-
-            <br />
-            <br />
-
-            <button onclick="applyEdits()">Apply</button> <button onclick="dontApplyEdits()">Nevermind</button>
         </dialog>
 
         <dialog id="noteUpdated">

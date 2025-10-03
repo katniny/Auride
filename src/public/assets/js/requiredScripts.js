@@ -57,6 +57,7 @@ async function loadAllScripts() {
 
       // temp
       await loadScript("/assets/js/ui/editNoteUI.js", false);
+      await loadScript("/assets/js/ui/deleteNotePopup.js", false);
       await loadScript("/assets/js/ui/cwDescriptions.js", false);
 
       // finished!

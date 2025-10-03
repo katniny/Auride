@@ -278,31 +278,6 @@
             <button onclick="window.location.reload()">Check Verification Status</button>
         </dialog>
 
-        <dialog id="editWhatPartofNote">
-            <h2>Note Settings</h2>
-            <p>Typo? Need to delete this note? Here's your own personal control panel!</p>
-
-            <br />
-
-            <button onclick="editNoteContent()" style="width: 100%;"><i class="fa-solid fa-pen"></i> Edit Note Content</button>
-            <button onclick="deleteNote()" style="width: 100%;"><i class="fa-solid fa-trash"></i> Delete Note</button>
-
-            <br />
-            <br />
-
-            <button onclick="document.getElementById('editWhatPartofNote').close()">Nevermind</button>
-        </dialog>
-
-        <dialog id="checkIfNoteDeletion">
-            <h2>Delete this note?</h2>
-            <p>Are you sure? This action can't be reverted!</p>
-
-            <br />
-
-            <button onclick="deleteNote_fully()" style="width: 100%;"><i class="fa-solid fa-trash"></i> Yes, delete</button>
-            <button onclick="deleteNote_nevermind()" style="width: 100%;"><i class="fa-solid fa-xmark"></i> Nevermind, I change my mind</button>
-        </dialog>
-
         <dialog id="noteDeleted">
             <h2>Note Deleted</h2>
             <p>Note was successfully deleted.</p>
@@ -310,22 +285,6 @@
             <br />
 
             <button onclick="window.location.reload()">Okay</button>
-        </dialog>
-
-        <dialog id="editNoteContent">
-            <!-- Display above everything else when a note is updating -->
-            <div class="coverUpdatingNote" id="coverUpdatingNote" style="display: none;"></div>
-
-            <h2>Edit Note Content</h2>
-            <p>Removing images is currently not supported at this time.</p>
-
-            <textarea id="newTextContent" placeholder="What do you want your note to say now?"></textarea>
-            <p id="newTextContent-characterLimit" style="color: var(--text-semi-transparent)">0/1,250</p>
-
-            <br />
-            <br />
-
-            <button onclick="applyEdits()">Apply</button> <button onclick="dontApplyEdits()">Nevermind</button>
         </dialog>
 
         <dialog id="noteUpdated">

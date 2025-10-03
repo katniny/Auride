@@ -3174,83 +3174,35 @@ function reportType_other_finish() {
 if (pathName === "/home" || pathName === "/home.html" || pathName === "/note" || pathName === "/note.html" || pathName === "/u" || pathName === "/u.html" || pathName.startsWith("/u/") || pathName.startsWith("/note/")) {
    let editingNote = null;
 
-   // TODO: move this event listener to the element directly
-   // Getting the note and making sure it actually belongs to the user
-   document.addEventListener('click', function (event) {
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            const uid = user.uid;
-
-            // got lucky, "fa-solid" && "fa-pen-to-square" => "fa-pen-to-square"                    vvvvvv
-            if (event.target.classList.contains("more") || event.target.classList.contains("fa-solid" && "fa-pen-to-square")) {
-               const moreButton = event.target;
-               const noteId = findNoteId(moreButton);
-
-               firebase.database().ref(`notes/${noteId}`).once("value", (snapshot) => {
-                  const ensureItsUser = snapshot.val();
-
-                  if (ensureItsUser.whoSentIt === user.uid) {
-                     editingNote = noteId;
-                     document.getElementById("editWhatPartofNote").showModal();
-                  }
-               })
-            }
-         }
-      })
-   });
-
    // this function is defined 3 times
    function findNoteId(moreButton) {
       // Every note has an ID associated with it. This will fetch the note's ID and return it to allow the user to love the note.
       return moreButton.closest(".note").id;
    };
 
-   // Delete Note
-   function deleteNote() {
-      document.getElementById("checkIfNoteDeletion").showModal();
-      document.getElementById("editWhatPartofNote").close();
-   }
-
-   function deleteNote_fully() {
-      firebase.database().ref(`notes/${editingNote}`).update({
-         isDeleted: true
-      })
-
-      document.getElementById("noteDeleted").showModal();
-      document.getElementById("checkIfNoteDeletion").close();
-   }
-
-   function deleteNote_nevermind() {
-      document.getElementById("editWhatPartofNote").showModal();
-      document.getElementById("checkIfNoteDeletion").close();
-   }
-
    // Edit Note
-   function editNoteContent() {
-      createEditNoteUI();
-      document.getElementById("editWhatPartofNote").close();
-   }
 
-   function applyEdits() {
+   // TODO: move to server
+   function applyEdits(noteId) {
       document.getElementById("coverUpdatingNote").style.display = "block";
 
       let oldText = null;
 
-      firebase.database().ref(`notes/${editingNote}`).once("value", (snapshot) => {
+      firebase.database().ref(`notes/${noteId}`).once("value", (snapshot) => {
          console.log("Accessed");
          const currentText = snapshot.val();
 
          oldText = currentText.text;
       })
 
-      const updateKey = firebase.database().ref(`notes/${editingNote}/updates`).push().key;
+      const updateKey = firebase.database().ref(`notes/${noteId}/updates`).push().key;
       const updates = {};
 
-      firebase.database().ref(`notes/${editingNote}`).update({
+      firebase.database().ref(`notes/${noteId}`).update({
          text: document.getElementById("newTextContent").value,
       })
 
-      firebase.database().ref(`notes/${editingNote}/updates/${updateKey}`).update({
+      firebase.database().ref(`notes/${noteId}/updates/${updateKey}`).update({
          previousText: oldText,
       })
 
@@ -3260,7 +3212,6 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/note" ||
 
    function dontApplyEdits() {
       closeEditNotePopup();
-      document.getElementById("editWhatPartofNote").showModal();
    }
 }
 

@@ -11,10 +11,10 @@ const editModal = `
     <br />
     <br />
 
-    <button onclick="applyEdits()">Apply</button> <button onclick="dontApplyEdits()">Nevermind</button>
+    <button onclick="applyEdits()" id="applyEditsBtn">Apply</button> <button onclick="dontApplyEdits()">Nevermind</button>
 `;
 
-function createEditNoteUI() {
+function createEditNoteUI(noteId) {
     // append and put the content inside the modal
     const editNotePopup = document.createElement("dialog");
     editNotePopup.setAttribute("id", "editNoteContent");
@@ -31,6 +31,9 @@ function createEditNoteUI() {
 
         document.getElementById("newTextContent-characterLimit").textContent = `${currentLength}/1,250`;
     });
+
+    // make sure that the onclick id is correct
+    document.getElementById("applyEditsBtn").setAttribute("onclick", `applyEdits("${noteId}")`);
 
     // then, finally show modal
     editNotePopup.showModal();

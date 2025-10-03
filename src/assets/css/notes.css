@@ -365,3 +365,10 @@
 .notes .note .isRenote i {
    color: var(--text-semi-transparent);
 }
+
+.notes .note .noteMoreMenu {
+   position: absolute;
+   top: 15px;
+   right: 15px;
+   margin-top: 0;
+}

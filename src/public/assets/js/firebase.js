@@ -5,14 +5,14 @@
 
 /** @satisfies {import("firebase/app").FirebaseOptions} */
 const firebaseConfig = {
-  apiKey: "REPLACE",
-  authDomain: "REPLACE",
-  databaseURL: "REPLACE",
-  projectId: "REPLACE",
-  storageBucket: "REPLACE",
-  messagingSenderId: "REPLACE",
-  appId: "REPLACE",
-  measurementId: "REPLACE",
+    apiKey: "REPLACE",
+    authDomain: "REPLACE",
+    databaseURL: "REPLACE",
+    projectId: "REPLACE",
+    storageBucket: "REPLACE",
+    messagingSenderId: "REPLACE",
+    appId: "REPLACE",
+    measurementId: "REPLACE",
 };
 
 // initialize firebase
