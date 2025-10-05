@@ -1,3 +1,8 @@
+import { pathName } from "./pathName";
+import { hasUpdateNotes, aurideUpdate } from "./versioning";
+import { database } from "./firebase";
+import { storageRef, storageLink, faIcon } from "./utils";
+
 // Quote renote ID
 let renotingNote = null;
 
@@ -920,7 +925,7 @@ function emojify(text) {
 }
 
 // the order is important
-function format(text, formats = ["html", "markdown", "emoji", "link", "newline"]) {
+export function format(text, formats = ["html", "markdown", "emoji", "link", "newline"]) {
    // map names to functions to avoid huge switch statement
    const formatMap = {
       html: escapeHtml,
@@ -1039,7 +1044,7 @@ function swapNoteTab(tab) {
 
 // does in fact not load everything
 // it used to
-function loadEverything() {
+export function loadEverything() {
    getUserPfpSidebar();
    getUserInfoSidebar();
    linkButtonToAcc();
@@ -1060,6 +1065,7 @@ function loadEverything() {
       }
    })
 }
+window.loadEverything = loadEverything;
 
 // Auride account stuff
 if (!pathName.startsWith("/auth/")) {
@@ -1068,8 +1074,8 @@ if (!pathName.startsWith("/auth/")) {
       if (data !== null) {
          document.getElementById(`katninyPfp`).src = storageLink(`images/pfp/G6GaJr8vPpeVdvenAntjOFYlbwr2/${data.pfp}`);
          document.getElementById(`katninyDisplay`).innerHTML = format(data.display, [ "html", "emoji" ]);
-         document.getElementById("katninyDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
-         document.getElementById("katninyDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
+         document.getElementById("katninyDisplay").appendChild(faIcon("circle-check", "var(--main-color)"));
+         document.getElementById("katninyDisplay").appendChild(faIcon("heart", "var(--main-color)"));
          document.getElementById(`followBtn-1`).href = `/u/${data.username}`;
          document.getElementById(`katninyUser-pronouns`).textContent = `@${data.username}`;
       }
@@ -1080,8 +1086,8 @@ if (!pathName.startsWith("/auth/")) {
       if (data !== null) {
          document.getElementById(`auridePfp`).src = storageLink(`images/pfp/80vDnNb0rJbSjCvbiTF9EtvqtXw1/${data.pfp}`);
          document.getElementById(`aurideDisplay`).innerHTML = data.display;
-         document.getElementById("aurideDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
-         document.getElementById("aurideDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
+         document.getElementById("aurideDisplay").appendChild(faIcon("circle-check", "var(--main-color)"));
+         document.getElementById("aurideDisplay").appendChild(faIcon("heart", "var(--main-color)"));
          document.getElementById(`followBtn-2`).href = `/u/${data.username}`;
          document.getElementById(`aurideUser-pronouns`).textContent = `@${data.username}`;
       }
@@ -1092,8 +1098,8 @@ if (!pathName.startsWith("/auth/")) {
       if (data !== null) {
          document.getElementById(`katninystudiosPfp`).src = storageLink(`images/pfp/4luqDI8627asR5EV8hOqb0YrRQF3/${data.pfp}`);
          document.getElementById(`katninystudiosDisplay`).innerHTML = data.display;
-         document.getElementById("katninystudiosDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
-         document.getElementById("katninystudiosDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
+         document.getElementById("katninystudiosDisplay").appendChild(faIcon("circle-check", "var(--main-color)"));
+         document.getElementById("katninystudiosDisplay").appendChild(faIcon("heart", "var(--main-color)"));
          document.getElementById(`followBtn-3`).href = `/u/${data.username}`;
          document.getElementById(`katninystudiosUser-pronouns`).textContent = `@${data.username}`;
       }
@@ -3019,30 +3025,6 @@ function reportType_harmfulImpersonation() {
    return firebase.database().ref().update(updates);
 }
 
-function reportType_harassmentBullying() {
-   const newReportRef = firebase.database().ref("reports").push();
-   const reportId = newReportRef.key;
-   const url = new URL(window.location.href);
-   const userParam = url.searchParams.get("id");
-
-   const reportData = {
-      reportedUsername: userParam,
-      reason: "Harassment/Bullying",
-      timestamp: Date.now()
-   }
-
-   const updates = {};
-   updates["/reports/" + reportId] = reportData;
-
-   document.getElementById("reportUser").close();
-
-   document.getElementById("reportReason").textContent = reportData.reason;
-   document.getElementById("reportUsername").textContent = `@${reportData.reportedUsername}`;
-
-   document.getElementById("reportReceived").showModal();
-   return firebase.database().ref().update(updates);
-}
-
 function reportType_childPornOrEndangerment() {
    const newReportRef = firebase.database().ref("reports").push();
    const reportId = newReportRef.key;
@@ -3532,7 +3514,7 @@ document.body.addEventListener('click', function (event) {
 });
 
 // determine date creation
-function timeAgo(timestamp) {
+export function timeAgo(timestamp) {
    const now = Math.floor(Date.now() / 1000); // Current timestamp in seconds
    const seconds = now - Math.floor(timestamp / 1000); // Convert milliseconds to seconds
 

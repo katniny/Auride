@@ -1,3 +1,6 @@
+import { aurideVersion, aurideReleaseVersion } from "../versioning";
+import { setGlobalTheme, setGlobalCustomTheme } from "./setTheme";
+
 const pageLoaderHTML = `
    <div class="loader" id="loader">
       <p style="position: fixed; left: 0; top: 0; color: var(--text-semi-transparent); transform: translateY(0px);">&copy; Katniny Studios 2025</p>
@@ -20,8 +23,6 @@ const pageLoaderHTML = `
       </div>
    </div>
 `;
-document.body.innerHTML += pageLoaderHTML;
-document.body.classList.add("loaderReady");
 
 // Randomize quote
 const quotes = [
@@ -93,14 +94,19 @@ const quotes = [
    "Cats dream."
 ];
 
+if (!document.getElementById("loader")) {
+    document.body.insertAdjacentHTML("beforeend", pageLoaderHTML);
+    document.body.classList.add("loaderReady");
+}
+
 const quote = document.getElementById("loaderQuote");
 const key = Math.floor(Math.random() * quotes.length);
 
-quote.textContent = quotes[key];
+if (quote) quote.textContent = quotes[key];
 
 
 const date = new Date();
-const currentMonth = date.getMonth() + 1;
+export const currentMonth = date.getMonth() + 1;
 
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
@@ -170,18 +176,18 @@ firebase.auth().onAuthStateChanged((user) => {
         }).then(() => {
             loader.classList.add("loader-hidden");
 
-            loader.addEventListener("transitioned", () => {
-                document.body.removeChild("loader");
+            loader.addEventListener("transitionend", () => {
+                loader.remove();
             })
         });
     } else {
-      const loader = document.querySelector('.loader');
+        const loader = document.querySelector('.loader');
 
-      loader.classList.add("loader-hidden");
+        loader.classList.add("loader-hidden");
 
-      loader.addEventListener("transitioned", () => {
-        document.body.removeChild("loader");
-      })
+        loader.addEventListener("transitionend", () => {
+            loader.remove();
+        })
     }
 })
 

@@ -16,7 +16,10 @@ const firebaseConfig = {
 };
 
 // initialize firebase
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const database = firebase.database();
-const timestamp = firebase.database.ServerValue.TIMESTAMP;
+
+if (!firebase.apps.length)
+    firebase.initializeApp(firebaseConfig);
+
+export const auth = firebase.auth();
+export const database = firebase.database();
+export const timestamp = firebase.database.ServerValue.TIMESTAMP;

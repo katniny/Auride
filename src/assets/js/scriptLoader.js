@@ -15,7 +15,7 @@ const ScriptLoader = (() => {
       }
    });
 
-   function loadScript({ src, async = true }) {
+   function loadScript({ src, async = true, dontLoadAsModule }) {
       if (loadedScripts.has(src)) return Promise.resolve();
 
       if (pendingPromises[src]) return pendingPromises[src];
@@ -24,6 +24,8 @@ const ScriptLoader = (() => {
          const script = document.createElement("script");
          script.src = src;
          script.async = async;
+         if (!dontLoadAsModule)
+            script.type = "module";
 
          if (scriptsAreReady) {
             // if scripts are ready, append immediately

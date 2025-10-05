@@ -3,6 +3,8 @@
 // 1) code seperation, since i would like to depreciate ts_fas_acih.js
 // 2) bug fixing
 // but a lot of these should be new scripts!
+import { pathName } from "../pathName";
+import { serverUrl } from "../envVars";
 
 let notesPageRef = null;
 let notesPageRefString = null;
@@ -105,7 +107,7 @@ function loadNotesFromButton() {
 
 // Note Rendering
 // observer to only show images/videos/etc. when about to be visible for performance
-const mediaObserver = new IntersectionObserver((entries, _observer) => {
+export const mediaObserver = new IntersectionObserver((entries, _observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.visibility = "visible";
@@ -511,7 +513,7 @@ document.addEventListener('click', function (event) {
     })
 });
 
-function findNoteId(renoteButton) {
-    // Every note has an ID associated with it. This will fetch the note's ID and return it to allow the user to love the note.
-    return renoteButton.closest(".note").id;
-};
+// function findNoteId(renoteButton) {
+//     // Every note has an ID associated with it. This will fetch the note's ID and return it to allow the user to love the note.
+//     return renoteButton.closest(".note").id;
+// };

@@ -1,7 +1,7 @@
-let aurideVersion = "v2025.10.4";
-let aurideUpdate = "v20251004-1";
-let aurideReleaseVersion = "alpha";
-let hasUpdateNotes = true;
+export const aurideVersion = "v2025.10.x";
+export const aurideUpdate = "v20251004-1";
+export const aurideReleaseVersion = "alpha";
+export const hasUpdateNotes = true;
 
 const notices = document.getElementsByClassName("version-notice");
 for (let notice of notices) {

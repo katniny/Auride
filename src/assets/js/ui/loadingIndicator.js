@@ -1,5 +1,5 @@
 // create loading indicator to give some visual feedback
-function createLoadingIndicator(size, appendTo) {
+export function createLoadingIndicator(size, appendTo) {
     // get the size requested
     let loadingIndicator = null;
     switch (size) {
@@ -31,3 +31,5 @@ function createLoadingIndicator(size, appendTo) {
     // should an id, NOT a class!
     document.getElementById(appendTo).appendChild(loadingIndicator);
 }
+
+window.createLoadingIndicator = createLoadingIndicator;

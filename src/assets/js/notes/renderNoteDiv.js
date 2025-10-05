@@ -1,4 +1,12 @@
-function renderNote(noteData) {
+import { mediaObserver } from "./notes";
+import { format } from "../ts_fas_acih";
+import { auth } from "../firebase";
+import { faIcon } from "../utils";
+import { pathName } from "../pathName";
+import { storageLink } from "../utils";
+import { timeAgo } from "../ts_fas_acih";
+
+export function renderNote(noteData) {
     function renderUsername(username, pronouns, time) {
         const displayDate = timeAgo(time);
         if (pronouns) {
@@ -703,9 +711,9 @@ function renderNote(noteData) {
 
         const badges = document.createElement("span");
         badges.className = "noteBadges";
-        if (userData.isVerified) badges.appendChild(faIcon("circle-check", size = "sm"));
-        if (userData.isSubscribed) badges.appendChild(faIcon("heart", size = "sm"));
-        if (userData.activeContributor) badges.appendChild(faIcon("handshake-angle", size = "sm"));
+        if (userData.isVerified) badges.appendChild(faIcon("circle-check", "sm"));
+        if (userData.isSubscribed) badges.appendChild(faIcon("heart", "sm"));
+        if (userData.activeContributor) badges.appendChild(faIcon("handshake-angle", "sm"));
 
         // only append badges if there actually are any
         if (badges.innerHTML) displayName.appendChild(badges);
@@ -976,7 +984,7 @@ function renderNote(noteData) {
 
     const favoriteBtn = document.createElement("p");
     favoriteBtn.classList.add("favoriteBtn");
-    const favIcon = faIcon("bookmark", size = "xs");
+    const favIcon = faIcon("bookmark", "xs");
     // apply the id to the favorites button or it will not change colors <-- im low key scared to look into the css
     favIcon.id = `favorite-${noteData.id}`;
     firebase.auth().onAuthStateChanged(function (user) {
@@ -1033,3 +1041,5 @@ function renderNote(noteData) {
 
     return noteDiv;
 }
+
+window.renderNote = renderNote;
