@@ -2081,16 +2081,26 @@ async function publishNote() {
                firebase.database().ref(`taken-usernames/${username}`).once("value", (snapshot) => {
                   if (snapshot.exists()) {
                      const userId = snapshot.val();
+                     let pathToGiveNotifTo = null;
+                     
+                     // redirect note?
+                     if (pathName.startsWith("/note/")) {
+                        const pathSplitUp = pathName.split("/");
+                        pathToGiveNotifTo = `${pathSplitUp[2]}#${newNoteKey}`;
+                     } else {
+                        pathToGiveNotifTo = newNoteKey;
+                     }
 
                      sendNotification(userId.user, {
                         type: "Mention",
                         who: user.uid,
-                        postId: newNoteKey,
+                        postId: pathToGiveNotifTo,
                      });
                   }
                });
             });
          }
+         return;
 
          if (renotingNote !== null) {
             postData.quoting = renotingNote;

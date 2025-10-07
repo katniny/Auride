@@ -365,6 +365,14 @@ document.addEventListener('click', function (event) {
                 const loveCountRef = firebase.database().ref(`${pathToUse}/${noteId}/likes`);
                 loveCountRef.once("value", (snapshot) => {
                     const data = snapshot.val();
+                    let useMainNoteForNotif = null;
+
+                    // see if the notification should link to the main note
+                    const pathToUseCutUp = pathToUse.split("/");
+                    if (pathToUseCutUp[3])
+                        // will always be the 4 slash. e.g. /notes/noteId/replyingTo
+                        //                                               ^
+                        useMainNoteForNotif = true;
 
                     firebase.database().ref(`${pathToUse}/${noteId}/whoLiked`).once("value", (snapshot) => {
                         const likedData = snapshot.val();
@@ -401,7 +409,7 @@ document.addEventListener('click', function (event) {
                                         sendNotification(getUser.whoSentIt, {
                                             type: "Love",
                                             who: user.uid,
-                                            postId: noteId,
+                                            postId: useMainNoteForNotif ? `${pathToUseCutUp[2]}#${noteId}` : noteId,
                                         });
                                     })
                                 }
@@ -445,6 +453,14 @@ document.addEventListener('click', function (event) {
                 const renoteCountRef = firebase.database().ref(`${pathToUse}/${noteId}/renotes`);
                 renoteCountRef.once("value", (snapshot) => {
                     const data = snapshot.val();
+                    let useMainNoteForNotif = null;
+
+                    // see if the notification should link to the main note
+                    const pathToUseCutUp = pathToUse.split("/");
+                    if (pathToUseCutUp[3])
+                        // will always be the 4 slash. e.g. /notes/noteId/replyingTo
+                        //                                               ^
+                        useMainNoteForNotif = true;
 
                     firebase.database().ref(`${pathToUse}/${noteId}/whoRenoted`).once("value", (snapshot) => {
                         const renotedData = snapshot.val();
@@ -482,16 +498,16 @@ document.addEventListener('click', function (event) {
                             firebase.database().ref(`${pathToUse}/${noteId}`).once("value", (snapshot) => {
                                 const whoSentIt_note = snapshot.val();
 
-                                if (user.uid !== whoSentIt_note.whoSentIt) {
-                                    firebase.database().ref(`notes/${noteId}`).once("value", (snapshot) => {
+                                //if (user.uid !== whoSentIt_note.whoSentIt) {
+                                    firebase.database().ref(`${pathToUse}/${noteId}`).once("value", (snapshot) => {
                                         const getUser = snapshot.val();
                                         sendNotification(getUser.whoSentIt, {
                                             type: "Renote",
                                             who: user.uid,
-                                            postId: noteId,
+                                            postId: useMainNoteForNotif ? `${pathToUseCutUp[2]}#${noteId}` : noteId,
                                         });
                                     })
-                                }
+                                //}
                             })
 
                             // TODO: get this pathName independent... this is hacky
