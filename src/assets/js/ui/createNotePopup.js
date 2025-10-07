@@ -1,3 +1,10 @@
+import { renotingNote } from "../ts_fas_acih";
+import { isTextareaEmpty } from "./textAreaEmpty";
+import { isReplying_notehtml } from "../ts_fas_acih";
+import { pathName } from "../pathName";
+
+let pickedMusic = null;
+
 const modal = `
     <div class="creatingStuff">
         <!-- Display above everything else when a note is sending -->
@@ -122,7 +129,7 @@ const modal = `
 `;
 
 // show the modal when requested
-function createNotePopup() {
+export function createNotePopup() {
     // append and put the content inside the modal
     const notePopup = document.createElement("dialog");
     notePopup.setAttribute("id", "createNote-popup");
@@ -170,7 +177,7 @@ function createNotePopup() {
     }
 }
 
-function closeCreateNotePopup() {
+export function closeCreateNotePopup() {
     const notePopup = document.getElementById("createNote-popup");
 
     if (pathName === "/note" || pathName === "/note.html" || pathName.startsWith("/note/")) {
@@ -190,3 +197,200 @@ document.addEventListener("keydown", (event) => {
     if (event.ctrlKey && event.key === "Enter" && document.getElementById("createNote-popup"))
         publishNote();
 });
+
+// publish note
+export async function publishNote() {
+    firebase.auth().onAuthStateChanged(async (user) => {
+        const coverCreateANote = document.getElementById("coverCreateANote");
+   
+        // make sure ones not actively sending
+        if (coverCreateANote.style.display !== "none") return;
+
+        if (user) {
+            coverCreateANote.style.display = "block";
+
+            const notesRef = firebase.database().ref("notes");
+            const userNotes = firebase.database().ref(`users/${user.uid}/posts`);
+            const newNoteKey = notesRef.push().key;
+            let isNotFlaggedNsfwButShouldBe = null;
+
+            const noteContent = document.getElementById("noteContent-textarea").value;
+
+            const imageUploadInput = document.getElementById("imageUploadInput");
+            const file = imageUploadInput.files[0];
+
+            if (isTextareaEmpty(noteContent) && !file) {
+                document.getElementById("noteError").textContent = "You can't create notes without content! Try adding an image, text or both!";
+                coverCreateANote.style.display = "none";
+            }
+
+            try {
+                const response = await fetch("/nsfw_words.json");
+                if (!response.ok) {
+                    throw new Error("Network response not okay. Please check your internet connection.");
+                }
+
+                const nsfwWords = await response.json();
+
+                const nsfwPattern = new RegExp(`\\b(${nsfwWords.join("|")})\\b`, "i"); 
+
+                if (nsfwPattern.test(noteContent.toLowerCase()) && document.getElementById("nsfwDropdown").value === "noNsfwContent") {
+                    const bad = document.createElement("dialog");
+                    const h1 = document.createElement("h1");
+                    const info = document.createElement("p");
+                    const close = document.createElement("button");
+
+                    h1.textContent = "Unflagged NSFW Detected";
+                    info.innerHTML = "We detected NSFW content, but you have not flagged it. We allow NSFW as long as <br/>1) You aren't being a creep <br/>2) You flag it correctly<br/>To post this, please click the flag on the bottom of the note creation popup, check the NSFW checkbox, then try posting it again.<br/><br/>Attempting to circumvent this is a serious violation of our <a href='/policies/terms'>Terms of Service</a> and <a href='/policies/child-safety'>Child Safety</a> policies, and WILL get you permanently suspended without appeal.<br/><br/>If you believe this flag was an error, please let us know by creating a note.";
+                    close.textContent = "Okay";
+
+                    close.onclick = () => {
+                        bad.close();
+
+                        setTimeout(() => {
+                            bad.delete();
+                        }, 100);
+                    }
+
+                    bad.appendChild(h1);
+                    bad.appendChild(info);
+                    bad.appendChild(close);
+                    document.body.appendChild(bad);
+                    bad.showModal();
+
+                    coverCreateANote.style.display = "none";
+                    return;
+                }
+            } catch (error) { 
+                document.getElementById("noteError").textContent = error;
+                coverCreateANote.style.display = "none";
+                return;
+            }
+
+            const renoteData = {
+                isRenote: false,
+            }
+
+            const postData = {
+                text: noteContent,
+                whoSentIt: user.uid,
+                id: newNoteKey,
+                likes: 0,
+                renotes: 0,
+                replies: 0,
+                isNsfw: document.getElementById("nsfwDropdown").value,
+                isSensitive: document.getElementById("sensitiveDropdown").value,
+                isPolitical: document.getElementById("politicalDropdown").value,
+                createdAt: firebase.database.ServerValue.TIMESTAMP,
+                alt: document.getElementById("altText_input").value
+            }
+
+            const usernameRegex = /@(\w+)/g;
+            const matches = [...noteContent.matchAll(usernameRegex)];
+            if (matches.length > 0) {
+                const usernames = matches.map(match => match[1]);
+                usernames.forEach(username => {
+                const user = firebase.auth().currentUser;
+
+                // check if it's a username
+                firebase.database().ref(`taken-usernames/${username}`).once("value", (snapshot) => {
+                    if (snapshot.exists()) {
+                        const userId = snapshot.val();
+
+                        sendNotification(userId.user, {
+                            type: "Mention",
+                            who: user.uid,
+                            postId: newNoteKey,
+                        });
+                    }
+                });
+                })
+            }
+
+            if (renotingNote !== null) {
+                postData.quoting = renotingNote;
+            }
+
+            if (pickedMusic !== null) {
+                postData.music = pickedMusic;
+            }
+
+            if (isReplying_notehtml === true) {
+                unlockAchievement("Chatterbox");
+
+                if (pathName === "/note" || pathName === "/note.html" || pathName.startsWith("/note/")) {
+                // send notification
+                postData.replyingTo = uniNoteId_notehtml;
+
+                firebase.database().ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+                    const replyData = snapshot.val();
+
+                    if (user.uid !== replyData.whoSentIt)
+                        sendNotification(replyData.whoSentIt, {
+                            type: "Reply",
+                            who: user.uid,
+                            postId: uniNoteId_notehtml,
+                        });
+
+                    if (replyData.replies === undefined) {
+                        firebase.database().ref(`notes/${uniNoteId_notehtml}`).update({
+                            replies: 1
+                        });
+                    } else {
+                        firebase.database().ref(`notes/${uniNoteId_notehtml}`).update({
+                            replies: replyData.replies + 1
+                        });
+
+                        loveCountRef.off();
+                    }
+                });
+
+                // then, make note div
+                const newNote = document.createElement("div");
+                newNote.innerHTML = `
+                    <img class="notePfp" draggable="false" loading="lazy" style="visibility: visible; opacity: 1;" src="${document.getElementById("userPfp-sidebar").src}"><a class="noteDisplay" href="/u/${document.getElementById("displayName-sidebar").textContent}">${document.getElementById("displayName-sidebar").textContent}</a>
+                    <br><a class="noteUsername" href="/u/${document.getElementById("username-pronouns-sidebar")}">${document.getElementById("username-pronouns-sidebar").textContent} • 1s</a><p class="noteText">${postData.text}</p><div class="buttonRow"><p class="likeBtn" id="like-${postData.id}"><i class="fa-solid fa-heart" aria-hidden="true"></i> 0</p><p class="renoteBtn" id="renote-${postData.id}"><i class="fa-solid fa-retweet" aria-hidden="true"></i> 0</p></div>
+                    <p class="noteIsBeingPreviewed"><i class="fa-solid fa-eye"></i> Your note was successfully sent, but this is a preview. To edit, favorite, or quote renote it, please refresh the page. <a href="/blog/note-previews.html">Learn more</a>.</p>
+                `
+                newNote.classList.add("note");
+                newNote.id = postData.id;
+                document.getElementById("notes").prepend(newNote);
+                }
+            } else {
+                unlockAchievement("First Steps");
+            }
+
+            try {
+                if (file) {
+                    const imageRef = storageRef(`images/notes/${user.uid}/${newNoteKey}-${file.name}`);
+                    const snapshot = await imageRef.put(file);
+                    postData.image = imageRef.getDownloadUrl();
+                }
+
+                if (pathName.startsWith("/note/")) {
+                    //await firebase.database().ref(`/notes/${uniNoteId_notehtml}/notesReplying`).child(newNoteKey).set(postData);
+                } else {
+                    console.log("I know I didn't run -- but I worked.");
+                    //await notesRef.child(newNoteKey).set(postData);
+                    //await userNotes.child(newNoteKey).set(renoteData);
+                }
+
+                closeCreateNotePopup();
+
+                setTimeout(function () {
+                    document.getElementById("successfullySent").style.display = "none";
+                }, 3000);
+            } catch (error) {
+                document.getElementById("noteError").textContent = "Error publishing note: " + error.message;
+                console.error(error);
+                coverCreateANote.style.display = "none";
+            }
+        } else {
+            loginPrompt();
+        }
+    })
+};
+
+window.createNotePopup = createNotePopup;
+window.closeCreateNotePopup = closeCreateNotePopup;
+window.publishNote = publishNote;

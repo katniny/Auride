@@ -1,10 +1,9 @@
-import { mediaObserver } from "./notes";
-import { format } from "../ts_fas_acih";
+import { mediaObserver, userAutoplayPreference } from "./notes";
+import { format, timeAgo } from "../ts_fas_acih";
 import { auth } from "../firebase";
 import { faIcon } from "../utils";
 import { pathName } from "../pathName";
 import { storageLink } from "../utils";
-import { timeAgo } from "../ts_fas_acih";
 
 export function renderNote(noteData) {
     function renderUsername(username, pronouns, time) {

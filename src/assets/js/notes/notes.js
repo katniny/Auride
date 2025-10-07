@@ -5,6 +5,7 @@
 // but a lot of these should be new scripts!
 import { pathName } from "../pathName";
 import { serverUrl } from "../envVars";
+import { faIcon } from "../utils";
 
 let notesPageRef = null;
 let notesPageRefString = null;
@@ -66,7 +67,7 @@ const newNotesAvailable = document.getElementById("newNotesAvailable");
 let isLoading = false;
 let lastNoteKey = null;
 let loadedNotesId = new Set();
-let userAutoplayPreference = null;
+export let userAutoplayPreference = null;
 
 // function to fetch and cache user's autoplay pref
 function fetchAutoplayPreference() {
