@@ -498,7 +498,7 @@ document.addEventListener('click', function (event) {
                             firebase.database().ref(`${pathToUse}/${noteId}`).once("value", (snapshot) => {
                                 const whoSentIt_note = snapshot.val();
 
-                                //if (user.uid !== whoSentIt_note.whoSentIt) {
+                                if (user.uid !== whoSentIt_note.whoSentIt) {
                                     firebase.database().ref(`${pathToUse}/${noteId}`).once("value", (snapshot) => {
                                         const getUser = snapshot.val();
                                         sendNotification(getUser.whoSentIt, {
@@ -507,7 +507,7 @@ document.addEventListener('click', function (event) {
                                             postId: useMainNoteForNotif ? `${pathToUseCutUp[2]}#${noteId}` : noteId,
                                         });
                                     })
-                                //}
+                                }
                             })
 
                             // TODO: get this pathName independent... this is hacky

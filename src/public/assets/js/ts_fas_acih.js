@@ -2100,7 +2100,6 @@ async function publishNote() {
                });
             });
          }
-         return;
 
          if (renotingNote !== null) {
             postData.quoting = renotingNote;
