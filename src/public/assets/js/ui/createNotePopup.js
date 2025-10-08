@@ -129,6 +129,10 @@ function createNotePopup() {
     notePopup.innerHTML = modal;
     document.body.appendChild(notePopup);
 
+    // variables for the text area and file input
+    const textarea = document.getElementById("noteContent-textarea");
+    const fileInput = document.getElementById("imageUploadInput");
+
     // make sure the main tab is shown
     document.getElementById("mainTab-noteCreation").classList.remove("hidden");
     document.querySelector(".settingsStuff").classList.add("hidden");
@@ -146,6 +150,109 @@ function createNotePopup() {
         }
  
         document.getElementById("characterLimit_note").textContent = `${currentLength}/1,250`;
+    });
+
+    // listen for upload
+    // TODO: so many document.getElementById()'s...
+    // TODO: make this a function so we can use this universally across most file uploads
+    fileInput.addEventListener("change", () => {
+        let fileName = fileInput.value;
+        let extension = fileName.split(".").pop();
+
+        if (extension !== "png" && extension !== "jpg" && extension !== "webp" && extension !== "jpeg" && extension !== "gif" && extension !== "mp4" && extension !== "mp3") {
+            document.getElementById("uploadingImage").textContent = "Unsupported file type. Only .png, .jpg (.jpeg), .webp, .gif, .mp4 and .mp3 files are supported.";
+            document.getElementById("uploadingImage").style.display = "block";
+            fileInput.value = "";
+            document.getElementById("uploadingImage").style.color = "var(--error-text)";
+        } else {
+            document.getElementById("uploadingImage").textContent = "";
+            document.getElementById("uploadingImage").style.display = "none";
+
+            let file = event.target.files[0];
+            if (file) {
+                let MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
+
+                firebase.auth().onAuthStateChanged((user) => {
+                if (user) {
+                    firebase.database().ref(`users/${user.uid}`).once("value", (snapshot) => {
+                        const hi = snapshot.val();
+
+                        if (file.size > MAX_FILE_SIZE_BYTES) {
+                            document.getElementById("uploadingImage").textContent = "File size is over the file size limit (10MB). You can increase the file size limit with a Katniny+ subscription.";
+                            document.getElementById("uploadingImage").style.display = "block";
+                            document.getElementById("uploadingImage").style.color = "var(--error-text)";
+                            fileInput.value = "";
+                            document.getElementById("imgToBeUploaded").style.display = "none";
+                        } else {
+                            if (extension === "mp4") {
+                                const reader = new FileReader();
+
+                                reader.addEventListener("load", (event) => {
+                                    document.getElementById("vidToBeUploaded").src = event.target.result;
+                                    document.getElementById("vidToBeUploaded").style.display = "block";
+                                    document.getElementById("vidToBeUploaded").style.display = "block";
+                                    document.getElementById("hasntBeenUploadedNotice").style.display = "block";
+                                    document.getElementById("removeUploadedImage").style.display = "block";
+                                    document.getElementById("addAltTextToImage").style.display = "block";
+                                });
+
+                                reader.readAsDataURL(file);
+                            } else if (extension === "mp3") {
+                                const reader = new FileReader();
+
+                                reader.addEventListener("load", (event) => {
+                                    document.getElementById("audioToBeUploaded").src = event.target.result;
+                                    document.getElementById("audioToBeUploaded").style.display = "block";
+                                    document.getElementById("audioToBeUploaded").style.display = "block";
+                                    document.getElementById("hasntBeenUploadedNotice").style.display = "block";
+                                    document.getElementById("removeUploadedImage").style.display = "block";
+                                });
+
+                                reader.readAsDataURL(file);
+                            } else {
+                                const reader = new FileReader();
+
+                                reader.addEventListener("load", (event) => {
+                                    document.getElementById("imgToBeUploaded").src = event.target.result;
+                                    document.getElementById("imgToBeUploaded").style.display = "block";
+                                    document.getElementById("hasntBeenUploadedNotice").style.display = "block";
+                                    document.getElementById("removeUploadedImage").style.display = "block";
+                                    document.getElementById("addAltTextToImage").style.display = "block";
+                                });
+
+                                reader.readAsDataURL(file);
+                            }
+                        }
+                    });
+                }
+                });
+            }
+        }
+    });
+
+    // listen to paste event
+    textarea.addEventListener("paste", (event) => {
+        const items = event.clipboardData?.items;
+        if (!items) return;
+
+        for (const item of items) {
+            // check if this is an image
+            if (item.kind === "file" && item.type.startsWith("image/")) {
+                const blob = item.getAsFile();
+                if (!blob) continue;
+
+                const reader = new FileReader();
+                reader.readAsDataURL(blob);
+
+                // now set it to the file input
+                const dt = new DataTransfer();
+                dt.items.add(blob);
+                fileInput.files = dt.files;
+                fileInput.dispatchEvent(new Event("change"));
+
+                break; // stop once we've handled one image
+            }
+        }
     });
 
     // if the user is renoting another note, show the note!
