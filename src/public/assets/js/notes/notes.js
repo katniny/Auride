@@ -45,6 +45,25 @@ switch(true) {
         attachListeners();
 
         break;
+    case pathName === "/favorites":
+        // see if user is logged in
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                // get users favorites
+                firebase.database().ref(`/users/${user.uid}`).once("value").then(snapshot => {
+                    const favorites = snapshot.val().favorites;
+                    // make sure user has favorites
+                    if (favorites) {
+                        notesPageRef = firebase.database().ref(`/users/${user.uid}/favorites`);
+                        notesPageRefString = `/users/${user.uid}/favorites`;
+
+                        loadInitalNotes();
+                        attachListeners();
+                    }
+                });
+            }
+        });
+        break;
     default:
         notesPageRef = firebase.database().ref("pleaseDefinePathInNotesDotJS");
         notesPageRefString = "pleaseDefinePathInNotesDotJS";
