@@ -41,7 +41,6 @@ router.get("/api/auride/getNoteData", async (req, res) => {
 
             // function, since this code is repeated more than once
             function fetchFullNote(childNote) {
-                console.log("hi!");
                 promises.push((async () => {
                     const snap = await db.ref(`notes/${childNote.key}`).once("value");
                     const fullNote = snap.val();

@@ -261,14 +261,12 @@ function renderNotes(notesArray) {
                 // make sure duplicates do not show up
                 if (document.getElementById(noteData.id)) return;
 
-                if (noteData.whoSentIt === uid) {
-                    if (noteData.replyingTo === undefined) {
-                        if (noteData.isDeleted !== true) {
-                            if (noteLoadingIndicator)
-                                noteLoadingIndicator.remove();
-                            notesContainer.appendChild(noteDiv);
-                            currentlyRendering = false;
-                        }
+                if (noteData.replyingTo === undefined) {
+                    if (noteData.isDeleted !== true) {
+                        if (noteLoadingIndicator)
+                            noteLoadingIndicator.remove();
+                        notesContainer.appendChild(noteDiv);
+                        currentlyRendering = false;
                     }
                 }
             })

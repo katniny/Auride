@@ -676,10 +676,23 @@ function renderNote(noteData) {
         }
     }
 
-    // we're out of the callback now
-    if (noteDiv.TO_BE_REMOVED) {
-        noteDiv.remove();
-        return null;
+    // if renote, show that
+    if (pathName.startsWith("/u/")) {
+        const getUsername = pathName.split("/")[2];
+        // get their uid
+        firebase.database().ref(`/taken-usernames/${getUsername}`).once("value", (snapshot) => {
+            const uid = snapshot.val().user;
+            
+            if (noteData.whoSentIt !== uid) {
+                const formattedUsername = format(getUsername, ["html", "emoji"]);
+
+                // create text
+                const renotedText = document.createElement("p");
+                renotedText.classList.add("userRenoted");
+                renotedText.innerHTML = `${faIcon("retweet").outerHTML} ${formattedUsername} renoted`;
+                noteDiv.insertBefore(renotedText, userPfp);
+            }
+        });
     }
 
     // TODO: default user data

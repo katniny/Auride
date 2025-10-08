@@ -372,3 +372,13 @@
    right: 15px;
    margin-top: 0;
 }
+
+.notes .note .userRenoted {
+   margin-left: 10px;
+   margin-bottom: 10px;
+   color: var(--text-semi-transparent);
+}
+
+.notes .note .userRenoted i {
+   color: var(--text-semi-transparent);
+}
