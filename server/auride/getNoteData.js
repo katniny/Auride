@@ -39,16 +39,16 @@ router.get("/api/auride/getNoteData", async (req, res) => {
         snapshot.forEach(childSnapshot => {
             const note = childSnapshot.val();
 
-            // check... is it notes from a user profile?
-            if (note.isRenote !== undefined && note.isRenote !== null) { // only appears on user profiles! safe to check.
-                // if so, we have to get these separately...
+            // function, since this code is repeated more than once
+            function fetchFullNote(childNote) {
+                console.log("hi!");
                 promises.push((async () => {
-                    const snap = await db.ref(`notes/${childSnapshot.key}`).once("value");
+                    const snap = await db.ref(`notes/${childNote.key}`).once("value");
                     const fullNote = snap.val();
 
                     if (!fullNote)
                         return;
-                    fullNote.key = childSnapshot.key;
+                    fullNote.key = childNote.key;
                     
                     // ignore reply and deletion.. details below
                     if (fullNote.replyingTo && !path.startsWith("/notes/-"))
@@ -59,6 +59,13 @@ router.get("/api/auride/getNoteData", async (req, res) => {
                     notesArray.push(fullNote);
                 })());
                 return;
+            }
+
+            // check... is it notes from a user profile or favorite?
+            if (note.isRenote !== undefined && note.isRenote !== null) { // if so, we have to get these separately...
+                fetchFullNote(childSnapshot);
+            } else if (note.favorited !== null && note.favorited !== undefined) {
+                fetchFullNote(childSnapshot);
             }
 
             // is it a reply? if so, ignore it
