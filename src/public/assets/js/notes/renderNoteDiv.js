@@ -10,8 +10,6 @@ function renderNote(noteData) {
 
     if (noteData.id === undefined) return;
 
-    console.log(noteData.whoSentIt);
-
     const noteDiv = document.createElement("div");
     noteDiv.className = "note";
     noteDiv.id = noteData.id;
