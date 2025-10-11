@@ -54,6 +54,9 @@ router.get("/api/auride/getNoteData", async (req, res) => {
                         return;
                     if (fullNote.isDeleted)
                         return;
+                    const userData = (await db.ref(`users/${fullNote.whoSentIt}`).once("value")).val();
+                    if (!userData || userData.username === undefined || userData.display === undefined)
+                        return;
 
                     notesArray.push(fullNote);
                 })());
@@ -61,11 +64,10 @@ router.get("/api/auride/getNoteData", async (req, res) => {
             }
 
             // check... is it notes from a user profile or favorite?
-            if (note.isRenote !== undefined && note.isRenote !== null) { // if so, we have to get these separately...
+            if (note.isRenote !== undefined && note.isRenote !== null) // if so, we have to get these separately...
                 fetchFullNote(childSnapshot);
-            } else if (note.favorited !== null && note.favorited !== undefined) {
+            else if (note.favorited !== null && note.favorited !== undefined)
                 fetchFullNote(childSnapshot);
-            }
 
             // is it a reply? if so, ignore it
             // note: replyingTo IS depreciated, however, older forks of auride may still have notes 
@@ -79,9 +81,15 @@ router.get("/api/auride/getNoteData", async (req, res) => {
             if (note.isDeleted)
                 return;
 
-            // else, continue
-            note.key = childSnapshot.key;
-            notesArray.push(note);
+            promises.push((async () => {
+                const userData = (await db.ref(`users/${note.whoSentIt}`).once("value")).val();
+                if (!userData || userData.username === undefined || userData.display === undefined)
+                    return; // they dont exist, or we shouldnt render their note anyways.
+
+                // else, continue
+                note.key = childSnapshot.key;
+                notesArray.push(note);
+            })());
         });
         await Promise.all(promises);
 

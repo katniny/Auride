@@ -1015,7 +1015,7 @@ function renderNote(noteData) {
 
     // create the submenu to show when "more" is clicked
     const moreSubMenu = document.createElement("div");
-    if (firebase.auth().currentUser.uid === noteData.whoSentIt) {
+    if (firebase.auth().currentUser && firebase.auth().currentUser.uid === noteData.whoSentIt) {
         moreSubMenu.innerHTML = `
             <button onclick="createEditNoteUI('${noteData.id}');">${faIcon("pen-to-square").outerHTML} Edit Note</button>
             <button class="danger" onclick="createDeleteNoteUI('${noteData.id}')">${faIcon("trash").outerHTML} Delete Note</button>
