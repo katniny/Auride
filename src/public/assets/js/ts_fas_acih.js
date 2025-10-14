@@ -919,8 +919,16 @@ function emojify(text) {
    return text;
 }
 
+function hashtagify(text) {
+   return text.replace(/(^|\s)#([\w-]+)/g, (match, space, tag) => {
+      // create link html
+      const link = `<a href="/search?q=#${tag.toLowerCase()}">#${tag}</a>`;
+      return space + link;
+   });
+}
+
 // the order is important
-function format(text, formats = ["html", "markdown", "emoji", "link", "newline"]) {
+function format(text, formats = ["html", "markdown", "emoji", "link", "newline", "hashtag"]) {
    // map names to functions to avoid huge switch statement
    const formatMap = {
       html: escapeHtml,
@@ -928,6 +936,7 @@ function format(text, formats = ["html", "markdown", "emoji", "link", "newline"]
       emoji: emojify,
       link: linkify,
       newline: addNewlines,
+      hashtag: hashtagify
    };
 
    for (const format of formats) {
