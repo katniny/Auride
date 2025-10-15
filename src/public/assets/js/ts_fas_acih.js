@@ -920,10 +920,9 @@ function emojify(text) {
 }
 
 function hashtagify(text) {
-   return text.replace(/(^|\s)#([\w-]+)/g, (match, space, tag) => {
-      // create link html
+   return text.replace(/(^|\s|>)#([\w-]+)/g, (match, prefix, tag) => {
       const link = `<a href="/search?q=#${tag.toLowerCase()}">#${tag}</a>`;
-      return space + link;
+      return prefix + link;
    });
 }
 
