@@ -153,10 +153,13 @@
 }
 
 #displayName-sidebar {
-   width: auto;
+   width: 175px;
    height: auto;
    float: left;
    margin-left: 5px;
+   overflow: hidden;
+   white-space: nowrap;
+   text-overflow: ellipsis;
 }
 
 #displayName-sidebar .emoji {
