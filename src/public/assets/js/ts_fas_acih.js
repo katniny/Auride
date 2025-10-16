@@ -180,14 +180,14 @@ if (hasUpdateNotes) {
             const hasDoneIt = snapshot.exists();
 
             if (!hasDoneIt) {
-               if (document.getElementById("updatesBtn")) {
-                  document.getElementById("updatesBtn").innerHTML = `${faIcon("wrench").outerHTML} Updates <span class="badge">New!</span>`;
+               if (document.getElementById("updatesButtonSidebar")) {
+                  document.getElementById("updatesButtonSidebar").innerHTML = `${faIcon("wrench").outerHTML} Updates <span class="badge">New!</span>`;
                }
             }
          })
       } else {
-         if (document.getElementById("updatesBtn") && pathName !== "/updates") {
-            document.getElementById("updatesBtn").innerHTML = `${faIcon("wrench").outerHTML} Updates <span class="badge">New!</span>`;
+         if (document.getElementById("updatesButtonSidebar") && pathName !== "/updates") {
+            document.getElementById("updatesButtonSidebar").innerHTML = `${faIcon("wrench").outerHTML} Updates <span class="badge">New!</span>`;
          }
       }
    })
@@ -778,74 +778,6 @@ function profileCard() {
    })
 }
 
-// Get user's pfp
-function getUserPfpSidebar() {
-   // PFP stuff
-   const userPfp = document.getElementById('userPfp-sidebar');
-
-   firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-         const uid = user.uid;
-
-         // Get the users PFP and set it as userPfp.src
-         const pfpRef = firebase.database().ref(`users/${uid}/pfp`);
-
-         pfpRef.get().then(function (snapshot) {
-            const pfp = snapshot.val();
-            userPfp.src = storageLink(`images/pfp/${uid}/${pfp}`);
-         })
-      }
-   })
-}
-
-function getUserInfoSidebar() {
-   firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-         const uid = user.uid;
-         const displayNameSidebar = document.getElementById("displayName-sidebar");
-         const usernameSidebar = document.getElementById("username-pronouns-sidebar");
-
-         const displayNameRef = firebase.database().ref(`users/${uid}/display`);
-
-         displayNameRef.once("value")
-            .then(function (snapshot) {
-               const display = snapshot.val();
-
-               displayNameSidebar.innerHTML = format(display, [ "html", "emoji" ]);
-            })
-
-         const usernameRef = firebase.database().ref(`users/${uid}/username`);
-
-         usernameRef.once("value")
-            .then(function (snapshot) {
-               const username = snapshot.val();
-
-               usernameSidebar.textContent = "@" + username;
-            })
-      }
-   })
-}
-
-// Link Button to Account
-function linkButtonToAcc() {
-   firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-         const uid = user.uid;
-         const button = document.getElementById('linkToAcc');
-
-         // Username Ref
-         const usernameRef = firebase.database().ref(`users/${uid}/username`);
-
-         usernameRef.once("value")
-            .then(function (snapshot) {
-               const username = snapshot.val();
-
-               button.href = `/u/${username}`;
-            })
-      }
-   })
-}
-
 // If a user tries to do something that is locked behind being signed in, give them a prompt to do so.
 function loginPrompt() {
    const loginModal = document.getElementById("signInPrompt");
@@ -954,47 +886,6 @@ if (pathName.startsWith("/home") ||
    
 }
 
-// Hide profile in the sidebar if not signed in
-function hideProfileSidebar() {
-   firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-         // No need to do anything further
-         const notSignedIn = document.getElementById("notSignedIn");
-         notSignedIn.style.display = "none";
-         return true;
-      } else {
-         document.getElementById("userPfp-sidebar").style.display = "none";
-         document.getElementById("displayName-sidebar").style.display = "none";
-         document.getElementById("username-pronouns-sidebar").style.display = "none";
-      }
-   })
-}
-
-// Hide sidebar buttons + login thing
-function hideSidebarButtons() {
-   const notifications = document.getElementById("notificationsSidebar");
-   const messages = document.getElementById("messagesSidebar");
-   const enchanted = document.getElementById("enchantedSidebar");
-   const settings = document.getElementById("settingsSidebar");
-   const profile = document.getElementById("linkToAcc");
-   const loginThing = document.getElementById("notSignedIn-banner");
-   const createNote = document.getElementById("createNote-sidebar");
-
-   firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-         loginThing.style.display = "none";
-         return;
-      } else {
-         profile.style.display = "none";
-         notifications.style.display = "none";
-         messages.style.display = "none";
-         enchanted.style.display = "none";
-         settings.style.display = "none";
-         createNote.style.display = "none";
-      }
-   })
-}
-
 // Close help prompt
 function closeHelpPrompt() {
    const supportAuride = document.getElementById("pleaseDonate");
@@ -1045,29 +936,9 @@ function swapNoteTab(tab) {
    }
 }
 
-// does in fact not load everything
-// it used to
-function loadEverything() {
-   getUserPfpSidebar();
-   getUserInfoSidebar();
-   linkButtonToAcc();
-   hideProfileSidebar();
-   hideSidebarButtons();
-   Notification.requestPermission();
-   firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-         firebase.database().ref(`users/${user.uid}/`).once("value", (snapshot) => {
-            const isDMSEnabled = snapshot.val();
-
-            if (isDMSEnabled.directMessagesExperiment === undefined) {
-               document.getElementById("messagesSidebar").style.display = "none";
-            } else {
-               document.getElementById("messagesSidebar").style.display = "block";
-            }
-         })
-      }
-   })
-}
+// request notification permission
+// TODO does not work on firefox (unsure about webkit), move this into settings
+Notification.requestPermission();
 
 // Auride account stuff
 if (!pathName.startsWith("/auth/")) {
@@ -3222,15 +3093,6 @@ if (pathName === "/home" || pathName === "/home.html" || pathName === "/note" ||
    }
 }
 
-// Account Area
-document.body.addEventListener('click', function (event) {
-   if (document.getElementById("profile").contains(event.target) || document.querySelector(".profileContainer").contains(event.target)) {
-      document.getElementById("profile").style.display = "block";
-   } else {
-      document.getElementById("profile").style.display = "none";
-   }
-});
-
 // Direct Messages
 if (pathName === "/messages") {
    const url = new URL(window.location.href);
@@ -5055,15 +4917,6 @@ function convertUnixTimestampToDate(unixTimestamp) {
    // i think this is the one everyone can read
    return `${year}-${month}-${day}`;
 }
-
-// more button in sidebar
-document.body.addEventListener('click', function (event) {
-   if (document.getElementById("showMoreContent").contains(event.target) || document.getElementById("moreContent").contains(event.target)) {
-      document.getElementById("moreContent").style.display = "block";
-   } else {
-      document.getElementById("moreContent").style.display = "none";
-   }
-});
 
 // account warnings
 firebase.auth().onAuthStateChanged((user) => {

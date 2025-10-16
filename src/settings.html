@@ -37,7 +37,7 @@
         </script>
     </head>
 
-    <body onload="loadEverything() + signedOutCheck()">
+    <body onload="signedOutCheck()">
         <!-- Header -->
         <div class="header" id="header">
             <div class="left">
@@ -64,56 +64,6 @@
             <a href="/home" style="margin-left: 20px;"><i class="fa-solid fa-house fa-xl"></i></a> <a href="/notifications"><i class="fa-solid fa-bell fa-xl"></i></a> <a href="/settings" class="active"><i class="fa-solid fa-gear fa-xl"></i></a> <a href="javascript:void();" onclick="createNotePopup()"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
             </div>
         </div>-->
-
-        <!-- Sidebar -->
-        <header class="sidebar" id="sidebar">
-            <!-- Navigation Buttons -->
-            <a href="/home"><button style="margin-top: 15px;"><i class="fa-solid fa-house"></i> Home</button></a>
-            <a href="/notifications" id="notificationsSidebar"><button><i class="fa-solid fa-bell"></i> Notifications</button></a> <a href="/notifications"><p id="notificationsCount">0</p></a>
-            <a href="/search"><button><i class="fa-solid fa-magnifying-glass"></i> Explore</button></a>
-            <a href="/messages" id="messagesSidebar"><button><i class="fa-solid fa-envelope"></i> Messages (0)</button></a>
-            <a href="/settings?tab=subscription" id="enchantedSidebar"><button><i class="fa-solid fa-heart"></i> Donate</button></a>
-            <a href="/updates"><button id="updatesBtn"><i class="fa-solid fa-wrench"></i> Updates</button></a>
-            <a href="/u" id="linkToAcc"><button><i class="fa-solid fa-user"></i> Your Profile</button></a>
-            <a href="javascript:void(0);"><button id="showMoreContent"><i class="fa-solid fa-ellipsis"></i> More</button></a>
-            <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar"><i class="fa-solid fa-pen-to-square"></i> Create</button>
-            <div id="moreContent" class="moreContent" style="display: none;">
-                <a href="/settings" id="settingsSidebar"><button class="settings active"><i class="fa-solid fa-gear"></i> Settings</button></a>
-                <a href="/contributors"><button><i class="fa-solid fa-face-smile-beam"></i> Contributors</button></a>
-                <a href="/achievements" id="achievementsSidebar"><button><i class="fa-solid fa-award"></i> Achievements</button></a>
-                <a href="/favorites" id="favoritesSidebar"><button><i class="fa-solid fa-bookmark"></i> Favorites</button></a>
-            </div>
-
-            <br />
-            <br />
-            <br />
-            <br />
-
-            <div class="sidebarPolicies">
-                <a href="/policies/terms">Terms of Service</a>, <a href="/policies/privacy">Privacy Policy</a>, <a href="/policies/child-safety">Child Safety</a>, <a href="/policies/cookies">Cookies</a>, <a href="/policies/copyright">Copyright</a>, <a href="/policies/guidelines">Community Guidelines</a>
-            </div>
-
-            <!-- Social Icons & Links -->
-            <div class="bottom">
-                <!-- Socials -->
-                <a href="https://discord.gg/SmhATjRxvc" target="_blank"><i class="fa-brands fa-discord fa-lg"></i></a>
-                <a href="https://twitter.com/transs_ocial" target="_blank"><i class="fa-brands fa-twitter fa-lg"></i></a>
-                <a href="https://tiktok.com/@transs_ocial" target="_blank"><i class="fa-brands fa-tiktok fa-lg"></i></a>
-                <a href="https://github.com/katniny/auride" target="_blank"><i class="fa-brands fa-github fa-lg"></i></a>
-
-                <!-- Profile -->
-                <div class="profileContainer" >
-                    <div class="profile" id="profile" style="display: none;">
-                        <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
-                        <button onclick="signOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
-                    </div>
-
-                    <strong><p id="notSignedIn">Create an account to explore!</p></strong>
-                    <img class="userPfp-sidebar" id="userPfp-sidebar" src="" draggable="false" /><p id="displayName-sidebar">Display Name</p>
-                    <p id="username-pronouns-sidebar">@username</p>
-                </div>
-            </div>
-        </header>
 
         <!-- Note successfully sent -->
         <div id="successfullySent" style="display: none;"><p>Note successfully sent!</p></div>
