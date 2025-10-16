@@ -1,5 +1,5 @@
 // create loading indicator to give some visual feedback
-function createLoadingIndicator(size, appendTo) {
+function createLoadingIndicator(size, appendTo, addType) {
     // get the size requested
     let loadingIndicator = null;
     switch (size) {
@@ -29,5 +29,8 @@ function createLoadingIndicator(size, appendTo) {
 
     // append element
     // should an id, NOT a class!
-    document.getElementById(appendTo).appendChild(loadingIndicator);
+    if (addType === "append")
+        document.getElementById(appendTo).appendChild(loadingIndicator);
+    else if (addType === "prepend")
+        document.getElementById(appendTo).prepend(loadingIndicator);
 }

@@ -26,3 +26,20 @@
 .notification i {
    margin-right: 10px;
 }
+
+/* loved notification type */
+.notification.loved i {
+   color: var(--like-color);
+}
+
+.notification.renoted i {
+   color: var(--renote-color);
+}
+
+.notification.mentioned i {
+   color: var(--main-color);
+}
+
+.notification.followed i {
+   color: var(--main-color);
+}
