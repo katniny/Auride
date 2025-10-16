@@ -2775,85 +2775,150 @@ function acceptCookies() {
 }
 
 // Notifications
+let lastNotifKey = null;
+const loadedNotifIds = new Set();
+let currentlyLoadingNotifs = false;
+let scrollTimeout = null;
+
+// function to load notifications
+function loadNotifications(limit, append = false) {
+   const user = firebase.auth().currentUser;
+   if (!user) return; // they should get kicked from the page automatically
+
+   let query = firebase.database().ref(`users/${user.uid}/notifications`).orderByKey();
+
+   // if theres a last key, fetch older ones
+   if (lastNotifKey)
+      query = query.endBefore(lastNotifKey);
+
+   query.limitToLast(limit).once("value", (snapshot) => {
+      const notifications = snapshot.val();
+      if (!notifications) {
+         currentlyLoadingNotifs = false;
+         return;
+      }; // no notifications :(
+
+      // get keys and store the oldest one for the next load
+      const notifKeys = Object.keys(notifications).sort();
+      lastNotifKey = notifKeys[0];
+
+      renderNotifications(notifications, append);
+      currentlyLoadingNotifs = false;
+   });
+}
+
+// render notifications appropriately
+function renderNotifications(notifications, append = false) {
+   const notificationsDiv = document.getElementById("notificationCenter");
+   if (!append) notificationsDiv.innerHTML = "";
+
+   // sort the notification entries
+   const notifEntries = Object.entries(notifications).reverse();
+
+   // then, seperate entries
+   const notifPromises = notifEntries.map(([id, notification]) => {
+      // get user data (from who sent the notification)
+      return firebase.database().ref(`users/${notification.who}`).once("value").then(snapshot => {
+         const notificationSentUser = snapshot.val() || {};
+         const notiSentUserData = {
+            username: notificationSentUser.username || "deleteduser",
+            pfp: notificationSentUser.pfp || "null"
+         };
+
+         // then, render the note based on type
+         const div = document.createElement("div");
+         div.classList.add("notification");
+
+         if (!notification.type) return null; // not a valid notification
+
+         switch (notification.type) {
+            case "Love":
+               // then set inner html   
+               div.innerHTML = `${faIcon("heart", "lg", "var(--like-color)").outerHTML} <img class="notificationPfp" draggable=false src="${storageLink(`images/pfp/${notification.who}/${notiSentUserData.pfp}`)}" /> @${notiSentUserData.username} loved your note!`;
+               div.classList.add("loved");
+
+               // when clicked, send to note
+               div.onclick = () => { window.location.href = `/note/${notification.postId}`; }
+               break;
+            case "Renote":
+               // then set inner html   
+               div.innerHTML = `${faIcon("retweet", "lg", "var(--renote-color)").outerHTML} <img class="notificationPfp" draggable=false src="${storageLink(`images/pfp/${notification.who}/${notiSentUserData.pfp}`)}" /> @${notiSentUserData.username} renoted your note!`;
+               div.classList.add("renoted");
+
+               // when clicked, send to note
+               div.onclick = () => { window.location.href = `/note/${notification.postId}`; }
+               break;
+            case "Mention":
+               // then set inner html   
+               div.innerHTML = `${faIcon("at", "lg", "var(--main-color)").outerHTML} <img class="notificationPfp" draggable=false src="${storageLink(`images/pfp/${notification.who}/${notiSentUserData.pfp}`)}" /> @${notiSentUserData.username} mentioned you!`;
+               div.classList.add("mentioned");
+
+               // when clicked, send to note
+               div.onclick = () => { window.location.href = `/note/${notification.postId}`; }
+               break;
+            case "Reply":
+               // then set inner html   
+               div.innerHTML = `${faIcon("comment", "lg", "var(--main-color)").outerHTML} <img class="notificationPfp" draggable=false src="${storageLink(`images/pfp/${notification.who}/${notiSentUserData.pfp}`)}" /> @${notiSentUserData.username} replied to your note!`;
+               div.classList.add("replied");
+
+               // when clicked, send to note
+               div.onclick = () => { window.location.href = `/note/${notification.postId}`; }
+               break;
+            case "Follow":
+               // then set inner html   
+               div.innerHTML = `${faIcon("user-plus", "lg", "var(--main-color)").outerHTML} <img class="notificationPfp" draggable=false src="${storageLink(`images/pfp/${notification.who}/${notiSentUserData.pfp}`)}" /> @${notiSentUserData.username} followed you!`;
+               div.classList.add("followed");
+
+               // when clicked, send to user
+               div.onclick = () => { window.location.href = `/u/${notificationSentUser.username}`; }
+               break;
+            default:
+               break;
+         }
+
+         return div;
+      });
+   });
+
+   // make sure to render them correctly
+   Promise.all(notifPromises).then(divs => {
+      divs.filter(Boolean).forEach((div, i) => {
+         const notifId = notifEntries[i][0]; // key of this notification
+         if (loadedNotifIds.has(notifId)) return; // skip dups
+         loadedNotifIds.add(notifId);
+
+         // if everything else passes, prepend!
+         // not append.. we reverse the html!
+         const loadIndicator = document.getElementById("noteLoadingIndicator");
+         notificationsDiv.prepend(div);
+         if (loadIndicator)
+            loadIndicator.remove();
+      });
+   });
+}
+
 if (pathName === "/notifications" || pathName === "/notifications.html") {
-   firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-         // Show notifications
-         const notificationsRef = firebase.database().ref(`users/${user.uid}/notifications`);
+   // TODO: move this to a separate script, instead of relying on a timeout
+   setTimeout(() => {
+      createLoadingIndicator("lg", "notificationCenter", "prepend");
+      loadNotifications(15, false);
+   }, 750);
+   
+   // listen to scroll events to load more notifications
+   window.addEventListener("scroll", () => {
+      // clear any pending trigger
+      if (scrollTimeout) clearTimeout(scrollTimeout);
 
-         notificationsRef.once('value', (snapshot) => {
-            const notifications = snapshot.val();
+      scrollTimeout = setTimeout(() => {
+         if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+            if (currentlyLoadingNotifs) return;
+            currentlyLoadingNotifs = true;
+            loadNotifications(15, true);
 
-            // Clear any existing notifications
-            const notificationsDiv = document.getElementById("notificationCenter");
-            notificationsDiv.innerHTML = "";
-
-            if (notifications) {
-               Object.keys(notifications).forEach((notificationId) => {
-                  const notification = notifications[notificationId];
-
-                  const newNotificationDiv = document.createElement("div");
-                  newNotificationDiv.classList.add("notification");
-
-                  const fakeUserData = {
-                     username: "Deleted User",
-                  };
-
-                  // Customize notification content based on 'type'
-                  if (notification.type === "Follow") {
-                     firebase.database().ref(`users/${notification.who}`).on("value", (snapshot) => {
-                        const user = snapshot.exists() ? snapshot.val() : fakeUserData;
-
-                        newNotificationDiv.innerHTML = `${faIcon("user-plus", size = "lg", color = "var(--main-color)").outerHTML} <img class="notificationPfp" draggable=false src="${storageLink(`images/pfp/${notification.who}/${user.pfp}`)}" /> @${user.username} followed you!`;
-                        newNotificationDiv.addEventListener("click", () => window.location.href = `/u/${user.username}`);
-                     })
-                  } else if (notification.type === "Reply") {
-                     newNotificationDiv.addEventListener("click", () => window.location.href = `/note/${notification.postId}`);
-
-                     firebase.database().ref(`users/${notification.who}`).on("value", (snapshot) => {
-                        const user = snapshot.exists() ? snapshot.val() : fakeUserData;
-
-                        newNotificationDiv.innerHTML = `${faIcon("comment", size = "lg", color = "var(--main-color)").outerHTML} <img class="notificationPfp" draggable=false src="${storageLink(`images/pfp/${notification.who}/${user.pfp}`)}" /> @${user.username} replied to your note!`;
-                     })
-                  } else if (notification.type === "Love") {
-                     newNotificationDiv.addEventListener("click", () => window.location.href = `/note/${notification.postId}`);
-
-                     firebase.database().ref(`users/${notification.who}`).on("value", (snapshot) => {
-                        const user = snapshot.exists() ? snapshot.val() : fakeUserData;
-
-                        newNotificationDiv.innerHTML = `${faIcon("heart", size = "lg", color = "var(--like-color)").outerHTML} <img class="notificationPfp" draggable=false src="${storageLink(`images/pfp/${notification.who}/${user.pfp}`)}" /> @${user.username} loved your note!`;
-                     })
-                  } else if (notification.type === "Renote") {
-                     newNotificationDiv.addEventListener("click", () => window.location.href = `/note/${notification.postId}`);
-
-                     firebase.database().ref(`users/${notification.who}`).on("value", (snapshot) => {
-                        const user = snapshot.exists() ? snapshot.val() : fakeUserData;
-
-                        newNotificationDiv.innerHTML = `${faIcon("retweet", size = "lg", color = "var(--renote-color)").outerHTML} <img class="notificationPfp" draggable=false src="${storageLink(`images/pfp/${notification.who}/${user.pfp}`)}" /> @${user.username} renoted your note!`;
-                     })
-                  } else if (notification.type === "Mention") {
-                     newNotificationDiv.addEventListener("click", () => window.location.href = `/note/${notification.postId}`);
-
-                     firebase.database().ref(`users/${notification.who}`).on("value", (snapshot) => {
-                        const user = snapshot.exists() ? snapshot.val() : fakeUserData;
-
-                        newNotificationDiv.innerHTML = `${faIcon("at", size = "lg", color = "var(--main-color)").outerHTML} <img class="notificationPfp" draggable=false src="${storageLink(`images/pfp/${notification.who}/${user.pfp}`)}" /> @${user.username} mentioned you!`;
-                     })
-                  } else {
-                     // Handle other notification types...
-                     newNotificationDiv.style.display = "none";
-                  }
-
-                  notificationsDiv.appendChild(newNotificationDiv);
-               });
-            } else {
-               // Handle the case where there are no notifications
-               const noNotificationsMessage = document.createElement("h1");
-               noNotificationsMessage.innerHTML = `${faIcon("face-frown").outerHTML} You have no notifications.`;
-               notificationsDiv.appendChild(noNotificationsMessage);
-            }
-         });
-      }
+            // create the loading indicator
+            createLoadingIndicator("lg", "notificationCenter", "prepend");
+         }
+      }, 150); // wait 150ms
    });
 }
 

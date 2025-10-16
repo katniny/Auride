@@ -1,4 +1,4 @@
-// TO:DO - seperate this code!
+// TODO - seperate this code!
 // its just in a new script for 
 // 1) code seperation, since i would like to depreciate ts_fas_acih.js
 // 2) bug fixing
@@ -146,7 +146,7 @@ async function loadInitalNotes() {
     currentLoadingNotes = true;
 
     // create loading indicator to give some visual feedback
-    await createLoadingIndicator("lg", "notes");
+    await createLoadingIndicator("lg", "notes", "append");
     const loadingIndicator = document.getElementById("noteLoadingIndicator");
     
     // fetch note data from server
@@ -190,7 +190,7 @@ async function loadMoreNotes() {
     currentLoadingNotes = true;
 
     // create loading indicator to give some visual feedback
-    createLoadingIndicator("lg", "notes");
+    createLoadingIndicator("lg", "notes", "append");
     const loadingIndicator = document.getElementById("noteLoadingIndicator");
     
     // fetch note data from server
