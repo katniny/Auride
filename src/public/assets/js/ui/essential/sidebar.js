@@ -156,11 +156,10 @@ document.body.addEventListener("click", function (event) {
     if (isSidebarIllegal) return;
 
     // if they do, show them!
-    if (showMoreContent.contains(event.target) || showMoreContent.contains(event.target)) {
+    if (showMoreContent.contains(event.target) || showMoreContent.contains(event.target))
         moreContent.style.display = "block";
-    } else {
+    else
         moreContent.style.display = "none";
-    }
 });
 
 // Account Area
@@ -168,9 +167,15 @@ document.body.addEventListener('click', function (event) {
     const profileContainerSidebar = document.getElementById("sidebarProfileContainer");
     const profileContainerQuery = document.querySelector(".profileContainer");
 
-    if (profileContainerSidebar.contains(event.target) || profileContainerQuery.contains(event.target)) {
+    // make sure these elements even exist
+    if (!profileContainerSidebar) return;
+    if (!profileContainerQuery) return;
+
+    // can this run on this page?
+    if (isSidebarIllegal) return;
+
+    if (profileContainerSidebar.contains(event.target) || profileContainerQuery.contains(event.target))
         profileContainerSidebar.style.display = "block";
-    } else {
+    else
         profileContainerSidebar.style.display = "none";
-    }
 });
