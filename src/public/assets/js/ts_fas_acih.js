@@ -3373,33 +3373,6 @@ if (pathName === "/download") {
    }
 }
 
-// User pfp in header
-firebase.auth().onAuthStateChanged((user) => {
-   if (user) {
-      firebase.database().ref(`users/${user.uid}`).once("value", (snapshot) => {
-         const data = snapshot.val();
-
-         if (document.getElementById("userPfp-header")) {
-            document.getElementById("userPfp-header").src = storageLink(`images/pfp/${user.uid}/${data.pfp}`);
-         }
-      })
-   } else {
-      if (document.getElementById("userPfp-header")) {
-         document.getElementById("userPfp-header").src = `/assets/imgs/defaultPfp.png`;
-      }
-   }
-})
-
-// account manager (header) 
-document.body.addEventListener('click', function (event) {
-   if (document.getElementById("accountManager").contains(event.target) || document.getElementById("userPfp-header").contains(event.target)) {
-      document.getElementById("accountManager").style.display = "block";
-      document.getElementById("greetingManager").textContent = `Hello, ${document.getElementById("displayName-sidebar").textContent}!`;
-   } else {
-      document.getElementById("accountManager").style.display = "none";
-   }
-});
-
 // determine date creation
 function timeAgo(timestamp) {
    const now = Math.floor(Date.now() / 1000); // Current timestamp in seconds
@@ -4896,14 +4869,6 @@ if (pathName === "/search") {
          });
       });
    }
-}
-
-if (document.getElementById("searchBar")) {
-   document.getElementById("searchBar").addEventListener("keydown", (event) => {
-      if (event.key === "Enter") {
-         window.location.replace(`/search?q=${document.getElementById("searchBar").value}`);
-      }
-   });
 }
 
 // convert (standard) unix timestamp to readable date

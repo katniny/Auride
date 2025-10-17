@@ -46,6 +46,9 @@ async function loadAllScripts() {
       // our icons
       await loadScript("https://kit.fontawesome.com/be7c331826.js", false);
 
+      // header
+      await loadScript("/assets/js/ui/essential/header.js", false);
+
       // sidebar
       await loadScript("/assets/js/ui/essential/sidebar.js", false);
 
