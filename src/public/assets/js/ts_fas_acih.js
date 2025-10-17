@@ -3378,27 +3378,40 @@ function timeAgo(timestamp) {
    const now = Math.floor(Date.now() / 1000); // Current timestamp in seconds
    const seconds = now - Math.floor(timestamp / 1000); // Convert milliseconds to seconds
 
+   // if seconds...
    if (seconds < 60) {
       return `${seconds}s`;
    }
+   // minutes...
    const minutes = Math.floor(seconds / 60);
    if (minutes < 60) {
       return `${minutes}m`;
    }
+   // hours...
    const hours = Math.floor(minutes / 60);
    if (hours < 24) {
       return `${hours}h`;
    }
+   // days...
    const days = Math.floor(hours / 24);
    if (days < 30) {
       return `${days}d`;
    }
 
+   // get the month
    const date = new Date(timestamp);
-   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-   // TODO: show year if relevant
-   return `${months[date.getMonth()]} ${date.getDate()}`;
+   // get current year
+   const currentYear = new Date().getFullYear();
+   const postYear = date.getFullYear();
+
+   // return with year, if current year is not the same as note date
+   if (postYear !== currentYear)
+      return `${months[date.getMonth()]} ${date.getDate()}, ${postYear}`;
+   // or, if it is the same, return without year
+   else
+      return `${months[date.getMonth()]} ${date.getDate()}`;
 }
 
 // Check unlocked achievements on achievement page
