@@ -8,7 +8,7 @@ router.get("/api/auride/getNoteData", async (req, res) => {
         return res.status(403).json({ error: "This method can only be accessed via GET." });
 
     try {
-        // extract toen
+        // extract token
         const authHeader = req.headers.authorization || "";
         const token = authHeader.startsWith("Bearer ") ? authHeader.split("Bearer ")[1] : null;
 
