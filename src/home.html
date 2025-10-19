@@ -24,7 +24,8 @@
         <script defer>
             ScriptLoader.load(
                  { src: "/assets/js/notes/renderNoteDiv.js", async: false },
-                 { src: "/assets/js/notes/notes.js", async: false }
+                 { src: "/assets/js/notes/notes.js", async: false },
+                 { src: "/assets/js/notes/filters.js", async: false }
              ).then(() => {
                  console.log("Scripts for /home have been loaded successfully.");
              }).catch((error) => {
@@ -65,12 +66,14 @@
             </div>
 
             <div class="noteFilter">
-                <!--<button class="active" style="border-right: 1px solid gray;">All Notes</button><button>Following</button>-->
-                <p class="version-notice">Auride is currently in the pre-alpha stage (version {VER}). A lot of features are missing or are in development and will be added with updates. <a href="/indev">Learn more</a>.</p>
-                <h2 style="text-align: center; display: none;" id="joinUsToSeeNotes">Join Us on Auride to See Notes!</h2>
-                <h2 id="greetingTime">Good {morn/after/even}, {username}</h2>
-                <p style="font-size: small;" id="betaTestingApp"></p>
-                <p style="font-size: small;"><a href="/blog/retiring-transsocial">Goodbye TransSocial, <b style="color: var(--main-color);">hello Auride</b>!</a></p>
+                <!-- timeline filter, to see all notes or just notes from followed users -->
+                <div class="timelineFilter" id="timelineFilter">
+                    <button onclick="filterNotes('all')" class="active" id="allNotesButton">All Notes</button>
+                    <button onclick="filterNotes('following')" id="followingNotesButton">Following</button>
+                </div>
+
+                <h2 id="greetingTime" style="margin-top: 10px;">Good {morn/after/even}, {username}</h2>
+                <p class="version-notice">This gets replaced. If you're seeing this message, something went wrong. Please refresh the page.</p>
 
                 <div class="replyToNote homepage" onclick="createNotePopup()" style="width: 95=7%">What's on your mind?</div>
             </div>

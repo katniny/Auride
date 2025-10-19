@@ -1,3 +1,5 @@
+// todo: rewrite this or clean it up severely...
+// this is unoptimized, calls the database 12 times (should be 2 MAX), and hard to read
 function renderNote(noteData) {
     function renderUsername(username, pronouns, time) {
         const displayDate = timeAgo(time);
