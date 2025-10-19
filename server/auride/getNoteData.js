@@ -8,8 +8,20 @@ router.get("/api/auride/getNoteData", async (req, res) => {
         return res.status(403).json({ error: "This method can only be accessed via GET." });
 
     try {
-        const { endBefore, limit, path } = req.query;
-        let notesRef = null;
+        // extract toen
+        const authHeader = req.headers.authorization || "";
+        const token = authHeader.startsWith("Bearer ") ? authHeader.split("Bearer ")[1] : null;
+
+        // verify token (if there is one)
+        let userUidFromRequest = null;
+        if (token) {
+            const decodedToken = await admin.auth().verifyIdToken(token);
+            userUidFromRequest = decodedToken.uid;
+        }
+
+        // now that user is authenticated (assuming there is one), continue
+        const { endBefore, limit, path, onlyFollowing } = req.query;
+        const onlyFollowingBool = onlyFollowing === "true";
 
         // if there's a path, use that for the db. else, use notes
         if (path)
@@ -25,7 +37,7 @@ router.get("/api/auride/getNoteData", async (req, res) => {
 
         // if limit, make sure we only return that amount of notes
         if (limit && limit > 1)
-            query = query.limitToLast(parseInt(limit, 10));
+            query = query.limitToLast(parseInt(limit * 2, 10)); // double it to increase chances of getting the full limit
         else
             return res.status(403).json({ error: "Please load 2 or more notes." });
 
@@ -57,6 +69,11 @@ router.get("/api/auride/getNoteData", async (req, res) => {
                     const userData = (await db.ref(`users/${fullNote.whoSentIt}`).once("value")).val();
                     if (!userData || userData.username === undefined || userData.display === undefined)
                         return;
+                    
+                    // ignore if onlyFollowing is true and user is not following
+                    const followers = userData.whoFollows || {};
+                    if (onlyFollowingBool && !followers[userUidFromRequest])
+                        return;
 
                     notesArray.push(fullNote);
                 })());
@@ -86,6 +103,12 @@ router.get("/api/auride/getNoteData", async (req, res) => {
                 if (!userData || userData.username === undefined || userData.display === undefined)
                     return; // they dont exist, or we shouldnt render their note anyways.
 
+                // if the user only wants following users, lets check if
+                // they follow this user
+                const followers = userData.whoFollows || {};
+                if (onlyFollowingBool && !followers[userUidFromRequest])
+                    return;
+
                 // else, continue
                 note.key = childSnapshot.key;
                 notesArray.push(note);
@@ -94,7 +117,7 @@ router.get("/api/auride/getNoteData", async (req, res) => {
         await Promise.all(promises);
 
         // return :)
-        res.json(notesArray);
+        res.json(notesArray.slice(0, limit));
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Failed to fetch notes." });

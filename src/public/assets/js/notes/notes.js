@@ -7,6 +7,7 @@
 let notesPageRef = null;
 let notesPageRefString = null;
 let currentLoadingNotes = false; // has to be at the top or loadInitialNotes() breaks...
+let loadOnlyFollowingNotesOnly = false;
 
 // get the notes ref path
 switch(true) {
@@ -14,7 +15,7 @@ switch(true) {
         notesPageRef = firebase.database().ref("notes");
         notesPageRefString = "notes";
 
-        loadInitalNotes();
+        loadInitalNotes(false);
         attachListeners();
 
         break;
@@ -30,7 +31,7 @@ switch(true) {
             notesPageRef = firebase.database().ref(`/users/${uid}/posts`);
             notesPageRefString = `/users/${uid}/posts`;
 
-            loadInitalNotes();
+            loadInitalNotes(false);
             attachListeners();
         });
         break;
@@ -41,7 +42,7 @@ switch(true) {
         notesPageRef = firebase.database().ref(`/notes/${noteId}/notesReplying`);
         notesPageRefString = `/notes/${noteId}/notesReplying`;
 
-        loadInitalNotes();
+        loadInitalNotes(false);
         attachListeners();
 
         break;
@@ -57,7 +58,7 @@ switch(true) {
                         notesPageRef = firebase.database().ref(`/users/${user.uid}/favorites`);
                         notesPageRefString = `/users/${user.uid}/favorites`;
 
-                        loadInitalNotes();
+                        loadInitalNotes(false);
                         attachListeners();
                     }
                 });
@@ -119,7 +120,7 @@ function loadNotesFromButton() {
     notes.forEach(note => note.remove());
 
     // load the new notes
-    loadInitalNotes();
+    loadInitalNotes(false);
 }
 
 // Note Rendering
@@ -140,17 +141,30 @@ const mediaObserver = new IntersectionObserver((entries, _observer) => {
     threshold: 0.1
 });
 
-async function loadInitalNotes() {
+async function loadInitalNotes(onlyFollowing) {
     // if loading notes, return 
     if (currentLoadingNotes) return;
     currentLoadingNotes = true;
+
+    // get token, if exists
+    const user = firebase.auth().currentUser;
+    let token = null;
+    if (user) {
+        try {
+            token = await user.getIdToken();
+        } catch (err) {
+            console.error(`Failed to get Firebase token: ${err}`);
+        }
+    }
 
     // create loading indicator to give some visual feedback
     await createLoadingIndicator("lg", "notes", "append");
     const loadingIndicator = document.getElementById("noteLoadingIndicator");
     
     // fetch note data from server
-    const response = await fetch(`${serverUrl}/api/auride/getNoteData?limit=15&path=${notesPageRefString}`);
+    const response = await fetch(`${serverUrl}/api/auride/getNoteData?limit=15&path=${notesPageRefString}&onlyFollowing=${onlyFollowing}`, {
+        headers: token ? { "Authorization": `Bearer ${token}` } : {}
+    });
     if (!response.ok) {
         console.error("Failed to fetch notes: ", response.statusText);
         currentLoadingNotes = false;
@@ -178,23 +192,39 @@ async function loadInitalNotes() {
 // infinite loading
 window.addEventListener("scroll", () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-        loadMoreNotes();
+        if (loadOnlyFollowingNotesOnly)
+            loadMoreNotes(true);
+        else
+            loadMoreNotes(false);
     }
 });
 
 let canLoadMore = false;
-async function loadMoreNotes() {
+async function loadMoreNotes(onlyFollowing) {
     // if has no lastNoteKey or is loading notes, return 
     if (!lastNoteKey) return;
     if (currentLoadingNotes) return;
     currentLoadingNotes = true;
+
+    // get token, if exists
+    const user = firebase.auth().currentUser;
+    let token = null;
+    if (user) {
+        try {
+            token = await user.getIdToken();
+        } catch (err) {
+            console.error(`Failed to get Firebase token: ${err}`);
+        }
+    }
 
     // create loading indicator to give some visual feedback
     createLoadingIndicator("lg", "notes", "append");
     const loadingIndicator = document.getElementById("noteLoadingIndicator");
     
     // fetch note data from server
-    const response = await fetch(`${serverUrl}/api/auride/getNoteData?endBefore=${lastNoteKey}&limit=15&path=${notesPageRefString}`);
+    const response = await fetch(`${serverUrl}/api/auride/getNoteData?endBefore=${lastNoteKey}&limit=15&path=${notesPageRefString}&onlyFollowing=${onlyFollowing}`, {
+        headers: token ? { "Authorization": `Bearer ${token}` } : {}
+    });
     if (!response.ok) {
         console.error("Failed to fetch notes: ", response.statusText);
         currentLoadingNotes = false;
