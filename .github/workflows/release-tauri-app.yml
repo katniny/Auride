@@ -6,6 +6,8 @@ on:
     branches:
       - main
       - tauri-app
+    paths:
+      - 'app/**'
 
 jobs:
   publish-tauri:
