@@ -65,9 +65,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tagName: app-v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
-          releaseName: 'App v__VERSION__'
-          releaseBody: 'See the assets to download this version and install.'
-          releaseDraft: true
+          tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
+          releaseName: 'Auride v__VERSION__ (Canary)'
+          releaseBody: |
+            This is a canary version of the Auride app generated automatically.
+            Canary builds of the Auride app are built as soon as Auride is committed to on the main branch.
+            Be sure to check in the app for any available updates.
+
+            Install Instructions:
+            - Windows: Download `auride___VERSION___x64-setup.exe` and run it to automatically install Auride
+            - macOS: Download the `auride___VERSION___x64.dmg` or `auride___VERSION___aarch64.dmg`. You may need to go to "Security & Privacy" and allow the app to run
+              - This is this way because it would cost us $99/yr and a Macbook (which I do not have) to do.
+            - Linux:
+              - Fedora: Download the `auride-__VERSION__-1.x86_64.rpm` and run it, whether in the terminal or a software storefront
+              - Debian: Download the `auride___VERSION___amd64.deb` file and run it, whether in the terminal or a software storefront
+              - Other Distros: Download the `auride___VERSION___amd64.AppImage` and run it, whether in the terminal or a software storefront
+          releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
