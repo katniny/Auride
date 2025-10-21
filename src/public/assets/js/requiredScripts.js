@@ -61,6 +61,10 @@ async function loadAllScripts() {
       // notifications
       await loadScript("/assets/js/notifications.js", false);
 
+      // app dependencies
+      await loadScript("/assets/js/ui/updateAvailablePopup.js", false);
+      await loadScript("/assets/js/app/isApp.js", false);
+
       // temp
       await loadScript("/assets/js/ui/editNoteUI.js", false);
       await loadScript("/assets/js/ui/deleteNotePopup.js", false);
