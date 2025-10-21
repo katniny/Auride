@@ -117,7 +117,7 @@ router.get("/api/auride/getNoteData", async (req, res) => {
         await Promise.all(promises);
 
         // return :)
-        res.json(notesArray.slice(0, limit));
+        res.json(notesArray);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: "Failed to fetch notes." });
