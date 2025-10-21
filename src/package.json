@@ -16,7 +16,7 @@
     "vite-plugin-pwa": "^1.0.3"
   },
   "dependencies": {
-    "firebase": "^12.3.0",
+    "firebase": "^12.4.0",
     "lit": "^3.3.1",
     "tus-js-client": "^4.3.1"
   }
