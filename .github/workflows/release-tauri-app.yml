@@ -109,12 +109,23 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           npm run tauri android build
-        
+
+      - name: Get latest release ID
+        id: get_release
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const latest = await github.rst.repos.getLatestRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            });
+            return latest.data.id;
       - name: Upload Android APK to Release
         if: matrix.build-type == 'android'
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v__VERSION__
+          release_id: ${{ steps.get_release.outputs.result }}
           files: |
             app/src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
           fail_on_unmatched_files: false
