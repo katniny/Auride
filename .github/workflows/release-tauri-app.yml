@@ -125,8 +125,9 @@ jobs:
       - name: Rename Android APK
         if: matrix.build-type == 'android'
         run: |
-          mv app/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-unsigned.apk \
-            app/src-tauri/gen/android/app/build/outputs/apk/universal/release/auride_${{ steps.get_release.outputs.latest_tag }}_android.apk
+          ls src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-unsigned.apk
+          mv src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-unsigned.apk \
+            src-tauri/gen/android/app/build/outputs/apk/universal/release/auride_${{ steps.get_release.outputs.latest_tag }}_android.apk
 
       - name: Upload Android APK to latest Release
         if: matrix.build-type == 'android'
