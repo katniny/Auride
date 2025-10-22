@@ -78,6 +78,7 @@ jobs:
           echo "org.gradle.java.home=$JAVA_HOME" > src-tauri/gen/android/gradle.properties
           echo "org.gradle.java.installations.auto-detect=false" >> src-tauri/gen/android/gradle.properties
           echo "android.useAndroidX=true" >> src-tauri/gen/android/gradle.properties
+          echo "org.gradle.jvmargs=-Xmx2048m -XX:MaxMetaspaceSize=512m" >> src-tauri/gen/android/gradle.properties
           cat src-tauri/gen/android/gradle.properties
 
       - name: setup node
