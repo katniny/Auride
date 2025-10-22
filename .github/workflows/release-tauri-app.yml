@@ -110,23 +110,24 @@ jobs:
         run: |
           npm run tauri android build
 
-      - name: Get latest release ID
+      - name: Get latest release tag
+        if: matrix.build-type == 'android'
         id: get_release
         run: |
-          LATEST_ID=$(curl -s \
+          LATEST_TAG=$(curl -s \
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/latest \
-            | jq -r '.id')
-          echo "LATEST_ID=$LATEST_ID" >> $GITHUB_ENV
-          echo "latest_release_id=$LATEST_ID" >> $GITHUB_ENV
-      - name: Upload Android APK to Release
+            | jq -r '.tag_name')
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+          echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+
+        name: Upload Android APK to latest Release
         if: matrix.build-type == 'android'
         uses: softprops/action-gh-release@v1
         with:
-          release_id: ${{ steps.get_release.outputs.latest_release_id }}
-          files: |
-            app/src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
+          tag_name: ${{ steps.get_release.outputs.latest_tag }}
+          files: app/src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
           fail_on_unmatched_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
