@@ -122,6 +122,12 @@ jobs:
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
           echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
 
+      - name: Rename Android APK
+        if: matrix.build-type == 'android'
+        run: |
+          mv app/src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk \
+            app/src-tauri/gen/android/app/build/outputs/apk/universal/release/auride_${{ steps.get_release.outputs.latest_tag }}_android.apk
+
       - name: Upload Android APK to latest Release
         if: matrix.build-type == 'android'
         uses: softprops/action-gh-release@v1
