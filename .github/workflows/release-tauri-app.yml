@@ -71,14 +71,13 @@ jobs:
         run: |
           rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
         
-      - name: Create gradle-properties (Android only)
+      - name: Create gradle.properties (Android only)
         if: matrix.build-type == 'android'
         run: |
           mkdir -p src-tauri/gen/android
-          cat > src-tauri/gen/android/gradle..properties << EOF
-          org.gradle.java.home=$JAVA_HOME
-          org.gradle.java.installations.auto-detect=false
-          EOF
+          echo "org.gradle.java.home=$JAVA_HOME" > src-tauri/gen/android/gradle.properties
+          echo "org.gradle.java.installations.auto-detect=false" >> src-tauri/gen/android/gradle.properties
+          cat src-tauri/gen/android/gradle.properties
 
       - name: setup node
         uses: actions/setup-node@v4
