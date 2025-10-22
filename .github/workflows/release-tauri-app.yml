@@ -64,7 +64,7 @@ jobs:
       - name: Add Android targets (Android only)
         if: matrix.args == '--target android'
         run: |
-          rustup target aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+          rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
         
       - name: Create gradle-properties (Android only)
         if: matrix.args == '--target android'
