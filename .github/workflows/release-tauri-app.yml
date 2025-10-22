@@ -18,12 +18,19 @@ jobs:
         include:
           - platform: 'macos-latest' # for Arm based macs (M1 and above).
             args: '--target aarch64-apple-darwin'
+            build-type: 'desktop'
           - platform: 'macos-latest' # for Intel based macs.
             args: '--target x86_64-apple-darwin'
+            build-type: 'desktop'
           - platform: 'ubuntu-22.04'
             args: ''
+            build-type: 'desktop'
           - platform: 'windows-latest'
             args: ''
+            build-type: 'desktop'
+          - platform: 'ubuntu-22.04'
+            args: ''
+            build-type: 'android'
 
     runs-on: ${{ matrix.platform }}
 
@@ -39,6 +46,39 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+        
+      - name: Setup Java (Android only)
+        if: matrix.build-type == 'android'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+        
+      - name: Setup Android SDK (Android Only)
+        if: matrix.build-type == 'android'
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android NDK (Android only)
+        if: matrix.build-type == 'android'
+        run: |
+          sdkmanager "ndk;29.0.14206865"
+          echo "ANDROID_HOME=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          echo "NDK_HOME=$ANDROID_SDK_ROOT/ndk/29.0.14206865" >> $GITHUB_ENV
+
+      - name: Add Android targets (Android only)
+        if: matrix.build-type == 'android'
+        run: |
+          rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
+        
+      - name: Create gradle.properties (Android only)
+        if: matrix.build-type == 'android'
+        run: |
+          mkdir -p src-tauri/gen/android
+          echo "org.gradle.java.home=$JAVA_HOME" > src-tauri/gen/android/gradle.properties
+          echo "org.gradle.java.installations.auto-detect=false" >> src-tauri/gen/android/gradle.properties
+          echo "android.useAndroidX=true" >> src-tauri/gen/android/gradle.properties
+          echo "org.gradle.jvmargs=-Xmx2048m -XX:MaxMetaspaceSize=512m" >> src-tauri/gen/android/gradle.properties
+          cat src-tauri/gen/android/gradle.properties
 
       - name: setup node
         uses: actions/setup-node@v4
@@ -62,7 +102,44 @@ jobs:
         # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
         run: npm install # change this to npm or pnpm depending on which one you use.
 
+      - name: Build Android apk
+        if: matrix.build-type == 'android'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npm run tauri android build
+
+      - name: Get latest release tag
+        if: matrix.build-type == 'android'
+        id: get_release
+        run: |
+          LATEST_TAG=$(curl -s \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${GITHUB_REPOSITORY}/releases/latest \
+            | jq -r '.tag_name')
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
+          echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
+
+      - name: Rename Android APK
+        if: matrix.build-type == 'android'
+        run: |
+          ls src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-unsigned.apk
+          mv src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-unsigned.apk \
+            src-tauri/gen/android/app/build/outputs/apk/universal/release/auride_${{ steps.get_release.outputs.latest_tag }}_android.apk
+
+      - name: Upload Android APK to latest Release
+        if: matrix.build-type == 'android'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.get_release.outputs.latest_tag }}
+          files: app/src-tauri/gen/android/app/build/outputs/apk/universal/release/*.apk
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - uses: tauri-apps/tauri-action@v0
+        if: matrix.build-type == 'desktop'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -78,6 +155,8 @@ jobs:
               - Please note: For users on Windows 7, 8, or 8.1, you'll need to manually install the [Microsoft WebView2 Evergreen Bootstrapper](https://developer.microsoft.com/en-us/microsoft-edge/webview2/?ch=1&form=MA13LH#download). If you're on Windows 10/11, you do not need to do this.
             - macOS (Catalina (10.15) or later): Download the `auride___VERSION___x64.dmg` or `auride___VERSION___aarch64.dmg`. You may need to go to "Security & Privacy" and allow the app to run
               - This is this way because it would cost us $99/yr and a Macbook (which I do not have) to do.
+            - Android (7.0 or later): Download the `auride___VERSION___android.apk` and install it
+              - You may need to enable "Install from Unknown Sources" in your device settings
             - Linux:
               - Fedora: Download the `auride-__VERSION__-1.x86_64.rpm` and run it, whether in the terminal or a software storefront
               - Debian: Download the `auride___VERSION___amd64.deb` file and run it, whether in the terminal or a software storefront
