@@ -122,7 +122,7 @@ jobs:
           echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
           echo "latest_tag=$LATEST_TAG" >> $GITHUB_OUTPUT
 
-        name: Upload Android APK to latest Release
+      - name: Upload Android APK to latest Release
         if: matrix.build-type == 'android'
         uses: softprops/action-gh-release@v1
         with:
