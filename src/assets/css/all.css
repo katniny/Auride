@@ -96,6 +96,10 @@
 @import url("noteMoreSubMenu.css");
 @import url("timelineFilter.css");
 @import url("cannotUseFilter.css");
+@import url("createIssue.css");
+@import url("issuesBox.css");
+@import url("issueDetails.css");
+@import url("issuePopup.css");
 
 /* 
    for some reason, vite is super picky about having

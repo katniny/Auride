@@ -23,6 +23,9 @@ if (!admin.apps.length) {
     });
 }
 
+// allow json parsing from the body
+app.use(express.json());
+
 const db = admin.database();
 
 // CORS blocks requests from other urls, however, we can lock this down more

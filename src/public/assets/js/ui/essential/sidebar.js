@@ -1,20 +1,21 @@
 // sidebar html
 const sidebarHTML = `
     <!-- nav buttons -->
-    <a href="/home"><button id="homeButtonSidebar" style="margin-top: 15px;"><i class="fa-solid fa-house"></i> Home</button></a>
-    <a href="/notifications" id="notificationsSidebar"><button id="notificationsButtonSidebar"><i class="fa-solid fa-bell"></i> Notifications</button></a> <a href="/notifications"><p id="notificationsCount">0</p></a>
-    <a href="/search"><button id="searchButtonSidebar"><i class="fa-solid fa-magnifying-glass"></i> Explore</button></a>
-    <a href="/messages" id="messagesSidebar"><button id="messagesButtonSidebar"><i class="fa-solid fa-envelope"></i> Messages (0)</button></a>
-    <a href="/settings?tab=subscription" id="enchantedSidebar"><button><i class="fa-solid fa-heart"></i> Donate</button></a>
-    <a href="/updates"><button id="updatesButtonSidebar"><i class="fa-solid fa-wrench"></i> Updates</button></a>
-    <a href="/u" id="linkToAcc"><button id="uButtonSidebar"><i class="fa-solid fa-user"></i> Your Profile</button></a>
-    <a href="javascript:void(0);"><button id="showMoreContent"><i class="fa-solid fa-ellipsis"></i> More</button></a>
-    <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar"><i class="fa-solid fa-pen-to-square"></i> Create</button>
+    <a href="/home"><button id="homeButtonSidebar" style="margin-top: 15px;">${faIcon("house").outerHTML} Home</button></a>
+    <a href="/notifications" id="notificationsSidebar"><button id="notificationsButtonSidebar">${faIcon("bell").outerHTML} Notifications</button></a> <a href="/notifications"><p id="notificationsCount">0</p></a>
+    <a href="/search"><button id="searchButtonSidebar">${faIcon("magnifying-glass").outerHTML} Explore</button></a>
+    <a href="/messages" id="messagesSidebar"><button id="messagesButtonSidebar">${faIcon("envelope").outerHTML} Messages (0)</button></a>
+    <a href="/settings?tab=subscription" id="enchantedSidebar"><button>${faIcon("heart").outerHTML} Donate</button></a>
+    <a href="/updates"><button id="updatesButtonSidebar">${faIcon("wrench").outerHTML} Updates</button></a>
+    <a href="/issues"><button id="issuesButtonSidebar">${faIcon("circle-dot").outerHTML} Issues</button></a>
+    <a href="/u" id="linkToAcc"><button id="uButtonSidebar">${faIcon("user").outerHTML} Your Profile</button></a>
+    <a href="javascript:void(0);"><button id="showMoreContent">${faIcon("ellipsis").outerHTML} More</button></a>
+    <button onclick="createNotePopup()" class="createNote-sidebar" id="createNote-sidebar">${faIcon("pen-to-square").outerHTML} Create</button>
     <div id="moreContent" class="moreContent" style="display: none;">
-        <a href="/settings" id="settingsSidebar"><button id="settingsButtonSidebar" class="settings"><i class="fa-solid fa-gear"></i> Settings</button></a>
-        <a href="/contributors"><button id="contributorsButtonSidebar"><i class="fa-solid fa-face-smile-beam"></i> Contributors</button></a>
-        <a href="/achievements" id="achievementsSidebar"><button id="achievementsButtonSidebar"><i class="fa-solid fa-award"></i> Achievements</button></a>
-        <a href="/favorites" id="favoritesSidebar"><button id="favoritesButtonSidebar"><i class="fa-solid fa-bookmark"></i> Favorites</button></a>
+        <a href="/settings" id="settingsSidebar"><button id="settingsButtonSidebar" class="settings">${faIcon("gear").outerHTML} Settings</button></a>
+        <a href="/contributors"><button id="contributorsButtonSidebar">${faIcon("face-smile-beam").outerHTML} Contributors</button></a>
+        <a href="/achievements" id="achievementsSidebar"><button id="achievementsButtonSidebar">${faIcon("award").outerHTML} Achievements</button></a>
+        <a href="/favorites" id="favoritesSidebar"><button id="favoritesButtonSidebar">${faIcon("bookmark").outerHTML} Favorites</button></a>
     </div>
 
     <br />
@@ -119,8 +120,8 @@ if (!isSidebarIllegal) {
 
                 // set profile container html for settings/sign out
                 profileContainerSidebar.innerHTML = `
-                    <a href="/settings"><button><i class="fa-solid fa-gear"></i> Settings</button></a>
-                    <button onclick="signOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    <a href="/settings"><button>${faIcon("gear").outerHTML} Settings</button></a>
+                    <button onclick="signOut()">${faIcon("arrow-right-from-bracket").outerHTML} Sign Out</button>
                 `;
             });
         } else {
