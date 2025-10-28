@@ -11,7 +11,7 @@ function goBackToSeeAllIssues() {
 
     // clear up details
     if (issueDetailsOutsideBox)
-        issueDetailsOutsideBox.innerHTML = "";
+        issueDetailsOutsideBox.remove();
     issueDetails.innerHTML = `
         <p id="loadingIssues"><i class="fa-solid fa-circle-notch fa-spin"></i> We're fetching this issues data...</p>
     `;

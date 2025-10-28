@@ -10,6 +10,14 @@ const initialCreateIssueHTML = `
     </button>
 `;
 
+const initialCreateIssueSignedOutHTML = `
+    <i class="fa-regular fa-circle-xmark fa-lg" style="float: left; margin-top: 10px;" onclick="closeCreateIssuePopup()"></i>
+
+    <h3 style="margin-top: 25px;">Experienced an issue on Auride?</h3>
+    <p>We're sorry! :(</p>
+    <p>Please create an Auride account to report issues using Auride Issues.</p>
+`;
+
 const issueHTML = `
     <i class="fa-regular fa-circle-xmark fa-lg" style="float: left; margin-top: 10px;" onclick="closeCreateIssuePopup()"></i>
 
@@ -149,7 +157,10 @@ function createNewIssue() {
     // append and put the content inside the modal
     const notePopup = document.createElement("dialog");
     notePopup.setAttribute("id", "createIssuePopup");
-    notePopup.innerHTML = initialCreateIssueHTML;
+    if (firebase.auth().currentUser)
+        notePopup.innerHTML = initialCreateIssueHTML;
+    else
+        notePopup.innerHTML = initialCreateIssueSignedOutHTML;
     document.body.appendChild(notePopup);
 
     // finally, show modal.
