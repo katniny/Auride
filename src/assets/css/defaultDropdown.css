@@ -1,0 +1,5 @@
+select {
+    background: var(--note-background);
+    color: var(--text);
+    cursor: pointer;
+}

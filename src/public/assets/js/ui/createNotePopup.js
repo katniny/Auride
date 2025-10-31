@@ -62,7 +62,7 @@ const modal = `
             <option value="fetishContent">Fetish Content</option>
             <option value="erotica">Erotic Writings</option>
         </select> 
-        <p class="optionAlt">This may include adult material, explicit nudity, sexual themes, or other mature content. <a href="/blog/nsfw-flags">Learn more about these flags</a>.</p>
+        <p class="optionAlt"><a href="/blog/nsfw-flags">Learn more about NSFW flags</a>.</p>
 
         <!-- Sensitive Content Dropdown -->
         Does your note contain sensitive content?
@@ -75,7 +75,7 @@ const modal = `
             <option value="drugUse">Drug Use</option>
             <option value="flashSeizureRisk">Flash-Seizure Risk</option>
         </select> 
-        <p class="optionAlt">This may include violence, trauma, abuse, or other potentially triggering material. <a href="/blog/sensitive-flags">Learn more about these flags</a>.</p>
+        <p class="optionAlt"><a href="/blog/sensitive-flags">Learn more about sensitive flags</a>.</p>
 
         <!-- Political Dropdown -->
         Does your note have political content?
@@ -87,7 +87,7 @@ const modal = `
             <option value="conspiracyTheories">Conspiracy Theories</option>
             <option value="newsMedia">News Media</option>
         </select> 
-        <p class="optionAlt">This may include political discussions, debates, or sensitive topics related to current events, war, or ideologies. <a href="/blog/political-flags">Learn more about these flags</a>.</p>
+        <p class="optionAlt"><a href="/blog/political-flags">Learn more about political flags</a>.</p>
 
         <br />
     </div>

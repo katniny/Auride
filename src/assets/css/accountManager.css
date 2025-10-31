@@ -1,7 +1,7 @@
 .accountManager {
    background: var(--button-transparent-hover);
    padding: 15px;
-   border-radius: 10px;
+   border-radius: 5px;
    width: 250px;
    position: absolute;
    right: 5px;
@@ -15,7 +15,7 @@
    width: 100%;
    padding: 8px;
    background: var(--button-transparent);
-   border-radius: 8px;
+   border-radius: 5px;
    border: 1px solid var(--sidebar-button-border);
    cursor: pointer;
    margin-top: 8px;
@@ -27,4 +27,8 @@
 .accountManager button:hover {
    background: var(--sidebar-button-hover);
    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.accountManager button:hover i {
+   color: var(--text);
 }
