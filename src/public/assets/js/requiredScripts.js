@@ -52,6 +52,9 @@ async function loadAllScripts() {
       // sidebar
       await loadScript("/assets/js/ui/essential/sidebar.js", false);
 
+      // auride accounts area
+      await loadScript("/assets/js/ui/essential/aurideAccounts.js", false);
+
       // the sidebar opener
       await loadScript("/assets/js/ui/sidebarOpen.js", false);
 

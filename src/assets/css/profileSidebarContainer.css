@@ -6,7 +6,7 @@
    position: fixed;
    background: var(--background);
    transform: translateY(-100px);
-   border-radius: 25px;
+   border-radius: 5px;
    padding: 5px;
 }
 

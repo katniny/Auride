@@ -100,6 +100,7 @@
 @import url("issuesBox.css");
 @import url("issueDetails.css");
 @import url("issuePopup.css");
+@import url("defaultDropdown.css");
 
 /* 
    for some reason, vite is super picky about having

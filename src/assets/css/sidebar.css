@@ -65,7 +65,7 @@
    padding: 8px 14px;
    font-size: 16.5px;
    background: var(--button-background);
-   border-radius: 5000px; 
+   border-radius: 5px; 
    border: 1px solid var(--sidebar-button-border);
    cursor: pointer;
    text-align: left;
@@ -156,7 +156,7 @@
    width: 175px;
    height: auto;
    float: left;
-   margin-left: 5px;
+   margin-left: 8px;
    overflow: hidden;
    white-space: nowrap;
    text-overflow: ellipsis;
@@ -173,6 +173,6 @@
    float: left;
    width: 50%;
    height: auto;
-   transform: translateX(5px);
+   transform: translateX(8px);
    color: var(--text-semi-transparent);
 }

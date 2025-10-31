@@ -978,45 +978,6 @@ function swapNoteTab(tab) {
 // TODO does not work on firefox (unsure about webkit), move this into settings
 Notification.requestPermission();
 
-// Auride account stuff
-if (!pathName.startsWith("/auth/")) {
-   database.ref("users/G6GaJr8vPpeVdvenAntjOFYlbwr2").once("value", (snapshot) => {
-      const data = snapshot.val();
-      if (data !== null) {
-         document.getElementById(`katninyPfp`).src = storageLink(`images/pfp/G6GaJr8vPpeVdvenAntjOFYlbwr2/${data.pfp}`);
-         document.getElementById(`katninyDisplay`).innerHTML = format(data.display, [ "html", "emoji" ]);
-         document.getElementById("katninyDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
-         document.getElementById("katninyDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
-         document.getElementById(`followBtn-1`).href = `/u/${data.username}`;
-         document.getElementById(`katninyUser-pronouns`).textContent = `@${data.username}`;
-      }
-   });
-
-   database.ref("users/80vDnNb0rJbSjCvbiTF9EtvqtXw1").once("value", (snapshot) => {
-      const data = snapshot.val();
-      if (data !== null) {
-         document.getElementById(`auridePfp`).src = storageLink(`images/pfp/80vDnNb0rJbSjCvbiTF9EtvqtXw1/${data.pfp}`);
-         document.getElementById(`aurideDisplay`).innerHTML = data.display;
-         document.getElementById("aurideDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
-         document.getElementById("aurideDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
-         document.getElementById(`followBtn-2`).href = `/u/${data.username}`;
-         document.getElementById(`aurideUser-pronouns`).textContent = `@${data.username}`;
-      }
-   });
-
-   database.ref("users/4luqDI8627asR5EV8hOqb0YrRQF3").once("value", (snapshot) => {
-      const data = snapshot.val();
-      if (data !== null) {
-         document.getElementById(`katninystudiosPfp`).src = storageLink(`images/pfp/4luqDI8627asR5EV8hOqb0YrRQF3/${data.pfp}`);
-         document.getElementById(`katninystudiosDisplay`).innerHTML = data.display;
-         document.getElementById("katninystudiosDisplay").appendChild(faIcon("circle-check", color = "var(--main-color)"));
-         document.getElementById("katninystudiosDisplay").appendChild(faIcon("heart", color = "var(--main-color)"));
-         document.getElementById(`followBtn-3`).href = `/u/${data.username}`;
-         document.getElementById(`katninystudiosUser-pronouns`).textContent = `@${data.username}`;
-      }
-   });
-}
-
 // Get the user's information to display on the profile
 if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
    const url = new URL(window.location.href);
