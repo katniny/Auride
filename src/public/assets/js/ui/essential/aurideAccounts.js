@@ -66,7 +66,7 @@ const aurideAccountsHTML = `
 
 // is the auride accounts area illegal?
 let isAurideAccountsIllegal = null;
-if (pathName.startsWith("/auth/"))
+if (illegalUiPages.includes(pathName))
     isAurideAccountsIllegal = true;
 else
     isAurideAccountsIllegal = false;

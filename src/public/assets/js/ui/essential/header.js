@@ -22,7 +22,7 @@ const headerHTML = `
 // is this allowed to run on this page?
 // TODO we shouldnt have to do this, maybe a minimal requiredScripts.js?
 let isHeaderIllegal = null;
-if (pathName.startsWith("/auth/"))
+if (illegalUiPages.includes(pathName))
     isHeaderIllegal = true;
 else
     isHeaderIllegal = false;
