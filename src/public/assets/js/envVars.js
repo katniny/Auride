@@ -6,7 +6,7 @@ const illegalUiPages = [
     "/auth/pfp",
     "/auth/policies",
     "/auth/register",
-    "/about",,
+    "/about",
     "/maintenance",
     "/suspended",
     "/unsupported"

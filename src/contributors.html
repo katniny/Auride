@@ -20,7 +20,7 @@
         <script src="/assets/js/scriptLoader.js"></script>
         <script defer>
             ScriptLoader.load(
-                //...
+                { src: "/assets/js/contributors.js", async: false }
             ).then(() => {
                 console.log("Scripts for /home have been loaded successfully.");
             }).catch((error) => {
@@ -53,83 +53,12 @@
 
             <div class="noteFilter">
                 <div class="blogStyle" style="margin: 15px;">
-                    <h1>Contributors</h1>
-                    <h3>Thank you to everyone who contributes for making Auride even better! :D</h3>
+                    <!-- content is dynamically added now :) -->
+                    <div id="contributors"></div>
 
                     <br />
 
-                    <h1>Main Contributors</h1>
-                    <p style="color: var(--text-semi-transparent);">They commit directly to Auride and are important to Auride!</p>
-                    <div class="contributor">
-                        <img src="https://best-energy-drink-is.fucking.monster/images/pfp/G6GaJr8vPpeVdvenAntjOFYlbwr2/IMG_2219.png" alt="katty pfp" class="profilePic" draggable="false" />
-                        <div class="contributorInfo">
-                            <a href="/u/katniny" style="color: var(--main-color);">katty! <span class="badge">Main Developer/Founder</span></a>
-                            <span>(The main developer/founder of Auride)</span>
-                        </div>
-                    </div>
-
-                    <div class="contributor">
-                        <img src="https://best-energy-drink-is.fucking.monster/images/pfp/YFTD2TCF1kR3UVDmBNj9ExtFIbS2/8861df647c76ab3019c1eec11f0eed16.jpg" alt="georgiie___ pfp" class="profilePic" draggable="false" />
-                        <div class="contributorInfo">
-                            <a href="/u/georgiie___" style="color: var(--main-color);">gigi ☆ <span class="badge">Created the Auride logos/styles</span></a>
-                            <span>(Created all the versions of the Auride logo)</span>
-                        </div>
-                    </div>
-
-                    <div class="contributor">
-                        <img src="https://best-energy-drink-is.fucking.monster/images/pfp/9TGDVYDPDTM4foIwWslq1x00qlg1/picrew-pfp.png" alt="demented goldfish pfp" class="profilePic" draggable="false" />
-                        <div class="contributorInfo">
-                            <a href="/u/lunahd" style="color: var(--main-color);">lily   <span class="badge">Lead Contributor</span></a>
-                            <span>(Lead Contributor (Basically the co-developer))</span>
-                            <div style="margin-left: 15px;">She does a lot for Auride (thank you 🙏). You can see
-                                <a href="https://github.com/katniny/auride/commits?author=miku4k" target="_blank" style="color: var(--main-color);">all its amazing help here</a>.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="contributor">
-                        <img src="https://github.com/evelynesides.png" alt="silly fingers in the shadow realm pfp" class="profilePic" draggable="false" />
-                        <div class="contributorInfo">
-                            <a href="/u/evelynesides" style="color: var(--main-color);">EvelyneSides <span class="badge">Hosting</span></a>
-                            <span>(Storage Host)</span>
-                        </div>
-                    </div>
-
-                    <br />
-                    <br />
-
-                    <h1>External Contributors</h1>
-                    <p style="color: var(--text-semi-transparent);">They contribute to Auride in different ways, but are not directly involved in the development (e.g. provide services that don't qualify for our open source page). This doesn't make them any less important though!</p>
-                    <div class="contributor">
-                        <img src="https://best-energy-drink-is.fucking.monster/images/pfp/uPgnmADxuRUT2En5mL4QpS86Xaf1/512426602_10063340230430363_7120752397827842165_n.jpg" alt="mistycryssy pfp" class="profilePic" draggable="false" />
-                        <div class="contributorInfo">
-                            <a href="/u/crystallinebaker" style="color: var(--main-color);">Crystal!! <span class="badge">Social Media Manager</span></a>
-                            <span>(Runs the social media accounts)</span>
-                        </div>
-                    </div>
-
-                    <div class="contributor">
-                        <img src="https://storage.ko-fi.com/cdn/useruploads/874ca35c-b1fa-4fd2-9765-c3392fe116fb.jpg" alt="Chereverie pfp" class="profilePic" draggable="false" />
-                        <div class="contributorInfo">
-                            <a href="https://chereverie.art/" style="color: var(--main-color);">Chereverie <span class="badge">Created Aurora's art assets</span></a>
-                        </div>
-                    </div>
-
-                    <div class="contributor">
-                        <img src="/assets/imgs/DCs Cleaning Co Logo.png" alt="DCs Cleaning Co. pfp" class="profilePic" draggable="false" />
-                        <div class="contributorInfo">
-                            <span style="color: var(--main-color);">DC's Cleaning Co. <span class="badge">Supports us financially</span></span>
-                            <span>(Don't worry - no shady deals! It's my mom, lol. Update Feb 21, 2025: Renewed transs.social for another year)</span>
-                        </div>
-                    </div>
-
-                    <div class="contributor">
-                        <img src="https://github.com/arthuro555.png" alt="arthuro555 pfp" class="profilePic" draggable="false" />
-                        <div class="contributorInfo">
-                            <a href="/u/arthuro555" style="color: var(--main-color);">arthuro555 <span class="badge">Found severe security exploits</span></a>
-                            <span>(Thank you for not abusing it and reporting them instead (and thank you Luna for fixing them))!</span>
-                        </div>
-                    </div>
+                    <div id="sponsors"></div>
 
                     <br />
 
