@@ -1,6 +1,6 @@
 [package]
-name = "auride"
-version = "1.0.0"
+name = "Auride"
+version = "1.0.1"
 description = "A safe place for everyone"
 authors = ["katniny"]
 edition = "2021"

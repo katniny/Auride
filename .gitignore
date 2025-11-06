@@ -35,3 +35,4 @@ dist-ssr
 */serviceAccount.json
 */serviceAccount_test.json
 */.env
+keystore.properties

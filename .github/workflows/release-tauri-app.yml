@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - fix-app
     paths:
       - 'app/**'
 
@@ -102,6 +103,14 @@ jobs:
         # If you don't have `beforeBuildCommand` configured you may want to build your frontend here too.
         run: npm install # change this to npm or pnpm depending on which one you use.
 
+      - name: Setup Android signing
+        run: |
+          cd src-tauri/gen/android
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" > keystore.properties
+          echo "password=${{ secrets.ANDROID_KEY_PASSWORD }}" > keystore.properties
+          base64 -d <<< "${{ secrets.ANDROID_KEY_BASE64 }}" > $RUNNER_TEMP/keystore.jks
+          echo "storeFile=$RUNNER_TEMP/keystore.jks" >> keystore.properties
+
       - name: Build Android apk
         if: matrix.build-type == 'android'
         env:
@@ -151,11 +160,10 @@ jobs:
             Be sure to check in the app for any available updates.
 
             Install Instructions:
-            - Windows (7 or later): Download `auride___VERSION___x64-setup.exe` and run it to automatically install Auride
-              - Please note: For users on Windows 7, 8, or 8.1, you'll need to manually install the [Microsoft WebView2 Evergreen Bootstrapper](https://developer.microsoft.com/en-us/microsoft-edge/webview2/?ch=1&form=MA13LH#download). If you're on Windows 10/11, you do not need to do this.
+            - Windows (10 or later): Download `auride___VERSION___x64-setup.exe` and run it to automatically install Auride
             - macOS (Catalina (10.15) or later): Download the `auride___VERSION___x64.dmg` or `auride___VERSION___aarch64.dmg`. You may need to go to "Security & Privacy" and allow the app to run
               - This is this way because it would cost us $99/yr and a Macbook (which I do not have) to do.
-            - Android (7.0 or later): Download the `auride___VERSION___android.apk` and install it
+            - Android (12 or later): Download the `auride___VERSION___android.apk` and install it
               - You may need to enable "Install from Unknown Sources" in your device settings
             - Linux:
               - Fedora: Download the `auride-__VERSION__-1.x86_64.rpm` and run it, whether in the terminal or a software storefront
