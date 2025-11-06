@@ -113,7 +113,7 @@ jobs:
           echo "storeFile=$RUNNER_TEMP/keystore.jks" >> keystore.properties
           cat keystore.properties
 
-      - name: Build Android apk
+      - name: Build Android APK
         if: matrix.build-type == 'android'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
