@@ -107,10 +107,11 @@ jobs:
         if: matrix.build-type == 'android'
         run: |
           cd src-tauri/gen/android
-          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" > keystore.properties
-          echo "password=${{ secrets.ANDROID_KEY_PASSWORD }}" >> keystore.properties
+          echo "password=${{ secrets.ANDROID_KEY_PASSWORD }}" > keystore.properties
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" >> keystore.properties
           base64 -d <<< "${{ secrets.ANDROID_KEY_BASE64 }}" > $RUNNER_TEMP/keystore.jks
           echo "storeFile=$RUNNER_TEMP/keystore.jks" >> keystore.properties
+          cat keystore.properties
 
       - name: Build Android apk
         if: matrix.build-type == 'android'
