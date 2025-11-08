@@ -1,684 +1,132 @@
-// todo: rewrite this or clean it up severely...
-// this is unoptimized, calls the database 12 times (should be 2 MAX), and hard to read
-function renderNote(noteData) {
-    function renderUsername(username, pronouns, time) {
-        const displayDate = timeAgo(time);
-        if (pronouns) {
-            return `@${username} • ${pronouns} • ${displayDate}`;
-        } else {
-            return `@${username} • ${displayDate}`;
+// determine how to render the "username" segment
+// e.g., "@katniny • she/her • 6h"
+function renderUsername(username, pronouns, time) {
+    const displayDate = timeAgo(time);
+    if (pronouns)
+        return `@${username} • ${pronouns} • ${displayDate}`;
+    else
+        return `@${username} • ${displayDate}`;
+}
+
+// when requested, render how nsfw/sensitive/political should
+async function renderWarning(noteId, flagType, legacyPref, modernPrefs) {
+    const cover = document.createElement("div");
+    cover.className = "contentWarning";
+    cover.id = `${noteId}-blur`;
+
+    // map all flag types to their respective preference key, description, and label
+    const flags = {
+        adultContent: [modernPrefs.adultContent, adultContentDescription, "Flagged as Adult Content"],
+        sexuallySuggestive: [modernPrefs.sexuallySuggestive, sexuallySuggestiveDescription, "Flagged as Sexually Suggestive"],
+        nonSexualNudity: [modernPrefs.nonSexualNudity, nonSexualNudityDescription, "Flagged as Non-Sexual Nudity"],
+        fetishContent: [modernPrefs.fetishContent, fetishContentDescription, "Flagged as Fetish Content"],
+        erotica: [modernPrefs.erotica, eroticWritingsDescription, "Flagged as Erotic Writing"],
+        graphicViolence: [modernPrefs.graphicViolence, graphicViolenceDescription, "Flagged as Graphic Violence"],
+        horrorImagery: [modernPrefs.horrorImagery, horrorImageryDescription, "Flagged as Horror Imagery"],
+        abuseTraumaMentions: [modernPrefs.abuseTraumaMentions, abuseTraumaMentionsDescription, "Flagged as Abuse/Trauma Mentions"],
+        selfHarmSuicideMentions: [modernPrefs.selfHarmSuicideMentions, selfHarmSuicideMentionsDescription, "Flagged as Self-Harm/Suicide Mentions"],
+        drugUse: [modernPrefs.drugUse, drugUseDescription, "Flagged as Drug Use"],
+        flashSeizureRisk: [modernPrefs.flashSeizureRisk, flashSeizureDescription, "Flagged as Flash/Seizure Risk"],
+        politicalDiscussion: [modernPrefs.politicalDiscussion, politicalDiscussionDescription, "Flagged as Political Discussion"],
+        warNConflict: [modernPrefs.warNConflict, warAndConflictDescription, "Flagged as War and Conflict"],
+        identityDebates: [modernPrefs.identityDebates, identityDebatesDescription, "Flagged as Identity Debates"],
+        conspiracyTheories: [modernPrefs.conspiracyTheories, conspiracyTheoriesDescription, "Flagged as Conspiracy Theories"],
+        newsMedia: [modernPrefs.newsMedia, newsMediaDescription, "Flagged as News Media"]
+    };
+
+    const flagInfo = flags[flagType];
+    if (!flagInfo) return false;
+
+    const [prefSetting, warningText, flagText] = flagInfo;
+
+    // handle preference logic
+    if (prefSetting === "Show") return true;
+    if (prefSetting !== "Blur") return false;
+
+    cover.innerHTML = `
+        <p class="warningInfo" id="${noteId}-warningInfo">${warningText}</p>
+        <button class="closeWarning" id="${noteId}-closeWarning" onclick="removeNsfw('${noteId}-closeWarning')">View Note</button>
+        <p class="contentWarning-showBelowText">${faIcon("flag").outerHTML} ${flagText}</p>
+    `;
+
+    return cover;
+}
+
+// render the note itself
+async function renderNote(noteData) {
+    // if the note id is empty, return -- the note doesnt exist or is invalid
+    if (noteData.id === undefined || noteData.id === null) return;
+    // or if there just isnt noteData
+    if (!noteData) return;
+
+    // valid types for interaction (types like loving/renoting)
+    const noteInteractions = [
+        {
+            key: "like",
+            icon: "heart",
+            count: noteData.likes,
+            userList: noteData.whoLiked,
+            activeClass: "liked"
+        },
+        {
+            key: "renote",
+            icon: "retweet",
+            count: noteData.renotes,
+            userList: noteData.whoRenoted,
+            activeClass: "renoted"
         }
-    }
+    ]
 
-    if (noteData.id === undefined) return;
 
-    const noteDiv = document.createElement("div");
+    // if loading icon, remove it
+    const noteLoadingIndicator = document.getElementById("noteLoadingIndicator");
+    if (noteLoadingIndicator)
+        noteLoadingIndicator.remove();
+
+    // create the note div
+    const noteDiv =  document.createElement("div");
     noteDiv.className = "note";
     noteDiv.id = noteData.id;
 
-    if (noteData.isNsfw === true || noteData.isSensitive === true || noteData.isPolitical === true) {
-        if (firebase.auth().currentUser) {
-            firebase.database().ref(`users/${firebase.auth().currentUser.uid}`).once("value", (snapshot) => {
-                const userData = snapshot.val();
+    // get current user data
+    const user = firebase.auth().currentUser;
+    const currentUser = user ? (await firebase.database().ref(`users/${user.uid}`).once("value")).val() : "notSignedIn";
 
-                if (noteData.isNsfw === true) {
-                    console.log("hi");
-                    if (userData.showNsfw === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = "This note contains NSFW content. However, it uses our legacy flagging system, so we can't tell you what kind of NSFW it contains. Proceed with caution.";
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as NSFW (legacy)`;
-                        noteDiv.appendChild(contentWarning);
-                    } else if (userData.showNsfw === "Hide") {
-                        noteDiv.remove();
-                    }
-                } else if (noteData.isSensitive === true) {
-                    if (userData.showSensitive === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = "This note contains sensitive content. However, it uses our legacy flagging system, so we can't tell you what kind of sensitive content it contains. Proceed with caution.";
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Sensitive (legacy)`;
-                        noteDiv.appendChild(contentWarning);
-                    } else if (userData.showSensitive === "Hide") {
-                        noteDiv.remove();
-                    }
-                } else if (noteData.isPolitical === true) {
-                    if (userData.showPolitics === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = "This note contains political content. However, it uses our legacy flagging system, so we can't tell you what kind of political content it contains. Proceed with caution.";
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Political (legacy)`;
-                        noteDiv.appendChild(contentWarning);
-                    } else if (userData.showPolitics === "Hide") {
-                        noteDiv.remove();
-                    }
-                }
-            });
-        } else {
-            // we're in a callback so we cant directly return out of the outer function
-            // we're checking this value later
-            noteDiv.TO_BE_REMOVED = true;
-            return;
-        }
-    } else if (noteData.isNsfw !== "noNsfwContent") {
-        if (firebase.auth().currentUser) {
-            firebase.database().ref(`users/${firebase.auth().currentUser.uid}`).once("value", (snapshot) => {
-                const userData = snapshot.val();
-
-                if (noteData.isNsfw === "adultContent") {
-                    if (userData.flagPrefs?.adultContent === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = adultContentDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Adult Content`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.adultContent || userData.flagPrefs.adultContent === "Hide") {
-                        noteDiv.TO_BE_REMOVED = true;
-                        return;
-                    }
-                } else if (noteData.isNsfw === "sexuallySuggestive") {
-                    if (userData.flagPrefs?.sexuallySuggestive === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = sexuallySuggestiveDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Sexually Suggestive`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.sexuallySuggestive || userData.flagPrefs.sexuallySuggestive === "Hide") {
-                        noteDiv.TO_BE_REMOVED = true;
-                        return;
-                    }
-                } else if (noteData.isNsfw === "fetishContent") {
-                    if (userData.flagPrefs?.fetishContent === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = fetishContentDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Fetish Content`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.fetishContent || userData.flagPrefs.fetishContent === "Hide") {
-                        noteDiv.TO_BE_REMOVED = true;
-                        return;
-                    }
-                } else if (noteData.isNsfw === "nonSexualNudity") {
-                    if (userData.flagPrefs?.nonSexualNudity === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = nonSexualNudityDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Non-Sexual Nudity`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.nonSexualNudity || userData.flagPrefs.nonSexualNudity === "Hide") {
-                        noteDiv.TO_BE_REMOVED = true;
-                        return;
-                    }
-                } else if (noteData.isNsfw === "erotica") {
-                    if (userData.flagPrefs?.erotica === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = eroticWritingsDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Erotic Writing`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.erotica || userData.flagPrefs.erotica === "Hide") {
-                        noteDiv.TO_BE_REMOVED = true;
-                        return;
-                    }
-                }
-            });
-        } else {
-            // we're in a callback so we cant directly return out of the outer function
-            // we're checking this value later
-            noteDiv.TO_BE_REMOVED = true;
-            return;
-        }
-    } else if (noteData.isSensitive !== "noSensitiveContent") {
-        if (firebase.auth().currentUser) {
-            firebase.database().ref(`users/${firebase.auth().currentUser.uid}`).once("value", (snapshot) => {
-                const userData = snapshot.val();
-
-                if (noteData.isSensitive === "graphicViolence") {
-                    if (userData.flagPrefs?.graphicViolence === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = graphicViolenceDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Graphic Violence`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.graphicViolence || userData.flagPrefs.graphicViolence === "Hide") {
-                        noteDiv.remove();
-                    }
-                } else if (noteData.isSensitive === "horrorImagery") {
-                    if (userData.flagPrefs?.horrorImagery === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = horrorImageryDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Horror Imagery`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.horrorImagery || userData.flagPrefs.horrorImagery === "Hide") {
-                        noteDiv.remove();
-                    }
-                } else if (noteData.isSensitive === "abuseTraumaMentions") {
-                    if (userData.flagPrefs?.abuseTraumaMentions === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = abuseTraumaMentionsDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Abuse/Trauma Mentions`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.abuseTraumaMentions || userData.flagPrefs.abuseTraumaMentions === "Hide") {
-                        noteDiv.remove();
-                    }
-                } else if (noteData.isSensitive === "selfHarmSuicideMentions") {
-                    if (userData.flagPrefs?.selfHarmSuicideMentions === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = selfHarmSuicideMentionsDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Self-Harm/Suicide Mentions`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.selfHarmSuicideMentions || userData.flagPrefs.selfHarmSuicideMentions === "Hide") {
-                        noteDiv.remove();
-                    }
-                } else if (noteData.isSensitive === "drugUse") {
-                    if (userData.flagPrefs?.drugUse === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = drugUseDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Drug Use`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.drugUse || userData.flagPrefs.drugUse === "Hide") {
-                        noteDiv.remove();
-                    }
-                } else if (noteData.isSensitive === "flashSeizureRisk") {
-                    if (userData.flagPrefs?.flashSeizureRisk === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = flashSeizureDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Flash/Seizure Risk`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.flashSeizureRisk || userData.flagPrefs.flashSeizureRisk === "Hide") {
-                        noteDiv.remove();
-                    }
-                }
-            });
-        } else {
-            // we're in a callback so we cant directly return out of the outer function
-            // we're checking this value later
-            noteDiv.TO_BE_REMOVED = true;
-            return;
-        }
-    } else if (noteData.isPolitical !== "noPoliticalContent") {
-        if (firebase.auth().currentUser) {
-            firebase.database().ref(`users/${firebase.auth().currentUser.uid}`).once("value", (snapshot) => {
-                const userData = snapshot.val();
-
-                if (noteData.isPolitical === "politicalDiscussion") {
-                    if (userData.flagPrefs?.politicalDiscussion === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = politicalDiscussionDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Political Discussion`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.politicalDiscussion || userData.flagPrefs.politicalDiscussion === "Hide") {
-                        noteDiv.remove();
-                    }
-                } else if (noteData.isPolitical === "warNConflict") {
-                    if (userData.flagPrefs?.warNConflict === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = warAndConflictDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as War and Conflict`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.warNConflict || userData.flagPrefs.warNConflict === "Hide") {
-                        noteDiv.remove();
-                    }
-                } else if (noteData.isPolitical === "identityDebates") {
-                    if (userData.flagPrefs?.identityDebates === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = identityDebatesDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Identity Debates`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.identityDebates || userData.flagPrefs.identityDebates === "Hide") {
-                        noteDiv.remove();
-                    }
-                } else if (noteData.isPolitical === "conspiracyTheories") {
-                    if (userData.flagPrefs?.conspiracyTheories === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = conspiracyTheoriesDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as Conspiracy Theories`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.conspiracyTheories || userData.flagPrefs.conspiracyTheories === "Hide") {
-                        noteDiv.remove();
-                    }
-                } else if (noteData.isPolitical === "newsMedia") {
-                    if (userData.flagPrefs?.newsMedia === "Blur") {
-                        // create the cover, which is the actual warning itself
-                        const cover = document.createElement("div");
-                        cover.className = "contentWarning";
-                        cover.id = `${noteData.id}-blur`;
-                        noteDiv.appendChild(cover);
-
-                        const warning = document.createElement("p");
-                        warning.id = `${noteData.id}-warningInfo`;
-                        warning.className = "warningInfo";
-                        warning.textContent = newsMediaDescription;
-                        cover.appendChild(warning);
-
-                        const closeButton = document.createElement("button");
-                        closeButton.className = "closeWarning";
-                        closeButton.id = `${noteData.id}-closeWarning`;
-                        closeButton.textContent = "View";
-                        closeButton.addEventListener("click", function () { removeNsfw(`${noteData.id}-closeWarning`); });
-                        cover.appendChild(closeButton);
-
-                        // then, do the flag
-                        const contentWarning = document.createElement("p");
-                        contentWarning.className = "contentWarning-showBelowText";
-                        // TODO: im unsure how to append text nodes
-                        contentWarning.innerHTML = `${faIcon("flag").outerHTML} Flagged as News Media`;
-                        setTimeout(() => {
-                            noteDiv.appendChild(contentWarning);
-                        }, 250);
-                    } else if (!userData.flagPrefs?.newsMedia || userData.flagPrefs.newsMedia === "Hide") {
-                        noteDiv.remove();
-                    }
-                }
-            });
-        } else {
-            // we're in a callback so we cant directly return out of the outer function
-            // we're checking this value later
-            noteDiv.TO_BE_REMOVED = true;
-            return;
-        }
+    // is the note nsfw/sensitive/political?
+    // if so, what are the user prefs?
+    let cover;
+    if (noteData.isNsfw && noteData.isNsfw !== "noNsfwContent") {
+        if (currentUser)
+            cover = await renderWarning(noteData.id, noteData.isNsfw, currentUser.showNsfw, currentUser.flagPrefs);
+        else
+            return; // just dont show to signed out users
+    } else if (noteData.isSensitive && noteData.isSensitive !== "noSensitiveContent") {
+        if (currentUser)
+            cover = await renderWarning(noteData.id, noteData.isSensitive, currentUser.showSensitive, currentUser.flagPrefs);
+        else
+            return; // just dont show to signed out users
+    } else if (noteData.isPolitical && noteData.isPolitical !== "noPoliticalContent") {
+        if (currentUser)
+            cover = await renderWarning(noteData.id, noteData.isPolitical, currentUser.showPolitics, currentUser.flagPrefs);
+        else
+            return; // just dont show to signed out users
     }
 
-    // if renote, show that
+    // did renderWarning() return false? if so, return
+    if (cover === false) return;
+    // if the cover isnt false but isnt true either,
+    // we can assume its the returned html
+    if (cover instanceof Node) noteDiv.appendChild(cover);
+
+    // get the note senders data
+    const noteSender = (await firebase.database().ref(`users/${noteData.whoSentIt}`).once("value")).val();
+    if (!noteSender || !noteSender.display || !noteSender.username || !noteSender.pfp)
+        // TODO: add default user data
+        // ^ should be a lot easier now!
+        return;
+
+    // if on /u/, did they renote it?
+    // we need to get the username from the url: /u/{username}
     if (pathName.startsWith("/u/")) {
         const getUsername = pathName.split("/")[2];
         // get their uid
@@ -697,80 +145,77 @@ function renderNote(noteData) {
         });
     }
 
-    // TODO: default user data
+    // create pfp for user
     const userPfp = document.createElement("img");
     userPfp.className = "notePfp";
-    firebase.database().ref("users/" + noteData.whoSentIt).get().then(function (snapshot) {
-        const userData = snapshot.val();
-        userPfp.src = storageLink(`images/pfp/${noteData.whoSentIt}/${userData.pfp}`);
-    });
+    userPfp.src = storageLink(`images/pfp/${noteData.whoSentIt}/${noteSender.pfp}`);
     userPfp.draggable = false;
     userPfp.loading = "lazy";
     noteDiv.appendChild(userPfp);
     mediaObserver.observe(userPfp);
 
+    // create display name for user
     const displayName = document.createElement("a");
     displayName.className = "noteDisplay";
-    firebase.database().ref("users/" + noteData.whoSentIt).get().then(function (snapshot) {
-        const userData = snapshot.val();
-        displayName.innerHTML = format(userData.display, ["html", "emoji"]);
-        displayName.href = `/u/${userData.username}`;
+    displayName.innerHTML = format(noteSender.display, ["html", "emoji"]);
+    displayName.href = `/u/${noteSender.username}`;
 
-        const badges = document.createElement("span");
-        badges.className = "noteBadges";
-        if (userData.isVerified) badges.appendChild(faIcon("circle-check", size = "sm"));
-        if (userData.isSubscribed) badges.appendChild(faIcon("heart", size = "sm"));
-        if (userData.activeContributor) badges.appendChild(faIcon("handshake-angle", size = "sm"));
+    // create badges to add to the display name, if they exist
+    const badges = document.createElement("span");
+    badges.className = "noteBadges";
+    if (noteSender.isVerified) badges.appendChild(faIcon("circle-check", "sm"));
+    if (noteSender.isSubscribed) badges.appendChild(faIcon("heart", "sm"));
+    if (noteSender.activeContributor) badges.appendChild(faIcon("handshake-angle", "sm"));
 
-        // only append badges if there actually are any
-        if (badges.innerHTML) displayName.appendChild(badges);
-    })
+    // if badges, append to display name, then show display name
+    if (badges.innerHTML) displayName.appendChild(badges);
     noteDiv.appendChild(displayName);
 
-    // TODO: we should not need a line break to Seperate Display Name and Username
+    // TODO: we should not need a line break to seperate display name and username
     noteDiv.appendChild(document.createElement("br"));
 
+    // create username for user
     const username = document.createElement("a");
     username.classList.add("noteUsername");
-    firebase.database().ref("users/" + noteData.whoSentIt).get().then(function (snapshot) {
-        const userData = snapshot.val();
-        username.textContent = renderUsername(userData.username, userData.pronouns, noteData.createdAt)
-        username.href = `/u/${userData.username}`;
-    })
+    username.textContent = renderUsername(noteSender.username, noteSender.pronouns, noteData.createdAt);
+    username.href = `/u/${noteSender.username}`;
     noteDiv.appendChild(username);
 
+    // create text to show in the note
     const text = document.createElement("p");
     text.innerHTML = format(noteData.text);
     text.className = "noteText";
-    if (!noteData.replyingTo) {
-        text.addEventListener("click", function () { window.location.href = `/note/${noteData.id}`; });
-    }
-    // what does this even achieve?
-    text.querySelectorAll('a').forEach(function (link) {
-        link.addEventListener('click', function (event) { event.stopPropagation(); });
-    });
+    if (!noteData.replyingTo) // if not replying to a note, allow redirection
+        text.addEventListener("click", function () { window.location.href = `/note/${noteData.id}` });
     noteDiv.appendChild(text);
 
+    // render note media
     if (noteData.image) {
+        // get the file type
         let ext = noteData.image.split(".").pop();
         const isVideo = ext.split("?")[0] === "mp4";
         const isAudio = ext.split("?")[0] === "mp3";
 
+        // create element based on type, then add attributes
         const media = document.createElement(isVideo ? "video" : (isAudio ? "audio" : "img"));
         media.className = "uploadedImg";
         media.src = noteData.image;
         media.alt = noteData.alt;
         media.loading = "lazy";
 
+        // hide by default (it'll get shown when in view)
         media.style.visibility = "hidden";
         media.style.opacity = "0";
 
         if (isVideo || isAudio) {
+            // add controls to video/audio
             media.controls = true;
             media.muted = true;
             media.loop = true;
             media.autoplay = userAutoplayPreference;
         } else {
+            // else, its an image
+            // TODO: maybe make this a function so we can use it in a few places?
             media.draggable = false;
             media.onclick = () => {
                 // create modal elements
@@ -808,201 +253,161 @@ function renderNote(noteData) {
 
                 modal.appendChild(modalImg);
                 document.body.appendChild(modal);
-            };
+            }
         }
 
+        // if note has music, render spotify iframe
+        if (noteData.music) {
+            const embed = document.createElement("iframe");
+            embed.src = `https://open.spotify.com/embed/track/${noteData.music}`;
+            embed.allow = "encrypted-media";
+            embed.allowTransparency = true;
+
+            // then add to note
+            noteDiv.appendChild(embed);
+        }
+
+        // then append to note div
         noteDiv.appendChild(media);
         mediaObserver.observe(media);
     }
 
-    if (noteData.music) {
-        const embed = document.createElement("iframe");
-        embed.src = `https://open.spotify.com/embed/track/${noteData.music}`;
-        embed.width = "98%";
-        embed.height = "100";
-        embed.allow = "encrypted-media";
-        embed.allowTransparency = true;
-        // .frameBorder is deprecated
-        embed.style.border = 0;
-
-        noteDiv.appendChild(embed);
-    }
-
+    // if quote renoting, show the quoted note
     if (noteData.quoting) {
         const container = document.createElement("div");
         container.className = "quoteContainer";
         container.addEventListener("click", function () { window.location.href = `/note/${noteData.quoting}`; });
 
-        // i feel you can dedup more code here
-        firebase.database().ref(`notes/${noteData.quoting}`).get().then(function (snapshot) {
+        // TODO: dedup more code here
+        firebase.database().ref(`notes/${noteData.quoting}`).once("value", snapshot => {
             const quoteData = snapshot.val();
 
+            // create pfp
+            const quotePfp = document.createElement("img");
+            quotePfp.className = "quotePfp";
+            quotePfp.draggable = false;
+
+            // header
+            const quoteHeader = document.createElement("div");
+            quoteHeader.className = "quoteHeader";
+
+            // user display/username
+            const quoteDisplay = document.createElement("span");
+            quoteDisplay.className = "quoteDisplay";
+            const quoteUsername = document.createElement("span");
+            quoteUsername.className = "quoteUsername";
+
+            // text content
+            const quoteContent = document.createElement("div");
+            quoteContent.className = "quoteContent";
+            const quoteText = document.createElement("span");
+            quoteText.className = "quoteText";
+
+            quoteContent.appendChild(quoteHeader);
+            quoteHeader.appendChild(quoteDisplay);
+            quoteHeader.appendChild(quoteUsername);
+
+            // handle deleted notes
             if (quoteData.isDeleted) {
-                const quotePfp = document.createElement("img");
-                quotePfp.className = "quotePfp";
-                quotePfp.draggable = false;
                 quotePfp.src = "/assets/imgs/defaultPfp.png";
-                container.appendChild(quotePfp);
-
-                const quoteHeader = document.createElement("div");
-                quoteHeader.className = "quoteHeader";
-
-                const quoteDisplay = document.createElement("span");
-                quoteDisplay.className = "quoteDisplay";
                 quoteDisplay.textContent = "Unknown User";
-                quoteHeader.appendChild(quoteDisplay);
-
-                const quoteUsername = document.createElement("span");
-                quoteUsername.className = "quoteUsername";
                 quoteUsername.textContent = "@unknownuser";
-                quoteHeader.appendChild(quoteUsername);
-
-                const quoteContent = document.createElement("div");
-                quoteContent.className = "quoteContent";
-                quoteContent.appendChild(quoteHeader);
-
-                const quoteText = document.createElement("span");
-                quoteText.className = "quoteText";
-                // not like theres a permission system that would allow someone to see deleted notes
                 quoteText.textContent = "This note has been deleted";
+
+                container.appendChild(quotePfp);
                 quoteContent.appendChild(quoteText);
                 container.appendChild(quoteContent);
-
                 return;
             }
 
-            firebase.database().ref(`users/${quoteData.whoSentIt}`).get().then(function (snapshot) {
+            // handle normal notes
+            firebase.database().ref(`users/${quoteData.whoSentIt}`).get().then(snapshot => {
                 const quoteUser = snapshot.val();
                 const isSuspended = quoteUser.suspensionStatus === "suspended";
 
-                const quotePfp = document.createElement("img");
-                quotePfp.className = "quotePfp";
-                quotePfp.draggable = false;
+                quotePfp.src = isSuspended ? "/assets/imgs/defaultPfp.png" : storageLink(`images/pfp/${quoteData.whoSentIt}/${quoteUser.pfp}`);
+
+                quoteDisplay.textContent = isSuspended ? "Suspended User" : quoteUser.display;
+
+                quoteUsername.textContent = isSuspended ? "suspended" : renderUsername(quoteUser.username, quoteUser.pronouns, quoteData.createdAt);
+
                 if (isSuspended) {
-                    quotePfp.src = "/assets/imgs/defaultPfp.png";
-                } else {
-                    quotePfp.src = storageLink(`images/pfp/${quoteData.whoSentIt}/${quoteUser.pfp}`);
-                }
-                container.appendChild(quotePfp);
-
-                const quoteHeader = document.createElement("div");
-                quoteHeader.className = "quoteHeader";
-
-                const quoteDisplay = document.createElement("span");
-                quoteDisplay.className = "quoteDisplay";
-                if (isSuspended) {
-                    quoteDisplay.textContent = "Suspended User";
-                } else {
-                    quoteDisplay.textContent = quoteUser.display;
-                }
-                quoteHeader.appendChild(quoteDisplay);
-
-                const quoteUsername = document.createElement("span");
-                quoteUsername.className = "quoteUsername";
-                if (isSuspended) {
-                    quoteUsername.textContent = "suspended";
-                } else {
-                    quoteUsername.textContent = renderUsername(quoteUser.username, quoteUser.pronouns, quoteData.createdAt);
-                }
-                quoteHeader.appendChild(quoteUsername);
-
-                const quoteContent = document.createElement("div");
-                quoteContent.className = "quoteContent";
-                quoteContent.appendChild(quoteHeader);
-
-                const quoteText = document.createElement("span");
-                quoteText.className = "quoteText";
-                if (isSuspended) {
-                    // dont leak their username
                     quoteText.textContent = "Note by suspended user cannot be viewed";
                 } else {
                     let content = format(quoteData.text);
-                    if (content.length > 247) {
+                    if (content.length > 247) 
                         content = content.substring(0, 247) + "...";
-                    }
                     quoteText.innerHTML = content;
                 }
-                quoteContent.appendChild(quoteText);
 
+                container.appendChild(quotePfp);
+                quoteContent.appendChild(quoteText);
                 container.appendChild(quoteContent);
-            })
-        })
+            });
+        });
         noteDiv.appendChild(container);
     }
 
+    // if user wants larger note buttons (e.g., easier interaction on mobile),
+    // enable it for them
     const buttonRow = document.createElement("div");
     buttonRow.classList.add("buttonRow");
-    if (firebase.auth().currentUser) {
-        firebase.database().ref(`users/${auth.currentUser.uid}/experiments/noteButtonLayout`).get().then(function (snapshot) {
-            if (snapshot.val()) {
-                buttonRow.classList.add("buttonRowExperiment");
-            }
-        });
-    }
+    if (currentUser?.experiments?.noteButtonLayout)
+        buttonRow.classList.add("buttonRowExperiment");
 
-    // TODO: figure out what to do about this duplication
-    const loveBtn = document.createElement("p");
-    loveBtn.className = "likeBtn";
-    loveBtn.id = `like-${noteData.id}`;
-    if (noteData.likes) {
-        loveBtn.innerHTML = `${faIcon("heart").outerHTML} ${noteData.likes}`;
+    // show good actions
+    noteInteractions.forEach(interaction => {
+        // create the interaction button with appropriate values
+        const btn = document.createElement("p");
+        btn.classList.add(`${interaction.key}Btn`);
+        btn.id = `${interaction.key}-${noteData.id}`;
 
-        if (firebase.auth().currentUser && noteData.whoLiked && noteData.whoLiked[auth.currentUser.uid]) {
-            loveBtn.classList.add("liked");
-        }
-    } else {
-        loveBtn.innerHTML = `${faIcon("heart").outerHTML} 0`;
-    }
-    buttonRow.appendChild(loveBtn);
+        // get the count
+        const count = interaction.count || 0;
+        btn.innerHTML = `${faIcon(interaction.icon).outerHTML} ${count}`;
 
-    const renoteBtn = document.createElement("p");
-    renoteBtn.classList.add("renoteBtn");
-    renoteBtn.id = `renote-${noteData.id}`;
-    if (noteData.renotes) {
-        renoteBtn.innerHTML = `${faIcon("retweet").outerHTML} ${noteData.renotes}`;
+        // did user interact?
+        if (user && interaction.userList && interaction.userList[user.uid])
+            btn.classList.add(interaction.activeClass);
 
-        if (auth.currentUser && noteData.whoRenoted && noteData.whoRenoted[auth.currentUser.uid]) {
-            renoteBtn.classList.add("renoted");
-        }
-    } else {
-        renoteBtn.innerHTML = `${faIcon("retweet").outerHTML} 0`;
-    }
-    buttonRow.appendChild(renoteBtn);
+        // append
+        buttonRow.appendChild(btn);
+    });
 
+    // get replies
     const replyBtn = document.createElement("p");
     replyBtn.className = "replyBtn";
-    if (noteData.replies) {
-        replyBtn.innerHTML = `${faIcon("comment").outerHTML} ${noteData.replies}`;
-    } else {
-        replyBtn.innerHTML = `${faIcon("comment").outerHTML} 0`;
-    }
-    if (!pathName.startsWith("/note")) {
+
+    const replyCount = noteData.replies || 0; // get count
+    replyBtn.innerHTML = `${faIcon("comment").outerHTML} ${replyCount}`; // set count
+
+    // if on note, @ user
+    // else, take user to note
+    if (!pathName.startsWith("/note"))
         replyBtn.addEventListener("click", function () { window.location.href = `/note/${noteData.id}` });
-    } else {
+    else 
         replyBtn.addEventListener("click", function () { replyToNote(replyBtn) });
-    }
     buttonRow.appendChild(replyBtn);
 
+    // allow quote renoting
     const quoteBtn = document.createElement("p");
     quoteBtn.className = "quoteRenoteBtn";
     quoteBtn.appendChild(faIcon("quote-left"));
     quoteBtn.addEventListener("click", function () { quoteRenote(noteData.id); });
     buttonRow.appendChild(quoteBtn);
 
+    // add favorite button
     const favoriteBtn = document.createElement("p");
     favoriteBtn.classList.add("favoriteBtn");
-    const favIcon = faIcon("bookmark", size = "xs");
-    // apply the id to the favorites button or it will not change colors <-- im low key scared to look into the css
+    const favIcon = faIcon("bookmark", "xs");
     favIcon.id = `favorite-${noteData.id}`;
-    firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-            firebase.database().ref(`users/${user.uid}/favorites/${noteData.id}`).get().then(function (snapshot) {
-                if (snapshot.exists()) {
-                    favIcon.style.color = "var(--main-color)";
-                }
-            });
-        }
-    });
+    if (user) {
+        // add to users favorites
+        firebase.database().ref(`users/${user.uid}/favorites/${noteData.id}`).once("value", snapshot => {
+            if (snapshot.exists())
+                favIcon.style.color = "var(--main-color)";
+        });
+    }
     favoriteBtn.appendChild(favIcon);
     favoriteBtn.addEventListener("click", function () { favorite(noteData.id); });
     buttonRow.appendChild(favoriteBtn);
@@ -1017,20 +422,21 @@ function renderNote(noteData) {
 
     // create the submenu to show when "more" is clicked
     const moreSubMenu = document.createElement("div");
-    if (firebase.auth().currentUser && firebase.auth().currentUser.uid === noteData.whoSentIt) {
+    if (user && user.uid === noteData.whoSentIt)
         moreSubMenu.innerHTML = `
             <button onclick="createEditNoteUI('${noteData.id}');">${faIcon("pen-to-square").outerHTML} Edit Note</button>
             <button class="danger" onclick="createDeleteNoteUI('${noteData.id}')">${faIcon("trash").outerHTML} Delete Note</button>
         `;
-    } else {
+    else
         moreSubMenu.innerHTML = `
             ${faIcon("circle-info").outerHTML} No interactions are currently available.
         `;
-    }
     moreSubMenu.classList.add("noteMoreSubMenu");
     noteDiv.appendChild(moreSubMenu);
 
     moreSubMenu.tabIndex = -1;
+    // is the menu open? if so, hide it
+    // else, show and focus
     moreMenu.onclick = () => {
         if (moreSubMenu.classList.contains("open")) {
             moreSubMenu.classList.remove("open");
@@ -1040,11 +446,13 @@ function renderNote(noteData) {
         }
     };
 
+    // if not focused on menu, close
     moreSubMenu.addEventListener("focusout", (e) => {
         // check if focus went outside the submenu
         if (!moreSubMenu.contains(e.relatedTarget))
             moreSubMenu.classList.remove("open");
     });
 
+    // assuming all goes well, return the note div
     return noteDiv;
 }

@@ -382,3 +382,9 @@
 .notes .note .userRenoted i {
    color: var(--text-semi-transparent);
 }
+
+/* notes spotify embed */
+.notes .note iframe {
+   width: 98%;
+   border: none;
+}
