@@ -249,14 +249,14 @@ async function loadMoreNotes(onlyFollowing) {
 
 // retrieve data from the "notes" node
 let currentlyRendering = false;
-function renderNotes(notesArray) {
+async function renderNotes(notesArray) {
     if (currentlyRendering) return;
     const notesContainer = document.getElementById("notes");
 
-    notesArray.forEach(noteData => {
-        let noteDiv = renderNote(noteData);
-        if (noteDiv == null) return;
-        if (document.getElementById(noteData.id)) return;
+    for (const noteData of notesArray) {
+        let noteDiv = await renderNote(noteData);
+        if (noteDiv == null) continue;
+        if (document.getElementById(noteData.id)) continue;
 
         loadedNotesId.add(noteData.id);
 
@@ -327,7 +327,7 @@ function renderNotes(notesArray) {
                 }
             }
         }
-    });
+    }
 
     if (newNotesAvailable)
         newNotesAvailable.style.display = "none";

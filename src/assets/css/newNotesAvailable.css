@@ -5,7 +5,7 @@
    transform: translate(-50%, -50%);
    z-index: 1;
    background: var(--main-color);
-   padding: 8px;
-   border-radius: 25px;
+   padding: 5px;
+   border-radius: 5px;
    cursor: pointer;
 }
