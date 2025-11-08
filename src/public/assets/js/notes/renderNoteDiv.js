@@ -14,6 +14,9 @@ async function renderWarning(noteId, flagType, legacyPref, modernPrefs) {
     cover.className = "contentWarning";
     cover.id = `${noteId}-blur`;
 
+    // if user doesnt have any prefs, we return false by default
+    if (!modernPrefs) return false;
+
     // map all flag types to their respective preference key, description, and label
     const flags = {
         adultContent: [modernPrefs.adultContent, adultContentDescription, "Flagged as Adult Content"],
