@@ -24,6 +24,7 @@ const ScriptLoader = (() => {
          const script = document.createElement("script");
          script.src = src;
          script.async = async;
+         script.type = "module";
 
          if (scriptsAreReady) {
             // if scripts are ready, append immediately

@@ -1,3 +1,6 @@
+import { aurideVersion, aurideReleaseVersion } from "../versioning.js";
+import { setGlobalTheme, setGlobalCustomTheme } from "./setTheme.js";
+
 const pageLoaderHTML = `
    <div class="loader" id="loader">
       <p style="position: fixed; left: 0; top: 0; color: var(--text-semi-transparent); transform: translateY(0px);">&copy; Katniny Studios 2025</p>
@@ -100,7 +103,7 @@ quote.textContent = quotes[key];
 
 
 const date = new Date();
-const currentMonth = date.getMonth() + 1;
+export const currentMonth = date.getMonth() + 1;
 
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {

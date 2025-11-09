@@ -1,3 +1,14 @@
+import { pathName } from "../pathName.js";
+import { storageLink,faIcon } from "../utils.js";
+import { mediaObserver, userAutoplayPreference } from "./notes.js";
+import { format, timeAgo } from "../ts_fas_acih.js";
+import { adultContentDescription, sexuallySuggestiveDescription, nonSexualNudityDescription, fetishContentDescription, 
+    eroticWritingsDescription, graphicViolenceDescription, horrorImageryDescription, abuseTraumaMentionsDescription,
+    selfHarmSuicideMentionsDescription, drugUseDescription, flashSeizureDescription, politicalDiscussionDescription,
+    warAndConflictDescription, identityDebatesDescription, conspiracyTheoriesDescription, newsMediaDescription
+} from "../ui/cwDescriptions.js";
+import { quoteRenote, state } from "../ui/createNotePopup.js";
+
 // determine how to render the "username" segment
 // e.g., "@katniny • she/her • 6h"
 function renderUsername(username, pronouns, time) {
@@ -56,7 +67,7 @@ async function renderWarning(noteId, flagType, legacyPref, modernPrefs) {
 }
 
 // render the note itself
-async function renderNote(noteData) {
+export async function renderNote(noteData) {
     // if the note id is empty, return -- the note doesnt exist or is invalid
     if (noteData.id === undefined || noteData.id === null) return;
     // or if there just isnt noteData

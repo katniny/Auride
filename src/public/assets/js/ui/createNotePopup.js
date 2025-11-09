@@ -1,3 +1,7 @@
+import { pathName } from "../pathName.js";
+import { storageLink } from "../utils.js";
+
+let currentTab = "note";
 const modal = `
     <div class="creatingStuff">
         <!-- Display above everything else when a note is sending -->
@@ -120,6 +124,65 @@ const modal = `
         </div>
     </div>
 `;
+
+// if renoting, track the id,
+// and open the create note popup
+export const state = { 
+    renotingNote: false,
+    pickedMusic: false,
+};
+export function quoteRenote(id) {
+   state.renotingNote = id;
+   createNotePopup();
+}
+
+// track the selected music id
+// let user pick the song
+function setNoteMusic(trackId) {
+   swapNoteTab("note");
+   state.pickedMusic = trackId;
+}
+
+// Swap Note Settings/Creation Tab
+function swapNoteTab(tab) { // TODO: yucky, refactor me please
+    if (tab === "note") {
+        if (currentTab === "note") {
+            document.getElementById("mainTab-noteCreation").classList.add("hidden");
+            document.querySelector(".settingsStuff").classList.remove("hidden");
+            document.getElementById("musicTab").classList.add("hidden");
+            currentTab = "settings";
+        } else {
+            document.getElementById("mainTab-noteCreation").classList.remove("hidden");
+            document.querySelector(".settingsStuff").classList.add("hidden");
+            document.getElementById("musicTab").classList.add("hidden");
+            currentTab = "note";
+        }
+    } else if (tab === "settings") {
+        if (currentTab === "settings") {
+            document.getElementById("mainTab-noteCreation").classList.remove("hidden");
+            document.querySelector(".settingsStuff").classList.add("hidden");
+            document.getElementById("musicTab").classList.add("hidden");
+            currentTab = "settings";
+        } else {
+            document.getElementById("mainTab-noteCreation").classList.add("hidden");
+            document.querySelector(".settingsStuff").classList.remove("hidden");
+            document.getElementById("musicTab").classList.add("hidden");
+            currentTab = "note";
+        }
+    } else if (tab === "music") {
+        if (currentTab === "music") {
+            document.getElementById("mainTab-noteCreation").classList.remove("hidden");
+            document.querySelector(".settingsStuff").classList.add("hidden");
+            document.getElementById("musicTab").classList.add("hidden");
+            currentTab = "note";
+        } else {
+            document.getElementById("mainTab-noteCreation").classList.add("hidden");
+            document.querySelector(".settingsStuff").classList.add("hidden");
+            document.getElementById("musicTab").classList.remove("hidden");
+            currentTab = "music";
+        }
+    }
+}
 
 // show the modal when requested
 function createNotePopup() {
@@ -257,12 +320,12 @@ function createNotePopup() {
 
     // if the user is renoting another note, show the note!
     // quality of life ^-^
-    if (renotingNote === null) {
+    if (state.renotingNote === null) {
         document.getElementById("quotingNote").style.display = "none";
     } else {
         document.getElementById("quotingNote").style.display = "block";
 
-        firebase.database().ref(`notes/${renotingNote}`).once("value", (snapshot) => {
+        firebase.database().ref(`notes/${state.renotingNote}`).once("value", (snapshot) => {
             const noteData = snapshot.val();
 
             firebase.database().ref(`users/${noteData.whoSentIt}`).once("value", (snapshot) => {
@@ -283,8 +346,8 @@ function closeCreateNotePopup() {
     if (pathName === "/note" || pathName === "/note.html" || pathName.startsWith("/note/")) {
         isReplying_notehtml = false;
     }
-    renotingNote = null;
-    pickedMusic = null;
+    state.renotingNote = null;
+    state.pickedMusic = null;
 
     notePopup.close();
     setTimeout(() => {
@@ -297,3 +360,8 @@ document.addEventListener("keydown", (event) => {
     if (event.ctrlKey && event.key === "Enter" && document.getElementById("createNote-popup"))
         publishNote();
 });
+
+window.createNotePopup = createNotePopup;
+window.closeCreateNotePopup = closeCreateNotePopup;
+window.swapNoteTab = swapNoteTab;
+window.setNoteMusic = setNoteMusic;
