@@ -1,3 +1,8 @@
+import { faIcon, storageLink } from "../../utils.js";
+import { illegalUiPages } from "../../envVars.js";
+import { pathName } from "../../pathName.js";
+import { format } from "../../ts_fas_acih.js";
+
 // sidebar html
 const sidebarHTML = `
     <!-- nav buttons -->

@@ -1,5 +1,7 @@
+import { currentMonth } from "./pageLoader.js";
+
 // the auride defaults
-function setGlobalTheme(theme, showPrideFlag) {
+export function setGlobalTheme(theme, showPrideFlag) {
     // clear the style or buttons will have issues, especially when
     // switching from a light theme to a dark one (or vice versa)
     if (document.documentElement.hasAttribute("style")) {
@@ -282,7 +284,7 @@ function setGlobalTheme(theme, showPrideFlag) {
 }
 
 // set a custom theme
-function setGlobalCustomTheme(colors) {
+export function setGlobalCustomTheme(colors) {
     document.documentElement.style.setProperty('--background', colors.background);
     document.documentElement.style.setProperty('--main-color', colors.mainColor);
     document.documentElement.style.setProperty('--main-color-darker', colors.mainColorDarker);

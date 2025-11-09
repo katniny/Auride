@@ -1,3 +1,5 @@
+import { pathName } from "./pathName.js";
+
 // if on /notifications, set unread to 0
 if (pathName === "/notifications") {
     firebase.auth().onAuthStateChanged((user) => {

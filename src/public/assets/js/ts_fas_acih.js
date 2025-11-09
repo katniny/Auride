@@ -1,13 +1,7 @@
-// Quote renote ID
-let renotingNote = null;
-
-function quoteRenote(id) {
-   renotingNote = id;
-   createNotePopup();
-}
-
-// music id
-let pickedMusic = null;
+import { pathName } from "./pathName.js";
+import { hasUpdateNotes, aurideUpdate } from "./versioning.js";
+import { faIcon } from "./utils.js";
+import { state } from "./ui/createNotePopup.js";
 
 // Read cookies
 if (localStorage.getItem("acceptedCookies") !== null) {
@@ -897,7 +891,7 @@ function hashtagify(text) {
 }
 
 // the order is important
-function format(text, formats = ["html", "markdown", "emoji", "link", "newline", "hashtag"], options = {}) {
+export function format(text, formats = ["html", "markdown", "emoji", "link", "newline", "hashtag"], options = {}) {
    // map names to functions to avoid huge switch statement
    const formatMap = {
       html: t => escapeHtml(t, options.allowImg),
@@ -929,49 +923,6 @@ function closeHelpPrompt() {
    const supportAuride = document.getElementById("pleaseDonate");
 
    supportAuride.style.display = "none";
-}
-
-// Swap Note Settings/Creation Tab
-let currentTab = "note";
-
-function swapNoteTab(tab) {
-   if (tab === "note") {
-      if (currentTab === "note") {
-         document.getElementById("mainTab-noteCreation").classList.add("hidden");
-         document.querySelector(".settingsStuff").classList.remove("hidden");
-         document.getElementById("musicTab").classList.add("hidden");
-         currentTab = "settings";
-      } else {
-         document.getElementById("mainTab-noteCreation").classList.remove("hidden");
-         document.querySelector(".settingsStuff").classList.add("hidden");
-         document.getElementById("musicTab").classList.add("hidden");
-         currentTab = "note";
-      }
-   } else if (tab === "settings") {
-      if (currentTab === "settings") {
-         document.getElementById("mainTab-noteCreation").classList.remove("hidden");
-         document.querySelector(".settingsStuff").classList.add("hidden");
-         document.getElementById("musicTab").classList.add("hidden");
-         currentTab = "settings";
-      } else {
-         document.getElementById("mainTab-noteCreation").classList.add("hidden");
-         document.querySelector(".settingsStuff").classList.remove("hidden");
-         document.getElementById("musicTab").classList.add("hidden");
-         currentTab = "note";
-      }
-   } else if (tab === "music") {
-      if (currentTab === "music") {
-         document.getElementById("mainTab-noteCreation").classList.remove("hidden");
-         document.querySelector(".settingsStuff").classList.add("hidden");
-         document.getElementById("musicTab").classList.add("hidden");
-         currentTab = "note";
-      } else {
-         document.getElementById("mainTab-noteCreation").classList.add("hidden");
-         document.querySelector(".settingsStuff").classList.add("hidden");
-         document.getElementById("musicTab").classList.remove("hidden");
-         currentTab = "music";
-      }
-   }
 }
 
 // request notification permission
@@ -1366,6 +1317,7 @@ function uploadImage() {
    const imageUploadInput = document.getElementById("imageUploadInput");
    imageUploadInput.click();
 }
+window.uploadImage = uploadImage;
 
 function removeImage() {
    document.getElementById("imgToBeUploaded").src = "";
@@ -1376,6 +1328,7 @@ function removeImage() {
    document.getElementById("hasntBeenUploadedNotice").style.display = "none";
    document.getElementById("addAltTextToImage").style.display = "none";
 }
+window.removeImage = removeImage;
 
 function isTextareaEmpty(text) {
    const trimmedValue = text.trim();
@@ -1393,6 +1346,7 @@ function removeSensitive(buttonId) {
    document.getElementById(`${noteId}-closeWarning`).remove();
    document.getElementById(`${noteId}-blur`).remove();
 }
+window.removeSensitive = removeSensitive;
 
 // Remove NSFW Content Warning
 // TODO: just accept the noteId
@@ -1405,6 +1359,7 @@ function removeNsfw(buttonId) {
    document.getElementById(`${noteId}-warningInfo`).remove();
    document.getElementById(`${noteId}-blur`).remove();
 }
+window.removeNsfw = removeNsfw;
 
 // Get the note's information to display in the container
 let uniNoteId_notehtml = null;
@@ -1785,6 +1740,8 @@ function addAltText() {
 function addAltText_finish() {
    document.getElementById("addAltText").close();
 }
+window.addAltText = addAltText;
+window.addAltText_finish = addAltText_finish;
 
 async function publishNote() {
    firebase.auth().onAuthStateChanged(async (user) => {
@@ -1904,12 +1861,12 @@ async function publishNote() {
             });
          }
 
-         if (renotingNote !== null) {
-            postData.quoting = renotingNote;
+         if (state.renotingNote !== null) {
+            postData.quoting = state.renotingNote;
          }
 
-         if (pickedMusic !== null) {
-            postData.music = pickedMusic;
+         if (state.pickedMusic !== null) {
+            postData.music = state.pickedMusic;
          }
 
          if (isReplying_notehtml === true) {
@@ -1985,6 +1942,7 @@ async function publishNote() {
       }
    })
 };
+window.publishNote = publishNote;
 
 // Settings Page
 if (pathName === "/settings" || pathName === "/settings.html") {
@@ -2896,30 +2854,6 @@ function reportType_harmfulImpersonation() {
    return firebase.database().ref().update(updates);
 }
 
-function reportType_harassmentBullying() {
-   const newReportRef = firebase.database().ref("reports").push();
-   const reportId = newReportRef.key;
-   const url = new URL(window.location.href);
-   const userParam = url.searchParams.get("id");
-
-   const reportData = {
-      reportedUsername: userParam,
-      reason: "Harassment/Bullying",
-      timestamp: Date.now()
-   }
-
-   const updates = {};
-   updates["/reports/" + reportId] = reportData;
-
-   document.getElementById("reportUser").close();
-
-   document.getElementById("reportReason").textContent = reportData.reason;
-   document.getElementById("reportUsername").textContent = `@${reportData.reportedUsername}`;
-
-   document.getElementById("reportReceived").showModal();
-   return firebase.database().ref().update(updates);
-}
-
 function reportType_childPornOrEndangerment() {
    const newReportRef = firebase.database().ref("reports").push();
    const reportId = newReportRef.key;
@@ -3373,7 +3307,7 @@ if (pathName === "/download") {
 }
 
 // determine date creation
-function timeAgo(timestamp) {
+export function timeAgo(timestamp) {
    const now = Math.floor(Date.now() / 1000); // Current timestamp in seconds
    const seconds = now - Math.floor(timestamp / 1000); // Convert milliseconds to seconds
 
@@ -4596,6 +4530,7 @@ function favorite(note) {
       }
    });
 }
+window.favorite = favorite; // TODO: make this function be called via js
 
 function favoriteNoteView(note) { // yes. this is the exact code but for the note view. i couldnt figure out issues so this was the only solution i could think of. dont judge me.
    firebase.auth().onAuthStateChanged((user) => {
@@ -4624,6 +4559,7 @@ function favoriteNoteView(note) { // yes. this is the exact code but for the not
       }
    });
 }
+window.favoriteNoteView = favoriteNoteView;
 
 // allow users to filter through versions (indev, pre-alpha, etc.)
 if (pathName === "/updates") {
@@ -5142,13 +5078,7 @@ async function displayTracks(query) {
       resultsContainer.innerHTML = "No results found.";
    }
 }
-
-// let user pick the song
-function setNoteMusic(trackId) {
-   swapNoteTab("note");
-   pickedMusic = trackId;
-   console.log(trackId);
-}
+window.displayTracks = displayTracks;
 
 // aurora promotional
 firebase.auth().onAuthStateChanged((user) => {
