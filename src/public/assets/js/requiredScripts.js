@@ -24,6 +24,7 @@ async function loadAllScripts() {
       // required before ts_fas_acih.js
       await loadScript("/assets/js/envVars.js", false);
       await loadScript("/assets/js/pathName.js", false);
+      await loadScript("/assets/js/routing/dynamic.js", false);
       await loadScript("/assets/js/versioning.js", false);
       await loadScript("/assets/js/ui/loadingIndicator.js", false);
 
