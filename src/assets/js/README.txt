@@ -1,5 +1,3 @@
-Is your script a module? Does it use import statements? Put it in here!
-(Dynamic Scripts)
+Note: As of November 11 2025, /public/assets/js/... is depreciated, and scripts should be treated as modules inside of /assets/js/...
 
-Is your script not a module? Does it not use import statements? Please put it in /public/assets/js/ instead!
-(Static Scripts)
+Please avoid adding entries to /public/assets/js/... unless absolutely necessary.
