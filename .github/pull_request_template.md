@@ -17,7 +17,7 @@ If you cannot show a visual example, or it is unnecessary, please put N/A.
   - Auride is a **commercial** product that Katniny Studios can profit from. Please do not add copyrighted material to your Pull Request, however there are exceptions (e.g. our Spotify integration).
 - [ ] This Pull Request fixes a **critical** issue that should be reviewed and merged as soon as possible
   - This includes things such as security vulnerabilities, ways to manipulate data, etc.
-- [ ] I've read the latest [CONTRIBUTING.md](https://github.com/katniny/auride/blob/main/CONTRIBUTING.md) (last updated: September 15, 2025) and will follow the guidelines
+- [ ] I've read the latest [CONTRIBUTING.md](https://github.com/katniny/auride/blob/main/CONTRIBUTING.md) (last updated: November 15, 2025) and will follow the guidelines
   - Please make sure to read it, we use this as the standard when reviewing contributions, so it's in your best interest to be familiar with it!
 - [ ] I updated the version and added the update log
   - Unsure what this means? Please read [CONTRIBUTING.md](https://github.com/katniny/auride/blob/main/CONTRIBUTING.md).
