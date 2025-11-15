@@ -46,14 +46,14 @@ This includes the page, and the page functionality.
 - [x] /issues
 - [x] /maintenance
 - [x] /messages
-- [ ] /note/
+- [x] /note/
 - [x] /notifications
 - [x] /opensource
 - [x] /remembering
-- [ ] /search
+- [x] /search
 - [ ] /settings
-- [ ] /suspended
-- [ ] /u/
+- [x] /suspended
+- [x] /u/
 - [x] /unsupported
 - [x] /updates
 - [x] /userstudio

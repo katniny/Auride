@@ -3,6 +3,7 @@ import { hasUpdateNotes, aurideUpdate, aurideReleaseVersion } from "./versioning
 import { faIcon, storageRef, storageLink } from "./utils.js";
 import { state } from "./ui/createNotePopup.js";
 import { createLoadingIndicator } from "./ui/loadingIndicator.js";
+import { renderNote } from "./notes/renderNoteDiv.js";
 
 // Read cookies
 if (localStorage.getItem("acceptedCookies") !== null) {
@@ -951,12 +952,12 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
       userParam = url.searchParams.get("id");
    }
 
-   database.ref(`taken-usernames/${userParam.toLowerCase()}`).once("value", (snapshot) => {
+   firebase.database().ref(`taken-usernames/${userParam.toLowerCase()}`).once("value", (snapshot) => {
       profileExists = snapshot.val();
 
       if (profileExists.user !== null) {
          document.getElementById("userNotFound").style.display = "none";
-         database.ref(`users/${profileExists.user}`).once("value", (snapshot) => {
+         firebase.database().ref(`users/${profileExists.user}`).once("value", (snapshot) => {
             profileData = snapshot.val();
 
             if (profileData.suspensionStatus !== "suspended") {
@@ -970,10 +971,10 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
                   badges.style.marginLeft = "7px";
                }
                if (profileData.isSubscribed) {
-                  badges.appendChild(faIcon("heart", marginLeft = "3px"));
+                  badges.appendChild(faIcon("heart", "3px"));
                }
                if (profileData.activeContributor) {
-                  badges.appendChild(faIcon("handshake-angle", size = "sm"));
+                  badges.appendChild(faIcon("handshake-angle", "sm"));
                }
                badges.classList.add("noteBadges");
                document.getElementById(`display-profile`).appendChild(badges);
@@ -1263,6 +1264,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
          }
       })
    }
+   window.userActions = userActions;
 
    function blockUser() {
       firebase.auth().onAuthStateChanged((user) => {
@@ -1285,6 +1287,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
          }
       })
    }
+   window.blockUser = blockUser;
 
    function unblockUser() {
       firebase.auth().onAuthStateChanged((user) => {
@@ -1299,6 +1302,7 @@ if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
          }
       })
    }
+   window.unblockUser = unblockUser;
 
    // Filters
    function notesFilter() {
@@ -1368,8 +1372,10 @@ function removeNsfw(buttonId) {
 window.removeNsfw = removeNsfw;
 
 // Get the note's information to display in the container
-let uniNoteId_notehtml = null;
-let isReplying_notehtml = false;
+export const noteState = { 
+   uniNoteId_notehtml: false,
+   isReplying_notehtml: false,
+};
 
 if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u/") || pathName.startsWith("/note/")) {
    const url = new URL(window.location.href);
@@ -1382,13 +1388,13 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
    } else {
       userParam = url.searchParams.get("id");
    }
-   isReplying_notehtml = false;
+   noteState.isReplying_notehtml = false;
 
-   database.ref(`notes/${userParam}`).once("value", (snapshot) => {
+   firebase.database().ref(`notes/${userParam}`).once("value", (snapshot) => {
       const noteData = snapshot.val();
 
       if (noteData && noteData?.id)
-         uniNoteId_notehtml = noteData.id;
+         noteState.uniNoteId_notehtml = noteData.id;
       else
          // doesnt exist
          return;
@@ -1459,7 +1465,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                }
             });
 
-            database.ref(`users/${noteData.whoSentIt}`).once("value", (snapshot) => {
+            firebase.database().ref(`users/${noteData.whoSentIt}`).once("value", (snapshot) => {
                const profileData = snapshot.val();
                if (profileData.suspensionStatus !== "suspended") {
                   if (noteData.text !== "") {
@@ -1474,14 +1480,14 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                   document.getElementById(`display-profile`).addEventListener("click", () => window.location.href = `/u/${profileData.username}`);
                   const badges = document.createElement("span");
                   if (profileData.isVerified) {
-                     badges.appendChild(faIcon("circle-check", size = "sm"));
+                     badges.appendChild(faIcon("circle-check", "sm"));
                      badges.style.marginLeft = "7px";
                   }
                   if (profileData.isSubscribed) {
-                     badges.appendChild(faIcon("heart", size = "sm", marginLeft = "3px"));
+                     badges.appendChild(faIcon("heart", "sm", "3px"));
                   }
                   if (profileData.activeContributor) {
-                     badges.appendChild(faIcon("handshake-angle", size = "sm", marginLeft = "3px"));
+                     badges.appendChild(faIcon("handshake-angle", "sm", "3px"));
                   }
                   badges.classList.add("noteBadges");
                   document.getElementById("display-profile").appendChild(badges);
@@ -1596,7 +1602,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
    })
 
    function likeNote() {
-      database.ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+      firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).once("value", (snapshot) => {
          const data = snapshot.val();
 
          firebase.auth().onAuthStateChanged((user) => {
@@ -1608,7 +1614,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                      likes: data.likes - 1
                   })
 
-                  database.ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+                  firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).once("value", (snapshot) => {
                      const newData = snapshot.val();
 
                      document.getElementById("likeButton").innerHTML = `${faIcon("heart").outerHTML} ${newData.likes}`;
@@ -1623,23 +1629,23 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                      likes: data.likes + 1
                   })
 
-                  database.ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+                  firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).once("value", (snapshot) => {
                      const newData = snapshot.val();
 
                      document.getElementById("likeButton").innerHTML = `${faIcon("heart").outerHTML} ${newData.likes}`;
                      document.getElementById("likeButton").classList.add("liked");
                   })
 
-                  firebase.database().ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+                  firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).once("value", (snapshot) => {
                      const whoSentIt_note = snapshot.val();
 
                      if (user.uid !== whoSentIt_note.whoSentIt) {
-                        firebase.database().ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+                        firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).once("value", (snapshot) => {
                            const getUser = snapshot.val();
                            sendNotification(getUser.whoSentIt, {
                               type: "Love",
                               who: user.uid,
-                              postId: uniNoteId_notehtml,
+                              postId: noteState.uniNoteId_notehtml,
                            });
                         })
                      }
@@ -1649,9 +1655,10 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
          })
       })
    }
+   window.likeNote = likeNote;
 
    function renoteNote() {
-      database.ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+      firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).once("value", (snapshot) => {
          const data = snapshot.val();
 
          firebase.auth().onAuthStateChanged((user) => {
@@ -1665,7 +1672,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
 
                   firebase.database().ref(`users/${user.uid}/posts/${data.id}`).remove();
 
-                  database.ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+                  firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).once("value", (snapshot) => {
                      const newData = snapshot.val();
 
                      document.getElementById("renoteButton").innerHTML = `${faIcon("retweet").outerHTML} ${newData.renotes}`;
@@ -1684,23 +1691,23 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
                      isRenote: true
                   })
 
-                  database.ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+                  firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).once("value", (snapshot) => {
                      const newData = snapshot.val();
 
                      document.getElementById("renoteButton").innerHTML = `${faIcon("retweet").outerHTML} ${newData.renotes}`;
                      document.getElementById("renoteButton").classList.add("renoted");
                   })
 
-                  firebase.database().ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+                  firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).once("value", (snapshot) => {
                      const whoSentIt_note = snapshot.val();
 
                      if (user.uid !== whoSentIt_note.whoSentIt) {
-                        firebase.database().ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+                        firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).once("value", (snapshot) => {
                            const getUser = snapshot.val();
                            sendNotification(getUser.whoSentIt, {
                               type: "Renote",
                               who: user.uid,
-                              postId: uniNoteId_notehtml,
+                              postId: noteState.uniNoteId_notehtml,
                            });
                         })
                      }
@@ -1712,9 +1719,10 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
          })
       })
    }
+   window.renoteNote = renoteNote;
 
    function replyToNote(element) {
-      isReplying_notehtml = true;
+      noteState.isReplying_notehtml = true;
       const noteContainer = element.closest('.note');
 
       if (noteContainer) {
@@ -1736,6 +1744,7 @@ if (pathName === "/note.html" || pathName === "/note" || pathName.startsWith("/u
          createNotePopup();
       }
    }
+   window.replyToNote = replyToNote;
 };
 
 // Upload Notes with or without images (cont.)
@@ -1875,29 +1884,29 @@ async function publishNote() {
             postData.music = state.pickedMusic;
          }
 
-         if (isReplying_notehtml === true) {
+         if (noteState.isReplying_notehtml === true) {
             unlockAchievement("Chatterbox");
 
             if (pathName === "/note" || pathName === "/note.html" || pathName.startsWith("/note/")) {
                // send notification
-               postData.replyingTo = uniNoteId_notehtml;
+               postData.replyingTo = noteState.uniNoteId_notehtml;
 
-               firebase.database().ref(`notes/${uniNoteId_notehtml}`).once("value", (snapshot) => {
+               firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).once("value", (snapshot) => {
                   const replyData = snapshot.val();
 
                   if (user.uid !== replyData.whoSentIt)
                      sendNotification(replyData.whoSentIt, {
                         type: "Reply",
                         who: user.uid,
-                        postId: uniNoteId_notehtml,
+                        postId: noteState.uniNoteId_notehtml,
                      });
 
                   if (replyData.replies === undefined) {
-                     firebase.database().ref(`notes/${uniNoteId_notehtml}`).update({
+                     firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).update({
                         replies: 1
                      });
                   } else {
-                     firebase.database().ref(`notes/${uniNoteId_notehtml}`).update({
+                     firebase.database().ref(`notes/${noteState.uniNoteId_notehtml}`).update({
                         replies: replyData.replies + 1
                      });
 
@@ -1928,7 +1937,7 @@ async function publishNote() {
             }
 
             if (pathName.startsWith("/note/"))
-               await firebase.database().ref(`/notes/${uniNoteId_notehtml}/notesReplying`).child(newNoteKey).set(postData);
+               await firebase.database().ref(`/notes/${noteState.uniNoteId_notehtml}/notesReplying`).child(newNoteKey).set(postData);
             else
                await notesRef.child(newNoteKey).set(postData);
             await userNotes.child(newNoteKey).set(renoteData);
@@ -2759,11 +2768,12 @@ if (pathName === "/notifications" || pathName === "/notifications.html") {
 
 // Report user
 function reportUser() {
-   document.getElementById("reportUser").showModal();
+   document.getElementById("reportUserModal").showModal();
    if (pathName === "/u" || pathName === "/u.html") {
       document.getElementById("userActions-dialog").close();
    }
 }
+window.reportUser = reportUser;
 
 function reportType_harassmentBullying() {
    const newReportRef = firebase.database().ref("reports").push();
@@ -2780,7 +2790,7 @@ function reportType_harassmentBullying() {
    const updates = {};
    updates["/reports/" + reportId] = reportData;
 
-   document.getElementById("reportUser").close();
+   document.getElementById("reportUserModal").close();
 
    document.getElementById("reportReason").textContent = reportData.reason;
    document.getElementById("reportUsername").textContent = `@${reportData.reportedUsername}`;
@@ -2788,6 +2798,7 @@ function reportType_harassmentBullying() {
    document.getElementById("reportReceived").showModal();
    return firebase.database().ref().update(updates);
 }
+window.reportType_harassmentBullying = reportType_harassmentBullying;
 
 function reportType_hateSpeech() {
    const newReportRef = firebase.database().ref("reports").push();
@@ -2804,7 +2815,7 @@ function reportType_hateSpeech() {
    const updates = {};
    updates["/reports/" + reportId] = reportData;
 
-   document.getElementById("reportUser").close();
+   document.getElementById("reportUserModal").close();
 
    document.getElementById("reportReason").textContent = reportData.reason;
    document.getElementById("reportUsername").textContent = `@${reportData.reportedUsername}`;
@@ -2812,6 +2823,7 @@ function reportType_hateSpeech() {
    document.getElementById("reportReceived").showModal();
    return firebase.database().ref().update(updates);
 }
+window.reportType_hateSpeech = reportType_hateSpeech;
 
 function reportType_spam() {
    const newReportRef = firebase.database().ref("reports").push();
@@ -2828,7 +2840,7 @@ function reportType_spam() {
    const updates = {};
    updates["/reports/" + reportId] = reportData;
 
-   document.getElementById("reportUser").close();
+   document.getElementById("reportUserModal").close();
 
    document.getElementById("reportReason").textContent = reportData.reason;
    document.getElementById("reportUsername").textContent = `@${reportData.reportedUsername}`;
@@ -2836,6 +2848,7 @@ function reportType_spam() {
    document.getElementById("reportReceived").showModal();
    return firebase.database().ref().update(updates);
 }
+window.reportType_spam = reportType_spam;
 
 function reportType_harmfulImpersonation() {
    const newReportRef = firebase.database().ref("reports").push();
@@ -2852,7 +2865,7 @@ function reportType_harmfulImpersonation() {
    const updates = {};
    updates["/reports/" + reportId] = reportData;
 
-   document.getElementById("reportUser").close();
+   document.getElementById("reportUserModal").close();
 
    document.getElementById("reportReason").textContent = reportData.reason;
    document.getElementById("reportUsername").textContent = `@${reportData.reportedUsername}`;
@@ -2860,6 +2873,7 @@ function reportType_harmfulImpersonation() {
    document.getElementById("reportReceived").showModal();
    return firebase.database().ref().update(updates);
 }
+window.reportType_harmfulImpersonation = reportType_harmfulImpersonation;
 
 function reportType_childPornOrEndangerment() {
    const newReportRef = firebase.database().ref("reports").push();
@@ -2876,7 +2890,7 @@ function reportType_childPornOrEndangerment() {
    const updates = {};
    updates["/reports/" + reportId] = reportData;
 
-   document.getElementById("reportUser").close();
+   document.getElementById("reportUserModal").close();
 
    document.getElementById("reportReason").textContent = reportData.reason;
    document.getElementById("reportUsername").textContent = `@${reportData.reportedUsername}`;
@@ -2885,6 +2899,7 @@ function reportType_childPornOrEndangerment() {
    document.getElementById("reportReceived").showModal();
    return firebase.database().ref().update(updates);
 }
+window.reportType_childPornOrEndangerment = reportType_childPornOrEndangerment;
 
 function reportType_privacyViolations() {
    const newReportRef = firebase.database().ref("reports").push();
@@ -2901,7 +2916,7 @@ function reportType_privacyViolations() {
    const updates = {};
    updates["/reports/" + reportId] = reportData;
 
-   document.getElementById("reportUser").close();
+   document.getElementById("reportUserModal").close();
 
    document.getElementById("reportReason").textContent = reportData.reason;
    document.getElementById("reportUsername").textContent = `@${reportData.reportedUsername}`;
@@ -2909,6 +2924,7 @@ function reportType_privacyViolations() {
    document.getElementById("reportReceived").showModal();
    return firebase.database().ref().update(updates);
 }
+window.reportType_privacyViolations = reportType_privacyViolations;
 
 function reportType_scams() {
    const newReportRef = firebase.database().ref("reports").push();
@@ -2925,7 +2941,7 @@ function reportType_scams() {
    const updates = {};
    updates["/reports/" + reportId] = reportData;
 
-   document.getElementById("reportUser").close();
+   document.getElementById("reportUserModal").close();
 
    document.getElementById("reportReason").textContent = reportData.reason;
    document.getElementById("reportUsername").textContent = `@${reportData.reportedUsername}`;
@@ -2933,6 +2949,7 @@ function reportType_scams() {
    document.getElementById("reportReceived").showModal();
    return firebase.database().ref().update(updates);
 }
+window.reportType_scams = reportType_scams;
 
 function reportType_copyrightInfringement() {
    const newReportRef = firebase.database().ref("reports").push();
@@ -2949,7 +2966,7 @@ function reportType_copyrightInfringement() {
    const updates = {};
    updates["/reports/" + reportId] = reportData;
 
-   document.getElementById("reportUser").close();
+   document.getElementById("reportUserModal").close();
 
    document.getElementById("reportReason").textContent = reportData.reason;
    document.getElementById("reportUsername").textContent = `@${reportData.reportedUsername}`;
@@ -2957,11 +2974,13 @@ function reportType_copyrightInfringement() {
    document.getElementById("reportReceived").showModal();
    return firebase.database().ref().update(updates);
 }
+window.reportType_copyrightInfringement = reportType_copyrightInfringement;
 
 function reportType_other() {
-   document.getElementById("reportUser").close();
+   document.getElementById("reportUserModal").close();
    document.getElementById("reportReason_other").showModal();
 }
+window.reportType_other = reportType_other;
 
 function reportType_other_finish() {
    const newReportRef = firebase.database().ref("reports").push();
@@ -2978,7 +2997,7 @@ function reportType_other_finish() {
    const updates = {};
    updates["/reports/" + reportId] = reportData;
 
-   document.getElementById("reportUser").close();
+   document.getElementById("reportUserModal").close();
    document.getElementById("reportReason_other").close();
 
    document.getElementById("reportReason").textContent = reportData.reason;
@@ -2987,6 +3006,7 @@ function reportType_other_finish() {
    document.getElementById("reportReceived").showModal();
    return firebase.database().ref().update(updates);
 }
+window.reportType_other_finish = reportType_other_finish;
 
 // Edit/Deleting Notes
 if (pathName === "/home" || pathName === "/home.html" || pathName === "/note" || pathName === "/note.html" || pathName === "/u" || pathName === "/u.html" || pathName.startsWith("/u/") || pathName.startsWith("/note/")) {
@@ -4683,6 +4703,7 @@ function search(executed) {
       window.location.replace(`/search?q=${document.getElementById("queryInput").value}`);
    }
 }
+window.search = search;
 
 if (pathName === "/search") {
    // get search term (if there is one)
@@ -4725,7 +4746,8 @@ if (pathName === "/search") {
       }
 
       // hide "no term" and show "term"
-      document.getElementById("noTerm").remove();
+      if (document.getElementById("noTerm"))
+         document.getElementById("noTerm").remove();
       document.getElementById("term").style.display = "block";
 
       // add feedback

@@ -201,7 +201,7 @@ export async function loadInitalNotes(onlyFollowing) {
 // infinite loading
 window.addEventListener("scroll", () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-        if (loadOnlyFollowingNotesOnly)
+        if (state.loadOnlyFollowingNotesOnly)
             loadMoreNotes(true);
         else
             loadMoreNotes(false);
