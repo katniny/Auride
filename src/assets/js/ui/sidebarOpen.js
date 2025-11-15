@@ -2,8 +2,7 @@ let isSidebarOpen = false;
 const sidebar = document.getElementById("sidebar");
 const hamburger = document.getElementById("hamburgerMenu");
 
-if (hamburger)
-    hamburger.onclick = sidebarStatus;
+hamburger.onclick = sidebarStatus;
 
 function sidebarStatus () {
     if (isSidebarOpen === false) {

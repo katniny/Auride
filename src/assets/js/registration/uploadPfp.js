@@ -1,5 +1,3 @@
-import { storageRef } from "../utils.js";
-
 document.getElementById("pfpUploader").addEventListener("change", function (event) {
     const file = event.target.files[0];
 
