@@ -51,7 +51,7 @@ This includes the page, and the page functionality.
 - [x] /opensource
 - [x] /remembering
 - [x] /search
-- [ ] /settings
+- [x] /settings
 - [x] /suspended
 - [x] /u/
 - [x] /unsupported

@@ -1,3 +1,5 @@
+import { faIcon } from "../utils.js";
+
 // show the character limit
 const usernameText = document.getElementById("username-text");
 const maxUser = 20;
@@ -71,3 +73,4 @@ function setUsername() {
         }
     }
 }
+window.setUsername = setUsername;

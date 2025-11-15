@@ -1,3 +1,5 @@
+import { faIcon } from "../utils.js";
+
 // show character limit
 const pronounsText = document.getElementById("pronouns-text");
 const maxPronouns = 15;
@@ -31,3 +33,4 @@ function setPronouns() {
         }
     }
 }
+window.setPronouns = setPronouns;

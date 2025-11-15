@@ -5,6 +5,7 @@ import { state } from "./ui/createNotePopup.js";
 import { createLoadingIndicator } from "./ui/loadingIndicator.js";
 import { renderNote } from "./notes/renderNoteDiv.js";
 import { saveTheme_Open } from "./ui/saveThemePopup.js";
+import { setGlobalTheme, setGlobalCustomTheme } from "./ui/setTheme.js";
 
 // Read cookies
 if (localStorage.getItem("acceptedCookies") !== null) {
@@ -1980,6 +1981,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          }
       }
    }
+   window.switchTab = switchTab;
 
    if (tabs.includes(tabParm)) {
       switchTab(toParm);
@@ -2093,6 +2095,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          }
       })
    }
+   window.setEmail = setEmail;
 
    function changeEmail_reauth() {
       firebase.auth().onAuthStateChanged((user) => {
@@ -2141,6 +2144,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          }
       });
    }
+   window.changeEmail_reauth = changeEmail_reauth;
 
    // change password
    function sendPasswordResetEmail() {
@@ -2166,6 +2170,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
             })
       }
    }
+   window.sendPasswordResetEmail = sendPasswordResetEmail;
 
    // delete notes (properly)
    // dont call this function by itself, call deleteNoteWithReplies instead
@@ -2383,16 +2388,19 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          log("Reauthentication failed: " + err.message, true);
       });
    }
+   window.deleteAccount = deleteAccount;
 
    // theme selection
    function selectTheme() {
       document.getElementById("themeSelect").showModal();
    }
+   window.selectTheme = selectTheme;
 
    function aurideThemes() {
       document.getElementById("aurideThemes").showModal();
       document.getElementById("themeSelect").close();
    }
+   window.aurideThemes = aurideThemes;
 
    function userThemes() {
       // show modal
@@ -2448,6 +2456,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          }
       });
    }
+   window.userThemes = userThemes;
 
    function setTheme(theme) {
       firebase.auth().onAuthStateChanged((user) => {
@@ -2458,6 +2467,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          }
       })
    }
+   window.setTheme = setTheme;
 
    function _setPreference(logElemId, pref, val) {
       const logElem = document.getElementById(logElemId);
@@ -2490,10 +2500,12 @@ if (pathName === "/settings" || pathName === "/settings.html") {
    function setPrideFlag(val) {
       _setPreference("updatedPrideFlagContentPref", "showPrideFlag", val ? "Yes" : "No")
    }
+   window.setPrideFlag = setPrideFlag;
 
    function setAutoplay(val) {
       _setPreference("updatedAutoplayContentPref", "autoplayVideos", val)
    }
+   window.setAutoplay = setAutoplay;
 
    // font scale
    function setFontScale(scale) {
@@ -2508,10 +2520,12 @@ if (pathName === "/settings" || pathName === "/settings.html") {
             break;
       }
    }
+   window.setFontScale = setFontScale;
 
    function setInteractionScale(scale) {
       _setPreference("updatedNoteSizePref", "experiments/noteButtonLayout", scale === "large")
    }
+   window.setInteractionScale = setInteractionScale;
 
    // enable OpenDyslexic font
    function setOpenDyslexia(useODFont) {
@@ -2557,6 +2571,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          }
       })
    }
+   window.setOpenDyslexia = setOpenDyslexia;
 
    // Experiments
 
@@ -2568,6 +2583,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          document.getElementById("dm_details").style.display = "none";
       }
    }
+   window.toggleDMExperimentDetails = toggleDMExperimentDetails;
 
    function toggleButtonExperimentDetails() {
       if (document.getElementById("button_details")) {
@@ -2576,6 +2592,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          document.getElementById("button_details").style.display = "none";
       }
    }
+   window.toggleButtonExperimentDetails = toggleButtonExperimentDetails;
 
    function enableDms() {
       document.getElementById("enableDms").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Enabling...`;
@@ -2592,6 +2609,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          }
       })
    }
+   window.enableDms = enableDms;
 
    function disableDms() {
       document.getElementById("disableDms").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Disabling...`;
@@ -2608,6 +2626,7 @@ if (pathName === "/settings" || pathName === "/settings.html") {
          }
       })
    }
+   window.disableDms = disableDms;
 }
 
 // Accept cookies
@@ -3299,6 +3318,7 @@ function getVerificationEmail() {
          document.getElementById("emailSent_emailVer").showModal();
       })
 }
+window.getVerificationEmail = getVerificationEmail;
 
 // Detect user OS
 if (pathName === "/download") {
@@ -4914,6 +4934,7 @@ function acknowledgeWarning() {
 function seePersonalData() {
    document.getElementById("seeData").showModal();
 }
+window.seePersonalData = seePersonalData;
 
 function seeData_reauth() {
    firebase.auth().onAuthStateChanged((user) => {
@@ -4965,6 +4986,7 @@ function seeData_reauth() {
       }
    });
 }
+window.seeData_reauth = seeData_reauth;
 
 function objectToTable(data, level = 0) {
    let table = document.createElement("table");
@@ -5045,6 +5067,7 @@ function downloadData() {
       }
    });
 }
+window.downloadData = downloadData;
 
 // spotify 
 // get access token
