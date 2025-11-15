@@ -10,7 +10,7 @@ document.getElementById("fileInput_banner").addEventListener("change", function 
     firebase.auth().onAuthStateChanged((user) => {
         const file = event.target.files[0];
 
-        document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Checking file...`;
+        document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Checking file...`;
         document.getElementById("changeBanner").classList.add("disabled");
 
         if (file) {
@@ -26,7 +26,7 @@ document.getElementById("fileInput_banner").addEventListener("change", function 
 
                 if (file.size <= 5 * 1024 * 1024) {
                     if (allowedTypes.includes(file.type)) {
-                        document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Uploading image...`;
+                        document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Uploading image...`;
                         
                         const fileRef = storageRef(`images/banner/${user.uid}/${file.name}`);
                         fileRef.put(file).then(function () {
@@ -40,14 +40,14 @@ document.getElementById("fileInput_banner").addEventListener("change", function 
                                     if (oldPfpName) {
                                         const oldFileRef = storageRef(`images/banner/${user.uid}/${oldPfpName}`);
                                         return oldFileRef.delete().then(() => {
-                                            document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Checking...`;
+                                            document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Checking...`;
                                         }).catch((error) => {
                                             document.getElementById("errorUploadingBanner").style.display = "block";
                                             document.getElementById("errorUploadingBanner").textContent = `Failed to upload profile picture: ${error.message}`;
                                         })
                                     }
                                 }).finally(() => {
-                                    document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Done!`;
+                                    document.getElementById("changeBanner").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Done!`;
                                     setTimeout(() => window.location.reload(), 500);
                                 })
                             });
