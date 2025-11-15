@@ -13,7 +13,6 @@ function loadScript(src, async) {
       const script = document.createElement("script");
       script.src = src;
       script.async = async;
-      script.type = "module";
       script.onload = () => resolve(src);
       script.onerror = () => reject(new Error(`Failed to load script: ${src}`));
       document.head.appendChild(script);

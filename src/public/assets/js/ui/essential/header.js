@@ -1,7 +1,3 @@
-import { illegalUiPages } from "../../envVars.js";
-import { pathName } from "../../pathName.js";
-import { storageLink } from "../../utils.js";
-
 // header html
 const headerHTML = `
     <div class="left">
