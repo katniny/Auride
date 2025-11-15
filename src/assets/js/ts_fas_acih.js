@@ -5188,8 +5188,7 @@ window.addEventListener("scroll", () => {
    let loginPrompt = document.getElementById("notSignedIn-banner");
    let nearBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
 
-   return; // TODO: fix the constant printing of errors
-
+   // TODO: fix the constant printing of errors
    if (nearBottom) {
       loginPrompt.style.opacity = "0";
    } else {
