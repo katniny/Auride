@@ -35,7 +35,7 @@ jobs:
         echo "VITE_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}" >> src/.env
         echo "VITE_FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> src/.env
         echo "VITE_FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}" >> src/.env
-        echo "VITE_SERVER_URL=${{ secrets.PROD_SERVER_URL }}"
+        echo "VITE_SERVER_URL=${{ secrets.PROD_SERVER_URL }}" >> src/.env
       
     - name: Build project 
       run: npm run build
