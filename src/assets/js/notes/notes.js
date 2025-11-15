@@ -3,7 +3,6 @@ import { createLoadingIndicator } from "../ui/loadingIndicator.js";
 import { serverUrl } from "../envVars.js";
 import { renderNote } from "./renderNoteDiv.js";
 import { faIcon } from "../utils.js";
-import { unlockAchievement } from "../ts_fas_acih.js";
 
 // TODO - seperate this code!
 // its just in a new script for 
@@ -191,8 +190,7 @@ export async function loadInitalNotes(onlyFollowing) {
         // keep newest at bottom
         renderNotes(notesArray);
         currentLoadingNotes = false;
-        if (document.getElementById("noteLoadingIndicator"))
-            document.getElementById("noteLoadingIndicator").remove(); // FIXME: loadingIndicator.remove() doesnt work here?
+        document.getElementById("noteLoadingIndicator").remove(); // FIXME: loadingIndicator.remove() doesnt work here?
         if (newNotesAvailable)
             newNotesAvailable.style.display = "none";
     }

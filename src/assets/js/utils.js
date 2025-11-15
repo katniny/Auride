@@ -22,7 +22,7 @@ const TUS_ENDPOINT = `https://best-energy-drink-is.fucking.monster`;
 const TUS_UPLOAD_ENDPOINT = `${TUS_ENDPOINT}/files/`;
 export var storageLink = (/** @type {string} */ path) => `${TUS_ENDPOINT}/${path}`;
 
-export function storageRef(/** @type {string} */ path) {
+function storageRef(/** @type {string} */ path) {
   /** @type {(progress: { bytesTransferred: number, totalBytes: number }) => void} */
   let onUploadProgress = () => {};
 

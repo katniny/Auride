@@ -1,8 +1,7 @@
 import { pathName } from "./pathName.js";
 import { hasUpdateNotes, aurideUpdate } from "./versioning.js";
-import { faIcon, storageRef, storageLink } from "./utils.js";
+import { faIcon } from "./utils.js";
 import { state } from "./ui/createNotePopup.js";
-import { createLoadingIndicator } from "./ui/loadingIndicator.js";
 
 // Read cookies
 if (localStorage.getItem("acceptedCookies") !== null) {
@@ -414,7 +413,7 @@ function register() {
 
 // Login Function
 function login() {
-   document.getElementById("loginBtn").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Logging in...`;
+   document.getElementById("loginBtn").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Logging in...`;
    document.getElementById("loginBtn").classList.add("disabled");
    document.getElementById("errorTxt").style.display = "none";
 
@@ -439,7 +438,6 @@ function login() {
          });
    }
 }
-window.login = login;
 
 // Sign Out User
 function signOut() {
@@ -449,7 +447,6 @@ function signOut() {
       alert("Error signing out. Please refresh the page and try again.\n" + error);
    })
 }
-window.signOut = signOut;
 
 // Validate Email Address
 function validate_email(email) {
@@ -493,7 +490,6 @@ function hideErrorByDefault() {
       errorTxt.innerHTML = '';
    }
 }
-window.hideErrorByDefault = hideErrorByDefault;
 
 // Only allow user on page if they are signed in/signed out
 function signedOutCheck() {
@@ -503,7 +499,6 @@ function signedOutCheck() {
       }
    })
 }
-window.signedOutCheck = signedOutCheck;
 
 function signedInCheck() {
    firebase.auth().onAuthStateChanged((user) => {
@@ -512,7 +507,6 @@ function signedInCheck() {
       }
    })
 }
-window.signedInCheck = signedInCheck;
 
 // Check if the user is no longer part of the "legacy" account system
 function isOnUsernames() {
@@ -2607,7 +2601,6 @@ function acceptCookies() {
       document.getElementById("cookie-notice").style.display = "none";
    }
 }
-window.acceptCookies = acceptCookies;
 
 // Notifications
 let lastNotifKey = null;
@@ -3392,7 +3385,7 @@ if (pathName === "/achievements") {
 }
 
 // Unlock achievement
-export function unlockAchievement(achievement) {
+function unlockAchievement(achievement) {
    firebase.auth().onAuthStateChanged((user) => {
       if (user) {
          if (achievement === "First Steps") {
@@ -5110,7 +5103,7 @@ firebase.auth().onAuthStateChanged((user) => {
                });
                setTimeout(() => {
                   modal.remove();
-               }, 100);
+               }, 500);
             }
 
             document.body.appendChild(modal);
@@ -5126,8 +5119,6 @@ firebase.auth().onAuthStateChanged((user) => {
 window.addEventListener("scroll", () => {
    let loginPrompt = document.getElementById("notSignedIn-banner");
    let nearBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50;
-
-   return; // TODO: fix the constant printing of errors
 
    if (nearBottom) {
       loginPrompt.style.opacity = "0";
