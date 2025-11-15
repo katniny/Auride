@@ -8,10 +8,10 @@ This includes the page, and the page functionality.
 (From path of /src/)
 - [x] /auth/done
 - [x] /auth/login
-- [ ] /auth/names
-- [ ] /auth/pfp
+- [x] /auth/names
+- [x] /auth/pfp
 - [x] /auth/policies
-- [ ] /auth/register
+- [x] /auth/register
 - [x] /blog/introducing-aurorai
 - [x] /blog/memorialized-accounts
 - [x] /blog/new-flagging-system
