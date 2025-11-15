@@ -1,5 +1,5 @@
 import { pathName } from "./pathName.js";
-import { hasUpdateNotes, aurideUpdate } from "./versioning.js";
+import { hasUpdateNotes, aurideUpdate, aurideReleaseVersion } from "./versioning.js";
 import { faIcon, storageRef, storageLink } from "./utils.js";
 import { state } from "./ui/createNotePopup.js";
 import { createLoadingIndicator } from "./ui/loadingIndicator.js";
@@ -3184,6 +3184,7 @@ if (pathName === "/messages") {
          }
       })
    }
+   window.startNewChat = startNewChat;
 
    // Create DM
    function createDM(element) {
@@ -3224,6 +3225,7 @@ if (pathName === "/messages") {
          }
       })
    }
+   window.createDM = createDM;
 }
 
 // Greet user
@@ -3281,36 +3283,37 @@ function getVerificationEmail() {
 if (pathName === "/download") {
    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
+   // TODO: bring back the downloads page. first, we need the apps stable though!
    // Windows/Windows Phone
-   if (/windows phone/i.test(userAgent)) {
-      document.getElementById("downloadButton").style.display = "none";
-      document.getElementById("systemRequirement").textContent = "Unavailable for Windows Phone.";
-   } else if (/win/i.test(userAgent)) {
-      document.getElementById("downloadButton").addEventListener("click", () => window.location.href='/assets/releases/windows/ts_installer.msi');
-      document.getElementById("downloadButton").textContent = "Get Auride for Windows";
-      document.getElementById("systemRequirement").textContent = "Requires Windows 8 or later.";
-      // macOS    
-   } else if (/macintosh|mac os x/i.test(userAgent)) {
-      document.getElementById("downloadButton").style.display = "none";
-      document.getElementById("systemRequirement").textContent = "Unavailable for macOS at this time.";
-      // iPad/iPhone/iPod
-   } else if (/ipad|iphone|ipod/i.test(userAgent) && !window.MSStream) {
-      document.getElementById("downloadButton").style.display = "none";
-      document.getElementById("systemRequirement").textContent = "Unavailable for iOS at this time.";
-      // Android
-   } else if (/android/i.test(userAgent)) {
-      document.getElementById("downloadButton").addEventListener("click", () => window.location.href = '/assets/releases/android/app-release.apk');
-      document.getElementById("downloadButton").textContent = "Get Auride for Windows";
-      document.getElementById("systemRequirement").textContent = "Requires Android 6 or later.";
-      // Linux
-   } else if (/linux/i.test(userAgent)) {
-      document.getElementById("downloadButton").style.display = "none";
-      document.getElementById("systemRequirement").textContent = "Unavailable for Linux at this time.";
-      // who knows?
-   } else {
-      document.getElementById("downloadButton").style.display = "none";
-      document.getElementById("systemRequirement").textContent = "You're using an unknown operating system.";
-   }
+   // if (/windows phone/i.test(userAgent)) {
+   //    document.getElementById("downloadButton").style.display = "none";
+   //    document.getElementById("systemRequirement").textContent = "Unavailable for Windows Phone.";
+   // } else if (/win/i.test(userAgent)) {
+   //    document.getElementById("downloadButton").addEventListener("click", () => window.location.href='/assets/releases/windows/ts_installer.msi');
+   //    document.getElementById("downloadButton").textContent = "Get Auride for Windows";
+   //    document.getElementById("systemRequirement").textContent = "Requires Windows 8 or later.";
+   //    // macOS    
+   // } else if (/macintosh|mac os x/i.test(userAgent)) {
+   //    document.getElementById("downloadButton").style.display = "none";
+   //    document.getElementById("systemRequirement").textContent = "Unavailable for macOS at this time.";
+   //    // iPad/iPhone/iPod
+   // } else if (/ipad|iphone|ipod/i.test(userAgent) && !window.MSStream) {
+   //    document.getElementById("downloadButton").style.display = "none";
+   //    document.getElementById("systemRequirement").textContent = "Unavailable for iOS at this time.";
+   //    // Android
+   // } else if (/android/i.test(userAgent)) {
+   //    document.getElementById("downloadButton").addEventListener("click", () => window.location.href = '/assets/releases/android/app-release.apk');
+   //    document.getElementById("downloadButton").textContent = "Get Auride for Windows";
+   //    document.getElementById("systemRequirement").textContent = "Requires Android 6 or later.";
+   //    // Linux
+   // } else if (/linux/i.test(userAgent)) {
+   //    document.getElementById("downloadButton").style.display = "none";
+   //    document.getElementById("systemRequirement").textContent = "Unavailable for Linux at this time.";
+   //    // who knows?
+   // } else {
+   //    document.getElementById("downloadButton").style.display = "none";
+   //    document.getElementById("systemRequirement").textContent = "You're using an unknown operating system.";
+   // }
 }
 
 // determine date creation
@@ -4584,6 +4587,7 @@ if (pathName === "/updates") {
       document.getElementById("betaVersions").style.display = "none";
       document.getElementById("releaseVersions").style.display = "none";
    }
+   window.filterInDev = filterInDev;
 
    function filterPreAlpha() {
       filteredVersion = "pre-alpha";
@@ -4596,6 +4600,7 @@ if (pathName === "/updates") {
       document.getElementById("betaVersions").style.display = "none";
       document.getElementById("releaseVersions").style.display = "none";
    }
+   window.filterPreAlpha = filterPreAlpha;
 
    function filterAlpha() {
       filteredVersion = "alpha";
@@ -4608,6 +4613,7 @@ if (pathName === "/updates") {
       document.getElementById("betaVersions").style.display = "none";
       document.getElementById("releaseVersions").style.display = "none";
    }
+   window.filterAlpha = filterAlpha;
 
    function filterBeta() {
       filteredVersion = "beta";
@@ -4620,6 +4626,7 @@ if (pathName === "/updates") {
       document.getElementById("betaVersions").style.display = "block";
       document.getElementById("releaseVersions").style.display = "none";
    }
+   window.filterBeta = filterBeta;
 
    function filterRelease() {
       filteredVersion = "release";
@@ -4632,6 +4639,7 @@ if (pathName === "/updates") {
       document.getElementById("betaVersions").style.display = "none";
       document.getElementById("releaseVersions").style.display = "block";
    }
+   window.filterRelease = filterRelease;
 }
 
 // don't open external links without a warning

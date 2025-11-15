@@ -1,3 +1,6 @@
+import { createLoadingIndicator } from "./ui/loadingIndicator.js";
+import { storageLink } from "./utils.js";
+
 async function getContributorsAndSponsors() {
     const contributorsDiv = document.getElementById("contributors");
     const sponsorsDiv = document.getElementById("sponsors");

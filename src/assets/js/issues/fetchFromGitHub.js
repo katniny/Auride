@@ -1,3 +1,8 @@
+import { githubTimestamp } from "./timestamp.js";
+import { getTextColor } from "../ui/getTextColor.js";
+import { faIcon } from "../utils.js";
+import { format } from "../ts_fas_acih.js";
+
 const issuesBox = document.getElementById("issuesBox");
 const loadingIssues = document.getElementById("loadingIssues");
 
@@ -212,6 +217,7 @@ async function getGithubIssue(id) {
     `;
     notesDiv.appendChild(commentingNotice);
 }
+window.getGithubIssue = getGithubIssue;
 
 // walk through all text nodes
 function walkTextNodes(node, callback) {

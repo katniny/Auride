@@ -310,7 +310,7 @@ async function renderNotes(notesArray) {
                 }
             })
         } else if (pathName === "/favorites") {
-            database.ref(`users/${auth.currentUser.uid}/favorites/${noteData.id}`).get().then(function (snapshot) {
+            firebase.database().ref(`users/${firebase.auth().currentUser.uid}/favorites/${noteData.id}`).get().then(function (snapshot) {
                 if (snapshot.exists()) {
                     if (noteLoadingIndicator)
                         noteLoadingIndicator.remove();
