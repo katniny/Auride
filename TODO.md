@@ -12,27 +12,27 @@ This includes the page, and the page functionality.
 - [ ] /auth/pfp
 - [x] /auth/policies
 - [ ] /auth/register
-- [ ] /blog/introducing-aurorai
-- [ ] /blog/memorialized-accounts
-- [ ] /blog/new-flagging-system
-- [ ] /blog/note-previews
-- [ ] /blog/nsfw-blocked
-- [ ] /blog/nsfw-flags
-- [ ] /blog/political-flags
-- [ ] /blog/retiring-transsocial
-- [ ] /blog/sensitive-flags
-- [ ] /blog/transsocial-relaunched-1yo
-- [ ] /blog/welcome-aurora
-- [ ] /blog/what-qualifies-as-political
-- [ ] /blog/why-auride
-- [ ] /policies/child-safety
-- [ ] /policies/cookies
-- [ ] /policies/copyright
-- [ ] /policies/guidelines
-- [ ] /policies/
-- [ ] /policies/privacy
-- [ ] /policies/terms
-- [ ] /resources/suicide-prevention
+- [x] /blog/introducing-aurorai
+- [x] /blog/memorialized-accounts
+- [x] /blog/new-flagging-system
+- [x] /blog/note-previews
+- [x] /blog/nsfw-blocked
+- [x] /blog/nsfw-flags
+- [x] /blog/political-flags
+- [x] /blog/retiring-transsocial
+- [x] /blog/sensitive-flags
+- [x] /blog/transsocial-relaunched-1yo
+- [x] /blog/welcome-aurora
+- [x] /blog/what-qualifies-as-political
+- [x] /blog/why-auride
+- [x] /policies/child-safety
+- [x] /policies/cookies
+- [x] /policies/copyright
+- [x] /policies/guidelines
+- [x] /policies/
+- [x] /policies/privacy
+- [x] /policies/terms
+- [x] /resources/suicide-prevention
 - [x] /404
 - [x] /about
 - [x] /achievements
