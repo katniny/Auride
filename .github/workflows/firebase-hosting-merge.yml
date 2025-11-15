@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -22,30 +25,24 @@ jobs:
       run: npm install
       working-directory: ./src
 
-    - name: Inject Firebase config into firebase.js
+    - name: Create .env file
       run: |
-        sed -i \
-        -e 's|apiKey: ".*"|apiKey: "${{ secrets.FIREBASE_API_KEY }}"|' \
-        -e 's|authDomain: ".*"|authDomain: "${{ secrets.FIREBASE_AUTH_DOMAIN }}"|' \
-        -e 's|databaseURL: ".*"|databaseURL: "${{ secrets.FIREBASE_DATABASE_URL }}"|' \
-        -e 's|projectId: ".*"|projectId: "${{ secrets.FIREBASE_PROJECT_ID }}"|' \
-        -e 's|storageBucket: ".*"|storageBucket: "${{ secrets.FIREBASE_STORAGE_BUCKET }}"|' \
-        -e 's|messagingSenderId: ".*"|messagingSenderId: "${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}"|' \
-        -e 's|appId: ".*"|appId: "${{ secrets.FIREBASE_APP_ID }}"|' \
-        -e 's|measurementId: ".*"|measurementId: "${{ secrets.FIREBASE_MEASUREMENT_ID }}"|' \
-        ./src/public/assets/js/firebase.js
-    
-    - name: Update envVars.js for deployment
-      run: |
-        sed -i \
-        -e 's|const serverUrl = ".*"|const serverUrl = "${{ secrets.SERVER_URL }}"|' \
-        ./src/public/assets/js/envVars.js
+        echo "VITE_FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" > src/.env
+        echo "VITE_FIREBASE_AUTH_DOMAIN=${{ secrets.FIREBASE_AUTH_DOMAIN }}" >> src/.env
+        echo "VITE_FIREBASE_DATABASE_URL=${{ secrets.FIREBASE_DATABASE_URL }}" >> src/.env
+        echo "VITE_FIREBASE_PROJECT_ID=${{ secrets.FIREBASE_PROJECT_ID }}" >> src/.env
+        echo "VITE_FIREBASE_STORAGE_BUCKET=${{ secrets.FIREBASE_STORAGE_BUCKET }} >> src/.env
+        echo "VITE_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}" >> src/.env
+        echo "VITE_FIREBASE_APP_ID=${{ secrets.FIREBASE_APP_ID }}" >> src/.env
+        echo "VITE_FIREBASE_MEASUREMENT_ID=${{ secrets.FIREBASE_MEASUREMENT_ID }}" >> src/.env
+        echo "VITE_SERVER_URL=${{ secrets.PROD_SERVER_URL }}"
       
     - name: Build project 
       run: npm run build
       working-directory: ./src
 
     - uses: FirebaseExtended/action-hosting-deploy@v0
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/heads/main')
       with:
         repoToken: ${{ secrets.GITHUB_TOKEN }}
         firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHAT_TRANSSOCIAL_TEST }}
