@@ -1,4 +1,4 @@
-Last updated: November 15, 2025
+Last updated: September 15, 2025
 # 👋 Welcome to the Auride contributing guide!
 Thank you for your interest in contributing to Auride! We try to make Auride as easy as possible to contribute to.
 
@@ -51,7 +51,7 @@ Thank you for your interest in contributing to Auride! We try to make Auride as 
    - When it comes to adding new code that is not reliant on existing code within ts_fas_acih.js, please create a new file. This code file is considered depreciated, and should only be modified if you are touching existing code, otherwise, please create a new file.
 
 > [!NOTE] 
-> As of November 15 2025, /public/assets/js/... is depreciated, and scripts should be treated as modules inside of /assets/js/...
+> As of November 11 2025, /public/assets/js/... is depreciated, and scripts should be treated as modules inside of /assets/js/...
 >
 > Please avoid adding entries to /public/assets/js/... unless absolutely necessary.
 
