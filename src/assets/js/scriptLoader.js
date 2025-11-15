@@ -53,4 +53,3 @@ const ScriptLoader = (() => {
       isLoaded: (src) => loadedScripts.has(src),
    };
 })();
-window.ScriptLoader = ScriptLoader;
