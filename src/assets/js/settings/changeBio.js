@@ -1,3 +1,5 @@
+import { faIcon } from "../utils.js";
+
 // show character limit
 const bioText = document.getElementById("bioText");
 const maxBio = 500;
@@ -29,3 +31,4 @@ function setBio() {
         })
     }
 }
+window.setBio = setBio;

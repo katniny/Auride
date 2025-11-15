@@ -76,6 +76,7 @@ function showSensitivePrefChangeModal() {
     // then, finally show modal
     changeSensitivePopup.showModal();
 }
+window.showSensitivePrefChangeModal = showSensitivePrefChangeModal;
 
 function closeSensitiveContentPopup() {
     const sensitiveContentPopup = document.getElementById("changeSensitivePopup");
@@ -85,6 +86,7 @@ function closeSensitiveContentPopup() {
         sensitiveContentPopup.remove();
     }, 100);
 }
+window.closeSensitiveContentPopup = closeSensitiveContentPopup;
 
 // change prefs
 function changeLegacySensitiveContentPref(type) {
@@ -94,6 +96,7 @@ function changeLegacySensitiveContentPref(type) {
         document.getElementById("legacySensitivePrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
+window.changeLegacySensitiveContentPref = changeLegacySensitiveContentPref;
 
 function changeGraphicViolencePref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -102,6 +105,7 @@ function changeGraphicViolencePref(type) {
         document.getElementById("graphicViolencePrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
+window.changeGraphicViolencePref = changeGraphicViolencePref;
 
 function changeHorrorImageryPref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -110,6 +114,7 @@ function changeHorrorImageryPref(type) {
         document.getElementById("horrorImageryPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
+window.changeHorrorImageryPref = changeHorrorImageryPref;
 
 function changeAbuseTraumaPref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -118,6 +123,7 @@ function changeAbuseTraumaPref(type) {
         document.getElementById("abuseTraumaPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
+window.changeAbuseTraumaPref = changeAbuseTraumaPref;
 
 function changeSelfHarmSuicidePref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -126,6 +132,7 @@ function changeSelfHarmSuicidePref(type) {
         document.getElementById("selfHarmSuicidePrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
+window.changeSelfHarmSuicidePref = changeSelfHarmSuicidePref;
 
 function changeDrugUsePref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -134,6 +141,7 @@ function changeDrugUsePref(type) {
         document.getElementById("drugUsePrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
+window.changeDrugUsePref = changeDrugUsePref;
 
 function changeFlashSeizurePref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -142,3 +150,4 @@ function changeFlashSeizurePref(type) {
         document.getElementById("flashSeizurePrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
+window.changeFlashSeizurePref = changeFlashSeizurePref;

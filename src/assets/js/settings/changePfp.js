@@ -1,9 +1,12 @@
+import { faIcon, storageRef } from "../utils.js";
+
 // trigger input
 function changePfp() {
     if (!document.getElementById("changePfp").classList.contains("disabled")) {
         document.getElementById("fileInput").click();
     }
 }
+window.changePfp = changePfp;
 
 // upload the file
 document.getElementById("fileInput").addEventListener("change", function (event) {
