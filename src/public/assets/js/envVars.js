@@ -1,4 +1,4 @@
-export const serverUrl = import.meta.env.VITE_SERVER_URL;
+export const serverUrl = "http://localhost:10000";
 export const illegalUiPages = [
     "/auth/done",
     "/auth/login",

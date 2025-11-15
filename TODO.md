@@ -63,7 +63,3 @@ This includes the page, and the page functionality.
 - [ ] signedOutCheck
 - [ ] signedInCheck
 - [ ] hideErrorByDefault
-
-## Finally,
-- [x] Move scripts into /assets/js/ from /public/assets/js/
-- [x] Move Firebase config to .env
