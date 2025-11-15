@@ -1,4 +1,4 @@
-async function sendGitHubIssue(bugName, browserEngine, operatingSystem, bugReportDesc, 
+export async function sendGitHubIssue(bugName, browserEngine, operatingSystem, bugReportDesc, 
     stepsToRepro, properlyFilledOut, issueClosedIfImproper, reproInDevEnv, 
     resolveIssueSelf, searchedForSimilar, reportType) {
     // get token, if exists
@@ -31,7 +31,7 @@ async function sendGitHubIssue(bugName, browserEngine, operatingSystem, bugRepor
         reportType
     };
 
-    const response = await fetch(`${serverUrl}/api/auride/sendGithubIssue`, {
+    const response = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/auride/sendGithubIssue`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

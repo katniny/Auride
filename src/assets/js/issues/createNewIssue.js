@@ -1,3 +1,6 @@
+import { faIcon } from "../utils.js"; 
+import { sendGitHubIssue } from "./sendGitHubIssue.js";
+
 const initialCreateIssueHTML = `
     <i class="fa-regular fa-circle-xmark fa-lg" style="float: left; margin-top: 10px;" onclick="closeCreateIssuePopup()"></i>
 
@@ -166,6 +169,7 @@ function createNewIssue() {
     // finally, show modal.
     notePopup.showModal();
 }
+window.createNewIssue = createNewIssue;
 
 let currentlySendingIssue = false;
 function createNewBugReport(finished) {
@@ -275,6 +279,7 @@ function createNewBugReport(finished) {
         });
     }
 }
+window.createNewBugReport = createNewBugReport;
 
 function createNewEnhancementReq(finished) {
     if (!finished) {
@@ -376,6 +381,7 @@ function createNewEnhancementReq(finished) {
         });
     }
 }
+window.createNewEnhancementReq = createNewEnhancementReq;
 
 function closeCreateIssuePopup() {
     const notePopup = document.getElementById("createIssuePopup");
@@ -385,6 +391,7 @@ function closeCreateIssuePopup() {
         notePopup.remove();
     }, 100);
 }
+window.closeCreateIssuePopup = closeCreateIssuePopup;
 
 // show error
 function showBugReportError(text, element) {
