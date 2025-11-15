@@ -1,4 +1,4 @@
-export function getTextColor(hex) {
+function getTextColor(hex) {
     // remove # if present
     hex = hex.replace("#", "");
 

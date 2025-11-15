@@ -1,4 +1,4 @@
-export function githubTimestamp(date) {
+function githubTimestamp(date) {
     const seconds = Math.floor((Date.now() - new Date(date)) / 1000);
 
     // define time units (years, months, weeks, etc., etc.)

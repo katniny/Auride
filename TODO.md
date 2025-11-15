@@ -36,16 +36,16 @@ This includes the page, and the page functionality.
 - [x] /404
 - [x] /about
 - [x] /achievements
-- [x] /contributors
+- [ ] /contributors
 - [ ] /create_theme
-- [x] /download
-- [x] /favorites
+- [ ] /download
+- [ ] /favorites
 - [x] /home
 - [x] /indev
 - [x] /
-- [x] /issues
+- [ ] /issues
 - [x] /maintenance
-- [x] /messages
+- [ ] /messages
 - [ ] /note/
 - [x] /notifications
 - [x] /opensource
@@ -55,7 +55,7 @@ This includes the page, and the page functionality.
 - [ ] /suspended
 - [ ] /u/
 - [x] /unsupported
-- [x] /updates
+- [ ] /updates
 - [x] /userstudio
 
 ## Functions
