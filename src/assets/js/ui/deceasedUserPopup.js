@@ -32,5 +32,5 @@ function closeDeceasedUserPopup() {
     notePopup.close();
     setTimeout(() => {
         notePopup.remove();
-    }, 500);
+    }, 100);
 }

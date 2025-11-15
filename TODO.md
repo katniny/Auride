@@ -6,11 +6,11 @@ This includes the page, and the page functionality.
 
 ---
 (From path of /src/)
-- [ ] /auth/done
-- [ ] /auth/login
+- [x] /auth/done
+- [x] /auth/login
 - [ ] /auth/names
 - [ ] /auth/pfp
-- [ ] /auth/policies
+- [x] /auth/policies
 - [ ] /auth/register
 - [ ] /blog/introducing-aurorai
 - [ ] /blog/memorialized-accounts
@@ -32,7 +32,7 @@ This includes the page, and the page functionality.
 - [ ] /policies/
 - [ ] /policies/privacy
 - [ ] /policies/terms
-- [ ] /resources/suicide-preventio
+- [ ] /resources/suicide-prevention
 - [x] /404
 - [x] /about
 - [x] /achievements
@@ -47,7 +47,7 @@ This includes the page, and the page functionality.
 - [x] /maintenance
 - [ ] /messages
 - [ ] /note/
-- [ ] /notifications
+- [x] /notifications
 - [x] /opensource
 - [x] /remembering
 - [ ] /search
@@ -60,9 +60,9 @@ This includes the page, and the page functionality.
 
 ## Functions
 (The rest are easily found within JS/the other pages.)
-- [ ] signedOutCheck
-- [ ] signedInCheck
-- [ ] hideErrorByDefault
+- [x] signedOutCheck
+- [x] signedInCheck
+- [x] hideErrorByDefault
 
 ## Finally,
 - [x] Move scripts into /assets/js/ from /public/assets/js/

@@ -74,7 +74,7 @@ function closeMatureContentPopup() {
     matureContentPopup.close();
     setTimeout(() => {
         matureContentPopup.remove();
-    }, 500);
+    }, 100);
 }
 
 // change prefs

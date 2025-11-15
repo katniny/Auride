@@ -320,7 +320,7 @@ function createNotePopup() {
 
     // if the user is renoting another note, show the note!
     // quality of life ^-^
-    if (state.renotingNote === null) {
+    if (!state.renotingNote) {
         document.getElementById("quotingNote").style.display = "none";
     } else {
         document.getElementById("quotingNote").style.display = "block";
@@ -352,7 +352,7 @@ function closeCreateNotePopup() {
     notePopup.close();
     setTimeout(() => {
         notePopup.remove();
-    }, 500);
+    }, 100);
 }
 
 // listen for Ctrl + Enter shortcut

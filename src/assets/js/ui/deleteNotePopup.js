@@ -28,7 +28,7 @@ function closeDeleteNoteUI() {
     deleteNotePopup.close();
     setTimeout(() => {
         deleteNotePopup.remove();
-    }, 500);
+    }, 100);
 }
 
 // delete note
