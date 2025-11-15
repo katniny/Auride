@@ -383,7 +383,7 @@ function closeCreateIssuePopup() {
     notePopup.close();
     setTimeout(() => {
         notePopup.remove();
-    }, 100);
+    }, 500);
 }
 
 // show error
