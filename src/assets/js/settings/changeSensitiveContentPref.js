@@ -83,7 +83,7 @@ function closeSensitiveContentPopup() {
     sensitiveContentPopup.close();
     setTimeout(() => {
         sensitiveContentPopup.remove();
-    }, 500);
+    }, 100);
 }
 
 // change prefs

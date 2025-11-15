@@ -74,7 +74,7 @@ function closePoliticalContentPopup() {
     politicalContentPopup.close();
     setTimeout(() => {
         politicalContentPopup.remove();
-    }, 500);
+    }, 100);
 }
 
 // change prefs

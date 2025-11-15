@@ -43,6 +43,6 @@ function dontSaveTheme() {
 
         setTimeout(() => {
             document.getElementById("saveTheme").remove();
-        }, 500);
+        }, 100);
     }
 }
