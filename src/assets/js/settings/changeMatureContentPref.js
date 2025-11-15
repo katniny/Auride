@@ -67,7 +67,6 @@ function showMatureContentPrefChangeModal() {
     // then, finally show modal
     changeMaturePopup.showModal();
 }
-window.showMatureContentPrefChangeModal = showMatureContentPrefChangeModal;
 
 function closeMatureContentPopup() {
     const matureContentPopup = document.getElementById("changeMaturePopup");
@@ -77,7 +76,6 @@ function closeMatureContentPopup() {
         matureContentPopup.remove();
     }, 100);
 }
-window.closeMatureContentPopup = closeMatureContentPopup;
 
 // change prefs
 function changeLegacyNSFWContentPref(type) {
@@ -87,7 +85,6 @@ function changeLegacyNSFWContentPref(type) {
         document.getElementById("legacyMaturePrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changeLegacyNSFWContentPref = changeLegacyNSFWContentPref;
 
 function changeAdultContentPref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -96,7 +93,6 @@ function changeAdultContentPref(type) {
         document.getElementById("adultContentPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changeAdultContentPref = changeAdultContentPref;
 
 function changeSexuallySuggestivePref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -105,7 +101,6 @@ function changeSexuallySuggestivePref(type) {
         document.getElementById("sexuallySuggestivePrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changeSexuallySuggestivePref = changeSexuallySuggestivePref;
 
 function changeFetishPref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -114,7 +109,6 @@ function changeFetishPref(type) {
         document.getElementById("fetishPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changeFetishPref = changeFetishPref;
 
 function changeNonSexualPref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -123,7 +117,6 @@ function changeNonSexualPref(type) {
         document.getElementById("nonSexualPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changeNonSexualPref = changeNonSexualPref;
 
 function changeEroticaPref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -132,4 +125,3 @@ function changeEroticaPref(type) {
         document.getElementById("eroticaPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changeEroticaPref = changeEroticaPref;

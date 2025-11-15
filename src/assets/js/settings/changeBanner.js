@@ -1,12 +1,9 @@
-import { faIcon, storageRef } from "../utils.js";
-
 // trigger input
 function changeBanner() {
     if (!document.getElementById("changeBanner").classList.contains("disabled")) {
         document.getElementById("fileInput_banner").click();
     }
 }
-window.changeBanner = changeBanner;
 
 // upload banner
 document.getElementById("fileInput_banner").addEventListener("change", function (event) {
