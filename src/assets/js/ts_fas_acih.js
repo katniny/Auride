@@ -293,7 +293,7 @@ if (pathName === "/auth/pfp") {
 
 function displayAndUsernameReserve() {
    document.getElementById("errorTxt").style.display = "none";
-   document.getElementById("displayAndUsernameBtn").innerHTML = `${faIcon("spinner", animatian = "spin-pulse").outerHTML} Checking display...`;
+   document.getElementById("displayAndUsernameBtn").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Checking display...`;
    document.getElementById("displayAndUsernameBtn").classList.add("disabled");
 
    // make sure display name isn't empty
@@ -362,6 +362,7 @@ function displayAndUsernameReserve() {
       })
    }
 }
+window.displayAndUsernameReserve = displayAndUsernameReserve;
 
 // auth/done... not much to do, just check auth state
 if (pathName === "/auth/done") {
@@ -414,6 +415,7 @@ function register() {
          });
    }
 }
+window.register = register;
 
 // Login Function
 function login() {
