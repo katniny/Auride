@@ -15,7 +15,7 @@ usernameText.addEventListener("input", () => {
 // setting the username
 function setUsername() {
     if (!document.getElementById("saveUsername").classList.contains("disabled")) {
-        document.getElementById("saveUsername").innerHTML = `${faIcon("fa-spinner", "spin-pulse").outerHTML} Checking whitespace...`;
+        document.getElementById("saveUsername").innerHTML = `${faIcon("fa-spinner", anim = "spin-pulse").outerHTML} Checking whitespace...`;
         document.getElementById("saveUsername").classList.add("disabled");
         document.getElementById("errorTakingUsername").style.display = "none";
 
@@ -45,16 +45,16 @@ function setUsername() {
                             firebase.database().ref(`users/${user.uid}`).once("value", (snapshot) => {
                                 const data = snapshot.val();
 
-                                document.getElementById("saveUsername").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Removing old username...`;
+                                document.getElementById("saveUsername").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Removing old username...`;
                                 firebase.database().ref(`taken-usernames/${data.username}`).update({
                                     user: null
                                 }).then(() => {
-                                    document.getElementById("saveUsername").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Reserving username...`;
+                                    document.getElementById("saveUsername").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Reserving username...`;
 
                                     firebase.database().ref(`taken-usernames/${document.getElementById("username-text").value}`).update({
                                         user: user.uid
                                     }).then(() => {
-                                        document.getElementById("saveUsername").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Setting publicly...`;
+                                        document.getElementById("saveUsername").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Setting publicly...`;
 
                                         firebase.database().ref(`users/${user.uid}`).update({
                                             username: document.getElementById("username-text").value

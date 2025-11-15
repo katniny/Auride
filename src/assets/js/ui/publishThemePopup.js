@@ -46,4 +46,3 @@ function publishTheme_Open() {
     // then, finally show modal
     publishThemePopup.showModal();
 }
-window.publishTheme_Open = publishTheme_Open;
