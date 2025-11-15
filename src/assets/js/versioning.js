@@ -1,5 +1,5 @@
-export let aurideVersion = "v2025.11.15";
-export let aurideUpdate = "v202511015-1";
+export let aurideVersion = "v2025.11.7";
+export let aurideUpdate = "v20251107-1";
 export let aurideReleaseVersion = "alpha";
 export let hasUpdateNotes = true;
 
