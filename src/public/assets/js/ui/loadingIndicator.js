@@ -1,5 +1,5 @@
 // create loading indicator to give some visual feedback
-export function createLoadingIndicator(size, appendTo, addType) {
+function createLoadingIndicator(size, appendTo, addType) {
     // get the size requested
     let loadingIndicator = null;
     switch (size) {

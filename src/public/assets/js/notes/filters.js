@@ -1,6 +1,3 @@
-import { state } from "./notes.js";
-import { loadInitalNotes } from "./notes.js";
-
 const allNotesButton = document.getElementById("allNotesButton");
 const followingNotesButton = document.getElementById("followingNotesButton");
 const notes = document.getElementById("notes");
@@ -27,7 +24,7 @@ function filterNotes(type = "all") {
     inactiveButton.classList.remove("active");
 
     // set flag
-    state.loadOnlyFollowingNotesOnly = isFollowing;
+    loadOnlyFollowingNotesOnly = isFollowing;
 
     // if no user but tried to access following,
     // give them a message that they cant
@@ -52,5 +49,3 @@ function filterNotes(type = "all") {
     // load initial notes
     loadInitalNotes(isFollowing);
 }
-
-window.filterNotes = filterNotes;

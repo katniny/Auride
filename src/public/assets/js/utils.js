@@ -1,6 +1,6 @@
 //@ts-check
 
-export function faIcon(
+function faIcon(
   /** @type {string} */ name,
   /** @type {string|null} */ size = null,
   /** @type {string|null} */ anim = null,
@@ -20,7 +20,7 @@ export function faIcon(
 const TUS_ENDPOINT = `https://best-energy-drink-is.fucking.monster`;
 //const TUS_ENDPOINT = `http://localhost:6979`;
 const TUS_UPLOAD_ENDPOINT = `${TUS_ENDPOINT}/files/`;
-export var storageLink = (/** @type {string} */ path) => `${TUS_ENDPOINT}/${path}`;
+var storageLink = (/** @type {string} */ path) => `${TUS_ENDPOINT}/${path}`;
 
 function storageRef(/** @type {string} */ path) {
   /** @type {(progress: { bytesTransferred: number, totalBytes: number }) => void} */

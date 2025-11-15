@@ -1,9 +1,3 @@
-import { pathName } from "../pathName.js";
-import { createLoadingIndicator } from "../ui/loadingIndicator.js";
-import { serverUrl } from "../envVars.js";
-import { renderNote } from "./renderNoteDiv.js";
-import { faIcon } from "../utils.js";
-
 // TODO - seperate this code!
 // its just in a new script for 
 // 1) code seperation, since i would like to depreciate ts_fas_acih.js
@@ -13,7 +7,7 @@ import { faIcon } from "../utils.js";
 let notesPageRef = null;
 let notesPageRefString = null;
 let currentLoadingNotes = false; // has to be at the top or loadInitialNotes() breaks...
-export const state = { loadOnlyFollowingNotesOnly: false };
+let loadOnlyFollowingNotesOnly = false;
 
 // get the notes ref path
 switch(true) {
@@ -90,7 +84,7 @@ const newNotesAvailable = document.getElementById("newNotesAvailable");
 let isLoading = false;
 let lastNoteKey = null;
 let loadedNotesId = new Set();
-export let userAutoplayPreference = null;
+let userAutoplayPreference = null;
 
 // function to fetch and cache user's autoplay pref
 function fetchAutoplayPreference() {
@@ -128,11 +122,10 @@ function loadNotesFromButton() {
     // load the new notes
     loadInitalNotes(false);
 }
-window.loadNotesFromButton = loadNotesFromButton;
 
 // Note Rendering
 // observer to only show images/videos/etc. when about to be visible for performance
-export const mediaObserver = new IntersectionObserver((entries, _observer) => {
+const mediaObserver = new IntersectionObserver((entries, _observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.style.visibility = "visible";
@@ -148,7 +141,7 @@ export const mediaObserver = new IntersectionObserver((entries, _observer) => {
     threshold: 0.1
 });
 
-export async function loadInitalNotes(onlyFollowing) {
+async function loadInitalNotes(onlyFollowing) {
     // if loading notes, return 
     if (currentLoadingNotes) return;
     currentLoadingNotes = true;
@@ -401,11 +394,6 @@ function attachListeners() {
     });
 }
 
-function findNoteId(likeButton) {
-    // Every note has an ID associated with it. This will fetch the note's ID and return it to allow the user to love the note.
-    return likeButton.closest(".note").id;
-};
-
 document.addEventListener('click', function (event) {
     firebase.auth().onAuthStateChanged((user) => {
         if (user) {
@@ -488,6 +476,11 @@ document.addEventListener('click', function (event) {
         }
     })
 });
+
+function findNoteId(likeButton) {
+    // Every note has an ID associated with it. This will fetch the note's ID and return it to allow the user to love the note.
+    return likeButton.closest(".note").id;
+};
 
 document.addEventListener('click', function (event) {
     firebase.auth().onAuthStateChanged((user) => {
@@ -580,3 +573,8 @@ document.addEventListener('click', function (event) {
         }
     })
 });
+
+function findNoteId(renoteButton) {
+    // Every note has an ID associated with it. This will fetch the note's ID and return it to allow the user to love the note.
+    return renoteButton.closest(".note").id;
+};
