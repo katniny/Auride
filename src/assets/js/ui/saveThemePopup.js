@@ -13,7 +13,7 @@ const saveThemePopup = `
 `;
 
 // opening
-function saveTheme_Open() {
+export function saveTheme_Open() {
     // append and put the content inside the modal
     const saveThemePopupElement = document.createElement("dialog");
     saveThemePopupElement.setAttribute("id", "saveTheme");
@@ -34,6 +34,7 @@ function saveTheme_Open() {
     // then, finally show modal
     saveThemePopupElement.showModal();
 }
+window.saveTheme_Open = saveTheme_Open;
 
 // closing
 function dontSaveTheme() {
@@ -46,3 +47,4 @@ function dontSaveTheme() {
         }, 100);
     }
 }
+window.dontSaveTheme = dontSaveTheme;
