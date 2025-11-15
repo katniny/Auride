@@ -23,10 +23,8 @@ const pageLoaderHTML = `
       </div>
    </div>
 `;
-if (!document.getElementById("loader")) {
-    document.body.innerHTML += pageLoaderHTML;
-    document.body.classList.add("loaderReady");
-}
+document.body.innerHTML += pageLoaderHTML;
+document.body.classList.add("loaderReady");
 
 // Randomize quote
 const quotes = [
@@ -152,6 +150,7 @@ firebase.auth().onAuthStateChanged((user) => {
                 }
             }
 
+            console.log(getTheme.theme);
             if (getTheme && getTheme.theme === "Dark" || getTheme && getTheme.theme === undefined) {
                 setGlobalTheme("Dark", getTheme.showPrideFlag);
             } else if (getTheme && getTheme.theme === "Light") {
