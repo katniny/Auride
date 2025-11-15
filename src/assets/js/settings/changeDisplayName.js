@@ -1,5 +1,3 @@
-import { faIcon } from "../utils.js";
-
 // the character count
 const displayNameText = document.getElementById("displayName-text");
 const maxDisplay = 25;
@@ -52,4 +50,3 @@ function setDisplayName() {
         }
     }
 }
-window.setDisplayName = setDisplayName;

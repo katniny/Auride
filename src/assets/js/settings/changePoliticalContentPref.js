@@ -67,7 +67,6 @@ function showPoliticalPrefChangeModal() {
     // then, finally show modal
     changePoliticalPopup.showModal();
 }
-window.showPoliticalPrefChangeModal = showPoliticalPrefChangeModal;
 
 function closePoliticalContentPopup() {
     const politicalContentPopup = document.getElementById("changePoliticalPopup");
@@ -77,7 +76,6 @@ function closePoliticalContentPopup() {
         politicalContentPopup.remove();
     }, 100);
 }
-window.closePoliticalContentPopup = closePoliticalContentPopup;
 
 // change prefs
 function changeLegacyPoliticalContentPref(type) {
@@ -87,7 +85,6 @@ function changeLegacyPoliticalContentPref(type) {
         document.getElementById("legacyPoliticalPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changeLegacyPoliticalContentPref = changeLegacyPoliticalContentPref;
 
 function changePoliticalDiscussionPref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -96,7 +93,6 @@ function changePoliticalDiscussionPref(type) {
         document.getElementById("politicalDiscussionPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changePoliticalDiscussionPref = changePoliticalDiscussionPref;
 
 function changeWarAndConflictPref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -105,7 +101,6 @@ function changeWarAndConflictPref(type) {
         document.getElementById("warAndConflictPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changeWarAndConflictPref = changeWarAndConflictPref;
 
 function changeIdentityDebatesPref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -114,7 +109,6 @@ function changeIdentityDebatesPref(type) {
         document.getElementById("identityDebatesPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changeIdentityDebatesPref = changeIdentityDebatesPref;
 
 function changeConspiracyTheoriesPref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -123,7 +117,6 @@ function changeConspiracyTheoriesPref(type) {
         document.getElementById("conspiracyTheoriesPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changeConspiracyTheoriesPref = changeConspiracyTheoriesPref;
 
 function changeNewsMediaPref(type) {
     firebase.database().ref(`users/${firebase.auth().currentUser.uid}/flagPrefs`).update({
@@ -132,4 +125,3 @@ function changeNewsMediaPref(type) {
         document.getElementById("newsMediaPrefSet").textContent = `Set preference to ${type} successfully!`;
     });
 }
-window.changeNewsMediaPref = changeNewsMediaPref;
