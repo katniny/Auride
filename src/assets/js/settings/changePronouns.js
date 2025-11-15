@@ -16,7 +16,7 @@ pronounsText.addEventListener("input", () => {
 function setPronouns() {
     if (!document.getElementById("savePronouns").classList.contains("disabled")) {
         if (!document.getElementById("savePronouns").classList.contains("disabled")) {
-            document.getElementById("savePronouns").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Updating pronouns...`;
+            document.getElementById("savePronouns").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Updating pronouns...`;
             document.getElementById("savePronouns").classList.add("disabled");
 
             firebase.auth().onAuthStateChanged((user) => {

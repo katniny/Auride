@@ -37,7 +37,7 @@ This includes the page, and the page functionality.
 - [x] /about
 - [x] /achievements
 - [x] /contributors
-- [ ] /create_theme
+- [x] /create_theme
 - [x] /download
 - [x] /favorites
 - [x] /home

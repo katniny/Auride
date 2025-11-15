@@ -15,7 +15,7 @@ displayNameText.addEventListener("input", () => {
 // setting the display name
 function setDisplayName() {
     if (!document.getElementById("saveDisplay").classList.contains("disabled")) {
-        document.getElementById("saveDisplay").innerHTML = `${faIcon("spinner", anim = "spin-pulse").outerHTML} Setting Display...`;
+        document.getElementById("saveDisplay").innerHTML = `${faIcon("spinner", "spin-pulse").outerHTML} Setting Display...`;
         document.getElementById("saveDisplay").classList.add("disabled");
         document.getElementById("errorUsingDisplay").style.display = "none";
 
