@@ -1,6 +1,5 @@
 import { pathName } from "../pathName.js";
 import { storageLink } from "../utils.js";
-import { noteState } from "../ts_fas_acih.js";
 
 let currentTab = "note";
 const modal = `
@@ -136,7 +135,6 @@ export function quoteRenote(id) {
    state.renotingNote = id;
    createNotePopup();
 }
-window.quoteRenote = quoteRenote;
 
 // track the selected music id
 // let user pick the song
@@ -188,9 +186,6 @@ function swapNoteTab(tab) { // TODO: yucky, refactor me please
 
 // show the modal when requested
 function createNotePopup() {
-    // FIXME: why is this duplicating?
-    if (document.getElementById("createNote-popup")) return;
-
     // append and put the content inside the modal
     const notePopup = document.createElement("dialog");
     notePopup.setAttribute("id", "createNote-popup");
@@ -349,7 +344,7 @@ function closeCreateNotePopup() {
     const notePopup = document.getElementById("createNote-popup");
 
     if (pathName === "/note" || pathName === "/note.html" || pathName.startsWith("/note/")) {
-        noteState.isReplying_notehtml = false;
+        isReplying_notehtml = false;
     }
     state.renotingNote = null;
     state.pickedMusic = null;
