@@ -101,6 +101,9 @@
 @import url("issueDetails.css");
 @import url("issuePopup.css");
 @import url("defaultDropdown.css");
+@import url("defaultDescription.css");
+@import url("noteDeletionError.css");
+@import url("doDontDeleteNoteBtns.css");
 
 /* 
    for some reason, vite is super picky about having
