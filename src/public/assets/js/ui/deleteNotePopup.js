@@ -84,7 +84,7 @@ async function deleteNote_fully(noteId) {
         }
     });
     if (!response.ok) {
-        //updateDeleteBtnsState("finished");
+        updateDeleteBtnsState("finished");
         errorText.textContent = "A server occurred deleting your note.";
         errorText.classList.add("shown");
         console.error("Failed to delete note: ", response.statusText);
