@@ -52,8 +52,6 @@ app.use((req, res, next) => {
 // run auride's private backend
 const aurideRoutes = path.join(__dirname, "auride");
 fs.readdirSync(aurideRoutes).forEach(file => {
-    console.log(aurideRoutes);
-
     console.log(`Starting ${file}...`);
     if (file.endsWith(".js")) {
         const route = require(path.join(aurideRoutes, file));

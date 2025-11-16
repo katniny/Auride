@@ -1,0 +1,8 @@
+#noteDeletionErrors {
+    color: var(--error-text);
+    display: none;
+}
+
+#noteDeletionErrors.shown{
+    display: block;
+}

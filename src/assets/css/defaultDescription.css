@@ -1,0 +1,11 @@
+.description {
+    color: var(--text-semi-transparent);
+}
+
+.description.smaller {
+    font-size: smaller;
+}
+
+.description.small {
+    font-size: small;
+}

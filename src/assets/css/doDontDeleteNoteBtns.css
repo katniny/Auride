@@ -1,0 +1,11 @@
+#deleteNoteFullyBtn,
+#dontDeleteNoteBtn {
+    opacity: 1;
+    cursor: pointer;
+}
+
+#deleteNoteFullyBtn.working,
+#dontDeleteNoteBtn.working {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
