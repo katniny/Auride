@@ -253,6 +253,12 @@ async function renderNotes(notesArray) {
     if (currentlyRendering) return;
     const notesContainer = document.getElementById("notes");
 
+    // if blocked, don't render notes
+    // TODO: make this proper server-side validation
+    const blockedContainer = notesContainer.querySelector(".blocked");
+    if (blockedContainer)
+        return;
+
     for (const noteData of notesArray) {
         let noteDiv = await renderNote(noteData);
         if (noteDiv == null) continue;
