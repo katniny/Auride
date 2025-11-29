@@ -158,6 +158,7 @@ async function loadInitalNotes(onlyFollowing) {
     }
 
     // create loading indicator to give some visual feedback
+    const notesEl = await waitForElement("notes");
     await createLoadingIndicator("lg", "notes", "append");
     const loadingIndicator = document.getElementById("noteLoadingIndicator");
     
