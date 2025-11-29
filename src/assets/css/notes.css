@@ -141,6 +141,10 @@
    text-decoration: none;
 }
 
+.noteBadges > i:first-of-type {
+   margin-left: 7px;
+}
+
 .noteBadges i {
    color: var(--main-color);
    margin-left: 5px;
@@ -387,4 +391,13 @@
 .notes .note iframe {
    width: 98%;
    border: none;
+}
+
+/* notes in a blocked state */
+.notes .blocked {
+   text-align: center;
+}
+
+.notes .blocked p {
+   color: var(--text-semi-transparent);
 }

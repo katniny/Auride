@@ -3,3 +3,11 @@
    margin-top: 10px;
    margin-left: 3px;
 }
+
+#userActionsDialog button {
+   width: 100%;
+}
+
+#userActionsDialog #interactingWithWho_desc {
+   color: var(--text-semi-transparent);
+}
