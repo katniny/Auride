@@ -272,9 +272,6 @@ async function renderUPage(userIdentifer, reqType) {
     // add event listener to user actions button
     const userActionsBtn = document.getElementById("userActions");
     userActionsBtn.onclick = () => userActions(user, userData, currentUserHasBlocked);
-
-    // TODO: migrate following and unfollowing to server
-    // then you're done! yippee.
 }
 
 // show achievement
@@ -293,7 +290,7 @@ function renderAchievementUnlocked(element, achievement, description) {
     unlockDate.textContent = `Unlocked ${achievement.unlockedWhen}`;
 }
 
-// test
+// get the username if on /u/{username} page
 if (pathName.startsWith("/u/")) {
     // get username then call function
     const username = pathName.split("/")[2];
