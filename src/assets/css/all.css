@@ -105,6 +105,7 @@
 @import url("noteDeletionError.css");
 @import url("doDontDeleteNoteBtns.css");
 @import url("defaultDetails.css");
+@import url("blogStyle.css");
 
 /* 
    for some reason, vite is super picky about having

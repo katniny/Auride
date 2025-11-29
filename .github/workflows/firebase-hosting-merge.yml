@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -45,7 +48,9 @@ jobs:
       run: npm run build
       working-directory: ./src
 
-    - uses: FirebaseExtended/action-hosting-deploy@v0
+    - name: Deploy to Firebase
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      uses: FirebaseExtended/action-hosting-deploy@v0
       with:
         repoToken: ${{ secrets.GITHUB_TOKEN }}
         firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_CHAT_TRANSSOCIAL_TEST }}
