@@ -979,387 +979,140 @@ function swapNoteTab(tab) {
 Notification.requestPermission();
 
 // Get the user's information to display on the profile
-if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {
-   const url = new URL(window.location.href);
-   let userParam = null;
-   let profileExists = null;
-   let profileData = null;
+// if (pathName === "/u.html" || pathName === "/u" || pathName.startsWith("/u/")) {            
+//                document.getElementById("interactingWithWho").textContent = `User Actions for @${profileData.username}`;
 
-   if (pathName.startsWith("/u/")) {
-      const segments = pathName.split("/");
-      userParam = segments[2];
+//                firebase.auth().onAuthStateChanged((user) => {
+//                   if (user) {
+//                      if (user.uid === profileExists.user) {
+//                         document.getElementById("blockUser").style.display = "none";
+//                         document.getElementById("interactingWithWho_desc").textContent = "Would you like to do with your profile?";
+//                         document.getElementById("profileSidebar").classList.add("active");
+//                      } else {
+//                         if (profileData.memorialAccount && profileData.memorialAccount.isDeceased === true) {
+//                            // remove all interactions
+//                            document.getElementById("blockUser").remove();
+//                            document.getElementById("unblockUser").remove();
+//                            document.getElementById("editProfile").remove();
+//                            document.getElementById("reportUser").remove();
 
-      console.log(userParam);
-   } else {
-      userParam = url.searchParams.get("id");
-   }
+//                            // then, display a notice
+//                            document.getElementById("deceasedUserInteractions").innerHTML = `@${profileData.username} is a memorial account. You cannot follow, block, report or interact with a memorial account. <a href="/blog/memorialized-accounts">Learn more about memorial accounts</a>.`;
+//                         } else {
+//                            document.getElementById("editProfile").remove();
+//                         }
+//                      }
 
-   database.ref(`taken-usernames/${userParam.toLowerCase()}`).once("value", (snapshot) => {
-      profileExists = snapshot.val();
+//    function followUser() {
+//       firebase.auth().onAuthStateChanged((user) => {
+//          const currentUserUid = user.uid;
+//          const profileUserUid = profileExists.user;
+//          const currentUserFollowsRef = firebase.database().ref(`users/${profileUserUid}/whoFollows`);
+//          let isBlocked = null;
 
-      if (profileExists.user !== null) {
-         document.getElementById("userNotFound").style.display = "none";
-         database.ref(`users/${profileExists.user}`).once("value", (snapshot) => {
-            profileData = snapshot.val();
+//          if (currentUserUid === profileUserUid) {
+//             // dont follow themselves
+//             return;
+//          }
 
-            if (profileData.suspensionStatus !== "suspended") {
-               document.title = `${profileData.display} (@${profileData.username}) | Auride`;
-               document.getElementById(`melissa`).style.display = "block";
-               document.getElementById(`userImage-profile`).src = storageLink(`images/pfp/${profileExists.user}/${profileData.pfp}`);
-               document.getElementById(`display-profile`).innerHTML = format(profileData.display, [ "html", "emoji" ]);
-               const badges = document.createElement("span");
-               if (profileData.isVerified) {
-                  badges.appendChild(faIcon("circle-check"));
-                  badges.style.marginLeft = "7px";
-               }
-               if (profileData.isSubscribed) {
-                  badges.appendChild(faIcon("heart", marginLeft = "3px"));
-               }
-               if (profileData.activeContributor) {
-                  badges.appendChild(faIcon("handshake-angle", size = "sm"));
-               }
-               badges.classList.add("noteBadges");
-               document.getElementById(`display-profile`).appendChild(badges);
-               document.getElementById(`username-profile`).textContent = `@${profileData.username}`;
+//          currentUserFollowsRef.once('value', (snapshot) => {
+//             const followersData = snapshot.val();
 
-               if (profileData.banner) {
-                  document.getElementById(`userImage-banner`).src = storageLink(`images/banner/${profileExists.user}/${profileData.banner}`);
-               }
+//             firebase.database().ref(`users/${profileUserUid}/blocked`).once("value", (snapshot) => {
+//                const getUser = snapshot.val();
 
-               document.getElementById("interactingWithWho").textContent = `User Actions for @${profileData.username}`;
+//                if (getUser && getUser[user.uid]) {
+//                   document.getElementById('youAreBlocked').showModal();
+//                } else {
+//                   if (followersData && followersData[currentUserUid]) {
+//                      firebase.database().ref().update({
+//                         [`users/${profileUserUid}/whoFollows/${currentUserUid}`]: null,
+//                         [`users/${profileUserUid}/followers`]: firebase.database.ServerValue.increment(-1),
+//                         [`users/${currentUserUid}/followingWho/${profileUserUid}`]: null,
+//                         [`users/${currentUserUid}/following`]: firebase.database.ServerValue.increment(-1)
+//                      }); // ENDS HERE.
 
-               if (profileData.memorialAccount && profileData.memorialAccount.isDeceased === true) {
-                  // open popup
-                  setTimeout(() => {
-                     openDeceasedUserPopup(profileData.username);
-                  }, 350);
+//                      unblockUser();
+//                      //window.location.reload();
+//                   } else {
+//                      firebase.auth().onAuthStateChanged((user) => {
+//                         if (user) { // Check if user is logged in 
+//                            const currentUserUid = user.uid;
+//                            const profileUserUid = profileExists.user; // Assuming you get this from elsewhere
 
-                  // add "remembering" after the username
-                  const rememberingTxt = document.createElement("p");
-                  rememberingTxt.innerHTML = `${faIcon("dove").outerHTML} Remembering @${profileData.username}. <a href="/blog/memorialized-accounts">Learn more about memorial accounts</a>.`;
-                  rememberingTxt.className = "rememberingUser";
-                  document.getElementById("bio-profile").parentNode.insertBefore(rememberingTxt, document.getElementById("bio-profile"));
-               }
+//                            // Use a database transaction
+//                            firebase.database().ref().update({
+//                               [`users/${profileUserUid}/whoFollows/${currentUserUid}`]: { uid: currentUserUid },
+//                               [`users/${profileUserUid}/followers`]: firebase.database.ServerValue.increment(1),
+//                               [`users/${currentUserUid}/followingWho/${profileUserUid}`]: { uid: profileUserUid },
+//                               [`users/${currentUserUid}/following`]: firebase.database.ServerValue.increment(1)
+//                            });
 
-               firebase.auth().onAuthStateChanged((user) => {
-                  if (user) {
-                     if (user.uid === profileExists.user) {
-                        document.getElementById("blockUser").style.display = "none";
-                        document.getElementById("interactingWithWho_desc").textContent = "Would you like to do with your profile?";
-                        document.getElementById("profileSidebar").classList.add("active");
-                     } else {
-                        if (profileData.memorialAccount && profileData.memorialAccount.isDeceased === true) {
-                           // remove all interactions
-                           document.getElementById("blockUser").remove();
-                           document.getElementById("unblockUser").remove();
-                           document.getElementById("editProfile").remove();
-                           document.getElementById("reportUser").remove();
+//                            sendNotification(profileUserUid, {
+//                               type: "Follow",
+//                               who: currentUserUid,
+//                            });
 
-                           // then, display a notice
-                           document.getElementById("deceasedUserInteractions").innerHTML = `@${profileData.username} is a memorial account. You cannot follow, block, report or interact with a memorial account. <a href="/blog/memorialized-accounts">Learn more about memorial accounts</a>.`;
-                        } else {
-                           document.getElementById("editProfile").remove();
-                        }
-                     }
+//                            unlockAchievement("The Social Butterfly");
 
-                     firebase.database().ref(`users/${user.uid}/blocked/${profileExists.user}`).once("value", (snapshot) => {
-                        const isBlocked = snapshot.val();
+//                            window.location.reload();
+//                         }
+//                      });
+//                   }
 
-                        if (isBlocked === null) {
-                           document.getElementById("ifUserBlocked_Current").style.display = "none";
-                        } else if (isBlocked !== null) {
-                           document.getElementById("ifUserBlocked_Current").style.display = "block";
-                           document.getElementById("blockUser").style.display = "none";
-                           document.getElementById("unblockUser").style.display = "block";
-                           document.getElementById("whoIsBlocked").textContent = `@${profileData.username} is blocked`;
-                           document.getElementById("whoIsBlocked_desc").textContent = `@${profileData.username} is blocked. Would you like to view their notes anyway or unblock them?`;
-                           document.getElementById("followButton").remove();
-                           document.getElementById("userActions").style.marginLeft = "15px";
-                        }
-                     })
+//                }
+//             })
+//          });
+//       })
+//    }
 
-                     firebase.database().ref(`users/${profileExists.user}/blocked/${user.uid}`).once("value", (snapshot) => {
-                        const blocked = snapshot.val();
+//    // User Actions
+//    function userActions() {
+//       firebase.auth().onAuthStateChanged((user) => {
+//          if (user) {
+//             document.getElementById("userActions-dialog").showModal();
+//          } else {
+//             loginModal();
+//          }
+//       })
+//    }
 
-                        if (blocked === null) {
-                           // Don't do anything, it's possible that this would hide the warning if the user visiting has blocked the other.
-                        } else if (blocked !== null) {
-                           document.getElementById("ifUserBlocked_Current").style.display = "block";
-                           document.getElementById("blockUser").style.display = "none";
-                           document.getElementById("unblockUser").style.display = "none";
-                           document.getElementById("whoIsBlocked").textContent = `@${profileData.username} blocked you`;
-                           document.getElementById("whoIsBlocked_desc").textContent = `@${profileData.username} blocked you. You may not see their notes.`;
-                           // document.getElementById("followButton").remove();
-                           document.getElementById("showNotesButton").remove();
-                           document.getElementById("unblockUserButton").remove();
-                        }
-                     })
-                  }
-               })
-            } else {
-               document.getElementById(`melissa`).style.display = "none";
-               document.getElementById("userNotFound").style.display = "block";
+//    function blockUser() {
+//       firebase.auth().onAuthStateChanged((user) => {
+//          if (user) {
+//             firebase.database().ref(`users/${user.uid}/blocked/${profileExists.user}`).update({
+//                user: profileExists.user
+//             })
 
-               document.getElementById("userNotFound").innerHTML = `
-                  <h1>User is unavailable.</h1>
-                  <p>This user is suspended from Auride, so you cannot view their profile. If they get unsuspended--if ever--their profile will be available to view again.</p>
+//             firebase.database().ref(`users/${user.uid}/followingWho/${profileExists.user}`).once("value", (snapshot) => {
+//                const exists = snapshot.val();
 
-                  <a href="/home"><button>Go Home</button></a>
-               `
-            }
+//                if (exists === null) {
+//                   window.location.reload();
+//                } else {
+//                   followUser();
+//                }
+//             })
+//          } else {
+//             loginPrompt();
+//          }
+//       })
+//    }
 
+//    function unblockUser() {
+//       firebase.auth().onAuthStateChanged((user) => {
+//          if (user) {
+//             firebase.database().ref(`users/${user.uid}/blocked/${profileExists.user}`).update({
+//                user: null
+//             })
 
-            if (profileData.pronouns === undefined || profileData.pronouns === null || profileData.pronouns === "") {
-               document.getElementById(`pronouns-profile`).remove();
-            } else {
-               document.getElementById(`pronouns-profile`).textContent = profileData.pronouns;
-            }
-
-            if (profileData.bio === undefined || profileData.bio === null || profileData.bio === "") {
-               document.getElementById("bio-profile").textContent = "No user bio provided.";
-            } else {
-               document.getElementById("bio-profile").innerHTML = format(profileData.bio);
-            }
-
-            if (profileData.followers === undefined) {
-               document.getElementById("followers").textContent = "0 ";
-            } else {
-               document.getElementById("followers").textContent = `${profileData.followers} `;
-            }
-
-            if (profileData.following === undefined) {
-               document.getElementById("following").textContent = "0 ";
-            } else {
-               document.getElementById("following").textContent = `${profileData.following} `;
-            }
-
-            // If user profile and logged in user are the same
-            firebase.auth().onAuthStateChanged((user) => {
-               if (user.uid === profileExists.user) {
-                  document.getElementById("followButton").textContent = "Edit Profile";
-                  document.getElementById("followButton").addEventListener("click", () => window.location.href = "/settings");
-               } else {
-                  const currentUserUid = user.uid;
-                  const profileUserUid = profileExists.user;
-                  const currentUserFollowsRef = firebase.database().ref(`users/${profileUserUid}/whoFollows`);
-
-                  currentUserFollowsRef.once('value', (snapshot) => {
-                     const followersData = snapshot.val();
-
-                     if (profileData.memorialAccount && profileData.memorialAccount.isDeceased === true) {
-                        document.getElementById("followButton").setAttribute("onclick", "");
-                        document.getElementById("followButton").textContent = "Cannot Follow";
-                     }
-
-                     if (followersData && followersData[currentUserUid]) {
-                        if (profileData.memorialAccount && profileData.memorialAccount.isDeceased === true) {
-                           document.getElementById("followButton").setAttribute("onclick", "");
-                           document.getElementById("followButton").textContent = "Cannot Unfollow";
-                        }
-                     }
-                  });
-               }
-            })
-         })
-      }
-
-      // Achievements
-      firebase.database().ref(`users/${profileExists.user}/achievements/transsocial/firstSteps`).once("value", (snapshot) => {
-         const unlocked = snapshot.exists();
-         const data = snapshot.val();
-
-         if (unlocked === true) {
-            document.getElementById("firstStepsAchievement").classList.remove("locked");
-            document.getElementById("unlockDescription_fs").textContent = "You've taken the plunge! Welcome to Auride! (Create a note)";
-            document.getElementById("unlockDate_fs").textContent = `Unlocked ${data.unlockedWhen}`;
-         } else {
-            firebase.database().ref(`users/${profileExists.user}`).once("value", (snapshot) => {
-               const user = snapshot.val();
-
-               document.getElementById("unlockDescription_fs").textContent = `@${user.username} hasn't unlocked this achievement yet.`;
-            })
-         }
-      })
-
-      firebase.database().ref(`users/${profileExists.user}/achievements/transsocial/expressYourself`).once("value", (snapshot) => {
-         const unlocked = snapshot.exists();
-         const data = snapshot.val();
-
-         if (unlocked === true) {
-            document.getElementById("expressYourselfAchievement").classList.remove("locked");
-            document.getElementById("unlockDescription_ey").textContent = "Unleash your inner rockstar! (Renote a note)";
-            document.getElementById("unlockDate_ey").textContent = `Unlocked ${data.unlockedWhen}`;
-         } else {
-            firebase.database().ref(`users/${profileExists.user}`).once("value", (snapshot) => {
-               const user = snapshot.val();
-
-               document.getElementById("unlockDescription_ey").textContent = `@${user.username} hasn't unlocked this achievement yet.`;
-            })
-         }
-      })
-
-      firebase.database().ref(`users/${profileExists.user}/achievements/transsocial/theSocialButterfly`).once("value", (snapshot) => {
-         const unlocked = snapshot.exists();
-         const data = snapshot.val();
-
-         if (unlocked === true) {
-            document.getElementById("theSocialButterflyAchievement").classList.remove("locked");
-            document.getElementById("unlockDescription_tsb").textContent = "Spread your wings and fly! (Follow another user on Auride)";
-            document.getElementById("unlockDate_tsb").textContent = `Unlocked ${data.unlockedWhen}`;
-         } else {
-            firebase.database().ref(`users/${profileExists.user}`).once("value", (snapshot) => {
-               const user = snapshot.val();
-
-               document.getElementById("unlockDescription_tsb").textContent = `@${user.username} hasn't unlocked this achievement yet.`;
-            })
-         }
-      })
-
-      firebase.database().ref(`users/${profileExists.user}/achievements/transsocial/chatterbox`).once("value", (snapshot) => {
-         const unlocked = snapshot.exists();
-         const data = snapshot.val();
-
-         if (unlocked === true) {
-            document.getElementById("chatterboxAchievement").classList.remove("locked");
-            document.getElementById("unlockDescription_cb").textContent = "Conversation starter! (Reply to a note)";
-            document.getElementById("unlockDate_cb").textContent = `Unlocked ${data.unlockedWhen}`;
-         } else {
-            firebase.database().ref(`users/${profileExists.user}`).once("value", (snapshot) => {
-               const user = snapshot.val();
-
-               document.getElementById("unlockDescription_cb").textContent = `@${user.username} hasn't unlocked this achievement yet.`;
-            })
-         }
-      })
-   })
-
-   function followUser() {
-      firebase.auth().onAuthStateChanged((user) => {
-         const currentUserUid = user.uid;
-         const profileUserUid = profileExists.user;
-         const currentUserFollowsRef = firebase.database().ref(`users/${profileUserUid}/whoFollows`);
-         let isBlocked = null;
-
-         if (currentUserUid === profileUserUid) {
-            // dont follow themselves
-            return;
-         }
-
-         currentUserFollowsRef.once('value', (snapshot) => {
-            const followersData = snapshot.val();
-
-            firebase.database().ref(`users/${profileUserUid}/blocked`).once("value", (snapshot) => {
-               const getUser = snapshot.val();
-
-               if (getUser && getUser[user.uid]) {
-                  document.getElementById('youAreBlocked').showModal();
-               } else {
-                  if (followersData && followersData[currentUserUid]) {
-                     firebase.database().ref().update({
-                        [`users/${profileUserUid}/whoFollows/${currentUserUid}`]: null,
-                        [`users/${profileUserUid}/followers`]: firebase.database.ServerValue.increment(-1),
-                        [`users/${currentUserUid}/followingWho/${profileUserUid}`]: null,
-                        [`users/${currentUserUid}/following`]: firebase.database.ServerValue.increment(-1)
-                     }); // ENDS HERE.
-
-                     unblockUser();
-                     //window.location.reload();
-                  } else {
-                     firebase.auth().onAuthStateChanged((user) => {
-                        if (user) { // Check if user is logged in 
-                           const currentUserUid = user.uid;
-                           const profileUserUid = profileExists.user; // Assuming you get this from elsewhere
-
-                           // Use a database transaction
-                           firebase.database().ref().update({
-                              [`users/${profileUserUid}/whoFollows/${currentUserUid}`]: { uid: currentUserUid },
-                              [`users/${profileUserUid}/followers`]: firebase.database.ServerValue.increment(1),
-                              [`users/${currentUserUid}/followingWho/${profileUserUid}`]: { uid: profileUserUid },
-                              [`users/${currentUserUid}/following`]: firebase.database.ServerValue.increment(1)
-                           });
-
-                           sendNotification(profileUserUid, {
-                              type: "Follow",
-                              who: currentUserUid,
-                           });
-
-                           unlockAchievement("The Social Butterfly");
-
-                           window.location.reload();
-                        }
-                     });
-                  }
-
-               }
-            })
-         });
-      })
-   }
-
-   // User Actions
-   function userActions() {
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            document.getElementById("userActions-dialog").showModal();
-         } else {
-            loginModal();
-         }
-      })
-   }
-
-   function blockUser() {
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}/blocked/${profileExists.user}`).update({
-               user: profileExists.user
-            })
-
-            firebase.database().ref(`users/${user.uid}/followingWho/${profileExists.user}`).once("value", (snapshot) => {
-               const exists = snapshot.val();
-
-               if (exists === null) {
-                  window.location.reload();
-               } else {
-                  followUser();
-               }
-            })
-         } else {
-            loginPrompt();
-         }
-      })
-   }
-
-   function unblockUser() {
-      firebase.auth().onAuthStateChanged((user) => {
-         if (user) {
-            firebase.database().ref(`users/${user.uid}/blocked/${profileExists.user}`).update({
-               user: null
-            })
-
-            window.location.reload();
-         } else {
-            loginPrompt();
-         }
-      })
-   }
-
-   // Filters
-   function notesFilter() {
-      document.getElementById("filterNotes").classList.add("active");
-      document.getElementById("filterAchievements").classList.remove("active");
-
-      document.getElementById("notes").style.display = "block";
-      document.getElementById("achievementsContent").style.display = "none";
-   }
-
-   function achievementsFilter() {
-      document.getElementById("filterNotes").classList.remove("active");
-      document.getElementById("filterAchievements").classList.add("active");
-
-      document.getElementById("notes").style.display = "none";
-      document.getElementById("achievementsContent").style.display = "block";
-   }
-};
+//             window.location.reload();
+//          } else {
+//             loginPrompt();
+//          }
+//       })
+//    }
+// };
 
 // Upload Notes with or without images
 function uploadImage() {
@@ -3423,25 +3176,25 @@ if (pathName === "/achievements") {
             if (achievement) {
                if (achievement.firstSteps) {
                   document.getElementById("firstStepsAchievement").classList.remove("locked");
-                  document.getElementById("unlockDescription_fs").textContent = "You've taken the plunge! Welcome to Auride! (Create a note)";
+                  document.getElementById("unlockDescription_fs").textContent = "Every journey begins with a single step... or in this case, a single note.";
                   document.getElementById("unlockDate_fs").textContent = `Unlocked ${achievement.firstSteps.unlockedWhen}`;
                }
 
                if (achievement.expressYourself) {
                   document.getElementById("expressYourselfAchievement").classList.remove("locked");
-                  document.getElementById("unlockDescription_ey").textContent = "Unleash your inner rockstar! (Renote a note)";
+                  document.getElementById("unlockDescription_ey").textContent = "Sharing is caring, and you just shared your first note!";
                   document.getElementById("unlockDate_ey").textContent = `Unlocked ${achievement.expressYourself.unlockedWhen}`;
                }
 
                if (achievement.theSocialButterfly) {
                   document.getElementById("theSocialButterflyAchievement").classList.remove("locked");
-                  document.getElementById("unlockDescription_tsb").textContent = "Spread your wings and fly! (Follow another user on Auride)";
+                  document.getElementById("unlockDescription_tsb").textContent = "You've spread your wings! Your first follow is in the books!";
                   document.getElementById("unlockDate_tsb").textContent = `Unlocked ${achievement.theSocialButterfly.unlockedWhen}`;
                }
 
                if (achievement.chatterbox) {
                   document.getElementById("chatterboxAchievement").classList.remove("locked");
-                  document.getElementById("unlockDescription_cb").textContent = "Conversation starter! (Reply to a note)";
+                  document.getElementById("unlockDescription_cb").textContent = "From silence to words. Your first reply has been made!";
                   document.getElementById("unlockDate_cb").textContent = `Unlocked ${achievement.chatterbox.unlockedWhen}`;
                }
             }

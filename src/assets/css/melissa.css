@@ -247,3 +247,30 @@
       max-height: 100%;
    }
 }
+
+/* error div */
+.melissa .info.error {
+   margin-top: 15px;
+   align-items: center;
+}
+
+.melissa .info.error h2 {
+   margin-top: 5px;
+}
+
+.melissa .info.error p {
+   color: var(--text-semi-transparent);
+}
+
+.melissa .info.error .errorImg {
+   width: 175px;
+}
+
+.melissa .info.error .goBackToHome {
+   margin-top: 35px;
+   text-align: center;
+}
+
+.melissa .info.error .goBackToHome p {
+   color: var(--text);
+}
