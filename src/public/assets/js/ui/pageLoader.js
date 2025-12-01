@@ -1,29 +1,29 @@
 const pageLoaderHTML = `
-   <div class="loader" id="loader">
-      <p style="position: fixed; left: 0; top: 0; color: var(--text-semi-transparent); transform: translateY(0px);">&copy; Katniny Studios 2025</p>
-      <p style="position: fixed; left: 0; top: 17px; color: var(--text-semi-transparent); transform: translateY(0px);">Katniny Online Services</p>
-      <p style="position: fixed; left: 0; top: 35px; color: var(--text-semi-transparent); transform: translateY(0px);" class="loaderVersion">Auride ${aurideVersion}_${aurideReleaseVersion}</p>
-      <img src="/assets/imgs/favicon.png" alt="Auride logo" draggable="false" />
-      <p><strong>Did you know?</strong></p>
-      <p id="loaderQuote" style="position: absolute; margin-top: 40px;">
-         <!-- If someone tries to use Auride with JavaScript -->
-         <noscript>
-            <div class="noJavaScript">
-               Auride requires JavaScript to run
-            </div>
-         </noscript>
-      </p>
+    <div class="loader" id="loader">
+        <p style="position: fixed; left: 0; top: 0; color: var(--text-semi-transparent); transform: translateY(0px);">&copy; Katniny Studios 2025</p>
+        <p style="position: fixed; left: 0; top: 17px; color: var(--text-semi-transparent); transform: translateY(0px);">Katniny Online Services</p>
+        <p style="position: fixed; left: 0; top: 35px; color: var(--text-semi-transparent); transform: translateY(0px);" class="loaderVersion">Auride ${aurideVersion}_${aurideReleaseVersion}</p>
+        <img src="/assets/imgs/favicon.png" alt="Auride logo" draggable="false" />
+        <p><strong>Did you know?</strong></p>
+        <p id="loaderQuote" style="position: absolute; margin-top: 40px;">
+            <!-- If someone tries to use Auride with JavaScript -->
+            <noscript>
+                <div class="noJavaScript">
+                    Auride requires JavaScript to run
+                </div>
+            </noscript>
+        </p>
 
-      <div class="aurideLoadLong" id="aurideLoadLong">
-         <p>Auride not loading?</p>
-         <a href="https://twitter.com/transs_ocial" target="_blank" style="position: absolute; top: 100px; left: 30px; color: var(--main-color); text-decoration: none;"><i class="fa-brands fa-twitter" style="color: var(--main-color); margin-right: 3px;"></i> Let us know</a>
-      </div>
-   </div>
+        <div class="aurideLoadLong" id="aurideLoadLong">
+            <p>Auride not loading?</p>
+            <a href="https://bsky.app/profile/auride.xyz" target="_blank" style="position: absolute; top: 100px; left: 30px; color: var(--main-color); text-decoration: none;"><i class="fa-brands fa-bluesky" style="color: var(--main-color); margin-right: 3px;"></i> Let us know</a>
+        </div>
+    </div>
 `;
 document.body.innerHTML += pageLoaderHTML;
 document.body.classList.add("loaderReady");
 
-// Randomize quote
+// all available quotes
 const quotes = [
    "Cats have five toes on their front paws but only four on their back paws.",
    "A cat's purring can reduce stress in humans.",
@@ -92,103 +92,66 @@ const quotes = [
    "Cats like to chase lasers because movement excites the prey drive.",
    "Cats dream."
 ];
-
+// randomize quote
 const quote = document.getElementById("loaderQuote");
 const key = Math.floor(Math.random() * quotes.length);
-
 quote.textContent = quotes[key];
-
 
 const date = new Date();
 const currentMonth = date.getMonth() + 1;
 
+// hide the page loader
+document.addEventListener("pageLoaded", () => {
+    const loader = document.querySelector('.loader');
+    loader.classList.add("loader-hidden");
+    loader.addEventListener("transitioned", () => {
+        document.body.removeChild("loader");
+    });
+});
+
+// get user
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
         const uid = user.uid;
         const loader = document.querySelector('.loader');
-        const emailVer = firebase.database().ref(`users/${uid}/email`);
 
         firebase.database().ref(`users/${uid}`).once("value", (snapshot) => {
-            const getTheme = snapshot.val();
+            const userPrefs = snapshot.val();
 
-            // Set zoom level
-            if (getTheme && getTheme.fontSizePref) {
-                if (getTheme.fontSizePref === "normal") {
-                    document.documentElement.style.setProperty('--zoom-level', '1');
-                } else if (getTheme.fontSizePref === "large") {
-                    document.documentElement.style.setProperty('--zoom-level', '1.07');
-                }
-            }
+            // set zoom
+            if (userPrefs?.fontSizePref)
+                setZoomLevel(userPrefs.fontSizePref);
 
             // Set fomt
-            if (getTheme && getTheme.useODFont) {
-                if (getTheme.useODFont === true) {
-                    const style = document.createElement("style");
-                    style.id = "odFontStyle";
-                    style.innerHTML = `
-                        @font-face {
-                            font-family: "OpenDyslexic";
-                            src: url("/assets/fonts/OpenDyslexic.otf") format("opentype");
-                        }
-
-                        * {
-                            font-family: "OpenDyslexic", sans-serif;
-                        }
-
-                        .aurideAccounts {
-                            font-size: 0.85rem;
-                        }
-
-                        .policies {
-                            margin-top: 425px;
-                        }
-                    `;
-                    document.head.appendChild(style);
-                }
+            if (userPrefs?.useODFont)
+                useODFont();
+            else {
+                // remove the font if in use (e.g., loaded from localstorage)
+                const odFontStyle = document.getElementById("odFontStyle");
+                if (odFontStyle)
+                    odFontStyle.remove();
+                // then, remove it from localstorage
+                localStorage.removeItem("useODFont");
             }
 
-            console.log(getTheme.theme);
-            if (getTheme && getTheme.theme === "Dark" || getTheme && getTheme.theme === undefined) {
-                setGlobalTheme("Dark", getTheme.showPrideFlag);
-            } else if (getTheme && getTheme.theme === "Light") {
-                setGlobalTheme("Light", getTheme.showPrideFlag);
-            } else if (getTheme && getTheme.theme === "Mint (Light)") {
-                setGlobalTheme("Mint (Light)", getTheme.showPrideFlag);
-            } else if (getTheme && getTheme.theme === "Mint (Dark)") {
-                setGlobalTheme("Mint (Dark)", getTheme.showPrideFlag);
-            } else if (getTheme && getTheme.theme === "High Contrast") {
-                setGlobalTheme("High Contrast", getTheme.showPrideFlag);
-            } else if (getTheme && getTheme.theme === "TransSocial Classic") {
-                setGlobalTheme("TransSocial Classic", getTheme.showPrideFlag);
-            } else if (getTheme && getTheme.theme === "Midnight Purple") {
-                setGlobalTheme("Midnight Purple", getTheme.showPrideFlag);
-            } else if (getTheme && getTheme.theme === "Darker") {
-                setGlobalTheme("Darker", getTheme.showPrideFlag);
-            } else if (getTheme && getTheme.theme === "Custom") {
-                setGlobalCustomTheme(getTheme.themeColors);
-            }
+            // set theme
+            if (userPrefs?.theme !== "Custom")
+                setGlobalTheme(userPrefs.theme, userPrefs?.showPrideFlag);
+            else if (userPrefs?.theme === "Custom")
+                setGlobalCustomTheme(userPrefs.themeColors, userPrefs?.showPrideFlag);
         }).then(() => {
             loader.classList.add("loader-hidden");
 
             loader.addEventListener("transitioned", () => {
                 document.body.removeChild("loader");
-            })
+            });
         });
-    } else {
-      const loader = document.querySelector('.loader');
-
-      loader.classList.add("loader-hidden");
-
-      loader.addEventListener("transitioned", () => {
-        document.body.removeChild("loader");
-      })
     }
 })
 
-
 // Show warning
-var timeLeft = 30;
-const elem = document.getElementById('Timer');
+let timeLeft = 30;
+const timerElement = document.getElementById("Timer");
 
 const timerId = setInterval(countdown, 1000);
 
@@ -197,26 +160,6 @@ function countdown() {
         clearTimeout(timerId);
         var loadingWarning = document.getElementById("aurideLoadLong");
         loadingWarning.style.display = "block";
-    } else {
+    } else
         timeLeft--;
-    }
 } 
-
-// if december, force christmas mode (merry christmas mfs)
-// or happy holidays, whatever you celebrate :p
-// if you celebrate, idk why im being technical as always in code comments no one will ever see lmaoo
-if (currentMonth === 12) {
-   const hat = document.createElement("img");
-   hat.src = "/assets/imgs/xmas_hat.png";
-   hat.draggable = false;
-   hat.className = "xmasHat";
-   hat.onclick = () => {
-      if (isSidebarOpen === false) {
-         isSidebarOpen = true;
-      } else {
-         isSidebarOpen = false;
-      }
-   }
-
-   document.body.appendChild(hat);
-}

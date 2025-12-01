@@ -47,6 +47,9 @@ const ScriptLoader = (() => {
       navigator.serviceWorker.register('/sw.js', { scope: '/' });
    }
 
+   // tell the page loader the page is ready
+   document.dispatchEvent(new Event("pageLoaded"));
+
    return {
       load: (...scripts) => Promise.all(scripts.map(loadScript)),
       isLoaded: (src) => loadedScripts.has(src),
