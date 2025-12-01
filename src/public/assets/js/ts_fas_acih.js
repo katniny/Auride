@@ -2191,10 +2191,11 @@ if (pathName === "/settings" || pathName === "/settings.html") {
                      }
                   `;
                   document.head.appendChild(style);
+                  localStorage.setItem("useODFont", true);
                } else {
-                  if (document.getElementById("odFontStyle")) {
+                  if (document.getElementById("odFontStyle"))
                      document.getElementById("odFontStyle").remove();
-                  }
+                  localStorage.removeItem("useODFont");
                }
             })
          }
