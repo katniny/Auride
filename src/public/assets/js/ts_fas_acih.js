@@ -2902,36 +2902,6 @@ if (pathName === "/messages") {
    }
 }
 
-// Greet user
-if (document.getElementById("greetingTime")) {
-   const now = new Date();
-   let hours = now.getHours();
-
-   firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-         firebase.database().ref(`users/${user.uid}`).once("value", (snapshot) => {
-            const greetWho = snapshot.val();
-
-            if (hours < 12) {
-               document.getElementById("greetingTime").textContent = `Good morning, ${greetWho.username}!`;
-            } else if (hours < 17) {
-               document.getElementById("greetingTime").textContent = `Good afternoon, ${greetWho.username}!`;
-            } else {
-               document.getElementById("greetingTime").textContent = `Good evening, ${greetWho.username}!`;
-            }
-         })
-      } else {
-         if (hours < 12) {
-            document.getElementById("greetingTime").textContent = "Good morning!";
-         } else if (hours < 17) {
-            document.getElementById("greetingTime").textContent = "Good afternoon!";
-         } else {
-            document.getElementById("greetingTime").textContent = "Good evening!";
-         }
-      }
-   })
-}
-
 // Email Verification
 firebase.auth().onAuthStateChanged((user) => {
    if (user) {
