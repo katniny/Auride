@@ -40,6 +40,8 @@ async function loadAllScripts() {
       await loadScript("/assets/js/ts_fas_acih.js", false);
 
       // page loader
+      await loadScript("/assets/js/ui/onLoad/zoom.js", false);
+      await loadScript("/assets/js/ui/onLoad/setODFont.js", false);
       await loadScript("/assets/js/ui/setTheme.js", false);
       await loadScript("/assets/js/ui/pageLoader.js", false);
 

@@ -1,10 +1,17 @@
+// whats the current month?
+const themeDate = new Date();
+const currentThemeMonth = themeDate.getMonth() + 1;
+
 // the auride defaults
 function setGlobalTheme(theme, showPrideFlag) {
     // clear the style or buttons will have issues, especially when
     // switching from a light theme to a dark one (or vice versa)
-    if (document.documentElement.hasAttribute("style")) {
+    if (document.documentElement.hasAttribute("style"))
         document.documentElement.removeAttribute("style");
-    }
+
+    // cache the theme
+    localStorage.setItem("currentTheme", theme);
+    localStorage.setItem("showPrideFlag", showPrideFlag);
 
     // then set the theme
     if (theme === "Dark") {
@@ -35,7 +42,7 @@ function setGlobalTheme(theme, showPrideFlag) {
         document.documentElement.style.setProperty('--reply-background', '#303030');
         document.documentElement.style.setProperty('--reply-hovered-background', '#3f3f3f');
         document.documentElement.style.setProperty('--note-background', '#282828');
-        if (document.getElementById("aurideHeaderLogo") && currentMonth === 6 && showPrideFlag === "Yes" || currentMonth === 6 && showPrideFlag === undefined) {
+        if (document.getElementById("aurideHeaderLogo") && currentThemeMonth === 6 && showPrideFlag === "Yes" || currentThemeMonth === 6 && showPrideFlag === undefined) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/PrideHeaderLogo.png";
         } else if (document.getElementById("aurideHeaderLogo")) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/All_transparent.png";
@@ -69,7 +76,7 @@ function setGlobalTheme(theme, showPrideFlag) {
         document.documentElement.style.setProperty('--reply-hovered-background', '#e5e5e5');
         document.documentElement.style.setProperty('--note-background', '#fff');
         document.documentElement.style.setProperty('--button-text', '#000');
-        if (document.getElementById("aurideHeaderLogo") && currentMonth === 6 && showPrideFlag === "Yes" || currentMonth === 6 && showPrideFlag === undefined) {
+        if (document.getElementById("aurideHeaderLogo") && currentThemeMonth === 6 && showPrideFlag === "Yes" || currentThemeMonth === 6 && showPrideFlag === undefined) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/PrideHeaderLogo.png";
         } else if (document.getElementById("aurideHeaderLogo")) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/All_transparent.png";
@@ -104,7 +111,7 @@ function setGlobalTheme(theme, showPrideFlag) {
         document.documentElement.style.setProperty('--note-background', '#fff');
         document.documentElement.style.setProperty("--sidebar-create-note-button-hover", "#000");
         document.documentElement.style.setProperty('--button-text', '#000');
-        if (document.getElementById("aurideHeaderLogo") && currentMonth === 6 && showPrideFlag === "Yes" || currentMonth === 6 && showPrideFlag === undefined) {
+        if (document.getElementById("aurideHeaderLogo") && currentThemeMonth === 6 && showPrideFlag === "Yes" || currentThemeMonth === 6 && showPrideFlag === undefined) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/PrideHeaderLogo.png";
         } else if (document.getElementById("aurideHeaderLogo")) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/MintLightThemeLogo.png";
@@ -138,7 +145,7 @@ function setGlobalTheme(theme, showPrideFlag) {
         document.documentElement.style.setProperty('--reply-hovered-background', '#25353a');
         document.documentElement.style.setProperty('--note-background', 'rgb(40, 40, 40)');
         document.documentElement.style.setProperty("--sidebar-create-note-button-hover", "#000");
-        if (document.getElementById("aurideHeaderLogo") && currentMonth === 6 && showPrideFlag === "Yes" || currentMonth === 6 && showPrideFlag === undefined) {
+        if (document.getElementById("aurideHeaderLogo") && currentThemeMonth === 6 && showPrideFlag === "Yes" || currentThemeMonth === 6 && showPrideFlag === undefined) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/PrideHeaderLogo.png";
         } else if (document.getElementById("aurideHeaderLogo")) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/MintDarkThemeLogo.png";
@@ -172,7 +179,7 @@ function setGlobalTheme(theme, showPrideFlag) {
         document.documentElement.style.setProperty('--reply-hovered-background', '#505050');
         document.documentElement.style.setProperty('--note-background', '#333333');
         document.documentElement.style.setProperty("--sidebar-create-note-button-hover", "#000");
-        if (document.getElementById("aurideHeaderLogo") && currentMonth === 6 && showPrideFlag === "Yes" || currentMonth === 6 && showPrideFlag === undefined) {
+        if (document.getElementById("aurideHeaderLogo") && currentThemeMonth === 6 && showPrideFlag === "Yes" || currentThemeMonth === 6 && showPrideFlag === undefined) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/PrideHeaderLogo.png";
         } else if (document.getElementById("aurideHeaderLogo")) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/HighContrastThemeLogo.png";
@@ -206,7 +213,7 @@ function setGlobalTheme(theme, showPrideFlag) {
         document.documentElement.style.setProperty('--reply-hovered-background', '#fff0e8');
         document.documentElement.style.setProperty('--note-background', '#ffd9cb');
         document.documentElement.style.setProperty('--button-text', '#000');
-        if (document.getElementById("HeaderLogo") && currentMonth === 6 && showPrideFlag === "Yes" || currentMonth === 6 && showPrideFlag === undefined) {
+        if (document.getElementById("HeaderLogo") && currentThemeMonth === 6 && showPrideFlag === "Yes" || currentThemeMonth === 6 && showPrideFlag === undefined) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/PrideHeaderLogo.png";
         } else if (document.getElementById("aurideHeaderLogo")) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/TransSocialClassicThemeLogo.png";
@@ -240,7 +247,7 @@ function setGlobalTheme(theme, showPrideFlag) {
         document.documentElement.style.setProperty('--reply-hovered-background', '#3d384a');
         document.documentElement.style.setProperty('--note-background', '#2c2738');
         document.documentElement.style.setProperty("--hovered-button-text", "#fff");
-        if (document.getElementById("aurideHeaderLogo") && currentMonth === 6 && showPrideFlag === "Yes" || currentMonth === 6 && showPrideFlag === undefined) {
+        if (document.getElementById("aurideHeaderLogo") && currentThemeMonth === 6 && showPrideFlag === "Yes" || currentThemeMonth === 6 && showPrideFlag === undefined) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/PrideHeaderLogo.png";
         } else if (document.getElementById("aurideHeaderLogo")) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/MidnightPurpleThemeLogo.png";
@@ -273,16 +280,25 @@ function setGlobalTheme(theme, showPrideFlag) {
         document.documentElement.style.setProperty('--reply-background', '#282828');
         document.documentElement.style.setProperty('--reply-hovered-background', '#333333');
         document.documentElement.style.setProperty('--note-background', '#202020');
-        if (document.getElementById("aurideHeaderLogo") && currentMonth === 6 && showPrideFlag === "Yes" || currentMonth === 6 && showPrideFlag === undefined) {
+        if (document.getElementById("aurideHeaderLogo") && currentThemeMonth === 6 && showPrideFlag === "Yes" || currentThemeMonth === 6 && showPrideFlag === undefined) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/PrideHeaderLogo.png";
         } else if (document.getElementById("aurideHeaderLogo")) {
             document.getElementById("aurideHeaderLogo").src = "/assets/imgs/All_transparent.png";
         }
     }
+
+    // if its december, enable the christmas logo
+    if (currentThemeMonth === 12) {
+        const headerLogo = document.getElementById("aurideHeaderLogo");
+        headerLogo.src = "/assets/imgs/XMasLogo.png";
+    }
 }
 
 // set a custom theme
 function setGlobalCustomTheme(colors) {
+    // cache the theme
+    localStorage.setItem("currentTheme", JSON.stringify(colors));
+
     document.documentElement.style.setProperty('--background', colors.background);
     document.documentElement.style.setProperty('--main-color', colors.mainColor);
     document.documentElement.style.setProperty('--main-color-darker', colors.mainColorDarker);
@@ -310,4 +326,24 @@ function setGlobalCustomTheme(colors) {
     document.documentElement.style.setProperty('--hovered-button-text', colors.hoveredButtonText);
     document.documentElement.style.setProperty('--sidebar-create-note-button', colors.createNoteButton);
     document.documentElement.style.setProperty('--sidebar-create-note-button-hover', colors.createNoteButtonHover);
+
+    // if its december, enable the christmas logo
+    if (currentThemeMonth === 12) {
+        const headerLogo = document.getElementById("aurideHeaderLogo");
+        headerLogo.src = "/assets/imgs/XMasLogo.png";
+    }
+}
+
+// if theme is cached, load it
+const savedTheme = localStorage.getItem("currentTheme");
+if (savedTheme) {
+    try {
+        // if it can be parsed, its a custom theme
+        const parsedTheme = JSON.parse(savedTheme);
+        if (typeof parsedTheme === "object")
+            setGlobalCustomTheme(parsedTheme);
+    } catch(e) {
+        // its a standard theme
+        setGlobalTheme(savedTheme);
+    }
 }
