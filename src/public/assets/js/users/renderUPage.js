@@ -32,19 +32,10 @@ async function renderUPage(userIdentifer, reqType) {
     // create loading indicator
     createLoadingIndicator("lg", "melissa", "append");
 
-    // request deletion from server
-    const response = await fetch(`${serverUrl}/api/auride/getUserData`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            ...(token ? { "Authorization": `Bearer ${token}` } : {}),
-            ...(userIdentifer ? { "userIdentifier": userIdentifer } : {}),
-            ...(reqType ? { "reqType": reqType } : {})
-        }
-    });
-    if (!response.ok) {
-        const errorMessage = await response.json();
-        console.error("Failed to fetch user data: ", errorMessage.error);
+    auride.getUserInfo().byUsername(userIdentifer).get({ token: token }).then(user => {
+        console.log(user);
+    }).catch(error => {
+        console.error(`Failed to fetch user data: ${error}`);
 
         // visually show error
         info.classList.add("error");
@@ -54,7 +45,7 @@ async function renderUPage(userIdentifer, reqType) {
             <p>This user may not exist, deleted their account, or an internal server error occurred.</p>
             <details>
                 <summary>Error Details for Developers</summary>
-                <p>${errorMessage.error}</p>
+                <p>${error}</p>
             </details>
 
             <div class="goBackToHome">
@@ -69,7 +60,23 @@ async function renderUPage(userIdentifer, reqType) {
             noteLoadingIndicator.remove();
 
         return;
-    }
+    });
+
+    // request deletion from server
+    // const response = await fetch(`${serverUrl}/api/auride/getUserData`, {
+    //     method: "GET",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //         ...(token ? { "Authorization": `Bearer ${token}` } : {}),
+    //         ...(userIdentifer ? { "userIdentifier": userIdentifer } : {}),
+    //         ...(reqType ? { "reqType": reqType } : {})
+    //     }
+    // });
+    // if (!response.ok) {
+    //     const errorMessage = await response.json();
+    //     
+    // }
+    return;
 
     const responseJson = await response.json();
     const userData = responseJson.returnedUserData;

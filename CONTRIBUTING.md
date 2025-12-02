@@ -1,4 +1,4 @@
-Last updated: September 15, 2025
+Last updated: December 2, 2025
 # 👋 Welcome to the Auride contributing guide!
 Thank you for your interest in contributing to Auride! We try to make Auride as easy as possible to contribute to.
 
@@ -79,6 +79,11 @@ We only have **one** requirement for contributing to Auride (dependencies), as w
 8. Run `npm install` to install all of Auride's dependencies
 9. Run `npm run dev` to start a local development server
 10. You're ready!
+
+## 🖋️ Auride Methods
+We have our own way of calling our backend! Similar to Firebase, we support calls such as `auride.getUserInfo().uid("uid")` to make development for existing contributors and new contributors!
+
+Please see [METHODS.md](/METHODS.md) to learn more about these methods.
 
 ## 📝 Please note
 Auride is being worked on to make the codebase nice to work with. Right now, there are several repeated elements (and as a consequence, a change to one will require you to do it on ALL pages it appears on) and indentation that does not match our requirements.

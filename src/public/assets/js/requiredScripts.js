@@ -21,6 +21,10 @@ function loadScript(src, async) {
 
 async function loadAllScripts() {
    try {
+      // auride methods
+      await loadScript("/assets/methods/auride.js", false);
+      await loadScript("/assets/methods/userRef.js", false);
+      
       // required before ts_fas_acih.js
       await loadScript("/assets/js/envVars.js", false);
       await loadScript("/assets/js/pathName.js", false);
