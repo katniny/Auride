@@ -3,21 +3,22 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Redirecting...</title>
-        <style>
-            body {
-                background: #1d1d1d;
-                color: #fff;
-            }
-        </style>
-        <meta http-equiv="refresh" content="0; url=/home">
+        <title>Auride</title>
+        <link rel="stylesheet" href="/defaults.css">
+        <link rel="shortcut icon" href="/assets/imgs/favicon.png" type="image/png">
     </head>
     
     <body>
-        Redirecting...
-        <br />
-        If you don't get redirected, click <a href="/home">here.</a>
-        <br />
-        <a href="/about">Learn about Auride</a>
+        <auride-header></auride-header>
+        <div id="app"></div>
+
+        <script type="module" src="/main.js"></script>
+        <script>
+            if (window.location.href !== "http://localhost:5173/") {
+                console.log("%cStop!", "color: red; font-size: 35px;");
+                console.log("%cThis is a browser feature intended for developers. If someone told you to copy-paste something here to enable a Auride feature or 'hack' someone's account, it is a scam and will give them access to your Auride account.", "color: white; font-size: 15px; font-family: sans-serif;");
+                console.log(" ");
+            }
+        </script>
     </body>
 </html>
