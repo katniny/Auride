@@ -1,4 +1,6 @@
 import { LitElement, html, css } from "lit";
+import { auth } from "../firebase/config.js";
+import { onAuthStateChanged } from "firebase/auth";
 
 export class AurideHeader extends LitElement {
     static styles = css`
@@ -16,6 +18,15 @@ export class AurideHeader extends LitElement {
     `;
 
     render() {
+        // test
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log(user.uid);
+            } else {
+                console.log("Not signed in.");
+            }
+        });
+        
         return html`
             <header>
                 <a href="/">Home</a>
