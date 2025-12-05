@@ -1,23 +1,14 @@
 {
-  "name": "auride",
+  "name": "src",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "postinstall": "patch-package"
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "patch-package": "^8.0.1",
-    "typescript": "^5.9.3",
-    "vite": "^7.2.4",
-    "vite-plugin-pwa": "^1.2.0"
-  },
-  "dependencies": {
-    "firebase": "^12.6.0",
-    "lit": "^3.3.1",
-    "tus-js-client": "^4.3.1"
+    "vite": "^7.2.4"
   }
 }
