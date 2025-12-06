@@ -1,3 +1,5 @@
+import { faIcon } from "./utils/faIcon.js";
+
 // import pages
 // defines all routes in the app, each with a path and a loader function
 export const routes = [
@@ -62,12 +64,19 @@ export async function handleRoute() {
     
     // clear current content
     const app = document.getElementById("app");
-    app.innerHTML = "";
+    const loadingIndicator = await faIcon("solid", "circle-notch", "spin", "xl");
+    app.innerHTML = `
+        <span id="pageLoadingIndicator">
+            ${loadingIndicator}
+        </span>
+    `;
+    const pageLoadingIndicator = document.getElementById("pageLoadingIndicator");
 
     // if no route matched, load 404 page
     if (!match) {
         const mod404 = await routes.find(r => r.path === "404").loader();
         app.appendChild(mod404.default());
+        pageLoadingIndicator.remove();
         return;
     }
 
@@ -75,6 +84,10 @@ export async function handleRoute() {
     const module = await match.route.loader();
     const view = module.default(match.params);
     app.appendChild(view);
+
+    // let out a event that other elements used to know we navigated
+    pageLoadingIndicator.remove();
+    document.dispatchEvent(new Event("navigatedToNewPage"));
 }
 
 // handle internal link clicks to use client-side navigation

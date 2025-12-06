@@ -1,5 +1,7 @@
 @import url("./components/header.css");
 @import url("./components/app.css");
+@import url("./components/sidebar.css");
+@import url("./components/pageLoadingIndicator.css");
 
 /* default colors */
 :root {
