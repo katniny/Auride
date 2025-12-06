@@ -1,3 +1,6 @@
+@import url("./components/header.css");
+@import url("./components/app.css");
+
 /* default colors */
 :root {
    --background: #1d1d1d;

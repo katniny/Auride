@@ -1,0 +1,52 @@
+/* change app size to only take part of the screen */
+#app {
+   margin-left: 430px;
+   max-width: 50%;
+   margin-top: 75px;
+}
+
+/* once the screen starts reaching certain widths, twist the app element */
+@media (max-width: 768px) {
+    #app {
+        margin-left: 0px;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 1794px) {
+    #app {
+        margin-left: 285px;
+    }
+}
+
+@media (max-width: 1572px) {
+    #app {
+        max-width: 55%;
+    }
+}
+
+@media (max-width: 1402px) {
+    #app {
+        max-width: 50%;
+    }
+}
+
+@media (max-width: 1260px) {
+    #app {
+        max-width: 45%;
+    }
+}
+
+@media (max-width: 1148px) {
+    #app {
+        max-width: 100%;
+        margin-left: 0px;
+    }
+}
+
+@media (max-width: 1148px) {
+    #app {
+        max-width: 100%;
+        margin-left: 0px;
+    }
+}

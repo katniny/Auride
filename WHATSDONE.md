@@ -11,8 +11,10 @@
 - Auride now uses .env files to safely store keys
 - You can now use the current users data by importing "currentUserData" from "users/current.js" (relative path)
 - Modules from NPM can now be used in Auride
+- The entire app view is now the current width, no more janky viewports!
 
 # TODO (based on what's been completed):
 - Add documentation on adding new pages
 - Make GitHub Workflow use .env files & document
 - Obfuscate code in GitHub Workflow
+- Document restrictions on appending to the app view vs body/head

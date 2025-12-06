@@ -4,7 +4,10 @@ import { auth } from "../firebase/config.js";
 export let userData = null;
 // promise to resolve user data
 // other scripts can `await` this safely
-let userDataPromise = null;
+let userDataPromiseResolve;
+let userDataPromise = new Promise((resolve) => {
+    userDataPromiseResolve = resolve;
+});
 
 // helper function so other modules can access the promise
 export function currentUserData() {
@@ -16,12 +19,12 @@ onAuthStateChanged(auth, async (user) => {
     // if the user is signed out, clear everything and resolve null
     if (!user) {
         userData = null;
-        userDataPromise = Promise.resolve(null);
+        userDataPromiseResolve(null);
         return;
     }
 
     // when the user is signed in, create a promise that fetches their info
-    userDataPromise = (async () => {
+    const promise = (async () => {
         // get token for backend auth
         const token = await user.getIdToken();
 
@@ -39,14 +42,19 @@ onAuthStateChanged(auth, async (user) => {
         // if something goes wrong, act as if the user is signed out
         if (!res.ok) {
             userData = null;
-            userDataPromise = Promise.resolve(null);
-            return;
+            return null;
         }
 
         // return user data
         const data = await res.json();
         userData = data.returnedUserData;
         console.log(userData);
-        return data.returnedUserData;
+        return userData;
     })();
+
+    // resolve the initial waiting promise if it's still pending
+    userDataPromiseResolve?.(promise);
+
+    // update userDataPromise for future calls
+    userDataPromise = promise;
 });
