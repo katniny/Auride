@@ -13,10 +13,10 @@ export async function addSidebarElement() {
     sidebarElement.innerHTML = `
         <!-- navigation buttons -->
         <a href="/home">
-            <button id="homeButton" class="active">${faIcon("solid", "house")} Home</button>
+            <button id="homeButton" class="active">${faIcon("solid", "house").outerHTML} Home</button>
         </a>
         <a href="/about">
-            <button id="aboutButton" class="active">${faIcon("solid", "info")} About</button>
+            <button id="aboutButton" class="active">${faIcon("solid", "info").outerHTML} About</button>
         </a>
     `;
     document.body.appendChild(sidebarElement);

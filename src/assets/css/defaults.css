@@ -2,6 +2,8 @@
 @import url("./components/app.css");
 @import url("./components/sidebar.css");
 @import url("./components/pageLoadingIndicator.css");
+@import url("./components/notes.css");
+@import url("./components/noteMoreSubmenu.css");
 
 /* default colors */
 :root {

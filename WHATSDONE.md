@@ -7,15 +7,23 @@
 ## Dev Env:
 - Pages are now .js files rather than .html, making it easier to add page-specific code without more scripts (though, you can still do this).
 - Standard .js files have been depreciated for modular .js files (please avoid using classic .js files unless NEEDED!)
-- ts_fas_acih.js has been depreciated
+- ts_fas_acih.js, requiredScripts.js and scriptLoader.js have been depreciated
 - Auride now uses .env files to safely store keys
 - You can now use the current users data by importing "currentUserData" from "users/current.js" (relative path)
 - Modules from NPM can now be used in Auride
 - The entire app view is now the current width, no more janky viewports!
-- You no longer have to call faIcon with .outerHTML, as Auride now handles it
 - You can now define what icon set to use with FontAwesome (e.g., "brands" or "solid")
+- If a user navigates to a new page, you can add an event listener named "navigatedToNewPage" (useful for doing things such as cleaning up functions on navigation)
+- If the server requests the same user, we now return their autoplay preference
+- The following URLs are depreciated: /u?id={username}, /note?id={noteId} & /userstudio?theme=${themeId}. Please update any links to be correct, as these are an extremely old way to handle links and will no longer work!
+
+- NOTICE TO CONTRIBUTORS: If you have an old database for Auride, the following methods are now depreciated:
+    - noteData.isDeleted - this is handled by the server. While notes are no longer deleted this way, the server can handle this to ensure it doesn't render. However, we do not do this anymore going forward.
+    - noteData.isReplying - replies are now handled properly. Notes will no longer render if it has this value, please run `upgrading/updateReplies.js` with Node!
 
 # TODO (based on what's been completed):
+- Make a way to fetch a token without causing repetition in code
+- Make a way to fetch server code without causing repetition in code
 - Add documentation on adding new pages
 - Make GitHub Workflow use .env files & document
 - Obfuscate code in GitHub Workflow

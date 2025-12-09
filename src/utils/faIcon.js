@@ -15,6 +15,8 @@ export function faIcon(set, name, anim, size, color, marginLeft) {
     // add set and name
     // e.g., fa-solid fa-person
     if (!set || !name) {
+        // TODO: i want to create a custom error handler that'll show errors on the page itself
+        // e.g., via a little pill or something on the top of the screen
         console.error("Please define an icon set or name.");
         return;
     }
@@ -32,6 +34,5 @@ export function faIcon(set, name, anim, size, color, marginLeft) {
         icon.style.marginLeft = marginLeft;
 
     // then, return the icon
-    // return outerHTML or it'll appear as "[object HTMLElement]", which we dont want!
-    return icon.outerHTML;
+    return icon;
 }

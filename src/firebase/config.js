@@ -1,7 +1,7 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
-import { getStorage } from "firebase/storage";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/database";
+import "firebase/compat/storage";
 
 // firebase config
 const firebaseConfig = {
@@ -15,11 +15,11 @@ const firebaseConfig = {
 }
 
 // initialize app
-const app = initializeApp(firebaseConfig);
+const app = firebase.initializeApp(firebaseConfig);
 
 // export functions we need
-const auth = getAuth(app);
-const db = getDatabase(app);
-const storage = getStorage(app);
+const auth = firebase.auth();
+const db = firebase.database();
+const storage = firebase.storage();
 
 export { app, auth, db, storage };

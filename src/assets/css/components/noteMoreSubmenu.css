@@ -1,0 +1,60 @@
+/* main styling */
+.noteMoreSubMenu {
+    background: var(--note-background);
+    position: absolute;
+    top: 35px;
+    right: 15px;
+    width: 250px;
+    padding: 10px;
+    border-radius: 5px;
+    display: none;
+    outline: none;
+}
+
+/* animation */
+.noteMoreSubMenu.open {
+    animation: openNoteMoreSubMenu 0.15s ease-in-out;
+    display: inline-block;
+}
+
+@keyframes openNoteMoreSubMenu {
+    0% {
+        transform: translateY(-35px);
+        opacity: 0;
+    }
+    50% {
+        transform: translateY(-15px);
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(0px);
+        opacity: 1;
+    }
+}
+
+/* the button inside the container */
+.noteMoreSubMenu button {
+    width: 100%;
+    text-align: left;
+    border: 1px solid transparent;
+    font-size: 14px;
+    padding: 5px;
+}
+
+.noteMoreSubMenu button:hover,
+.noteMoreSubMenu button:hover i {
+    background: var(--reply-background);
+    color: var(--text);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0); /* hide the box shadow */
+}
+
+/* 
+    if the button is "dangerous", make it red
+*/
+.noteMoreSubMenu button.danger {
+    color: var(--error-text);
+}
+
+.noteMoreSubMenu button.danger i {
+    color: var(--error-text);
+}

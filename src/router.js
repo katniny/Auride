@@ -7,6 +7,7 @@ export const routes = [
     { path: "/home", loader: () => import("./pages/home.js") },
     { path: "/about", loader: () => import("./pages/about.js") },
     { path: "/u/:id", loader: () => import("./pages/user.js") },
+    { path: "/note/:id", loader: () => import("./pages/note.js") },
     { path: "404", loader: () => import("./pages/notFound.js") }
 ];
 
@@ -64,7 +65,7 @@ export async function handleRoute() {
     
     // clear current content
     const app = document.getElementById("app");
-    const loadingIndicator = await faIcon("solid", "circle-notch", "spin", "xl");
+    const loadingIndicator = await faIcon("solid", "circle-notch", "spin", "xl").outerHTML;
     app.innerHTML = `
         <span id="pageLoadingIndicator">
             ${loadingIndicator}
@@ -82,7 +83,7 @@ export async function handleRoute() {
 
     // load matched route module
     const module = await match.route.loader();
-    const view = module.default(match.params);
+    const view = await module.default(match.params);
     app.appendChild(view);
 
     // let out a event that other elements used to know we navigated

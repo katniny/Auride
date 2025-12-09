@@ -95,6 +95,12 @@ router.get("/api/auride/getUserData", async (req, res) => {
             returnedUserData.requestedUserHasBlocked = true;
         }
 
+        // is user themselves?
+        if (userUid === userUidFromRequest) {
+            // if so, we can return some additional data
+            returnedUserData.autoplayVideos = rawUserData?.autoplayVideos;
+        }
+
         return res.status(200).json({ returnedUserData });
     } catch (err) {
         console.error(err);
