@@ -401,3 +401,9 @@
 .notes .blocked p {
    color: var(--text-semi-transparent);
 }
+
+/* the loading indicator in the notes container */
+#notes #noteLoadingIndicator {
+   text-align: center;
+   font-size: large;
+}

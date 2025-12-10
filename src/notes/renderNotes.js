@@ -3,6 +3,7 @@ import { renderNote } from "./renderNoteDiv.js";
 import { allLoadedNotes } from "./getNotes.js";
 import { currentUserData } from "../users/current.js";
 import { auth } from "../firebase/config.js";
+import { faIcon } from "../utils/faIcon.js";
 
 let currentlyRendering = false;
 export async function renderNotes(notesArray) {
@@ -79,3 +80,9 @@ export async function renderNotes(notesArray) {
     }
     currentlyRendering = false;
 }
+
+// on page nav, we are no longer rendering current batch
+document.addEventListener("navigatedToNewPage", () => {
+    // clean up variables
+    currentlyRendering = false;
+});

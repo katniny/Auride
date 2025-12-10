@@ -2,6 +2,7 @@ import { waitForElement } from "../ui/waitForElement.js";
 import { currentUserData } from "../users/current.js";
 import { auth } from "../firebase/config.js";
 import { renderNotes } from "./renderNotes.js";
+import { faIcon } from "../utils/faIcon.js";
 
 // init variables
 let pathname = window.location.pathname;
@@ -25,9 +26,6 @@ document.addEventListener("navigatedToNewPage", () => {
     // change path
     getRequestPath();
 });
-
-// TODO: reimplement... everything
-// this was much needed cleanup anyways
 
 // get the path to use in requests
 function getRequestPath() {
@@ -66,6 +64,14 @@ export async function loadNotes() {
     if (currentlyLoadingNotes)
         return;
     currentlyLoadingNotes = true;
+
+    await waitForElement("notes");
+    const notesContainer = document.getElementById("notes");
+
+    // create loading indicator
+    const loadingIndicator = await faIcon("solid", "circle-notch", "spin");
+    loadingIndicator.id = "noteLoadingIndicator";
+    notesContainer.appendChild(loadingIndicator);
 
     // get the request path
     pathname = window.location.pathname; // set it here or it reports the last pathname, which obviously causes bugs
@@ -110,6 +116,7 @@ export async function loadNotes() {
     if (!res.ok) {
         console.error(`Failed to fetch notes: ${res.statusText}`);
         currentlyLoadingNotes = false;
+        loadingIndicator.remove();
         return;
     }
 

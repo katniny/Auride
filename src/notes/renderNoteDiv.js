@@ -473,5 +473,6 @@ export async function renderNote(noteData) {
     return noteDiv;
 }
 
-// TODO: fix notes not loading when navigating too fast,
-// add loading indicators and add the "loadNotesFromButton()" function
+// TODO:
+// add the "loadNotesFromButton()" function,
+// and add a websocket listener for new notes (since this needs to be server-side now)
