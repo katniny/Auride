@@ -4,6 +4,7 @@
 @import url("./components/pageLoadingIndicator.css");
 @import url("./components/notes.css");
 @import url("./components/noteMoreSubmenu.css");
+@import url("./components/newNotesAvailable.css");
 
 /* default colors */
 :root {

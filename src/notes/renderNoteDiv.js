@@ -472,7 +472,3 @@ export async function renderNote(noteData) {
     // assuming all goes well, return the note div
     return noteDiv;
 }
-
-// TODO:
-// add the "loadNotesFromButton()" function,
-// and add a websocket listener for new notes (since this needs to be server-side now)

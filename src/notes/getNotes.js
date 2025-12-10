@@ -15,13 +15,7 @@ export let allLoadedNotes = new Set();
 
 document.addEventListener("navigatedToNewPage", () => {
     // clean up variables
-    pathname = window.location.pathname;
-    notesPageRef = null;
-    currentlyLoadingNotes = false;
-    loadOnlyFollowingNotes = false;
-    listeningToWebsocket = false;
-    lastLoadedNoteKey = null;
-    allLoadedNotes = new Set();
+    resetVariables();
 
     // change path
     getRequestPath();
@@ -56,6 +50,29 @@ function getRequestPath() {
             notesPageRef = `pleaseSetMe`;
             break;
     }
+}
+
+// reset all variables
+function resetVariables() {
+    // clean up variables
+    pathname = window.location.pathname;
+    notesPageRef = null;
+    currentlyLoadingNotes = false;
+    loadOnlyFollowingNotes = false;
+    lastLoadedNoteKey = null;
+    allLoadedNotes = new Set();
+}
+
+// reset all variables then call loadNotes()
+function loadNotesFromScratch() {
+    // reset variables
+    resetVariables();
+
+    // change path
+    getRequestPath();
+
+    // then, load notes
+    loadNotes();
 }
 
 // load notes
@@ -132,8 +149,46 @@ export async function loadNotes() {
         // keep newest at bottom
         renderNotes(notesArray);
         currentlyLoadingNotes = false;
+
+        // set up ws
+        if (!listeningToWebsocket) {
+            const ws = new WebSocket(import.meta.env.VITE_BACKEND_WS_URL);
+            ws.onmessage = (event) => {
+                const message = JSON.parse(event.data);
+
+                if (message.type === "new_note")
+                    newNoteAdded(message.noteId);
+            };
+        }
+        listeningToWebsocket = true; // we can call this only once, server doesnt return page-specific data!
+
         return;
     }
+}
+
+// if new note added, render
+function newNoteAdded(id) {
+    // does id already exist?
+    if (document.getElementById(id))
+        return;
+
+    // if not, let user know theres a new note
+    const newNotesAvailable = document.createElement("div");
+    newNotesAvailable.id = "newNotesAvailable";
+    newNotesAvailable.onclick = () => {
+        // remove self
+        newNotesAvailable.remove();
+
+        // remove currently loaded notes
+        document.getElementById("notes").innerHTML = "";
+
+        // then, reload notes
+        loadNotesFromScratch();
+    };
+    newNotesAvailable.innerHTML = `
+        ${faIcon("solid", "bell").outerHTML} New Notes
+    `;
+    document.getElementById("app").appendChild(newNotesAvailable);
 }
 
 // infinite note loading

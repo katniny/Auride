@@ -3,6 +3,7 @@
 - SPA has been implemented
 - / is no longer an individual page but now just goes straight to home with no additional code to run
 - /u is no longer a valid path, please use /u/{username} instead
+- Improve "New Notes" button UI
 
 ## Dev Env:
 - Pages are now .js files rather than .html, making it easier to add page-specific code without more scripts (though, you can still do this).
