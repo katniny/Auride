@@ -146,6 +146,13 @@ firebase.auth().onAuthStateChanged((user) => {
                 document.body.removeChild("loader");
             });
         });
+    } else {
+        // TODO: help prevent pop-in and whatnot for signed out users
+        loader.classList.add("loader-hidden");
+
+        loader.addEventListener("transitioned", () => {
+            document.body.removeChild("loader");
+        });
     }
 })
 
