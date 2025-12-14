@@ -5,10 +5,9 @@ import { format } from "../text/format.js";
 import { faIcon } from "../utils/faIcon.js";
 import { timeAgo } from "../ui/timeAgo.js";
 import { navigate } from "../router.js";
-import { currentUserData } from "../users/current.js";
+import { currentUserData, userData } from "../users/current.js";
 import { getUserData } from "../methods/getUserData.js";
-
-// TODO: replace firebase db calls with server calls
+import { getNoteData } from "../methods/getNoteData.js";
 
 const pathName = window.location.pathname;
 
@@ -159,6 +158,7 @@ export async function renderNote(noteData) {
                 const renotedText = document.createElement("p");
                 renotedText.classList.add("userRenoted");
                 renotedText.innerHTML = `${faIcon("solid", "retweet").outerHTML} ${formattedUsername} renoted`;
+                noteDiv.insertBefore(renotedText, userPfp);
             }
         });
     }
@@ -296,73 +296,57 @@ export async function renderNote(noteData) {
         container.className = "quoteContainer";
         container.addEventListener("click", function () { navigate(`/note/${noteData.quoting}`) });
 
-        // TODO: dedup more code here
-        db.ref(`notes/${noteData.quoting}`).once("value", snapshot => {
-            const quoteData = snapshot.val();
+        // create pfp
+        const quotePfp = document.createElement("img");
+        quotePfp.className = "quotePfp";
+        quotePfp.draggable = false;
 
-            // create pfp
-            const quotePfp = document.createElement("img");
-            quotePfp.className = "quotePfp";
-            quotePfp.draggable = false;
+        // header
+        const quoteHeader = document.createElement("div");
+        quoteHeader.className = "quoteHeader";
 
-            // header
-            const quoteHeader = document.createElement("div");
-            quoteHeader.className = "quoteHeader";
+        // user display/username
+        const quoteDisplay = document.createElement("span");
+        quoteDisplay.className = "quoteDisplay";
+        const quoteUsername = document.createElement("span");
+        quoteUsername.className = "quoteUsername";
 
-            // user display/username
-            const quoteDisplay = document.createElement("span");
-            quoteDisplay.className = "quoteDisplay";
-            const quoteUsername = document.createElement("span");
-            quoteUsername.className = "quoteUsername";
+        // text content
+        const quoteContent = document.createElement("div");
+        quoteContent.className = "quoteContent";
+        const quoteText = document.createElement("span");
+        quoteText.className = "quoteText";
 
-            // text content
-            const quoteContent = document.createElement("div");
-            quoteContent.className = "quoteContent";
-            const quoteText = document.createElement("span");
-            quoteText.className = "quoteText";
+        quoteContent.appendChild(quoteHeader);
+        quoteHeader.appendChild(quoteDisplay);
+        quoteHeader.appendChild(quoteUsername);
 
-            quoteContent.appendChild(quoteHeader);
-            quoteHeader.appendChild(quoteDisplay);
-            quoteHeader.appendChild(quoteUsername);
+        try {
+            // get note and user data
+            const quoteData = await getNoteData(noteData.quoting);
+            const quoteUserData = await getUserData(quoteData.whoSentIt, "uid");
 
-            // handle deleted notes
-            if (quoteData.isDeleted) {
-                quotePfp.src = "/assets/imgs/defaultPfp.png";
-                quoteDisplay.textContent = "Unknown User";
-                quoteUsername.textContent = "@unknownuser";
-                quoteText.textContent = "This note has been deleted";
+            // set pfp, display, and username
+            quotePfp.src = storageLink(`images/pfp/${quoteUserData.uid}/${quoteUserData.pfp}`);
+            quoteDisplay.textContent = quoteUserData.display;
+            quoteUsername.textContent = renderUsername(quoteUserData.username, quoteUserData.pronouns, quoteUserData.createdAt);
 
-                container.appendChild(quotePfp);
-                quoteContent.appendChild(quoteText);
-                container.appendChild(quoteContent);
-                return;
-            }
+            // format and set text
+            let content = format(quoteData.text);
+            if (content.length > 247)
+                content = content.substring(0, 247) + "...";
+            quoteText.innerHTML = content;
+        } catch (error) {
+            // if error, set default data
+            quotePfp.src = "/assets/imgs/defaultPfp.png";
+            quoteDisplay.textContent = "Deleted User";
+            quoteUsername.textContent = "@ghost";
+            quoteText.textContent = "Failed to load note. This note may be deleted.";
+        }
 
-            // handle normal notes
-            db.ref(`users/${quoteData.whoSentIt}`).get().then(snapshot => {
-                const quoteUser = snapshot.val();
-                const isSuspended = quoteUser.suspensionStatus === "suspended";
-
-                quotePfp.src = isSuspended ? "/assets/imgs/defaultPfp.png" : storageLink(`images/pfp/${quoteData.whoSentIt}/${quoteUser.pfp}`);
-
-                quoteDisplay.textContent = isSuspended ? "Suspended User" : quoteUser.display;
-
-                quoteUsername.textContent = isSuspended ? "suspended" : renderUsername(quoteUser.username, quoteUser.pronouns, quoteData.createdAt);
-
-                if (isSuspended) {
-                    quoteText.textContent = "Note by suspended user cannot be viewed";
-                } else {
-                    let content = format(quoteData.text);
-                    if (content.length > 247) 
-                        content = content.substring(0, 247) + "...";
-                    quoteText.innerHTML = content;
-                }
-
-                container.appendChild(quotePfp);
-                quoteContent.appendChild(quoteText);
-                container.appendChild(quoteContent);
-            });
-        });
+        quoteContent.appendChild(quoteText);
+        container.appendChild(quotePfp);
+        container.appendChild(quoteContent);
         noteDiv.appendChild(container);
     }
 
@@ -421,6 +405,7 @@ export async function renderNote(noteData) {
     favIcon.id = `favorite-${noteData.id}`;
     if (user) {
         // add to users favorites
+        // TODO: once working on note interactions, put this on the server!
         db.ref(`users/${user.uid}/favorites/${noteData.id}`).once("value", snapshot => {
             if (snapshot.exists())
                 favIcon.style.color = "var(--main-color)";

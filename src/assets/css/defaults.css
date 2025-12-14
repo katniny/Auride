@@ -5,6 +5,7 @@
 @import url("./components/notes.css");
 @import url("./components/noteMoreSubmenu.css");
 @import url("./components/newNotesAvailable.css");
+@import url("./components/quoteContainer.css");
 
 /* default colors */
 :root {

@@ -2,14 +2,10 @@ import { getToken } from "./getToken.js";
 
 export async function getUserData(id, type) {
     // check for identifier & id type
-    if (!id) {
-        console.error("Attempted to get user data without an identifier. Please get a UID or username!");
-        return;
-    }
-    if (!type) {
-        console.error("Attempted to get user data without an ID type.");
-        return;
-    }
+    if (!id)
+        throw new Error("Attempted to get user data without an identifier. Please get a UID or username!");
+    if (!type)
+        throw new Error("Attempted to get user data without an ID type.");
 
     // if all goes well, get a token
     const token = await getToken();
@@ -26,7 +22,7 @@ export async function getUserData(id, type) {
     });
     // if response isn't okay, user is invalid
     if (!res.ok)
-        return null;
+        throw new Error(`Failed to fetch user data: ${res.status}`);
 
     // else, return data
     const data = await res.json();

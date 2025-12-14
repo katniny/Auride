@@ -17,6 +17,9 @@
 - If a user navigates to a new page, you can add an event listener named "navigatedToNewPage" (useful for doing things such as cleaning up functions on navigation)
 - If the server requests the same user, we now return their autoplay preference
 - The following URLs are depreciated: /u?id={username}, /note?id={noteId} & /userstudio?theme=${themeId}. Please update any links to be correct, as these are an extremely old way to handle links and will no longer work!
+- Unified code to fetch user data (can be called via getUserData(id, type) from "/methods/getUserData.js")
+- Unified code to fetch a token for current user (can be called via getToken() from "/methods/getToken.js")
+- Unified code to fetch a singular note for current user (can be called via getNoteData(id) from "/methods/getNoteData.js")
 
 - NOTICE TO CONTRIBUTORS: If you have an old database for Auride, the following methods are now depreciated:
     - noteData.isDeleted - this is handled by the server. While notes are no longer deleted this way, the server can handle this to ensure it doesn't render. However, we do not do this anymore going forward.
