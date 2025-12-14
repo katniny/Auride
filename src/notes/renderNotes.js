@@ -43,7 +43,7 @@ export async function renderNotes(notesArray) {
 
         // then, get notes user data
         let noteUserData = null;
-        if (currentUsersData.uid === noteData.whoSentIt)
+        if (currentUsersData?.uid === noteData.whoSentIt)
             noteUserData = currentUsersData;
         else {
             // get token

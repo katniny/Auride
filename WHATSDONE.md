@@ -23,10 +23,10 @@
     - noteData.isReplying - replies are now handled properly. Notes will no longer render if it has this value, please run `upgrading/updateReplies.js` with Node!
 
 # TODO (based on what's been completed):
-- Make a way to fetch a token without causing repetition in code
-- Make a way to fetch server code without causing repetition in code
+- Make a way to fetch server code without causing repetition in code (WIP)
 - Add documentation on adding new pages
 - Make GitHub Workflow use .env files & document
 - Obfuscate code in GitHub Workflow
 - Document restrictions on appending to the app view vs body/head
 - Document how to get FontAwesome ID
+- Document how to use "Methods" (getUserData, getNoteData, etc.)

@@ -6,6 +6,9 @@ import { faIcon } from "../utils/faIcon.js";
 import { timeAgo } from "../ui/timeAgo.js";
 import { navigate } from "../router.js";
 import { currentUserData } from "../users/current.js";
+import { getUserData } from "../methods/getUserData.js";
+
+// TODO: replace firebase db calls with server calls
 
 const pathName = window.location.pathname;
 
@@ -106,7 +109,7 @@ export async function renderNote(noteData) {
 
     // get current user data
     const user = auth.currentUser;
-    const currentUser = user ? (await db.ref(`users/${user.uid}`).once("value")).val() : "notSignedIn";
+    const currentUser = currentUsersData;
 
     // is the note nsfw/sensitive/political?
     // if so, what are the user prefs?
@@ -129,13 +132,15 @@ export async function renderNote(noteData) {
     }
 
     // did renderWarning() return false? if so, return
-    if (cover === false) return;
+    if (cover === false)
+        return;
     // if the cover isnt false but isnt true either,
     // we can assume its the returned html
-    if (cover instanceof Node) noteDiv.appendChild(cover);
+    if (cover instanceof Node)
+        noteDiv.appendChild(cover);
 
     // get the note senders data
-    const noteSender = (await db.ref(`users/${noteData.whoSentIt}`).once("value")).val();
+    const noteSender = await getUserData(noteData.whoSentIt, "uid");
     if (!noteSender || !noteSender.display || !noteSender.username || !noteSender.pfp)
         // TODO: add default user data
         // ^ should be a lot easier now!
@@ -146,17 +151,14 @@ export async function renderNote(noteData) {
     if (pathName.startsWith("/u/")) {
         const getUsername = pathName.split("/")[2];
         // get their uid
-        db.ref(`/taken-usernames/${getUsername}`).once("value", (snapshot) => {
-            const uid = snapshot.val().user;
-            
-            if (noteData.whoSentIt !== uid) {
+        getUserData(getUsername, "username").once((data) => {
+            if (noteData.whoSentIt !== data.uid) {
                 const formattedUsername = format(getUsername, ["html", "emoji"]);
 
                 // create text
                 const renotedText = document.createElement("p");
                 renotedText.classList.add("userRenoted");
                 renotedText.innerHTML = `${faIcon("solid", "retweet").outerHTML} ${formattedUsername} renoted`;
-                noteDiv.insertBefore(renotedText, userPfp);
             }
         });
     }
