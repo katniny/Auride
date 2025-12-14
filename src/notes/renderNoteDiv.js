@@ -329,7 +329,7 @@ export async function renderNote(noteData) {
             // set pfp, display, and username
             quotePfp.src = storageLink(`images/pfp/${quoteUserData.uid}/${quoteUserData.pfp}`);
             quoteDisplay.textContent = quoteUserData.display;
-            quoteUsername.textContent = renderUsername(quoteUserData.username, quoteUserData.pronouns, quoteUserData.createdAt);
+            quoteUsername.textContent = renderUsername(quoteUserData.username, quoteUserData.pronouns, quoteData.createdAt);
 
             // format and set text
             let content = format(quoteData.text);
