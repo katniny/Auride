@@ -11,16 +11,23 @@ router.get("/api/auride/getUserData", async (req, res) => {
         // extract token
         const authHeader = req.headers.authorization || "";
         let token = null;
-
-        // verify token (if there is one)
-        // safely verify token.. randomly broke for non-auth users? should look into this
-        let userUidFromRequest = null;
         if (typeof req.headers.authorization === "string") {
             const parts = req.headers.authorization.split(" ");
             if (parts[0] === "Bearer" && parts[1])
                 token = parts[1].trim();
         }
-
+        
+        // verify token
+        let userUidFromRequest = null;
+        if (token) {
+            try {
+                const decodedToken = await admin.auth().verifyIdToken(token);
+                userUidFromRequest = decodedToken.uid;
+            } catch (err) {
+                console.error(`Invalid token: ${err}`);
+            }
+        }
+        
         // now that user is authenticated (assuming there is one), continue
         // get request type -- if it's "username", we'll need to get the users uid
         const userIdentifer = req.headers.useridentifier;

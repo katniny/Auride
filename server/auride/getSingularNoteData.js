@@ -11,13 +11,21 @@ router.get("/api/auride/getSingularNoteData", async (req, res) => {
         // extract token
         const authHeader = req.headers.authorization || "";
         let token = null;
-
-        // verify token (if there is one)
-        let userUidFromRequest = null;
         if (typeof req.headers.authorization === "string") {
             const parts = req.headers.authorization.split(" ");
             if (parts[0] === "Bearer" && parts[1])
                 token = parts[1].trim();
+        }
+
+        // verify token
+        let userUidFromRequest = null;
+        if (token) {
+            try {
+                const decodedToken = await admin.auth().verifyIdToken(token);
+                userUidFromRequest = decodedToken.uid;
+            } catch (err) {
+                console.error(`Invalid token: ${err}`);
+            }
         }
 
         // now that user is authenticated (assuming there is one), continue

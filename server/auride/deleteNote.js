@@ -10,13 +10,22 @@ router.delete("/api/auride/deleteNote", async (req, res) => {
     try {
         // extract token
         const authHeader = req.headers.authorization || "";
-        const token = authHeader.startsWith("Bearer ") ? authHeader.split("Bearer ")[1] : null;
-
-        // verify token (if there is one)
+        let token = null;
+        if (typeof req.headers.authorization === "string") {
+            const parts = req.headers.authorization.split(" ");
+            if (parts[0] === "Bearer" && parts[1])
+                token = parts[1].trim();
+        }
+        
+        // verify token
         let userUidFromRequest = null;
         if (token) {
-            const decodedToken = await admin.auth().verifyIdToken(token);
-            userUidFromRequest = decodedToken.uid;
+            try {
+                const decodedToken = await admin.auth().verifyIdToken(token);
+                userUidFromRequest = decodedToken.uid;
+            } catch (err) {
+                console.error(`Invalid token: ${err}`);
+            }
         }
 
         if (!token || !userUidFromRequest)

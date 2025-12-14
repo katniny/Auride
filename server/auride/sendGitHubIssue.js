@@ -10,22 +10,30 @@ router.post("/api/auride/sendGithubIssue", async (req, res) => {
     try {
         // extract token
         const authHeader = req.headers.authorization || "";
-        const token = authHeader.startsWith("Bearer ") ? authHeader.split("Bearer ")[1] : null;
-
-        // verify token (if there is one)
+        let token = null;
+        if (typeof req.headers.authorization === "string") {
+            const parts = req.headers.authorization.split(" ");
+            if (parts[0] === "Bearer" && parts[1])
+                token = parts[1].trim();
+        }
+        
+        // verify token
         let userUidFromRequest = null;
         let username = null;
         if (token) {
-            const decodedToken = await admin.auth().verifyIdToken(token);
-            userUidFromRequest = decodedToken.uid;
+            try {
+                const decodedToken = await admin.auth().verifyIdToken(token);
+                // get uid
+                userUidFromRequest = decodedToken.uid;
+                if (!userUidFromRequest)
+                    return res.status(403).json({ error: "No user UID with this token found." });
 
-            // get uid
-            if (!userUidFromRequest)
-                return res.status(403).json({ error: "No user UID with this token found." });
-
-            // get username
-            const getUsername = await db.ref(`users/${userUidFromRequest}/username`).once("value");
-            username = getUsername.val();
+                // get username
+                const getUsername = await db.ref(`users/${userUidFromRequest}/username`).once("value");
+                username = getUsername.val();
+            } catch (err) {
+                return res.status(403).json({ error: "No token found. Must be logged in to use this!" });
+            }
         } else {
             return res.status(403).json({ error: "No token found. Must be logged in to use this!" });
         }
