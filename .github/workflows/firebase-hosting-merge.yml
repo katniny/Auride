@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - move-to-github
 
 permissions:
   contents: read
