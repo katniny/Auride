@@ -204,7 +204,59 @@ if (hasUpdateNotes) {
 }
 
 // If the user is on the 404 page, change the page URL to be the page they are on.
+function loadPage(filePath) {
+   fetch(filePath)
+      .then(res => {
+         if (!res.ok) throw new Error("Page not found.");
+         return res.text();
+      })
+      .then(html => {
+         document.body.innerHTML = html;
+
+         // run scripts
+         // bad, bad, bad! but it works so i actually kinda dgaf. i have a splitting headache
+         // and this version of auride will be gone soon.
+         ScriptLoader.load(
+            { src: "/assets/js/ui/waitForElement.js", async: false },
+            { src: "/assets/js/notes/renderNoteDiv.js", async: false },
+            { src: "/assets/js/notes/notes.js", async: false },
+            { src: "/assets/js/ui/deceasedUserPopup.js", async: false },
+            { src: "/assets/js/users/userActions.js", async: false },
+            { src: "/assets/js/users/renderUPage.js", async: false },
+            { src: "/assets/js/ui/user/filters.js", async: false },
+            { src: "/assets/js/users/blockUser.js", async: false },
+            { src: "/assets/js/users/followUser.js", async: false }
+         ).then(() => {
+            console.log("Scripts for /home have been loaded successfully.");
+         }).catch((error) => {
+            console.error("An error occurred: ", error, " please try refreshing.");
+         });
+      })
+      .catch(err => {
+         console.error(err);
+         document.body.innerHTML = "<h1>404 Not Found</h1>";
+      });
+}
+
+
 if (document.getElementById("404page")) {
+   // TODO: dont do this. this is so hacky.
+   // but this is addressed by the rewrite branch, so we need no action.
+   // i was hoping NOT to modify current auride again, however, firebase left me no choice
+   // yes, i am ranting in comments because im actually really stressed and mad
+   // 
+   // if a dynamic page exists, just return that
+   if (pathName.startsWith("/u/")) {
+      console.log("user page");
+      loadPage("/u.html");
+   } else if (pathName.startsWith("/note/")) {
+      console.log("note page");
+      loadPage("/note.html");
+   } else if (pathName.startsWith("/userstudio/")) {
+      console.log("userstudio page");
+      loadPage("/userstudio.html");
+   }
+   
    document.getElementById("404page").textContent = `We were unable to find ${pathName}. The page does not exist, got moved, or got lost to time.`;
 
    const pageWithoutSlash = pathName.substring(1);
