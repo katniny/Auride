@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - move-to-github
   workflow_dispatch:
 
 permissions:
