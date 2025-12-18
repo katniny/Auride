@@ -1,5 +1,6 @@
 name: Deploy to GitHub Pages
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -54,9 +55,10 @@ jobs:
         with:
           path: ./src/dist
     
-    deploy:
-      needs: build
-      runs-on: ubuntu-latest
-      steps:
-        - name: Deploy to GitHub Pages
-          uses: actions/deploy-pages@v4
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
