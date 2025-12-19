@@ -6,6 +6,8 @@
 @import url("./components/noteMoreSubmenu.css");
 @import url("./components/newNotesAvailable.css");
 @import url("./components/quoteContainer.css");
+@import url("./components/sendNoteQuick.css");
+@import url("./components/greeting.css");
 
 /* default colors */
 :root {
@@ -57,14 +59,32 @@
 
 /* default styling for all elements  */
 * {
-    margin: 0;
-    padding: 0;
-    font-family: "Gabarito", sans-serif;
-    color: var(--text);
+   margin: 0;
+   padding: 0;
+   font-family: "Gabarito", sans-serif;
+   color: var(--text);
 }
 
 /* default styling for body */
 body {
-    background: var(--background);
-    zoom: var(--zoom-level);
+   background: var(--background);
+   zoom: var(--zoom-level);
+}
+
+/* description text */
+.description {
+   color: var(--text-semi-transparent);
+   font-size: 15px;
+}
+
+/* links */
+a {
+   color: var(--main-color);
+   text-decoration: underline;
+   transition: all 0.1s ease;
+}
+
+a:hover {
+   color: var(--main-color-darker);
+   text-decoration: none;
 }

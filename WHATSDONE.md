@@ -3,7 +3,10 @@
 - SPA has been implemented
 - / is no longer an individual page but now just goes straight to home with no additional code to run
 - /u is no longer a valid path, please use /u/{username} instead
-- Improve "New Notes" button UI
+- Improved "New Notes" button UI
+- Improved link UI
+- Improved Quick Note Send UI (no longer overflows)
+- Improved greeting UI on the top of the home page
 
 ## Dev Env:
 - Pages are now .js files rather than .html, making it easier to add page-specific code without more scripts (though, you can still do this).
@@ -34,3 +37,4 @@
 - Document how to get FontAwesome ID
 - Document how to use "Methods" (getUserData, getNoteData, etc.)
 - Make loveNote() and renoteNote() work on comments, as they currently assume loves and renotes are top-level notes
+- Update CONTRIBUTING.md updated date once Auride is ready for prod

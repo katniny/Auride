@@ -1,4 +1,4 @@
-Last updated: September 15, 2025
+Last updated: December XX, 2025
 # 👋 Welcome to the Auride contributing guide!
 Thank you for your interest in contributing to Auride! We try to make Auride as easy as possible to contribute to.
 
@@ -17,9 +17,19 @@ Thank you for your interest in contributing to Auride! We try to make Auride as 
    - Please note that this is required.
    - Format for versioning.js:
    ```js
-      let aurideVersion = "vYEAR.MONTH.DAY"; // e.g. v2025.1.1
-      let aurideUpdate = "vYEARMONTHDAY-UPDATEFORTHEDAY"; // e.g. v202551-5
-      let hasUpdateNotes = true; // this should be set to true if you have update notes in updates.html, otherwise false
+      // formatted: vYEAR.MONTH.DAY
+      const updateTime = "v2025.12.TBD";
+      // formatted: vYEARMONTHDAY
+      const updateTimeSimple = "v202512TBD"
+      // the number of updates today (increment by one, unless there was no commits today!)
+      const numOfUpdatesToday = "1";
+      // the current auride version. contributors should leave this alone
+      const currentAurideVersion = "beta";
+      // full string
+      export const versioningString = `
+         Auride is in ${currentAurideVersion} (${updateTime}).
+         Features are still being added. <a href="/versioning">Learn more</a>.
+      `;
    ```
    - Format for update.html:
    ```html

@@ -1,0 +1,14 @@
+/* the quick note send element on /home and /note/{id} */
+.sendNoteQuick {
+    background: var(--reply-background);
+    padding: 10px;
+    border-radius: 5px;
+    width: calc(100% - 20px);
+    margin: 10px 10px 0px 0px;
+    cursor: pointer;
+    transition: all 0.10s ease;
+}
+
+.sendNoteQuick:hover {
+    background: var(--reply-hovered-background);
+}

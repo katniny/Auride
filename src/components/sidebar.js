@@ -16,7 +16,7 @@ export async function addSidebarElement() {
             <button id="homeButton" class="active">${faIcon("solid", "house").outerHTML} Home</button>
         </a>
         <a href="/about">
-            <button id="aboutButton" class="active">${faIcon("solid", "info").outerHTML} About</button>
+            <button id="aboutButton" class="active">${faIcon("solid", "info").outerHTML} About (PLACEHOLDER)</button>
         </a>
     `;
     document.body.appendChild(sidebarElement);
