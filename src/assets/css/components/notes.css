@@ -20,11 +20,6 @@
    opacity: 50%;
 }
 
-.note:last-child {
-   top: -12px;
-   margin-top: 24px;
-}
-
 .note .notePfp {
    width: 50px;
    height: 50px;
@@ -406,4 +401,10 @@
 #notes #noteLoadingIndicator {
    text-align: center;
    font-size: large;
+}
+
+/* if requested to be reversed, do so */
+#notes.reversed {
+   display: flex;
+   flex-direction: column-reverse;
 }

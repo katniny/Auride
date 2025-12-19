@@ -18,10 +18,10 @@ export default async function homePage() {
         h >= 17 && h < 20 ? "Good evening" :
         h >= 21 && h < 24 ? "Good late night" :
         "Have a good night";
-    greetingString = currentUsersData ? `${getGreeting(hours)}, ${format(currentUsersData.display)}!` : `${getGreeting(hours)}!`;
+    greetingString = currentUsersData ? `${getGreeting(hours)}, ${format(currentUsersData.display, ["html", "emoji"])}!` : `${getGreeting(hours)}!`;
 
     // construct string for the "quick note sending" div
-    let whatsOnYourMindString = currentUsersData ? `What's on your mind, ${format(currentUsersData.display)}?` : "What's on your mind?";
+    let whatsOnYourMindString = currentUsersData ? `What's on your mind, ${format(currentUsersData.display, ["html", "emoji"])}?` : "What's on your mind?";
 
     // set title
     document.title = "Auride";
@@ -38,7 +38,7 @@ export default async function homePage() {
         </div>
         <div id="notes"></div>
     `;
-    
+
     // load notes
     loadNotes();
     

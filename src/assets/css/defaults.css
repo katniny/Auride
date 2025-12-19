@@ -8,6 +8,8 @@
 @import url("./components/quoteContainer.css");
 @import url("./components/sendNoteQuick.css");
 @import url("./components/greeting.css");
+@import url("./components/noteView.css");
+@import url("./components/divider.css");
 
 /* default colors */
 :root {

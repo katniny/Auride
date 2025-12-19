@@ -1,0 +1,95 @@
+/* the note view header */
+.noteView .noteHeader {
+    display: flex;
+}
+
+/* pfp and names */
+.noteView .pfpContainer img {
+    width: 60px;
+    border-radius: 50%;
+}
+
+.noteView .displayContainer {
+    font-size: 18px;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+/* link styling in the header */
+.noteView .displayContainer a {
+    display: block;
+    color: var(--color);
+    text-decoration: none;
+}
+
+.noteView .displayContainer a:hover {
+    text-decoration: underline;
+}
+
+.noteView .displayContainer .displayName {
+    font-size: 20px;
+}
+
+.noteView .displayContainer .username {
+    color: var(--text-semi-transparent);
+    font-size: 16px;
+}
+
+/* note text */
+.noteView .noteContainer {
+    margin-top: 10px;
+}
+
+/* additional info text */
+.noteView .additionalInfo .timeSent {
+    margin-top: 5px;
+}
+
+/* separate divider more */
+.noteView .divider {
+    margin: 10px 0px 10px 0px;
+}
+
+/* interactions */
+.noteView .noteInteractions .love,
+.noteView .noteInteractions .renote,
+.noteView .noteInteractions .replies,
+.noteView .noteInteractions .quoteRenote,
+.noteView .noteInteractions .favorite {
+    cursor: pointer;
+}
+
+.noteView .noteInteractions .renote,
+.noteView .noteInteractions .replies,
+.noteView .noteInteractions .quoteRenote,
+.noteView .noteInteractions .favorite {
+    margin-left: 10px;
+}
+
+/* interaction hover states */
+/* 
+    TODO: add a glow or something :) visual feedback
+    just not doing it now since it needs updated in other places for visual consistency,
+    and i have more important things to do
+*/
+
+/* interactions active states */
+.noteView .noteInteractions .love.active i {
+    color: var(--like-color);
+}
+
+.noteView .noteInteractions .renote.active i {
+    color: var(--renote-color);
+}
+
+/* media container */
+.noteView .mediaContainer {
+    margin-top: 10px;
+}
+
+.noteView .mediaContainer img,
+.noteView .mediaContainer video {
+    max-width: 100%;
+    max-height: 475px;
+    border-radius: 5px;
+}

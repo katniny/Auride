@@ -7,6 +7,10 @@
 - Improved link UI
 - Improved Quick Note Send UI (no longer overflows)
 - Improved greeting UI on the top of the home page
+- Redesigned note view UI
+- Made media in the note view bigger, making it easier to see
+- Added the option to quote renote from the note view
+- Improved divider used within UI
 
 ## Dev Env:
 - Pages are now .js files rather than .html, making it easier to add page-specific code without more scripts (though, you can still do this).
@@ -23,6 +27,9 @@
 - Unified code to fetch user data (can be called via getUserData(id, type) from "/methods/getUserData.js")
 - Unified code to fetch a token for current user (can be called via getToken() from "/methods/getToken.js")
 - Unified code to fetch a singular note for current user (can be called via getNoteData(id) from "/methods/getNoteData.js")
+- You can now call "timeAgo" with 2 arguments - the Firebase timestamp & "verbose"
+    - Verbose is a flag you can call to get a full string (e.g., "Dec 17, 2025 • 4:10 AM" instead of "2d"). Do not call a flag if you want the standard time.
+- Unified functions for loving notes and renoting notes
 
 - NOTICE TO CONTRIBUTORS: If you have an old database for Auride, the following methods are now depreciated:
     - noteData.isDeleted - this is handled by the server. While notes are no longer deleted this way, the server can handle this to ensure it doesn't render. However, we do not do this anymore going forward.
@@ -38,3 +45,5 @@
 - Document how to use "Methods" (getUserData, getNoteData, etc.)
 - Make loveNote() and renoteNote() work on comments, as they currently assume loves and renotes are top-level notes
 - Update CONTRIBUTING.md updated date once Auride is ready for prod
+
+- Of course, check any // TODO: comments in code and make sure there isnt anything important for release

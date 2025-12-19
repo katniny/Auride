@@ -38,6 +38,7 @@ function getRequestPath() {
             
             // then, set variables
             notesPageRef = `/notes/${noteId}/notesReplying`;
+            console.log(notesPageRef);
             break;
         case pathname === "/favorites":
             (async () => {
