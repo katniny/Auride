@@ -9,6 +9,7 @@ import { currentUserData, userData } from "../users/current.js";
 import { getUserData } from "../methods/getUserData.js";
 import { getNoteData } from "../methods/getNoteData.js";
 import { loveNote } from "../methods/loveNote.js";
+import { renoteNote } from "../methods/renoteNote.js";
 
 const pathName = window.location.pathname;
 
@@ -382,7 +383,11 @@ export async function renderNote(noteData) {
         }
 
         // add onclick for loving notes
-        if (user && interaction.key === "like") {
+        if (user && (interaction.key === "like" || interaction.key === "renote")) {
+            // determine action based on interaction type
+            const action = interaction.key === "like" ? loveNote : renoteNote;
+
+            // add onclick
             btn.onclick = async () => {
                 if (hasUserInteracted) {
                     btn.classList.remove(interaction.activeClass);
@@ -394,10 +399,10 @@ export async function renderNote(noteData) {
                     count++;
                 }
                 countSpan.textContent = count;
-                
+
                 // fire and forget
                 try {
-                    await loveNote(noteData.id);
+                    await action(noteData.id);
                 } catch (err) {
                     // rollback if something failed
                     hasUserInteracted = !hasUserInteracted;

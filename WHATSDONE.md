@@ -33,3 +33,4 @@
 - Document restrictions on appending to the app view vs body/head
 - Document how to get FontAwesome ID
 - Document how to use "Methods" (getUserData, getNoteData, etc.)
+- Make loveNote() and renoteNote() work on comments, as they currently assume loves and renotes are top-level notes
