@@ -8,6 +8,7 @@ import { navigate } from "../router.js";
 import { currentUserData, userData } from "../users/current.js";
 import { getUserData } from "../methods/getUserData.js";
 import { getNoteData } from "../methods/getNoteData.js";
+import { loveNote } from "../methods/loveNote.js";
 
 const pathName = window.location.pathname;
 
@@ -360,17 +361,52 @@ export async function renderNote(noteData) {
     // show good actions
     noteInteractions.forEach(interaction => {
         // create the interaction button with appropriate values
+        let hasUserInteracted = false;
         const btn = document.createElement("p");
         btn.classList.add(`${interaction.key}Btn`);
         btn.id = `${interaction.key}-${noteData.id}`;
 
         // get the count
-        const count = interaction.count || 0;
-        btn.innerHTML = `${faIcon("solid", interaction.icon).outerHTML} ${count}`;
+        let count = interaction.count || 0;
+        btn.innerHTML = `
+            ${faIcon("solid", interaction.icon).outerHTML} 
+            <span id="${noteData.id}-${interaction.key}Count">${count}</span>
+        `;
+
+        const countSpan = btn.querySelector("span");
 
         // did user interact?
-        if (user && interaction.userList && interaction.userList[user.uid])
+        if (user && interaction.userList && interaction.userList[user.uid]) {
+            hasUserInteracted = true;
             btn.classList.add(interaction.activeClass);
+        }
+
+        // add onclick for loving notes
+        if (user && interaction.key === "like") {
+            btn.onclick = async () => {
+                if (hasUserInteracted) {
+                    btn.classList.remove(interaction.activeClass);
+                    hasUserInteracted = false;
+                    count--;
+                } else {
+                    btn.classList.add(interaction.activeClass);
+                    hasUserInteracted = true;
+                    count++;
+                }
+                countSpan.textContent = count;
+                
+                // fire and forget
+                try {
+                    await loveNote(noteData.id);
+                } catch (err) {
+                    // rollback if something failed
+                    hasUserInteracted = !hasUserInteracted;
+                    btn.classList.toggle(interaction.activeClass);
+                    count += hasUserInteracted ? 1 : -1;
+                    countSpan.textContent = count;
+                }
+            };
+        }
 
         // append
         buttonRow.appendChild(btn);
