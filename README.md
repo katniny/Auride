@@ -1,5 +1,5 @@
 <div align="center">
-   <img src="https://auride.xyz/assets/imgs/All_transparent.png" />
+   <img src="src/public/assets/imgs/All_transparent.png" />
    
    ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/katniny/auride/firebase-hosting-merge.yml) <a href="/LICENSE"><img alt="Static Badge" src="https://img.shields.io/badge/license-CC BY–NC–SA 4.0-blue"></a>
 </a>
