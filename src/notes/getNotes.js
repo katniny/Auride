@@ -3,6 +3,7 @@ import { currentUserData } from "../users/current.js";
 import { auth } from "../firebase/config.js";
 import { renderNotes } from "./renderNotes.js";
 import { faIcon } from "../utils/faIcon.js";
+import { getUserData } from "../methods/getUserData.js";
 
 // init variables
 let pathname = window.location.pathname;
@@ -22,7 +23,7 @@ document.addEventListener("navigatedToNewPage", () => {
 });
 
 // get the path to use in requests
-function getRequestPath() {
+async function getRequestPath() {
     switch (true) {
         case pathname === "/home":
             notesPageRef = "notes";
@@ -30,7 +31,13 @@ function getRequestPath() {
         case pathname.startsWith("/u/"):
             // get username
             const username = pathname.split("/")[2].toLowerCase();
-            // TODO: call server to get notes
+            
+            try {
+                const data = await getUserData(username, "username");
+                notesPageRef = `/users/${data.uid}/posts`;
+            } catch (err) {
+                console.error(`Something went wrong: ${err}`);
+            }
             break;
         case pathname.startsWith("/note/"):
             // get note id
@@ -94,7 +101,7 @@ export async function loadNotes() {
     // get the request path
     pathname = window.location.pathname; // set it here or it reports the last pathname, which obviously causes bugs
     console.log(pathname);
-    getRequestPath();
+    await getRequestPath();
     
     // then, form url based on variables
     let requestUrl = `${import.meta.env.VITE_BACKEND_URL}/api/auride/getNoteData?limit=15`;

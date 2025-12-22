@@ -13,5 +13,38 @@
         <div id="app"></div>
 
         <script src="./main.js"  type="module"></script>
+        <!-- prevent users from closing modals with Esc -->
+        <script>
+            document.addEventListener("keydown", function(event) {
+                if (event.key === "Escape") {
+                    const openDialog = document.querySelector("dialog[open]");
+                    if (openDialog) {
+                        // prevent defaults
+                        event.preventDefault();
+                        event.stopPropagation(); 
+                    }
+                }
+            });
+        </script>
+        <!-- apply an animation when modal is closed, then delete modal -->
+        <script>
+            const originalClose = HTMLDialogElement.prototype.close;
+            HTMLDialogElement.prototype.close = function() {
+                // get modal & backdrop
+                const modal = this;
+
+                // apply the animation
+                modal.style.animation = "closePopup 420ms cubic-bezier(0.16, 1, 0.3, 1)";
+
+                // wait for the animation to finish before actually closing the modal
+                setTimeout(() => {
+                    // call the original close method
+                    originalClose.call(modal);
+
+                    // remove the modal
+                    modal.remove();
+                }, 420);
+            }
+        </script>
     </body>
 </html>

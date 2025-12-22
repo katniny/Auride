@@ -1,0 +1,91 @@
+/* profile container */
+.profileContainer {
+    position: relative;
+    width: 100%;
+    padding-top: 150px;
+    box-sizing: border-box;
+}
+
+/* pfp & banner */
+.profileContainer .userPfp {
+    width: 125px;
+    position: absolute;
+    top: 65px;
+    left: 0px;
+    border-radius: 50%;
+}
+
+.profileContainer .userBanner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    object-position: center;
+    background: var(--profile-picture-bg);
+}
+
+/* bio */
+.profileContainer .bio {
+    margin-top: 10px;
+}
+
+.profileContainer .bio .emoji {
+    height: 1em;
+    width: 1em;
+    margin: 0 .05em 0 .1em;
+    vertical-align: -0.1em;
+}
+
+/* display and username */
+.profileContainer .username {
+    font-size: 17px;
+}
+
+/* container of .nonImageDetails & .additionalInteractions */
+.profileContainer .detailsRow {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+/* the non-image details of a user profile */
+.profileContainer .nonImageDetails {
+    flex: 1;
+    margin-top: 50px;
+    margin-bottom: 10px;
+}
+
+/* additional interactions */
+.profileContainer .additionalInteractions {
+    flex: 0 0 auto;
+    margin-top: 50px;
+}
+
+/* joined date */
+.profileContainer .nonImageDetails .joinedDate {
+    margin-top: 10px;
+}
+
+/* display name */
+.profileContainer .nonImageDetails .displayName .emoji {
+    height: 1em;
+    width: 1em;
+    margin: 0 .05em 0 .1em;
+    vertical-align: -0.1em;
+}
+
+/* badges */
+.profileContainer .nonImageDetails .displayName .badge {
+    margin-left: 5px;
+}
+
+.profileContainer .nonImageDetails .displayName .badge i {
+    color: var(--main-color);
+}
+
+/* follower counts */
+.profileContainer .nonImageDetails .followCounts {
+    margin-top: 10px;
+}

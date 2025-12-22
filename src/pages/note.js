@@ -1,11 +1,11 @@
 import { getNoteData } from "../methods/getNoteData.js";
 import { getUserData } from "../methods/getUserData.js";
-import { loveNote } from "../methods/loveNote";
-import { renoteNote } from "../methods/renoteNote";
+import { loveNote } from "../methods/loveNote.js";
+import { renoteNote } from "../methods/renoteNote.js";
 import { loadNotes } from "../notes/getNotes.js";
 import { format } from "../text/format.js";
 import { timeAgo } from "../ui/timeAgo.js";
-import { currentUserData } from "../users/current";
+import { currentUserData } from "../users/current.js";
 import { faIcon } from "../utils/faIcon.js";
 import { storageLink } from "../utils/storageLink.js";
 
@@ -22,7 +22,9 @@ export default async function notePage(params) {
     const currentUsersData = await currentUserData();
 
     if (!noteData || !userData) {
+        // TODO: make proper error message
         console.error(":(");
+        return;
     }
 
     console.log(noteData);

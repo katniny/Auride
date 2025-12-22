@@ -90,6 +90,10 @@ router.get("/api/auride/getUserData", async (req, res) => {
             uid: userUid
         };
 
+        // get join date
+        const userAuthAdmin = await admin.auth().getUser(userUid);
+        returnedUserData.joinedAt = userAuthAdmin.metadata.creationTime;
+
         // is user blocked?
         const blocked = rawUserData.blocked || {};
         const blockedKeys = Object.keys(blocked);

@@ -11,6 +11,11 @@
 - Made media in the note view bigger, making it easier to see
 - Added the option to quote renote from the note view
 - Improved divider used within UI
+- Redesigned user pages
+- User pages will now show a users joined date
+- Improved popup UI
+- Fixed styling issue where the deceased user popup would keep their username white when the popup close button was hovered
+- When following/unfollowing a user, the page will no longer refresh and the button will dynamically update
 
 ## Dev Env:
 - Pages are now .js files rather than .html, making it easier to add page-specific code without more scripts (though, you can still do this).
@@ -30,6 +35,7 @@
 - You can now call "timeAgo" with 2 arguments - the Firebase timestamp & "verbose"
     - Verbose is a flag you can call to get a full string (e.g., "Dec 17, 2025 • 4:10 AM" instead of "2d"). Do not call a flag if you want the standard time.
 - Unified functions for loving notes and renoting notes
+- When closing a modal, you can now just call `yourModalElement.close()`, Auride will now handle deletion after 450ms rather than having you do it manually
 
 - NOTICE TO CONTRIBUTORS: If you have an old database for Auride, the following methods are now depreciated:
     - noteData.isDeleted - this is handled by the server. While notes are no longer deleted this way, the server can handle this to ensure it doesn't render. However, we do not do this anymore going forward.

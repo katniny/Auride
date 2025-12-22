@@ -11,7 +11,7 @@ import { getNoteData } from "../methods/getNoteData.js";
 import { loveNote } from "../methods/loveNote.js";
 import { renoteNote } from "../methods/renoteNote.js";
 
-const pathName = window.location.pathname;
+let pathName = window.location.pathname;
 
 // determine how to render the "username" segment
 // e.g., "@katniny • she/her • 6h"
@@ -147,25 +147,9 @@ export async function renderNote(noteData) {
         // ^ should be a lot easier now!
         return;
 
-    // if on /u/, did they renote it?
-    // we need to get the username from the url: /u/{username}
-    if (pathName.startsWith("/u/")) {
-        const getUsername = pathName.split("/")[2];
-        // get their uid
-        getUserData(getUsername, "username").once((data) => {
-            if (noteData.whoSentIt !== data.uid) {
-                const formattedUsername = format(getUsername, ["html", "emoji"]);
-
-                // create text
-                const renotedText = document.createElement("p");
-                renotedText.classList.add("userRenoted");
-                renotedText.innerHTML = `${faIcon("solid", "retweet").outerHTML} ${formattedUsername} renoted`;
-                noteDiv.insertBefore(renotedText, userPfp);
-            }
-        });
-    }
-
     // create pfp for user
+    // moved above but appended after this next segment to prevent timing issues
+    // TODO: we shouldnt have to do this
     const userPfp = document.createElement("img");
     userPfp.className = "notePfp";
     userPfp.src = storageLink(`images/pfp/${noteData.whoSentIt}/${noteSender.pfp}`);
@@ -173,6 +157,31 @@ export async function renderNote(noteData) {
     userPfp.loading = "lazy";
     noteDiv.appendChild(userPfp);
     mediaObserver.observe(userPfp);
+
+    // if on /u/, did they renote it?
+    // we need to get the username from the url: /u/{username}
+    if (pathName.startsWith("/u/")) {
+        const getUsername = pathName.split("/")[2];
+        // fix issue where it says all notes are renoted by {user}, even on non-user pages by updating pathname!
+        pathName = window.location.pathname;
+
+        try {
+            const data = await getUserData(getUsername, "username");
+
+            if (noteData.whoSentIt !== data.uid) {
+                const formattedDisplay = format(data.display, ["html", "emoji"]);
+
+                const renotedText = document.createElement("p");
+                renotedText.classList.add("userRenoted");
+                renotedText.innerHTML = `${faIcon("solid", "retweet").outerHTML} ${formattedDisplay} renoted`;
+
+                noteDiv.insertBefore(renotedText, userPfp);
+            }
+        } catch (err) {
+            console.error(`Failed to get user data: ${err}`);
+            return;
+        }
+    }
 
     // create display name for user
     const displayName = document.createElement("a");
