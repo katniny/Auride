@@ -207,7 +207,25 @@ li {
    margin-left: 20px;
 }
 
+li.indented {
+   margin-left: 40px;
+   color: var(--text-semi-transparent);
+}
+
 /* small element */
 small {
    color: var(--text-semi-transparent);
+}
+
+/* success/warning/caution colors */
+.success {
+   color: var(--success-color);
+}
+
+.warning {
+   color: var(--warning-text);
+}
+
+.caution {
+   color: var(--error-text);
 }
