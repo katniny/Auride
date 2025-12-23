@@ -206,3 +206,8 @@ dialog::backdrop {
 li {
    margin-left: 20px;
 }
+
+/* small element */
+small {
+   color: var(--text-semi-transparent);
+}

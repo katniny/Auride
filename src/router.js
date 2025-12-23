@@ -17,7 +17,22 @@ export const routes = [
     { path: "/policies/guidelines", loader: () => import("./pages/policies/guidelines.js") },
     { path: "/policies/copyright", loader: () => import("./pages/policies/copyright.js") },
     { path: "/policies/cookies", loader: () => import("./pages/policies/cookies.js") },
-    { path: "/policies/child-safety", loader: () => import("./pages/policies/childSafety.js") }
+    { path: "/policies/child-safety", loader: () => import("./pages/policies/childSafety.js") },
+
+    // blogs
+    { path: "/blog/introducing-aurorai", loader: () => import("./pages/blog/introducingAurorAI.js") },
+    { path: "/blog/memorialized-accounts", loader: () => import("./pages/blog/memorializedAccounts.js") },
+    { path: "/blog/new-flagging-system", loader: () => import("./pages/blog/newFlaggingSystem.js") },
+    { path: "/blog/note-previews", loader: () => import("./pages/blog/notePreviews.js") },
+    { path: "/blog/nsfw-blocked", loader: () => import("./pages/blog/nsfwBlocked.js") },
+    { path: "/blog/nsfw-flags", loader: () => import("./pages/blog/nsfwFlags.js") },
+    { path: "/blog/political-flags", loader: () => import("./pages/blog/politicalFlags.js") },
+    { path: "/blog/retiring-transsocial", loader: () => import("./pages/blog/retiringTranssocial.js") },
+    { path: "/blog/sensitive-flags", loader: () => import("./pages/blog/sensitiveFlags.js") },
+    { path: "/blog/transsocial-relaunched-1yo", loader: () => import("./pages/blog/transsocialRelaunched1yo.js") },
+    { path: "/blog/welcome-aurora", loader: () => import("./pages/blog/welcomeAurora.js") },
+    { path: "/blog/what-qualifies-as-political", loader: () => import("./pages/blog/whatQualifiesAsPolitical.js") },
+    { path: "/blog/why-auride", loader: () => import("./pages/blog/whyAuride.js") }
 ];
 
 // navigate to a path without reloading the page
