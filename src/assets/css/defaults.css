@@ -11,6 +11,7 @@
 @import url("./components/noteView.css");
 @import url("./components/divider.css");
 @import url("./components/profileContainer.css");
+@import url("./pageStyles/blog.css");
 
 /* default colors */
 :root {
@@ -199,4 +200,9 @@ dialog::backdrop {
    dialog {
       left: 10px;
    }
+}
+
+/* list items */
+li {
+   margin-left: 20px;
 }

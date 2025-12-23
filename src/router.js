@@ -3,12 +3,21 @@ import { faIcon } from "./utils/faIcon.js";
 // import pages
 // defines all routes in the app, each with a path and a loader function
 export const routes = [
+    // main pages
     { path: "/", loader: () => navigate("/home") },
     { path: "/home", loader: () => import("./pages/home.js") },
     { path: "/about", loader: () => import("./pages/about.js") },
     { path: "/u/:id", loader: () => import("./pages/user.js") },
     { path: "/note/:id", loader: () => import("./pages/note.js") },
-    { path: "404", loader: () => import("./pages/notFound.js") }
+    { path: "404", loader: () => import("./pages/notFound.js") },
+
+    // policies
+    { path: "/policies/terms", loader: () => import("./pages/policies/terms.js") },
+    { path: "/policies/privacy", loader: () => import("./pages/policies/privacy.js") },
+    { path: "/policies/guidelines", loader: () => import("./pages/policies/guidelines.js") },
+    { path: "/policies/copyright", loader: () => import("./pages/policies/copyright.js") },
+    { path: "/policies/cookies", loader: () => import("./pages/policies/cookies.js") },
+    { path: "/policies/child-safety", loader: () => import("./pages/policies/childSafety.js") }
 ];
 
 // navigate to a path without reloading the page
