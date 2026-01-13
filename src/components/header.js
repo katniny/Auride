@@ -28,7 +28,7 @@ export async function addHeaderElement() {
     // else, set it to default
     const userPfp = document.getElementById("headerUserPfp");
     if (userData && userData?.pfp)
-        userPfp.src = storageLink(`images/pfp/${userData.uid}/${userData.pfp}`);
+        userPfp.src = await storageLink(`images/pfp/${userData.uid}/${userData.pfp}`);
     else
         userPfp.src = "/assets/imgs/defaultPfp.png";
 

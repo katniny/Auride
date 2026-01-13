@@ -1,4 +1,4 @@
-import { db, auth } from "../firebase/config.js";
+import { db, auth, storage } from "../firebase/config.js";
 import { storageLink } from "../utils/storageLink.js";
 import { mediaObserver } from "../ui/mediaObserver.js";
 import { format } from "../text/format.js";
@@ -34,17 +34,20 @@ async function renderWarning(noteId, flagType, legacyPref, modernPrefs) {
 
     // map all flag types to their respective preference key, description, and label
     const flags = {
+        // nsfw
         adultContent: [modernPrefs.adultContent, adultContentDescription, "Flagged as Adult Content"],
         sexuallySuggestive: [modernPrefs.sexuallySuggestive, sexuallySuggestiveDescription, "Flagged as Sexually Suggestive"],
         nonSexualNudity: [modernPrefs.nonSexualNudity, nonSexualNudityDescription, "Flagged as Non-Sexual Nudity"],
         fetishContent: [modernPrefs.fetishContent, fetishContentDescription, "Flagged as Fetish Content"],
         erotica: [modernPrefs.erotica, eroticWritingsDescription, "Flagged as Erotic Writing"],
+        // sensitive
         graphicViolence: [modernPrefs.graphicViolence, graphicViolenceDescription, "Flagged as Graphic Violence"],
         horrorImagery: [modernPrefs.horrorImagery, horrorImageryDescription, "Flagged as Horror Imagery"],
         abuseTraumaMentions: [modernPrefs.abuseTraumaMentions, abuseTraumaMentionsDescription, "Flagged as Abuse/Trauma Mentions"],
         selfHarmSuicideMentions: [modernPrefs.selfHarmSuicideMentions, selfHarmSuicideMentionsDescription, "Flagged as Self-Harm/Suicide Mentions"],
         drugUse: [modernPrefs.drugUse, drugUseDescription, "Flagged as Drug Use"],
         flashSeizureRisk: [modernPrefs.flashSeizureRisk, flashSeizureDescription, "Flagged as Flash/Seizure Risk"],
+        // political
         politicalDiscussion: [modernPrefs.politicalDiscussion, politicalDiscussionDescription, "Flagged as Political Discussion"],
         warNConflict: [modernPrefs.warNConflict, warAndConflictDescription, "Flagged as War and Conflict"],
         identityDebates: [modernPrefs.identityDebates, identityDebatesDescription, "Flagged as Identity Debates"],
@@ -115,17 +118,17 @@ export async function renderNote(noteData) {
     // is the note nsfw/sensitive/political?
     // if so, what are the user prefs?
     let cover;
-    if (noteData.isNsfw && noteData.isNsfw !== "noNsfwContent") {
+    if (noteData.isNsfw && noteData.isNsfw !== "noNsfwContent" && noteData.isNsfw !== "none") {
         if (currentUser)
             cover = await renderWarning(noteData.id, noteData.isNsfw, currentUser.showNsfw, currentUser.flagPrefs);
         else
             return; // just dont show to signed out users
-    } else if (noteData.isSensitive && noteData.isSensitive !== "noSensitiveContent") {
+    } else if (noteData.isSensitive && noteData.isSensitive !== "noSensitiveContent" && noteData.isSensitive !== "none") {
         if (currentUser)
             cover = await renderWarning(noteData.id, noteData.isSensitive, currentUser.showSensitive, currentUser.flagPrefs);
         else
             return; // just dont show to signed out users
-    } else if (noteData.isPolitical && noteData.isPolitical !== "noPoliticalContent") {
+    } else if (noteData.isPolitical && noteData.isPolitical !== "noPoliticalContent" && noteData.isPolitical !== "none") {
         if (currentUser)
             cover = await renderWarning(noteData.id, noteData.isPolitical, currentUser.showPolitics, currentUser.flagPrefs);
         else
@@ -152,7 +155,7 @@ export async function renderNote(noteData) {
     // TODO: we shouldnt have to do this
     const userPfp = document.createElement("img");
     userPfp.className = "notePfp";
-    userPfp.src = storageLink(`images/pfp/${noteData.whoSentIt}/${noteSender.pfp}`);
+    userPfp.src = await storageLink(`images/pfp/${noteData.whoSentIt}/${noteSender.pfp}`);
     userPfp.draggable = false;
     userPfp.loading = "lazy";
     noteDiv.appendChild(userPfp);
@@ -219,16 +222,19 @@ export async function renderNote(noteData) {
     noteDiv.appendChild(text);
 
     // render note media
-    if (noteData.image) {
+    if (noteData.image || noteData.media?.numOne) {
         // get the file type
-        let ext = noteData.image.split(".").pop();
+        const file = noteData.image ?? noteData.media?.numOne ?? null;
+        let ext = typeof file === "string" ? file.split("?")[0].split(".").pop() : null;
         const isVideo = ext.split("?")[0] === "mp4";
-        const isAudio = ext.split("?")[0] === "mp3";
+        const isAudio = ext.split("?")[0] === "mp3" || ext.split("?")[0] === "ogg";
+        console.log(ext);
+        console.log(file);
 
         // create element based on type, then add attributes
         const media = document.createElement(isVideo ? "video" : (isAudio ? "audio" : "img"));
         media.className = "uploadedImg";
-        media.src = noteData.image;
+        media.src = noteData.image || await storageLink(noteData.media?.numOne);
         media.alt = noteData.alt;
         media.loading = "lazy";
 
@@ -285,20 +291,20 @@ export async function renderNote(noteData) {
             }
         }
 
-        // if note has music, render spotify iframe
-        if (noteData.music) {
-            const embed = document.createElement("iframe");
-            embed.src = `https://open.spotify.com/embed/track/${noteData.music}`;
-            embed.allow = "encrypted-media";
-            embed.allowTransparency = true;
-
-            // then add to note
-            noteDiv.appendChild(embed);
-        }
-
         // then append to note div
         noteDiv.appendChild(media);
         mediaObserver.observe(media);
+    }
+
+    // if note has music, render spotify iframe
+    if (noteData.music) {
+        const embed = document.createElement("iframe");
+        embed.src = `https://open.spotify.com/embed/track/${noteData.music}`;
+        embed.allow = "encrypted-media";
+        embed.allowTransparency = true;
+
+        // then add to note
+        noteDiv.appendChild(embed);
     }
 
     // if quote renoting, show the quoted note
@@ -338,7 +344,7 @@ export async function renderNote(noteData) {
             const quoteUserData = await getUserData(quoteData.whoSentIt, "uid");
 
             // set pfp, display, and username
-            quotePfp.src = storageLink(`images/pfp/${quoteUserData.uid}/${quoteUserData.pfp}`);
+            quotePfp.src = await storageLink(`images/pfp/${quoteUserData.uid}/${quoteUserData.pfp}`);
             quoteDisplay.textContent = quoteUserData.display;
             quoteUsername.textContent = renderUsername(quoteUserData.username, quoteUserData.pronouns, quoteData.createdAt);
 

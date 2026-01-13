@@ -12,6 +12,7 @@
 @import url("./components/divider.css");
 @import url("./components/profileContainer.css");
 @import url("./pageStyles/blog.css");
+@import url("./components/createNote.css");
 
 /* default colors */
 :root {
@@ -133,6 +134,7 @@ dialog {
    left: 32%;
    outline: none;
    animation: openPopup 420ms cubic-bezier(0.16, 1, 0.3, 1);
+   max-height: 75vh;
    transition: all 0.1s ease;
 }
 
@@ -228,4 +230,33 @@ small {
 
 .caution {
    color: var(--error-text);
+}
+
+/* text input */
+input {
+   background: transparent;
+   border: 1px solid var(--text-half-transparent);
+   padding: 5px;
+   border-radius: 5px;
+   outline: none;
+   font-size: 15px;
+   transition: all 0.1s ease;
+}
+
+input:focus {
+   border: 1px solid var(--main-color);
+}
+
+/* selection */
+select {
+   background: transparent;
+   cursor: pointer;
+   border: 1px solid var(--main-color);
+   padding: 5px;
+   border-radius: 5px;
+   outline: none;
+}
+
+option {
+   background: var(--background);
 }

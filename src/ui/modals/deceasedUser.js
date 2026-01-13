@@ -36,7 +36,6 @@ export function showDeceasedUserPopup(displayName) {
     closeBtn.onclick = () => closeDeceasedUserPopup();
     
     // show modal
-    console.log(modal);
     modal.showModal();
 }
 

@@ -1,0 +1,323 @@
+/* the text editor */
+.createNotePopup .editor {
+    position: relative;
+    width: 100%;
+}
+
+.createNotePopup .editorPreview,
+.createNotePopup .editorInput {
+    font-size: 14px;
+    padding: 5px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+    margin-top: 5px;
+    border-radius: 5px;
+    outline: none;
+    min-height: 80px;
+    transition: all 0.1s ease;
+}
+
+
+.createNotePopup .editorInput {
+    color: transparent;
+    caret-color: white;
+}
+
+.createNotePopup .editorInput:focus {
+    border: 1px solid var(--main-color);
+}
+
+.createNotePopup .editorPreview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: var(--text);
+    pointer-events: none;
+}
+
+.createNotePopup .editorInput {
+    position: relative;
+    background: transparent;
+    color: transparent;
+    caret-color: white;
+    resize: none;
+    width: 98%;
+}
+
+.createNotePopup .editorPreview:empty::before {
+    content: attr(data-placeholder);
+    color: var(--text-semi-transparent);
+    pointer-events: none;
+}
+
+/* markdown */
+.mdMarker {
+    color: var(--text-semi-transparent);
+}
+
+.mdBold {
+    font-weight: bold;
+}
+
+.mdItalic { 
+    font-style: italic;
+}
+
+.mdCode {
+    font-family: monospace;
+    background: var(--note-background);
+    padding: 2px 4px;
+    border-radius: 5px;
+}
+
+.mdEmoji {
+    color: var(--main-color);
+}
+
+.mdStrike {
+    text-decoration: line-through;
+}
+
+.mdList {
+    display: inline;
+}
+
+.mdH1 {
+    font-weight: bold;
+}
+
+.mdH2 {
+    font-weight: bold;
+}
+
+.mdH3 {
+    font-weight: bold;
+}
+
+.mdHashtag {
+    color: var(--main-color);
+    text-decoration: underline;
+}
+
+/* interaction buttons */
+.createNotePopup .interactions {
+    display: flex;
+    gap: 6px;
+    position: absolute;
+    right: 0;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px;
+    transition: background 0.1s ease, transform 0.1s ease;
+}
+
+.createNotePopup .interactions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    color: var(--text);
+    text-decoration: none;
+    background: var(--note-background);
+    margin-top: 10px;
+}
+
+.createNotePopup .interactions .interaction.editor {
+    display: none;
+}
+
+/* .createNotePopup .interactions a.noMargin {
+    margin-left: 0px;
+} */
+
+.createNotePopup .interactions a.active {
+    background: var(--main-color-darker);
+}
+
+.createNotePopup .interactions a:hover {
+    background: var(--reply-hovered-background);
+}
+
+.createNotePopup .interactions a:active {
+    transform: scale(0.96);
+}
+
+/* create note button */
+.createNotePopup .createNote {
+    margin-top: 10px;
+    background: var(--main-color-darker);
+}
+
+.createNotePopup .noteCustomization {
+    display: flex;
+}
+
+/* close icon */
+.createNotePopup .closePopupIcon i,
+.createNotePopup .backIcon i {
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.1s ease;
+}
+
+.createNotePopup .closePopupIcon:hover i {
+    color: var(--error-text);
+}
+
+.createNotePopup .backIcon:hover i {
+    color: var(--main-color);
+}
+
+/* music search input */
+.createNotePopup .musicSearch {
+    margin-top: 5px;
+    width: 250px;
+}
+
+/* flags */
+.createNotePopup .selection {
+    margin-top: 5px;
+}
+
+.createNotePopup .flagTab select {
+    margin-top: 5px;
+}
+
+/* tabs */
+.createNotePopup .tab {
+    display: none;
+}
+
+.createNotePopup .tab.active {
+    display: block;
+}
+
+@keyframes tabOpening {
+    0% {
+        transform: translateX(-350px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+
+@keyframes tabClosing {
+    0% {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(350px);
+        opacity: 0;
+    }
+}
+
+/* upload types */
+.createNotePopup .uploadedImg,
+.createNotePopup .uploadedVideo,
+.createNotePopup .uploadedAudio {
+    display: none;
+    margin: 5px;
+}
+
+.createNotePopup .uploadedImg.current,
+.createNotePopup .uploadedVideo.current,
+.createNotePopup .uploadedAudio.current {
+    display: block;
+}
+
+.createNotePopup .uploadedImg,
+.createNotePopup .uploadedVideo {
+    max-width: 425px;
+    max-height: 425px;
+    border-radius: 5px;
+}
+
+@media (max-width: 520px) {
+    .createNotePopup .uploadedImg,
+    .createNotePopup .uploadedVideo {
+        margin: 0px;
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+.createNotePopup .removeMedia,
+.createNotePopup .addAltToMedia,
+.createNotePopup .mediaNotUploaded {
+    display: none;
+}
+
+.createNotePopup .removeMedia.shown,
+.createNotePopup .addAltToMedia.shown,
+.createNotePopup .mediaNotUploaded.shown {
+    display: inline-block;
+}
+
+.createNotePopup .mediaNotUploaded {
+    margin-bottom: 5px;
+}
+
+/* music container */
+.createNotePopup .songSelector {
+    margin-top: 15px;
+}
+
+.createNotePopup .songSelector iframe {
+    border: none;
+    width: 100%;
+    max-height: 80px;
+}
+
+.createNotePopup .songSelector button {
+    margin: 0px;
+}
+
+.createNotePopup .musicQueries .encouragement {
+    margin-top: 10px;
+    text-align: center;
+    font-size: large;
+}
+
+/* music details */
+.createNotePopup .selectedSongDetails {
+    margin-top: 10px;
+}
+
+.createNotePopup .selectedSongDetails .details {
+    display: flex;
+    border: 1px solid var(--text-half-transparent);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.createNotePopup .selectedSongDetails .details .albumCover img {
+    max-height: 125px;
+    border-radius: 5px;
+}
+
+.createNotePopup .selectedSongDetails .details .songDetails {
+    margin-left: 10px;
+    margin-top: 25px;
+}
+
+.createNotePopup .selectedSongDetails .details .songDetails button {
+    margin-top: 5px;
+}
+
+.createNotePopup .selectedSongDetails .divider {
+    margin-top: 10px;
+    background: var(--text-half-transparent);
+}
+
+.createNotePopup .selectedSongDetails .findNewSong {
+    margin-top: 10px;
+}

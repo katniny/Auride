@@ -108,6 +108,66 @@ function hashtagify(text) {
     });
 }
 
+// preview format (e.g., the text editor in the create note popup)
+export function previewFormat(text) {
+    // escape html FIRST so user input never becomes real tags
+    const escaped = text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    return escaped
+        // bold: *text*
+        .replace(
+            /\*(.+?)\*/g,
+            '<span class="mdMarker">*</span><span class="mdBold">$1</span><span class="mdMarker">*</span>'
+        )
+        // italic: _text_
+        .replace(
+            /_(.+?)_/g,
+            '<span class="mdMarker">_</span><span class="mdItalic">$1</span><span class="mdMarker">_</span>'
+        )
+        // inline code: `text`
+        .replace(
+            /`([^`]+)`/g,
+            '<span class="mdMarker">`</span><span class="mdCode">$1</span><span class="mdMarker">`</span>'
+        )
+        // emoji: [concerned]
+        .replace(
+            /\[([a-z]+)\]/gi,
+            '<span class="mdMarker">[</span><span class="mdEmoji">$1</span><span class="mdMarker">]</span>'
+        )
+        // strikethrough: ~text~
+        .replace(
+            /~(.+?)~/g,
+            '<span class="mdMarker">~</span><span class="mdStrike">$1</span><span class="mdMarker">~</span>'
+        )
+        // list: - list
+        .replace(
+            /^- (.+)$/gm,
+            '<span class="mdMarker">- </span><span class="mdList">$1</span>'
+        )
+        // headers
+        .replace(
+            /^### (.+)$/gm,
+            '<span class="mdMarker">### </span><span class="mdH3">$1</span>'
+        )
+        .replace(
+            /^## (.+)$/gm,
+            '<span class="mdMarker">## </span><span class="mdH2">$1</span>'
+        )
+        .replace(
+            /^# (.+)$/gm,
+            '<span class="mdMarker"># </span><span class="mdH1">$1</span>'
+        )
+        // hashtags
+        .replace(
+            /(^|\s)(#([\w-]+))/g,
+            '$1<span class="mdHashtag">$2</span>'
+        )
+        // newlines
+        .replace(/\n/g, "<br>");
+}
+
 export function format(text, formats = ["html", "markdown", "emoji", "link", "newline", "hashtag"], options = {}) {
    // map names to functions to avoid huge switch statement
     const formatMap = {

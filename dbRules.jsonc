@@ -1,0 +1,53 @@
+// the db rules for auride
+{
+    "rules": {
+        "DONOTMODIFY": {
+            ".read": false,
+            ".write": false
+        },
+        "notes": {
+            ".read": false,
+            ".write": false
+        },
+        "users": {
+            "$uid": {
+                "pfp": {
+                    ".read": "auth !== null && auth.uid === $uid",
+                    ".write": "auth !== null && auth.uid === $uid"
+                },
+                "favorites": {
+                    ".read": "auth !== null && auth.uid === $uid",
+                    ".write": false
+                },
+                "$other": {
+                    ".read": false,
+                    ".write": false
+                }
+            }
+        },
+        "dms": {
+            ".read": false,
+            ".write": false
+        },
+        "verificationRequest": {
+            ".read": false,
+            ".write": false
+        },
+        "reports": {
+            ".read": false,
+            ".write": false
+        },
+        "taken-usernames": {
+            ".read": false,
+            ".write": false
+        },
+        "themes": {
+            ".read": false,
+            ".write": false
+        },
+        "playlists": {
+            ".read": false,
+            ".write": false
+        }
+    }
+}

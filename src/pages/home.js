@@ -2,6 +2,7 @@ import { loadNotes } from "../notes/getNotes.js";
 import { format } from "../text/format.js";
 import { versioningString } from "../ui/versioning.js";
 import { currentUserData } from "../users/current.js";
+import { uploadMedia } from "../methods/uploadMedia.js";
 
 export default async function homePage() {
     // get user data

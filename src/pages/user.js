@@ -38,7 +38,7 @@ export default async function userPage(params) {
     // construct link if user has banner or not
     let bannerUrl;
     if (userData.banner)
-        bannerUrl = storageLink(`images/banner/${userData.uid}/${userData.banner}`);
+        bannerUrl = await storageLink(`images/banner/${userData.uid}/${userData.banner}`);
     else
         bannerUrl = "/assets/imgs/Transparency.png";
 
@@ -50,10 +50,11 @@ export default async function userPage(params) {
         usernameString = `@${userData.username}`;
 
     const el = document.createElement("div");
+    const pfpLink = await storageLink(`images/pfp/${userData.uid}/${userData.pfp}`);
     el.innerHTML = `
         <div class="profileContainer">
             <img src="${bannerUrl}" class="userBanner" draggable="false" />
-            <img src="${storageLink(`images/pfp/${userData.uid}/${userData.pfp}`)}" class="userPfp" draggable="false" />
+            <img src="${pfpLink}" class="userPfp" draggable="false" />
             <div class="detailsRow">
                 <div class="nonImageDetails">
                     <h2 class="displayName">${format(userData.display, ["html", "emoji"])}</h2>

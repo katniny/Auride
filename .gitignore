@@ -36,3 +36,7 @@ dist-ssr
 */serviceAccount_test.json
 */.env
 keystore.properties
+
+# ignore uploaded files
+*/data/progress/*
+server/auride/fakePaths.json

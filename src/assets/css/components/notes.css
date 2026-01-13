@@ -40,10 +40,6 @@
    animation: skeletonLoading 1.5s ease-in-out infinite;
 }
 
-.note iframe {
-   transform: translateY(10px);
-}
-
 @keyframes skeletonLoading {
    0% {
       background-position: -100% 0;
@@ -386,6 +382,9 @@
 .note iframe {
    width: 98%;
    border: none;
+   max-height: 80px;
+   margin-left: 10px;
+   margin-top: 10px;
 }
 
 /* notes in a blocked state */

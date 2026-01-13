@@ -1,6 +1,7 @@
 import { currentUserData } from "../users/current.js";
 import { storageLink } from "../utils/storageLink.js";
 import { faIcon } from "../utils/faIcon.js";
+import { showCreateNotePopup } from "../ui/modals/createNote.js";
 
 export async function addSidebarElement() {
     // wait for current user data
@@ -18,11 +19,16 @@ export async function addSidebarElement() {
         <a href="/about">
             <button id="aboutButton" class="active">${faIcon("solid", "info").outerHTML} About (PLACEHOLDER)</button>
         </a>
+        <button class="createNoteSidebar">${faIcon("solid", "pencil").outerHTML} Create</button>
     `;
     document.body.appendChild(sidebarElement);
 
     // change the active button
     changeActiveButton();
+
+    // when "createNoteSidebar" is clicked, show popup
+    const createNote = sidebarElement.querySelector(".createNoteSidebar");
+    createNote.onclick = () => showCreateNotePopup();
 
     // TODO: implement account area, the rest of buttons, and other social links
 }

@@ -75,11 +75,12 @@ export default async function notePage(params) {
     }
 
     // render
+    const pfpLink = await storageLink(`images/pfp/${userData.uid}/${userData.pfp}`);
     el.innerHTML = `
         <div class="noteView">
             <div class="noteHeader">
                 <div class="pfpContainer">
-                    <img class="pfp" draggable="false" src="${storageLink(`images/pfp/${userData.uid}/${userData.pfp}`)}" />
+                    <img class="pfp" draggable="false" src="${pfpLink}" />
                 </div>
                 <div class="displayContainer">
                     <a href="/u/${userData.username}" class="displayName">${format(userData.display, ["html", "emoji"])}</a>
