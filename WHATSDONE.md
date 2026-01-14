@@ -69,6 +69,5 @@
 - When creating a note, check if it's a reply and push appropriately
 - Add ability to add alt text to images/videos
 - Add ability to unlock posting/replying achievements if appropriate
-- When replying, add feature where the note creator will get a notification for it
 
 - Of course, check any // TODO: comments in code and make sure there isnt anything important for release

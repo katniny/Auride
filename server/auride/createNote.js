@@ -54,9 +54,11 @@ router.post("/api/auride/createNote", async (req, res) => {
         // if replying, check if note exists & update path
         let notePath;
         let validReply = false;
+        let rawNoteData = null;
         if (replyingTo && replyingTo !== "undefined") {
             const replyingToNoteExists = db.ref(`notes/${replyingTo}`);
             const snapshot = await replyingToNoteExists.once("value");
+            rawNoteData = snapshot.val();
             if (snapshot.exists()) {
                 notePath = `notes/${replyingTo}/notesReplying`;
                 validReply = true;
@@ -96,12 +98,31 @@ router.post("/api/auride/createNote", async (req, res) => {
             music: musicId
         });
 
-        // if its a valid reply, increment the reply count
+        // if its a valid reply, increment the reply count & give original poster a notification
         if (validReply) {
+            // increment
             const crementRef = db.ref(`/notes/${replyingTo}/replies`);
-            crementRef.transaction(currentValue => {
+            await crementRef.transaction(currentValue => {
                 return (currentValue || 0) + 1;
             });
+
+            // push notification
+            const userUid = rawNoteData.whoSentIt;
+            const notificationIdRef = db.ref(`/users/${userUid}/notifications`).push();
+            const notificationId = notificationIdRef.key;
+            const unreadNotifsRef = db.ref(`/users/${userUid}/notifications/unread`);
+            if (rawNoteData.whoSentIt !== userUidFromRequest) {
+                // increase notification count
+                unreadNotifsRef.transaction(currentValue => {
+                    return (currentValue || 0) + 1;
+                });
+                // send notification itself
+                const sendNotification = await db.ref(`/users/${userUid}/notifications/${notificationId}`).update({
+                    type: "Reply",
+                    who: userUidFromRequest,
+                    postId: replyingTo
+                });
+            }
         }
 
         // then, finish
