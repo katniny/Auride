@@ -2,7 +2,7 @@ import { loadNotes } from "../notes/getNotes.js";
 import { format } from "../text/format.js";
 import { versioningString } from "../ui/versioning.js";
 import { currentUserData } from "../users/current.js";
-import { uploadMedia } from "../methods/uploadMedia.js";
+import { showCreateNotePopup } from "../ui/modals/createNote.js";
 
 export default async function homePage() {
     // get user data
@@ -39,6 +39,11 @@ export default async function homePage() {
         </div>
         <div id="notes"></div>
     `;
+
+    // allow clicking on the "What's on your mind?" text to
+    // quickly send a note
+    const sendNoteQuick = el.querySelector(".sendNoteQuick");
+    sendNoteQuick.onclick = () => showCreateNotePopup();
 
     // load notes
     loadNotes();

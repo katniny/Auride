@@ -10,6 +10,7 @@ import { getUserData } from "../methods/getUserData.js";
 import { getNoteData } from "../methods/getNoteData.js";
 import { loveNote } from "../methods/loveNote.js";
 import { renoteNote } from "../methods/renoteNote.js";
+import { checkFile } from "../methods/checkFileType.js";
 
 let pathName = window.location.pathname;
 
@@ -230,6 +231,7 @@ export async function renderNote(noteData) {
         const isAudio = ext.split("?")[0] === "mp3" || ext.split("?")[0] === "ogg";
         console.log(ext);
         console.log(file);
+        checkFile
 
         // create element based on type, then add attributes
         const media = document.createElement(isVideo ? "video" : (isAudio ? "audio" : "img"));
@@ -297,7 +299,8 @@ export async function renderNote(noteData) {
     }
 
     // if note has music, render spotify iframe
-    if (noteData.music) {
+    if (noteData.music && noteData.music !== "null") {
+        console.log(noteData.music);
         const embed = document.createElement("iframe");
         embed.src = `https://open.spotify.com/embed/track/${noteData.music}`;
         embed.allow = "encrypted-media";

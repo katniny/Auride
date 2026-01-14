@@ -526,16 +526,25 @@ export async function showCreateNotePopup() {
             });
 
         // now ask the server to upload note
-        pushNote(newNoteKey, `images/notes/${newNoteKey}/${file.name}`, noteText, nsfwFlags, 
-            sensitiveFlags, politicalFlags, musicId
-        ).then(() => {
+        try {
+            // set path based on whether theres a file or not
+            let mediaPath;
+            if (file)
+                mediaPath = `images/notes/${newNoteKey}/${file.name}`;
+            else
+                mediaPath = "";
+            await pushNote(newNoteKey, mediaPath, noteText, nsfwFlags, 
+                sensitiveFlags, politicalFlags, musicId
+            )
+            noteSending = false;
             closeCreateNotePopup();
-        }).catch((err) => {
+        } catch(err) {
             showError(err.message);
+            console.error(err.message);
             noteSending = false;
             setCreateNoteBtnStatus("notWorking");
             return;
-        });
+        }
     }
 
     // show modal
