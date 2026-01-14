@@ -14,7 +14,7 @@ let selectedMusicDetails = { // details just to display info to the user
     albumCoverLink: null
 };
 let noteSending = false;
-export async function showCreateNotePopup() {
+export async function showCreateNotePopup(replyingTo) {
     // get current users data
     const currentUsersData = await currentUserData();
 
@@ -485,6 +485,7 @@ export async function showCreateNotePopup() {
         const politicalFlags = modal.querySelector(`select[name="politicalFlags"]`).value;
         const file = filePicker.files[0];
         const musicId = selectedMusicId;
+        const isReplying = replyingTo;
 
         // if no user somehow, return
         if (!currentUsersData) {
@@ -534,7 +535,7 @@ export async function showCreateNotePopup() {
             else
                 mediaPath = "";
             await pushNote(newNoteKey, mediaPath, noteText, nsfwFlags, 
-                sensitiveFlags, politicalFlags, musicId
+                sensitiveFlags, politicalFlags, musicId, isReplying
             )
             noteSending = false;
             closeCreateNotePopup();

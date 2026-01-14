@@ -40,6 +40,7 @@ router.post("/api/auride/createNote", async (req, res) => {
         const sensitiveFlag = req.headers.sensitiveflag;
         const politicalFlag = req.headers.politicalflag;
         const musicId = req.headers.musicid;
+        const replyingTo = req.headers.replyingto;
 
         // double-checks!
         // make sure the note text or file exists
@@ -50,19 +51,32 @@ router.post("/api/auride/createNote", async (req, res) => {
         if (noteText.length > 1250)
             return res.status(403).json({ error: "Your note is too long. Only 1,250 characters or less is permitted." });
 
+        // if replying, check if note exists & update path
+        let notePath;
+        let validReply = false;
+        if (replyingTo && replyingTo !== "undefined") {
+            const replyingToNoteExists = db.ref(`notes/${replyingTo}`);
+            const snapshot = await replyingToNoteExists.once("value");
+            if (snapshot.exists()) {
+                notePath = `notes/${replyingTo}/notesReplying`;
+                validReply = true;
+            } else
+                return res.status(400).json({ error: "The note you're attempting to reply to doesn't exist." });
+        } else
+            notePath = "notes";
+
         // check if the path exists already
-        const doesNoteExistDbRef = db.ref(`notes/${noteId}`);
+        const doesNoteExistDbRef = db.ref(`${notePath}/${noteId}`);
         const noteExistsSnapshot = await doesNoteExistDbRef.once("value");
         if (noteExistsSnapshot.exists())
             return res.status(403).json({ error: "A note with this ID already exists!" });
-        
         
         // finally, check if the note ID is 20 characters and starts with a dash
         if (!noteId.startsWith("-") || noteId.length !== 20)
             return res.status(403).json({ error: "Requested note ID isn't valid." });
 
         // finally, write
-        const dbRef = db.ref(`notes/${noteId}`);
+        const dbRef = db.ref(`${notePath}/${noteId}`);
         const currentTime = admin.database.ServerValue.TIMESTAMP;
         dbRef.update({
             createdAt: currentTime,
@@ -81,6 +95,14 @@ router.post("/api/auride/createNote", async (req, res) => {
             },
             music: musicId
         });
+
+        // if its a valid reply, increment the reply count
+        if (validReply) {
+            const crementRef = db.ref(`/notes/${replyingTo}/replies`);
+            crementRef.transaction(currentValue => {
+                return (currentValue || 0) + 1;
+            });
+        }
 
         // then, finish
         return res.status(200).json({ message: "Note sent successfully." });

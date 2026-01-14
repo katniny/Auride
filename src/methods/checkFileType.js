@@ -10,9 +10,6 @@ export async function checkFile(file, isStaticName) {
         fileName = file;
     else
         fileName = file.name;
-
-    console.log(fileName);
-    console.log(file);
     
     // make sure the file is supported
     const ext = fileName.split(".").pop().toLowerCase();

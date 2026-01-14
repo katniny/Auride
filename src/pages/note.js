@@ -4,6 +4,7 @@ import { loveNote } from "../methods/loveNote.js";
 import { renoteNote } from "../methods/renoteNote.js";
 import { loadNotes } from "../notes/getNotes.js";
 import { format } from "../text/format.js";
+import { showCreateNotePopup } from "../ui/modals/createNote.js";
 import { timeAgo } from "../ui/timeAgo.js";
 import { currentUserData } from "../users/current.js";
 import { faIcon } from "../utils/faIcon.js";
@@ -223,6 +224,10 @@ export default async function notePage(params) {
 
     // TODO: add favorites
     // TODO: add quote renoting
+
+    // allow sending notes quickly
+    const sendNoteQuick = el.querySelector(".sendNoteQuick");
+    sendNoteQuick.onclick = () => showCreateNotePopup(noteData.id);
 
     return el;
 }

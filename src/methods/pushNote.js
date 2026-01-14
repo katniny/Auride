@@ -1,6 +1,6 @@
 import { getToken } from "./getToken.js";
 
-export async function pushNote(id, file, text, nsfwFlag, sensitiveFlag, politicalFlag, musicId) {
+export async function pushNote(id, file, text, nsfwFlag, sensitiveFlag, politicalFlag, musicId, replyingTo) {
     // check for identifier & id type
     if (!id)
         throw new Error("Attempted to create a note without an ID!");
@@ -24,7 +24,8 @@ export async function pushNote(id, file, text, nsfwFlag, sensitiveFlag, politica
             "nsfwFlag": nsfwFlag,
             "sensitiveFlag": sensitiveFlag,
             "politicalFlag": politicalFlag,
-            "musicId": musicId
+            "musicId": musicId,
+            "replyingTo": replyingTo
         }
     });
     // if response isn't okay, user is invalid
