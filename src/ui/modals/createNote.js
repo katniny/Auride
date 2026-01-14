@@ -254,7 +254,7 @@ export async function showCreateNotePopup() {
 
         // then, update
         switch (type) {
-            case "image":
+            case "img":
                 // add/remove classes
                 uploadedImg.classList.add("current");
                 uploadedVideo.classList.remove("current");

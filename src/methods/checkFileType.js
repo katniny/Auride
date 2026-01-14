@@ -1,11 +1,21 @@
-export async function checkFile(file) {
+export async function checkFile(file, isStaticName) {
     // define support image, video and audio types
     const supportedImageExts = ["png", "jpg", "jpeg", "gif"];
     const supportedVideoExts = ["mp4"];
     const supportedAudioExts = ["mp3", "ogg"];
+
+    // if its a static name, set the file name to be that
+    let fileName = null;
+    if (isStaticName)
+        fileName = file;
+    else
+        fileName = file.name;
+
+    console.log(fileName);
+    console.log(file);
     
     // make sure the file is supported
-    const ext = file.name.split(".").pop().toLowerCase();
+    const ext = fileName.split(".").pop().toLowerCase();
     if (!ext)
         throw new Error("Unknown file types cannot be uploaded.");
     if (!supportedImageExts.includes(ext) && !supportedVideoExts.includes(ext) && !supportedAudioExts.includes(ext))
@@ -19,7 +29,7 @@ export async function checkFile(file) {
     // get type
     let fileType;
     if (supportedImageExts.includes(ext))
-        fileType = "image";
+        fileType = "img";
     if (supportedVideoExts.includes(ext))
         fileType = "video";
     if (supportedAudioExts.includes(ext))

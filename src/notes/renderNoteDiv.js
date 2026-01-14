@@ -226,15 +226,12 @@ export async function renderNote(noteData) {
     if (noteData.image || noteData.media?.numOne) {
         // get the file type
         const file = noteData.image ?? noteData.media?.numOne ?? null;
-        let ext = typeof file === "string" ? file.split("?")[0].split(".").pop() : null;
-        const isVideo = ext.split("?")[0] === "mp4";
-        const isAudio = ext.split("?")[0] === "mp3" || ext.split("?")[0] === "ogg";
-        console.log(ext);
         console.log(file);
-        checkFile
+        const fileType = await checkFile(file, true);
+        console.log(fileType);
 
         // create element based on type, then add attributes
-        const media = document.createElement(isVideo ? "video" : (isAudio ? "audio" : "img"));
+        const media = document.createElement(fileType);
         media.className = "uploadedImg";
         media.src = noteData.image || await storageLink(noteData.media?.numOne);
         media.alt = noteData.alt;
@@ -244,7 +241,7 @@ export async function renderNote(noteData) {
         media.style.visibility = "hidden";
         media.style.opacity = "0";
 
-        if (isVideo || isAudio) {
+        if (fileType === "audio" || fileType === "video") {
             // add controls to video/audio
             media.controls = true;
             media.muted = true;
@@ -300,7 +297,6 @@ export async function renderNote(noteData) {
 
     // if note has music, render spotify iframe
     if (noteData.music && noteData.music !== "null") {
-        console.log(noteData.music);
         const embed = document.createElement("iframe");
         embed.src = `https://open.spotify.com/embed/track/${noteData.music}`;
         embed.allow = "encrypted-media";
