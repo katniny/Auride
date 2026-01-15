@@ -416,7 +416,10 @@ export async function renderNote(noteData) {
 
                 // fire and forget
                 try {
-                    await action(noteData.id);
+                    if (noteData.replyingTo)
+                        await action(noteData.id, noteData.replyingTo);
+                    else
+                        await action(noteData.id);
                 } catch (err) {
                     // rollback if something failed
                     hasUserInteracted = !hasUserInteracted;

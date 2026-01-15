@@ -23,6 +23,7 @@
 - You can now upload .ogg audio files to Auride
 - You can now press enter to search for music--no more having to move your mouse to click a button!
 - When you select a song to add to your note, you can now preview it in the tab, as well as remove it if you change your mind (QoL, add to upload blog)
+- Fixed bug where renoting then unrenoting your own note would cause it to disappear from your profile
 
 ## Dev Env:
 - Pages are now .js files rather than .html, making it easier to add page-specific code without more scripts (though, you can still do this). (add to update blog)
@@ -60,7 +61,6 @@
 - Document restrictions on appending to the app view vs body/head
 - Document how to get FontAwesome ID
 - Document how to use "Methods" (getUserData, getNoteData, etc.)
-- Make loveNote() and renoteNote() work on comments, as they currently assume loves and renotes are top-level notes
 - Update CONTRIBUTING.md updated date once Auride is ready for prod
 - Document how to get a Spotify token
 - Check `import.meta.env.VITE_BUILD_ENV` in the page loader and prevent invalid options from loading, as this will break Auride image-related functionality

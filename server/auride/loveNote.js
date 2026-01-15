@@ -32,19 +32,27 @@ router.post("/api/auride/loveNote", async (req, res) => {
             return res.status(403).json({ error: "Must be authenticated." });
 
         // now that user is authenticated (assuming there is one), continue
-        // get request type -- if it's "username", we'll need to get the users uid
+        // get the note id & if the note has a parent id
         const noteId = req.headers.noteid;
+        const parentNoteId = req.headers.parentnoteid;
 
         // does noteId exist?
         if (!noteId)
             return res.status(400).json({ error: "Please provide a note ID." });
 
+        // if the requested note has a parent id, change path
+        let notePath;
+        if (parentNoteId && parentNoteId !== "undefined" && parentNoteId !== "null")
+            notePath = `notes/${parentNoteId}/notesReplying/${noteId}`;
+        else
+            notePath = `notes/${noteId}`;
+
         // get note data
         let rawNoteData = null;
-        const userDataRef = await db.ref(`/notes/${noteId}`).once("value");
+        const userDataRef = await db.ref(notePath).once("value");
         rawNoteData = userDataRef.val();
 
-        // is the user suspended?
+        // is the note deleted?
         if (rawNoteData.isDeleted)
             return res.status(403).json({ error: "This note is deleted." });
 
@@ -53,10 +61,10 @@ router.post("/api/auride/loveNote", async (req, res) => {
         const whoLiked = rawNoteData.whoLiked || {};
         const whoLikedKeys = Object.keys(whoLiked);
         const cleanedUid = String(noteId).trim();
-        const crementRef = db.ref(`/notes/${noteId}/likes`);
+        const crementRef = db.ref(`${notePath}/likes`);
         if (whoLikedKeys.includes(userUidFromRequest)) {
             // unlove
-            await db.ref(`/notes/${noteId}/whoLiked/${userUidFromRequest}`).remove();
+            await db.ref(`${notePath}/whoLiked/${userUidFromRequest}`).remove();
 
             // decrement follower count
             crementRef.transaction(currentValue => {
@@ -67,7 +75,7 @@ router.post("/api/auride/loveNote", async (req, res) => {
         }
 
         // else, follow
-        const loveNote = await db.ref(`/notes/${noteId}/whoLiked/${userUidFromRequest}`).update({
+        const loveNote = await db.ref(`${notePath}/whoLiked/${userUidFromRequest}`).update({
             uid: userUidFromRequest
         });
 

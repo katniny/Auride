@@ -82,24 +82,36 @@ router.post("/api/auride/createNote", async (req, res) => {
         const currentTime = admin.database.ServerValue.TIMESTAMP;
         dbRef.update({
             createdAt: currentTime,
-            text: noteText,
+            text: noteText || null,
             whoSentIt: userUidFromRequest,
             id: noteId,
             likes: 0,
             renotes: 0,
             replies: 0,
-            isNsfw: nsfwFlag,
-            isSensitive: sensitiveFlag,
-            isPolitical: politicalFlag,
-            alt: "",
+            isNsfw: nsfwFlag || null,
+            isSensitive: sensitiveFlag || null,
+            isPolitical: politicalFlag || null,
+            alt: "" || null,
             media: {
-                "numOne": noteFilePath
+                "numOne": noteFilePath || null
             },
-            music: musicId
+            music: musicId || null,
         });
+        
+        // add to user notes, unless its a reply
+        const userDbRef = db.ref(`users/${userUidFromRequest}/posts/${noteId}`);
+        if (!validReply)
+            userDbRef.update({
+                "isRenote": false
+            });
 
         // if its a valid reply, increment the reply count & give original poster a notification
         if (validReply) {
+            // add replyingTo
+            dbRef.update({
+                "replyingTo": replyingTo || null
+            })
+
             // increment
             const crementRef = db.ref(`/notes/${replyingTo}/replies`);
             await crementRef.transaction(currentValue => {

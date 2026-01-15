@@ -1,6 +1,6 @@
 import { getToken } from "./getToken.js";
 
-export async function renoteNote(id) {
+export async function renoteNote(id, parentNoteId) {
     // check for identifier & id type
     if (!id)
         throw new Error("Attempted to renote a note without an ID. Please get a note ID!");
@@ -19,6 +19,7 @@ export async function renoteNote(id) {
             "Content-Type": "application/json",
             "authorization": `Bearer ${token}`,
             "noteId": id,
+            "parentNoteId": parentNoteId
         }
     });
     // if response isn't okay, user is invalid
