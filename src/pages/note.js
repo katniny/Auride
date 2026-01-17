@@ -1,3 +1,4 @@
+import { checkFile } from "../methods/checkFileType.js";
 import { getNoteData } from "../methods/getNoteData.js";
 import { getUserData } from "../methods/getUserData.js";
 import { loveNote } from "../methods/loveNote.js";
@@ -50,27 +51,28 @@ export default async function notePage(params) {
     // add any media
     const mediaContainer = document.createElement("div");
     mediaContainer.className = "mediaContainer";
-    if (noteData.image) {
+    if (noteData.image || noteData.media?.numOne) {
         // TODO: allow clicking to zoom
         let mediaEl;
+
         // get type
-        const src = noteData.image;
-        const fileType = src.split(".").pop().toLowerCase();
-        if (fileType === "mp4") {
-            mediaEl = document.createElement("video");
+        const file = noteData.image ?? noteData.media?.numOne ?? null;
+        const fileType = await checkFile(file, true);
+
+        const src = noteData.image || await storageLink(noteData.media?.numOne);
+        mediaEl = document.createElement(fileType);
+
+        if (fileType === "video") {
             mediaEl.controls = true;
             if (currentUsersData)
                 mediaEl.autoplay = currentUsersData?.autoplayVideos;
             mediaEl.muted = true;
-        } else if (fileType === "mp3") {
-            mediaEl = document.createElement("audio");
+        } else if (fileType === "audio")
             mediaEl.controls = true;
-        } else {
-            mediaEl = document.createElement("img");
+        else
             mediaEl.draggable = false;
-        }
 
-        mediaEl.src = noteData.image;
+        mediaEl.src = src;
         
         mediaContainer.appendChild(mediaEl);
     }

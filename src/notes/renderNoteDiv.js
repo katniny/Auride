@@ -226,9 +226,7 @@ export async function renderNote(noteData) {
     if (noteData.image || noteData.media?.numOne) {
         // get the file type
         const file = noteData.image ?? noteData.media?.numOne ?? null;
-        console.log(file);
         const fileType = await checkFile(file, true);
-        console.log(fileType);
 
         // create element based on type, then add attributes
         const media = document.createElement(fileType);
