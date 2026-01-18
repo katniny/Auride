@@ -4,7 +4,7 @@ import { checkFile } from "./checkFileType.js";
 import { routeMediaLink } from "./dev/routeMediaLink.js";
 import { updatePfpName } from "./update/pfpName.js";
 
-export async function uploadMedia(file, path, typeToUse, noteId) {
+export async function uploadMedia(file, path, typeToUse, noteId, parentNoteId) {
     try {
         // get current user data
         // if none, user isnt signed in, and needs to!
@@ -44,7 +44,9 @@ export async function uploadMedia(file, path, typeToUse, noteId) {
         let uploadUrl = `images/${path}/`;
         if (typeToUse === "uid")
             uploadUrl += currentUsersData.uid;
-        else if (typeToUse === "noteId")
+        else if (typeToUse === "noteId" && parentNoteId)
+            uploadUrl += `${parentNoteId}/notesReplying/${noteId}`;
+        else if (typeToUse === "noteId" && !parentNoteId)
             uploadUrl += noteId;
         uploadUrl += `/${uploadedFile.name}`;
 

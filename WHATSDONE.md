@@ -71,5 +71,3 @@
 - Add ability to unlock posting/replying achievements if appropriate
 
 - Of course, check any // TODO: comments in code and make sure there isnt anything important for release
-
-- Noticed there's an error when uploading an image in a reply... fix next time this repo is opened!!

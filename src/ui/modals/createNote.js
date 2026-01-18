@@ -519,7 +519,7 @@ export async function showCreateNotePopup(replyingTo) {
 
         // if theres a file, upload it
         if (file)
-            uploadMedia(file, "notes", "noteId", newNoteKey).catch((err) => {
+            uploadMedia(file, "notes", "noteId", newNoteKey, isReplying).catch((err) => {
                 showError(err.message);
                 noteSending = false;
                 setCreateNoteBtnStatus("notWorking");
@@ -530,10 +530,13 @@ export async function showCreateNotePopup(replyingTo) {
         try {
             // set path based on whether theres a file or not
             let mediaPath;
-            if (file)
+            if (file && !isReplying)
                 mediaPath = `images/notes/${newNoteKey}/${file.name}`;
+            else if (file && isReplying)
+                mediaPath = `images/notes/${isReplying}/notesReplying/${newNoteKey}/${file.name}`;
             else
                 mediaPath = "";
+            console.log(mediaPath);
             await pushNote(newNoteKey, mediaPath, noteText, nsfwFlags, 
                 sensitiveFlags, politicalFlags, musicId, isReplying
             )
