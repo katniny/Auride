@@ -24,6 +24,10 @@
 - You can now press enter to search for music--no more having to move your mouse to click a button!
 - When you select a song to add to your note, you can now preview it in the tab, as well as remove it if you change your mind (QoL, add to upload blog)
 - Fixed bug where renoting then unrenoting your own note would cause it to disappear from your profile
+- Redesigned login/register pages
+- When logging in or signing up, you can now show your password within the field
+- If you forget your password, you can now request a password reset email
+- You can now use the enter key to progress on the login page
 
 ## Dev Env:
 - Pages are now .js files rather than .html, making it easier to add page-specific code without more scripts (though, you can still do this). (add to update blog)
@@ -48,6 +52,8 @@
 - When using `storageLink(path)`, it now has to use `await`
 - Fixed issues with Auride's storage in an development environment, media will now load as expected regardless of prod or dev status (add to update blog)
 - We can now upload files with `uploadMedia()` with the follow params: `file`, `path`, `typeToUse` and `noteId` (only required if uploading for a note). This will allow us to handle everything (e.g., checking file size, checking file extension, etc.) within one function to make file uploading seamless, no matter where you're uploading a new file from! (add to update blog)
+- Made removing items from the sidebar a lot less repetitive - if adding a new item to the sidebar but it shouldn't show for signed out users, just add the class `removeOnNoAuth` to it
+- Our function to check if a user is signed in or not (which runs on pages such as the login page because there's no reason to sign in again if you already are!) now no longer waits for the page to load, making it much faster
 
 - NOTICE TO CONTRIBUTORS: If you have an old database for Auride, the following methods are now depreciated:
     - noteData.isDeleted - this is handled by the server. While notes are no longer deleted this way, the server can handle this to ensure it doesn't render. However, we do not do this anymore going forward.

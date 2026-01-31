@@ -33,7 +33,10 @@ export const routes = [
     { path: "/blog/transsocial-relaunched-1yo", loader: () => import("./pages/blog/transsocialRelaunched1yo.js") },
     { path: "/blog/welcome-aurora", loader: () => import("./pages/blog/welcomeAurora.js") },
     { path: "/blog/what-qualifies-as-political", loader: () => import("./pages/blog/whatQualifiesAsPolitical.js") },
-    { path: "/blog/why-auride", loader: () => import("./pages/blog/whyAuride.js") }
+    { path: "/blog/why-auride", loader: () => import("./pages/blog/whyAuride.js") },
+
+    // auth
+    { path: "/auth/login", loader: () => import("./pages/auth/login.js") }
 ];
 
 // navigate to a path without reloading the page

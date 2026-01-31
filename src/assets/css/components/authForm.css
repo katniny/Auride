@@ -1,0 +1,105 @@
+/* the auth form itself */
+.authForm {
+    width: 420px;
+    margin: 6rem auto;
+    padding: 2rem;
+    background: var(--note-background);
+    border-radius: 5px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: var(--text);
+}
+
+/* the header of the info box */
+.authForm .info h1,
+.authForm .info h1 i {
+    font-size: 1.8rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--main-color);
+}
+
+/* the info text */
+.authForm .info p {
+    margin: 0.4rem 0 0;
+    font-size: 0.95rem;
+}
+
+/* links within the info */
+.authForm .info a {
+    text-decoration: none;
+}
+
+.authForm .info a:hover {
+    text-decoration: underline;
+}
+
+/* the form part (e.g., the login inputs) */
+.authForm .form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.50rem;
+}
+
+/* the form inputs */
+.authForm input {
+    background: var(--background);
+    border: 1px solid var(--note-seperator);
+    border-radius: 10px;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.95rem;
+    color: var(--text);
+    outline: none;
+    transition: border 0.15s ease, box-shadow 0.15s ease;
+}
+
+.authForm input::placeholder {
+    color: var(--text-half-transparent);
+}
+
+.authForm input:focus {
+    border-color: var(--main-color);
+    box-shadow: 0 0 0 2px rgba(239, 151, 190, 0.25);
+}
+
+/* the additional options div */
+.authForm .additionalOptions {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.authForm .additionalOptions a {
+    color: var(--text-semi-transparent);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 8px;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.authForm .additionalOptions a i {
+    color: var(--text-semi-transparent);
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.authForm .additionalOptions a:hover,
+.authForm .additionalOptions a:hover i {
+    background: var(--button-transparent-hover);
+    color: var(--main-color);
+}
+
+.authForm .authBtn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}

@@ -13,6 +13,8 @@
 @import url("./components/profileContainer.css");
 @import url("./pageStyles/blog.css");
 @import url("./components/createNote.css");
+@import url("./components/authForm.css");
+@import url("./components/resetPasswordPopup.css");
 
 /* default colors */
 :root {
@@ -87,13 +89,15 @@ body {
 }
 
 /* links */
-a {
+a,
+a i {
    color: var(--main-color);
    text-decoration: underline;
    transition: all 0.1s ease;
 }
 
-a:hover {
+a:hover,
+a:hover i {
    color: var(--main-color-darker);
    text-decoration: none;
 }

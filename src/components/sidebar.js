@@ -19,7 +19,7 @@ export async function addSidebarElement() {
         <a href="/about">
             <button id="aboutButton" class="active">${faIcon("solid", "info").outerHTML} About (PLACEHOLDER)</button>
         </a>
-        <button class="createNoteSidebar">${faIcon("solid", "pencil").outerHTML} Create</button>
+        <button class="createNoteSidebar removeOnNoAuth">${faIcon("solid", "pencil").outerHTML} Create</button>
     `;
     document.body.appendChild(sidebarElement);
 
@@ -29,6 +29,14 @@ export async function addSidebarElement() {
     // when "createNoteSidebar" is clicked, show popup
     const createNote = sidebarElement.querySelector(".createNoteSidebar");
     createNote.onclick = () => showCreateNotePopup();
+
+    // change buttons that show based on auth state
+    if (!userData) {
+        // get the buttons and remove them
+        const toRemoveOnNoAuth = document.querySelectorAll(".removeOnNoAuth");
+        for (const item of toRemoveOnNoAuth)
+            item.remove();
+    }
 
     // TODO: implement account area, the rest of buttons, and other social links
 }
