@@ -28,7 +28,7 @@ export default async function aboutPage() {
     `;
 
     // is user logged in? if so, redirect home
-    const loggedIn = isSignedIn();
+    const loggedIn = await isSignedIn();
     if (loggedIn) {
         navigate("/home");
         return;

@@ -2,6 +2,7 @@ import { currentUserData } from "../users/current.js";
 import { storageLink } from "../utils/storageLink.js";
 import { faIcon } from "../utils/faIcon.js";
 import { showCreateNotePopup } from "../ui/modals/createNote.js";
+import { isSignedIn } from "../methods/auth/isSignedIn.js";
 
 export async function addSidebarElement() {
     // wait for current user data
@@ -16,8 +17,8 @@ export async function addSidebarElement() {
         <a href="/home">
             <button id="homeButton" class="active">${faIcon("solid", "house").outerHTML} Home</button>
         </a>
-        <a href="/about">
-            <button id="aboutButton" class="active">${faIcon("solid", "info").outerHTML} About (PLACEHOLDER)</button>
+        <a href="/u/${userData?.username}" class="removeOnNoAuth">
+            <button id="userButton" class="active">${faIcon("solid", "user").outerHTML} Your Profile</button>
         </a>
         <button class="createNoteSidebar removeOnNoAuth">${faIcon("solid", "pencil").outerHTML} Create</button>
     `;
@@ -31,7 +32,8 @@ export async function addSidebarElement() {
     createNote.onclick = () => showCreateNotePopup();
 
     // change buttons that show based on auth state
-    if (!userData) {
+    const loggedIn = await isSignedIn();
+    if (!loggedIn) {
         // get the buttons and remove them
         const toRemoveOnNoAuth = document.querySelectorAll(".removeOnNoAuth");
         for (const item of toRemoveOnNoAuth)
@@ -42,7 +44,7 @@ export async function addSidebarElement() {
 }
 
 // change active sidebar button
-function changeActiveButton() {
+async function changeActiveButton() {
     // get the current page
     const pathname = window.location.pathname;
     const sidebar = document.getElementById("sidebar");
@@ -61,13 +63,15 @@ function changeActiveButton() {
         case "/home":
             sidebar.querySelector("#homeButton").classList.add("active");
             break;
-        case "/about":
-            sidebar.querySelector("#aboutButton").classList.add("active");
-            break;
         default:
             // unknown button
             break;
     }
+
+    // before finishing, is the users own page?
+    const userData = await currentUserData();
+    if (userData && pathname === `/u/${userData?.username}`)
+        sidebar.querySelector("#userButton").classList.add("active");
 }
 document.addEventListener("navigatedToNewPage", () => {
     changeActiveButton();
