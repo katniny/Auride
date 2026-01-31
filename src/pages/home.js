@@ -3,7 +3,6 @@ import { format } from "../text/format.js";
 import { versioningString } from "../ui/versioning.js";
 import { currentUserData } from "../users/current.js";
 import { showCreateNotePopup } from "../ui/modals/createNote.js";
-import { loginToAcc } from "../methods/auth/login.js";
 
 export default async function homePage() {
     // get user data
