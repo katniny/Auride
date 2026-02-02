@@ -11,10 +11,10 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "cors": "^2.8.5",
+    "cors": "^2.8.6",
     "dotenv": "^17.2.2",
-    "express": "^5.1.0",
-    "firebase-admin": "^13.5.0",
+    "express": "^5.2.1",
+    "firebase-admin": "^12.7.0",
     "ws": "^8.18.3"
   },
   "devDependencies": {
