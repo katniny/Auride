@@ -34,11 +34,6 @@ jobs:
       - name: Build project
         run: npm run build
         working-directory: ./src
-
-      - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./src/dist
     
   deploy:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
