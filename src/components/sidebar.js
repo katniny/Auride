@@ -17,6 +17,9 @@ export async function addSidebarElement() {
         <a href="/home">
             <button id="homeButton" class="active">${faIcon("solid", "house").outerHTML} Home</button>
         </a>
+        <a href="/settings" class="removeOnNoAuth">
+            <button id="settingsButton" class="active">${faIcon("solid", "gear").outerHTML} Settings</button>
+        </a>
         <a href="/u/${userData?.username}" class="removeOnNoAuth">
             <button id="userButton" class="active">${faIcon("solid", "user").outerHTML} Your Profile</button>
         </a>

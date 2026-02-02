@@ -96,6 +96,7 @@
     color: transparent;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: var(--sidebar-text);
+    text-decoration: none;
 }
 
 .sidebar button.active {

@@ -128,6 +128,11 @@
     margin-top: 10px;
 }
 
+.createNotePopup .interactions a i {
+    color: var(--text);
+    text-decoration: none;
+}
+
 .createNotePopup .interactions .interaction.editor {
     display: none;
 }
