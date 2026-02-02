@@ -15,6 +15,7 @@
 @import url("./components/createNote.css");
 @import url("./components/authForm.css");
 @import url("./components/resetPasswordPopup.css");
+@import url("./components/pageNotFound.css");
 
 /* default colors */
 :root {
