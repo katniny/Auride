@@ -55,6 +55,9 @@ jobs:
       run: cp vercel.json dist/vercel.json
       working-directory: ./src
 
+    - name: Install Vercel CLI
+      run: npm i -g vercel
+
     - name: Deploy to Vercel
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       env:
