@@ -1,4 +1,4 @@
-const serverUrl = "http://localhost:10000";
+const serverUrl = "https://localhost:10000";
 const illegalUiPages = [
     "/auth/done",
     "/auth/login",

@@ -43,9 +43,12 @@ const ScriptLoader = (() => {
       return promise;
    }
 
-   if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js', { scope: '/' });
-   }
+   // WHY WERE YOU BREAKING EVERYHTING
+   // I HATE YOU
+   // I DID HOURS OF DEBUGGING AND IT WAS JUST YOU
+   // if ('serviceWorker' in navigator) {
+   //    navigator.serviceWorker.register('/sw.js', { scope: '/' });
+   // }
 
    // tell the page loader the page is ready
    document.dispatchEvent(new Event("pageLoaded"));
