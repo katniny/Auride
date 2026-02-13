@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Auride | Cookies</title>
+        <link rel="stylesheet" href="/assets/css/all.css">
+        <link rel="shortcut icon" href="/assets/imgs/favicon.png" type="image/png">
+        <link rel="manifest" href="/manifest.json">
+        <meta name="robots" content="nofollow, noai, noimageai">
+        <meta name="og:type" content="website">
+        <meta name="og:url" content="https://auride.xyz/">
+        <meta name="og:title" content="Auride">
+        <meta name="og:site_name" content="auride.xyz">
+        <meta name="og:description" content="Auride - a safe place for everyone.">
+        <meta name="description" content="Auride - a safe place for everyone.">
+        <meta property="og:image" content="https://auride.xyz/assets/imgs/favicon.png">
+        <meta name="theme-color" content="#ef97be">
+        <script src="/assets/js/requiredScripts.js"></script>
+        <script src="/assets/js/scriptLoader.js"></script>
+        <script defer>
+            ScriptLoader.load(
+                //...
+            ).then(() => {
+                console.log("Scripts for /home have been loaded successfully.");
+            }).catch((error) => {
+                console.error("An error occurred: ", error, " please try refreshing.");
+            });
+        </script>
+    </head>
+
+    <body>
+        <!-- Bottom Nav (mobile) -->
+        <!--<div class="mobileBottomNav" id="mobileBottomNav">
+            <div class="nav">
+            <a href="/home" style="margin-left: 20px;"><i class="fa-solid fa-house fa-xl"></i></a> <a href="/notifications"><i class="fa-solid fa-bell fa-xl"></i></a> <a href="/settings"><i class="fa-solid fa-gear fa-xl"></i></a> <a href="javascript:void();" onclick="createNotePopup()"><i class="fa-solid fa-pen-to-square fa-xl"></i></a>
+            </div>
+        </div>-->
+
+        <!-- Note successfully sent -->
+        <div id="successfullySent" style="display: none;"><p>Note successfully sent!</p></div>
+
+        <!-- New Note Alert -->
+        <!--<div class="notesAlert" id="notesAlert">
+            <p>New Notes</p>
+        </div>-->
+
+        <!-- Notes -->
+        <div class="notes" id="notes">
+            <div class="newNotesAdded" id="newNotesAdded">
+                <!-- Notes go here. This content is user-generated, no default HTML should be here. -->
+            </div>
+
+            <div class="noteFilter">
+                <div class="blogStyle" style="margin: 15px;">
+                    <h1>Cookies</h1>
+                    <p style="color: var(--text-semi-transparent);">Last Updated: 6/25/2025</p>
+                    <p style="color: var(--text-semi-transparent);">All policy changes take effect immediately upon being posted.</p>
+
+                    <br />
+
+                    <p>This Cookie Policy explains how Auride uses cookies and similar tracking technologies when you visit or use our applications.</p>
+
+                    <br />
+
+                    <h2>What are Cookies?</h2>
+                    <p>Cookies are small text files that websites place on your computer or mobile device when you visit. They are widely used to make websites function more efficiently, to personalize user experiences, and to provide usage analytics.</p>
+
+                    <br />
+
+                    <h2>How We Use Cookies</h2>
+                    <p>Auride uses cookies for several purposes:</p>
+                    <li><b>Essential Cookies:</b> These are strictly necessary for the core functions of our site, such as enabling login, managing your session, and preventing fraud.</li>
+                    <li><b>Functionality Cookies:</b> These remember your preferences on the site, such as your language or display settings, making the site more convenient to use.</li>
+
+                    <br />
+
+                    <h2>Your Control Over Cookies</h2>
+                    <li><b>Browser Settings:</b> Most browsers allow you to manage cookie settings, including enabling or disabling certain types of cookies or blocking cookies entirely. Consult your browser's help resources for instructions.</li>
+
+                    <br />
+
+                    <h2>Changes to Cookie Policy</h2>
+                    <p>We may update this Cookie Policy from time to time. We'll post a notice on our website when significant changes are made.</p>
+
+                    <br />
+                </div>
+            </div>
+
+
+        </div>
+
+        <div id="notSignedIn-banner">
+            <p>Join the fun on Auride!</p>
+            <a href="/auth/login"><button>Login</button></a>
+            <a href="/auth/register"><button>Create an account</button></a>
+        </div>
+
+        <!-- Achievement Unlock -->
+        <div id="achievementUnlock" class="achievementUnlock" style="display: none;">
+            <div id="achievementIcon"><i class="fa-solid fa-pencil"></i></div> <p id="achievementName">Achievement Name</p>
+        </div>
+
+        <dialog id="showAchievementUnlock">
+            <h2 id="titleAndIcon">title and stuff</h2>
+            <p id="unlockReason">because you did</p>
+            <p id="unlockDate">m/d/y (the objectively correct way)</p>
+            <button onclick="document.getElementById('showAchievementUnlock').close();">Okay!</button>
+        </dialog>
+
+        <!-- Modals -->
+
+
+        <dialog id="signInPrompt">
+            <img src="/assets/imgs/All_transparent.png" draggable="false" style="width: 450px; height: 100px; margin-left: 17%; margin-right: 15%;" />
+            <h2>You must be signed in.</h2>
+            <p>To perform this action, you need to be signed into Auride!</p>
+            <br />
+            <a href="/auth/login"><button>Login</button></a>
+            <div style="margin-top: 5px;"></div>
+            <a href="/auth/register"><button>Register</button></a>
+        </dialog>
+
+        <dialog id="openLink">
+            <h2>Leaving Auride</h2>
+            <p>This link is taking you to the following website:</p>
+
+            <br />
+
+            <p style="text-align: center;" id="linkyLink">https://link.com/</p>
+
+            <br />
+
+            <a href="link" id="externalLink" target="_blank"><button onclick="document.getElementById('openLink').close()">Visit Site</button></a> <a href="javascript:void(1);" onclick="document.getElementById('openLink').close()" style="color: var(--main-color); font-size: 14px;">Go Back</a>
+        </dialog>
+
+        <dialog id="addAltText">
+            <h2>Add Alt Text</h2>
+            <p>Help those with visual impairments or low vision understand what your note is.</p>
+
+            <textarea id="altText_input" placeholder="A fluffy orange cat sitting on a windowsill, licking its paw and grooming itself"></textarea>
+
+            <br />
+
+            <button onclick="addAltText_finish()">Finish</button>
+        </dialog>
+
+        <dialog id="verifyEmail">
+            <h2><i class="fa-solid fa-envelope-circle-check"></i> Please verify your email</h2>
+            <p>We need to ensure your account is using an actual email address. This is for your security and to help us drive away bots.</p>
+            <p style="font-size: 14px; color: var(--text-semi-transparent);">If you're seeing this, you have not verified your email address yet. You will need to be able to verify your email when creating new accounts.</p>
+
+            <br />
+
+            <button onclick="getVerificationEmail()" style="width: 100%;"><i class="fa-solid fa-check-to-slot"></i> Verify Email</button>
+        </dialog>
+
+        <dialog id="emailSent_emailVer">
+            <h2><i class="fa-solid fa-envelope-circle-check"></i> Email sent!</h2>
+            <p>Once you verify your email, please click the button below to verify, then we won't bug you again!</p>
+            <p style="font-size: 14px; color: var(--text-semi-transparent);">If you're seeing this, you have not verified your email address yet. You will need to be able to verify your email when creating new accounts.</p>
+
+            <br />
+
+            <button onclick="window.location.reload()">Check Verification Status</button>
+        </dialog>
+
+        <dialog id="noteDeleted">
+            <h2>Note Deleted</h2>
+            <p>Note was successfully deleted.</p>
+
+            <br />
+
+            <button onclick="window.location.reload()">Okay</button>
+        </dialog>
+
+        <dialog id="noteUpdated">
+            <h2>Note Updated</h2>
+            <p>Note was successfully updated.</p>
+
+            <br />
+
+            <button onclick="window.location.reload()">Okay</button>
+        </dialog>
+
+        <dialog id="accountWarning">
+            <h2>Account Warning</h2>
+            <p>Your behavior on Auride has been in violation of our <a href="/policies/terms" style="color: var(--main-color);">Terms of Service</a>, therefore has received a warning. Repeat offenses can result in account suspension or other account related punishments.</p>
+
+            <br />
+
+            <p style="color: var(--text-semi-transparent);">Reason: <span id="warningReason"></span></p>
+
+            <br />
+            <p>Please abide by Auride's <a href="/policies/guidelines" style="color: var(--main-color);">Community Guidelines</a> so Auride remains a safe place for everyone.</p>
+            <p>You can continue using Auride after agreeing to our Terms of Service.</p>
+
+            <input type="checkbox" id="warningAgreeToTerms" style="width: 15px;"> I agree
+            <p style="color: var(--error-text); display: none;" id="warningAcknowledge">Please agree to the Terms before continuing.</p>
+            <br />
+            <button onclick="acknowledgeWarning()">Continue using Auride</button>
+        </dialog>
+    </body>
+</html>

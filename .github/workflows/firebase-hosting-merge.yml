@@ -1,64 +1,72 @@
-name: Deploy to GitHub Pages
+name: Deploy to Vercel on merge
 on:
   workflow_dispatch:
   push:
+    branches:
+      - "*"
+    paths:
+      - "src/**"
+  pull_request:
     branches:
       - main
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 jobs:
-  build:
+  build_and_deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
-      
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./src
-      
-      # - name: Inject Firebase config
-      #   run: |
-      #     sed -i \
-      #     -e 's|apiKey: ".*"|apiKey: "${{ secrets.FIREBASE_API_KEY }}"|' \
-      #     -e 's|authDomain: ".*"|authDomain: "${{ secrets.FIREBASE_AUTH_DOMAIN }}"|' \
-      #     -e 's|databaseURL: ".*"|databaseURL: "${{ secrets.FIREBASE_DATABASE_URL }}"|' \
-      #     -e 's|projectId: ".*"|projectId: "${{ secrets.FIREBASE_PROJECT_ID }}"|' \
-      #     -e 's|storageBucket: ".*"|storageBucket: "${{ secrets.FIREBASE_STORAGE_BUCKET }}"|' \
-      #     -e 's|messagingSenderId: ".*"|messagingSenderId: "${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}"|' \
-      #     -e 's|appId: ".*"|appId: "${{ secrets.FIREBASE_APP_ID }}"|' \
-      #     -e 's|measurementId: ".*"|measurementId: "${{ secrets.FIREBASE_MEASUREMENT_ID }}"|' \
-      #     ./src/public/assets/js/firebase.js
-      
-      # - name: Update env vars
-      #   run: |
-      #     sed -i \
-      #     -e 's|const serverUrl = ".*"|const serverUrl = "${{ secrets.SERVER_URL }}"|' \
-      #     ./src/public/assets/js/envVars.js
-      
-      - name: Build project
-        run: npm run build
-        working-directory: ./src
+    - uses: actions/checkout@v4
 
-      - name: Upload pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./src/dist
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22
     
-  deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+    - name: Install dependencies
+      run: npm install
+      working-directory: ./src
+
+    - name: Inject Firebase config into firebase.js
+      run: |
+        sed -i \
+        -e 's|apiKey: ".*"|apiKey: "${{ secrets.FIREBASE_API_KEY }}"|' \
+        -e 's|authDomain: ".*"|authDomain: "${{ secrets.FIREBASE_AUTH_DOMAIN }}"|' \
+        -e 's|databaseURL: ".*"|databaseURL: "${{ secrets.FIREBASE_DATABASE_URL }}"|' \
+        -e 's|projectId: ".*"|projectId: "${{ secrets.FIREBASE_PROJECT_ID }}"|' \
+        -e 's|storageBucket: ".*"|storageBucket: "${{ secrets.FIREBASE_STORAGE_BUCKET }}"|' \
+        -e 's|messagingSenderId: ".*"|messagingSenderId: "${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}"|' \
+        -e 's|appId: ".*"|appId: "${{ secrets.FIREBASE_APP_ID }}"|' \
+        -e 's|measurementId: ".*"|measurementId: "${{ secrets.FIREBASE_MEASUREMENT_ID }}"|' \
+        ./src/public/assets/js/firebase.js
+    
+    - name: Update envVars.js for deployment
+      run: |
+        sed -i \
+        -e 's|const serverUrl = ".*"|const serverUrl = "${{ secrets.SERVER_URL }}"|' \
+        ./src/public/assets/js/envVars.js
+      
+    - name: Build project 
+      run: npm run build
+      working-directory: ./src
+
+    - name: Copy vercel.json to build
+      run: cp vercel.json dist/vercel.json
+      working-directory: ./src
+
+    - name: Install Vercel CLI
+      run: npm i -g vercel
+
+    - name: Deploy to Vercel
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      env:
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      run: \
+        vercel deploy dist \
+          --prod \
+          --token $VERCEL_TOKEN
+          --scope $VERCEL_ORG_ID
+          --yes

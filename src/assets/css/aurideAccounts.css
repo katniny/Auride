@@ -1,0 +1,76 @@
+/* position the div itself */
+.aurideAccounts {
+   position: fixed;
+   top: 80px;
+   right: 15px;
+   max-height: 275px;
+   border: 1px solid var(--text-semi-transparent);
+   padding: 15px;
+   border-radius: 5px;
+   width: 300px;
+   max-width: 300px;
+}
+
+/* accounts */
+.accountsHolder {
+   display: flex;
+   flex-direction: column;
+}
+
+.aurideAccounts .account {
+   margin-top: 10px;
+}
+
+.aurideAccounts .account .wholeContainer {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+   width: 100%;
+}
+
+.aurideAccounts .account .profilePictureHolder img {
+   border-radius: 50%;
+   width: 50px;
+   height: 50px;
+   flex-shrink: 0;
+}
+
+.aurideAccounts .account .infoHolder {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   justify-content: space-between;
+   width: 100%;
+   gap: 10px;
+   transform: translateY(-5px); /* just fix the offset it has a bit */
+}
+
+.aurideAccounts .account .infoHolder .username {
+   color: var(--text-semi-transparent);
+   font-size: 15px;
+}
+
+.aurideAccounts .account .infoHolder > div:first-child {
+   display: flex;
+   flex-direction: column;
+}
+
+.aurideAccounts .account .infoHolder i {
+   color: var(--main-color);
+}
+
+.aurideAccounts .account .infoHolder p > i:first-child {
+   margin-left: 5px;
+}
+
+/* if requested to align right, do so */
+.aurideAccounts .alignRight {
+   text-align: right;
+}
+
+/* hide on mobile */
+@media (max-width: 1148px) {
+   .aurideAccounts {
+      display: none;
+   }
+}

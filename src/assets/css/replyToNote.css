@@ -1,0 +1,14 @@
+.replyToNote {
+   width: 95.7%;
+   background: var(--reply-background);
+   padding: 10px;
+   border-radius: 5px;
+   cursor: pointer;
+   margin-top: 15px;
+   margin-left: 10px;
+   transition: all 0.1s linear;
+}
+
+.replyToNote:hover {
+   background: var(--reply-hovered-background);
+}

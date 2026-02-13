@@ -1,0 +1,35 @@
+#createIssuePopup button.submitReport {
+    width: 98%;
+    font-size: 16px;
+    text-align: left;
+}
+
+#createIssuePopup > button.submitReport:first-of-type {
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+
+#createIssuePopup .smallerText {
+    font-size: smaller;
+    color: var(--text-semi-transparent);
+}
+
+#createIssuePopup label {
+    display: flex;
+    vertical-align: auto;
+    gap: 0.5em;
+}
+
+#createIssuePopup label span.required {
+    color: var(--error-text);
+}
+
+#createIssuePopup input[type=checkbox] {
+    width: auto;
+    transform: translateY(-6px);
+}
+
+#createIssuePopup .errorTxt {
+    display: none;
+    color: var(--error-text);
+}
