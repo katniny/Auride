@@ -50,17 +50,21 @@ jobs:
         if: matrix.platform == 'windows-latest'
         uses: lukka/get-cmake@latest
 
-      - name: Configure CMake
-        run: cmake -G Ninja -B build -S . -D CMAKE_BUILD_TYPE=Release
+      - name: Configure CMake (MSVC on Windows, Ninja on Ubuntu)
+        run: |
+          if [ "${{ matrix.platform }}" == "windows-latest" ]; then
+            cmake -G "Visual Studio 17 2022" -A x64 -B build -S . -DCMAKE_BUILD_TYPE=Release
+          else
+            cmake -G Ninja -B build -S . -DCMAKE_BUILD_TYPE=Release
+          fi
 
       - name: Build
-        run: cmake --build build
-
-      - name: Copy mingw DLLs (Windows)
-        if: matrix.platform == 'windows-latest'
         run: |
-          copy C:\msys64\mingw64\bin\libgcc_s_seh-1.dll build\bin\
-          copy C:\msys64\mingw64\bin\libstdc++-6.dll build\bin\
+          if [ "${{ matrix.platform }}" == "windows-latest" ]; then
+            cmake --build build --config Release
+          else
+            cmake --build build
+          fi
 
       - name: Zip desktop build (Windows)
         if: matrix.platform == 'windows-latest'
