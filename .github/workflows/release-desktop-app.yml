@@ -51,6 +51,7 @@ jobs:
         uses: lukka/get-cmake@latest
 
       - name: Configure CMake (MSVC on Windows, Ninja on Ubuntu)
+        shell: bash
         run: |
           if [ "${{ matrix.platform }}" == "windows-latest" ]; then
             cmake -G "Visual Studio 17 2022" -A x64 -B build -S . -DCMAKE_BUILD_TYPE=Release
