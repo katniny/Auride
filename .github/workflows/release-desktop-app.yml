@@ -56,6 +56,12 @@ jobs:
       - name: Build
         run: cmake --build build
 
+      - name: Copy mingw DLLs (Windows)
+        if: matrix.platform == 'windows-latest'
+        run: |
+          copy C:\msys64\mingw64\bin\libgcc_s_seh-1.dll build\bin\
+          copy C:\msys64\mingw64\bin\libstdc++-6.dll build\bin\
+
       - name: Zip desktop build (Windows)
         if: matrix.platform == 'windows-latest'
         shell: powershell
