@@ -48,7 +48,7 @@ jobs:
 
       - name: Setup Ninja + CMake (Windows)
         if: matrix.platform == 'windows-latest'
-        uses: lukka/get-cmake@v4
+        uses: lukka/get-cmake@latest
 
       - name: Configure CMake
         run: cmake -G Ninja -B build -S . -D CMAKE_BUILD_TYPE=Release
@@ -57,7 +57,7 @@ jobs:
         run: cmake --build build
 
       - name: Upload build results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: binaries-${{ matrix.platform }}
           path: build/bin
