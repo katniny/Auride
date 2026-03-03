@@ -1,21 +1,20 @@
 # Auride App
-Hi, this is the source code for the Auride app!
+This is the source code for the Auride app. Currently, only the desktop app is supported, supporting Windows and Linux. Support for other platforms (e.g., macOS, Android, iOS & FreeBSD) are planned eventually.
 
-There isn't too much to know about this -- below will be build instructions, and among additional instructions.
+All app releases are in the Canary phase, meaning they are in beta and not finished as of yet.
 
-Our app supports Windows 10 and newer, macOS Catalina (10.15) and later, Linux, and Android (12+ recommended).
+## Building
+For convience, Auride uses the platforms native webview to display content & not have to maintain 2 codebases doing the same thing. On desktop, this is [webview/webview](https://github.com/webview/webview).
 
-## Build
-To build the Tauri app, go inside `app` and run `npm install` to install dependencies. Make sure you have your [System Dependencies](https://tauri.app/start/prerequisites/#system-dependencies) to build Tauri properly.
+For building the desktop app, please get the following dependencies:
+- Linux:
+    - Debian/Ubuntu: `apt install libgtk-3-dev libwebkit2gtk-4.1-dev libgtk-3-0 libwebkit2gtk-4.1-0 cmake ninja`
+    - Fedora: `dnf install gtk4-devel webkitgtk6.0-devel gtk4 webkitgtk6.0 cmake ninja`
+    - We have first-class support for the Debian, Ubuntu and Fedora Linux distros - for your distro, please find the appropriate names for dependencies if you do not use these.
+- Windows:
+    - CMake: https://cmake.org/download/
+    - Microsoft WebView2 (pre-installed on Windows 11 and the latest Windows 10 versions): https://developer.microsoft.com/en-us/microsoft-edge/webview2/
+    - Ninja: https://github.com/ninja-build/ninja/releases (You will need to add this to your PATH)
+- Instructions for other operating systems may be available at [webview/webview](https://github.com/webview/webview), but please note these are not officially supported OSes at this time.
 
-Then, once you've done all that, inside the `app` directory, run `npm run tauri dev` to launch Auride!
-
-> [!NOTE]
-> For Linux users running proprietary NVIDIA drivers on Wayland, you may get the following error, "Failed to create GDM buffer of size 800x600: Invalid argument". If this happens, please run `env WEBKIT_DISABLE_DMABUF_RENDERER=1 GDK_BACKEND=x11 npm run tauri dev`. This has a performance cost, but will allow the app to run.
-
-
-## Additional Instructions
-### Domain
-If you're running the app locally and plan to add functionality, please go to `/app/src-tauri/tauri.conf.js` and change the line under `windows` to `"url": "http://localhost:5173"` rather than Auride's main domain.
-
-If you are not planning to add functionality and are only doing things on the app level, you can use the main Auride domain.
+Then, run `cmake -G Ninja -B build -S . -D CMAKE_BUILD_TYPE=Release` and `cmake --build build`. This should only take a few seconds, our app isn't big!

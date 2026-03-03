@@ -1,0 +1,88 @@
+name: 'publish'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'app/**'
+
+jobs:
+  build-desktop:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          #- platform: 'macos-latest' # for Arm based macs (M1 and above).
+          #  args: '--target aarch64-apple-darwin'
+          #  build-type: 'desktop'
+          #- platform: 'macos-latest' # for Intel based macs.
+          #  args: '--target x86_64-apple-darwin'
+          #  build-type: 'desktop'
+          - platform: 'ubuntu-22.04'
+            args: ''
+            build-type: 'desktop'
+          - platform: 'windows-latest'
+            args: ''
+            build-type: 'desktop'
+          #- platform: 'ubuntu-22.04'
+          #  args: ''
+          #  build-type: 'android'
+
+    runs-on: ${{ matrix.platform }}
+
+    defaults:
+      run:
+        working-directory: ./app/desktop
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies (Ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev cmake ninja-build
+
+      - name: Setup Ninja + CMake (Windows)
+        if: matrix.platform == 'windows-latest'
+        uses: lukka/get-cmake@v4
+
+      - name: Configure CMake
+        run: cmake -G Ninja -B build -S . -D CMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Upload build results
+        uses: actions/upload-artifact@v3
+        with:
+          name: binaries-${{ matrix.platform }}
+          path: build/bin
+
+    
+        #with:
+        #  tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
+        #  releaseName: 'Auride v__VERSION__ (Canary)'
+        #  releaseBody: |
+        #    This is a canary version of the Auride app generated automatically.
+        #    Canary builds of the Auride app are built as soon as Auride is committed to on the main branch.
+        #    Be sure to check in the app for any available updates.
+
+          #  Install Instructions:
+          #  - Windows (10 or later): Download `auride___VERSION___x64-setup.exe` and run it to automatically install Auride
+          #  - macOS (Catalina (10.15) or later): Download the `auride___VERSION___x64.dmg` or `auride___VERSION___aarch64.dmg`. You may need to go to "Security & Privacy" and allow the app to run
+          #    - This is this way because it would cost us $99/yr and a Macbook (which I do not have) to do.
+          #  - Android (12 or later): Download the `auride___VERSION___android.apk` and install it
+          #    - You may need to enable "Install from Unknown Sources" in your device settings
+          #  - Linux:
+          #    - Fedora: Download the `auride-__VERSION__-1.x86_64.rpm` and run it, whether in the terminal or a software storefront
+          #    - Debian: Download the `auride___VERSION___amd64.deb` file and run it, whether in the terminal or a software storefront
+          #    - Other Distros: Download the `auride___VERSION___amd64.AppImage` and run it, whether in the terminal or a software storefront
+          #releaseDraft: false
+          #prerelease: false
+          #args: ${{ matrix.args }}
