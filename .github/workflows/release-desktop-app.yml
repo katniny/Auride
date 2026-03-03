@@ -50,22 +50,21 @@ jobs:
         if: matrix.platform == 'windows-latest'
         uses: lukka/get-cmake@latest
 
-      - name: Configure CMake (MSVC on Windows, Ninja on Ubuntu)
-        shell: bash
-        run: |
-          if [ "${{ matrix.platform }}" == "windows-latest" ]; then
-            cmake -G "Visual Studio 17 2022" -A x64 -B build -S . -DCMAKE_BUILD_TYPE=Release
-          else
-            cmake -G Ninja -B build -S . -DCMAKE_BUILD_TYPE=Release
-          fi
+      - name: Configure CMake (Windows)
+        if: matrix.platform == 'windows-latest'
+        run: cmake -G "Visual Studio 17 2022" -A x64 -B build -S . -DCMAKE_BUILD_TYPE=Release
 
-      - name: Build
-        run: |
-          if [ "${{ matrix.platform }}" == "windows-latest" ]; then
-            cmake --build build --config Release
-          else
-            cmake --build build
-          fi
+      - name: Configure CMake (Ubuntu)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: cmake -G Ninja -B build -S . -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build (Windows)
+        if: matrix.platform == 'windows-latest'
+        run: cmake --build build --config Release
+
+      - name: Build (Ubuntu)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: cmake --build build
 
       - name: Zip desktop build (Windows)
         if: matrix.platform == 'windows-latest'
