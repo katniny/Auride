@@ -44,7 +44,7 @@ jobs:
         if: matrix.platform == 'ubuntu-22.04'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev cmake ninja-build
+          sudo apt-get install -y libgtk-3-dev libwebkit2gtk-4.1-dev cmake ninja-build zip
 
       - name: Setup Ninja + CMake (Windows)
         if: matrix.platform == 'windows-latest'
@@ -56,17 +56,23 @@ jobs:
       - name: Build
         run: cmake --build build
 
+      - name: Zip desktop build (Windows)
+        if: matrix.platform == 'windows-latest'
+        shell: powershell
+        run: |
+          Compress-Archive -Path build\bin\* -DestinationPath build\auride-windows.zip -Force
+      
+      - name: Zip desktop build (Ubuntu)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          cd build/bin
+          zip -r ../auride-linux.zip .
+
       - name: Upload build results
         uses: actions/upload-artifact@v4
         with:
           name: binaries-${{ matrix.platform }}
           path: build/bin/**
-
-      - name: list build directory contents (REMOVEME - DEBUGGING)
-        run: |
-          echo "build tree:"
-          ls -R build || dir build
-
     
         #with:
         #  tagName: v__VERSION__ # the action automatically replaces \_\_VERSION\_\_ with the app version.
