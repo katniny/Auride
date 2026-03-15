@@ -1,0 +1,17 @@
+{
+    "cleanUrls": true,
+    "rewrites": [
+        {
+            "source": "/u/:username",
+            "destination": "/u?id=:username"
+        },
+        {
+            "source": "/note/:id",
+            "destination": "/note?id=:id"
+        },
+        {
+            "source": "/userstudio/:id",
+            "destination": "/userstudio?id=:id"
+        }
+    ]
+}
