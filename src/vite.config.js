@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import { readdirSync, statSync } from "fs";
 import path from "path";
-import { VitePWA } from 'vite-plugin-pwa'
+//import { VitePWA } from 'vite-plugin-pwa'
 
 function customRewrite() {
     return {
@@ -48,21 +48,23 @@ function getHtmlInputs(dir = __dirname, inputs = {}) {
 }
 
 export default defineConfig({
-    plugins: [customRewrite(), VitePWA({
-        manifest: {
-            name: "Auride",
-            short_name: "Auride",
-            description: "Auride is an social media platform built to be a safe place for everyone! 💝",
-            display: "minimal-ui",
-            id: "auride.xyz",
-            start_url: "/home.html",
-            theme_color: "#ef97be",
-            background_color: "#1d1d1d",
-            icons: [{ src: "/assets/imgs/favicon.png" }]
-        },
-        injectRegister: false,
-        registerType: "autoUpdate",
-    })],
+    // TODO: fix VitePWA
+    plugins: [customRewrite(), //VitePWA({
+        //manifest: {
+        //    name: "Auride",
+        //    short_name: "Auride",
+        //    description: "Auride is an social media platform built to be a safe place for everyone! 💝",
+        //    display: "minimal-ui",
+        //    id: "auride.xyz",
+        //    start_url: "/home.html",
+        //    theme_color: "#ef97be",
+        //    background_color: "#1d1d1d",
+        //    icons: [{ src: "/assets/imgs/favicon.png" }]
+        //},
+        //injectRegister: false,
+        //registerType: "autoUpdate",
+    //})
+    ],
     server: {
         fs: {
             strict: true
