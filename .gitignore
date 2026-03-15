@@ -36,3 +36,5 @@ dist-ssr
 */serviceAccount_test.json
 */.env
 keystore.properties
+
+src/storage/data/*
