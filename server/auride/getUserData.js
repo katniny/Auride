@@ -112,6 +112,7 @@ router.get("/api/auride/getUserData", async (req, res) => {
         if (userUid === userUidFromRequest) {
             // if so, we can return some additional data
             returnedUserData.autoplayVideos = rawUserData?.autoplayVideos;
+            returnedUserData.flagPrefs = rawUserData?.flagPrefs;
         }
 
         return res.status(200).json({ returnedUserData });

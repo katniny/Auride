@@ -11,6 +11,7 @@ import { getNoteData } from "../methods/getNoteData.js";
 import { loveNote } from "../methods/loveNote.js";
 import { renoteNote } from "../methods/renoteNote.js";
 import { checkFile } from "../methods/checkFileType.js";
+import * as cwDesc from "../ui/cwDescriptions.js";
 
 let pathName = window.location.pathname;
 
@@ -36,24 +37,24 @@ async function renderWarning(noteId, flagType, legacyPref, modernPrefs) {
     // map all flag types to their respective preference key, description, and label
     const flags = {
         // nsfw
-        adultContent: [modernPrefs.adultContent, adultContentDescription, "Flagged as Adult Content"],
-        sexuallySuggestive: [modernPrefs.sexuallySuggestive, sexuallySuggestiveDescription, "Flagged as Sexually Suggestive"],
-        nonSexualNudity: [modernPrefs.nonSexualNudity, nonSexualNudityDescription, "Flagged as Non-Sexual Nudity"],
-        fetishContent: [modernPrefs.fetishContent, fetishContentDescription, "Flagged as Fetish Content"],
-        erotica: [modernPrefs.erotica, eroticWritingsDescription, "Flagged as Erotic Writing"],
+        adultContent: [modernPrefs.adultContent, cwDesc.adultContentDescription, "Flagged as Adult Content"],
+        sexuallySuggestive: [modernPrefs.sexuallySuggestive, cwDesc.sexuallySuggestiveDescription, "Flagged as Sexually Suggestive"],
+        nonSexualNudity: [modernPrefs.nonSexualNudity, cwDesc.nonSexualNudityDescription, "Flagged as Non-Sexual Nudity"],
+        fetishContent: [modernPrefs.fetishContent, cwDesc.fetishContentDescription, "Flagged as Fetish Content"],
+        erotica: [modernPrefs.erotica, cwDesc.eroticWritingsDescription, "Flagged as Erotic Writing"],
         // sensitive
-        graphicViolence: [modernPrefs.graphicViolence, graphicViolenceDescription, "Flagged as Graphic Violence"],
-        horrorImagery: [modernPrefs.horrorImagery, horrorImageryDescription, "Flagged as Horror Imagery"],
-        abuseTraumaMentions: [modernPrefs.abuseTraumaMentions, abuseTraumaMentionsDescription, "Flagged as Abuse/Trauma Mentions"],
-        selfHarmSuicideMentions: [modernPrefs.selfHarmSuicideMentions, selfHarmSuicideMentionsDescription, "Flagged as Self-Harm/Suicide Mentions"],
-        drugUse: [modernPrefs.drugUse, drugUseDescription, "Flagged as Drug Use"],
-        flashSeizureRisk: [modernPrefs.flashSeizureRisk, flashSeizureDescription, "Flagged as Flash/Seizure Risk"],
+        graphicViolence: [modernPrefs.graphicViolence, cwDesc.graphicViolenceDescription, "Flagged as Graphic Violence"],
+        horrorImagery: [modernPrefs.horrorImagery, cwDesc.horrorImageryDescription, "Flagged as Horror Imagery"],
+        abuseTraumaMentions: [modernPrefs.abuseTraumaMentions, cwDesc.abuseTraumaMentionsDescription, "Flagged as Abuse/Trauma Mentions"],
+        selfHarmSuicideMentions: [modernPrefs.selfHarmSuicideMentions, cwDesc.selfHarmSuicideMentionsDescription, "Flagged as Self-Harm/Suicide Mentions"],
+        drugUse: [modernPrefs.drugUse, cwDesc.drugUseDescription, "Flagged as Drug Use"],
+        flashSeizureRisk: [modernPrefs.flashSeizureRisk, cwDesc.flashSeizureDescription, "Flagged as Flash/Seizure Risk"],
         // political
-        politicalDiscussion: [modernPrefs.politicalDiscussion, politicalDiscussionDescription, "Flagged as Political Discussion"],
-        warNConflict: [modernPrefs.warNConflict, warAndConflictDescription, "Flagged as War and Conflict"],
-        identityDebates: [modernPrefs.identityDebates, identityDebatesDescription, "Flagged as Identity Debates"],
-        conspiracyTheories: [modernPrefs.conspiracyTheories, conspiracyTheoriesDescription, "Flagged as Conspiracy Theories"],
-        newsMedia: [modernPrefs.newsMedia, newsMediaDescription, "Flagged as News Media"]
+        politicalDiscussion: [modernPrefs.politicalDiscussion, cwDesc.politicalDiscussionDescription, "Flagged as Political Discussion"],
+        warNConflict: [modernPrefs.warNConflict, cwDesc.warAndConflictDescription, "Flagged as War and Conflict"],
+        identityDebates: [modernPrefs.identityDebates, cwDesc.identityDebatesDescription, "Flagged as Identity Debates"],
+        conspiracyTheories: [modernPrefs.conspiracyTheories, cwDesc.conspiracyTheoriesDescription, "Flagged as Conspiracy Theories"],
+        newsMedia: [modernPrefs.newsMedia, cwDesc.newsMediaDescription, "Flagged as News Media"]
     };
 
     const flagInfo = flags[flagType];
