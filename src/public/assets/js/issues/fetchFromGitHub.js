@@ -55,9 +55,7 @@ async function fetchIssuesFromGitHub(state, label) {
             labelDiv.className = "label";
             labelDiv.style.background = `#${label.color}`;
             labelDiv.style.color = getTextColor(label.color);
-            labelDiv.innerHTML = `
-                ${label.name}
-            `;
+            labelDiv.textContent = label.name;
             fullLabelHTML.appendChild(labelDiv);
         });
 
@@ -65,7 +63,7 @@ async function fetchIssuesFromGitHub(state, label) {
         const issueDiv = document.createElement("div");
         issueDiv.className = "issue";
         issueDiv.innerHTML = `
-            <h3 onclick="getGithubIssue('${issue.number}')"><span class="${issue.state}">${faIcon("circle-dot").outerHTML}</span> <a href="javascript:void(${issue.number});">${issue.title}</a></h3>
+            <h3 onclick="getGithubIssue('${issue.number}')"><span class="${escapeHtml(issue.state)}">${faIcon("circle-dot").outerHTML}</span> <a href="javascript:void(${issue.number});">${escapeHtml(issue.title)}</a></h3>
             <p class="additionalDetails">#${issue.number} • ${issue.user.login} opened ${formattedTimestamp} • ${faIcon("comment").outerHTML} ${issue.comments}</p>
         `;
         issueDiv.querySelector("h3").appendChild(fullLabelHTML);
@@ -120,7 +118,7 @@ async function getGithubIssue(id) {
     const stateTextColor = getTextColor(successColor);
 
     detailsHTML.innerHTML = `
-        <h2><span onclick="goBackToSeeAllIssues()">${faIcon("arrow-left").outerHTML}</span> ${ghIssueResponse.title} <span class="issueNumber">#${ghIssueResponse.number}</span></h2>
+        <h2><span onclick="goBackToSeeAllIssues()">${faIcon("arrow-left").outerHTML}</span> ${escapeHtml(ghIssueResponse.title)} <span class="issueNumber">#${ghIssueResponse.number}</span></h2>
         <div class="issueState ${stateText} ${stateTextColor}">${faIcon("circle-dot").outerHTML} ${capitalizedState}</div>
     `;
     issueDetails.parentNode.insertBefore(detailsHTML, issueDetails);
@@ -128,13 +126,13 @@ async function getGithubIssue(id) {
     // create the html to display issue details
     const issueDetailsInside = document.createElement("div");
     issueDetailsInside.className = "issueDetailsInside";
-    const openedDate = await githubTimestamp(ghIssueResponse.updated_at);
+    const openedDate = await githubTimestamp(escapeHtml(ghIssueResponse.updated_at));
     const formattedIssueBody = format(ghIssueResponse.body, ["html","markdown","emoji","link","newline","hashtag"], { allowImg: true });
 
     issueDetailsInside.innerHTML = `
         <p class="issueOpenedWhen">
-            <img src="${ghIssueResponse.user.avatar_url}" draggable="false" alt="GitHub Profile Picture of ${ghIssueResponse.user.login}" class="githubPfp" /> 
-            <a href="${ghIssueResponse.user.html_url}" target="_blank" class="githubProfileURL">${ghIssueResponse.user.login}</a><span class="darken">opened ${openedDate}</span>
+            <img src="${escapeHtml(ghIssueResponse.user.avatar_url)}" draggable="false" alt="GitHub Profile Picture of ${escapeHtml(ghIssueResponse.user.login)}" class="githubPfp" /> 
+            <a href="${escapeHtml(ghIssueResponse.user.html_url)}" target="_blank" class="githubProfileURL">${escapeHtml(ghIssueResponse.user.login)}</a><span class="darken">opened ${openedDate}</span>
         </p>
 
         <div class="issueDescription">
@@ -170,8 +168,8 @@ async function getGithubIssue(id) {
                 eventHTML.innerHTML = `
                     <p>
                         ${faIcon("tag").outerHTML}
-                        <img src="${event.actor.avatar_url}" draggable="false" alt="GitHub Profile Picture of ${event.actor.login}" class="githubPfp" /> <a href="${event.actor.html_url}" target="_blank" class="githubProfileURL">${event.actor.login}</a> 
-                        <span class="darken">added</span><div class="label ${labelTextColor}" style="background: ${labelBackgroundColor}">${event.label.name}</div> <span class="darken">${githubTimestamp(event.created_at)}</span>
+                        <img src="${event.actor.avatar_url}" draggable="false" alt="GitHub Profile Picture of ${escapeHtml(event.actor.login)}" class="githubPfp" /> <a href="${escapeHtml(event.actor.html_url)}" target="_blank" class="githubProfileURL">${escapeHtml(event.actor.login)}</a> 
+                        <span class="darken">added</span><div class="label ${labelTextColor}" style="background: ${labelBackgroundColor}">${escapeHtml(event.label.name)}</div> <span class="darken">${githubTimestamp(event.created_at)}</span>
                     </p>
                 `;
                 break;
@@ -179,7 +177,7 @@ async function getGithubIssue(id) {
                 eventHTML.innerHTML = `
                     <p>
                         ${faIcon("pencil").outerHTML}
-                        <img src="${event.actor.avatar_url}" draggable="false" alt="GitHub Profile Picture of ${event.actor.login}" class="githubPfp" /> <a href="${event.actor.html_url}" target="_blank" class="githubProfileURL">${event.actor.login}</a> 
+                        <img src="${escapeHtml(event.actor.avatar_url)}" draggable="false" alt="GitHub Profile Picture of ${escapeHtml(event.actor.login)}" class="githubPfp" /> <a href="${escapeHtml(event.actor.html_url)}" target="_blank" class="githubProfileURL">${escapeHtml(event.actor.login)}</a> 
                         <span class="darken">renamed</span> <s>${event.rename.from}</s> to <p>${event.rename.to}</p>
                         <span class="darken">${githubTimestamp(event.created_at)}</span>
                     </p>
@@ -189,7 +187,7 @@ async function getGithubIssue(id) {
                 eventHTML.classList.add("thread");
                 eventHTML.innerHTML = `
                     <p>
-                        <img src="${event.actor.avatar_url}" draggable="false" alt="GitHub Profile Picture of ${event.actor.login}" class="githubPfp" /> <a href="${event.actor.html_url}" target="_blank" class="githubProfileURL">${event.actor.login}</a> <span class="darken">${githubTimestamp(event.created_at)}</span>
+                        <img src="${escapeHtml(event.actor.avatar_url)}" draggable="false" alt="GitHub Profile Picture of ${escapeHtml(event.actor.login)}" class="githubPfp" /> <a href="${escapeHtml(event.actor.html_url)}" target="_blank" class="githubProfileURL">${escapeHtml(event.actor.login)}</a> <span class="darken">${githubTimestamp(event.created_at)}</span>
                         <br />
                         <br />
                         <p>${format(event.body, ["html","markdown","emoji","link","newline","hashtag"], { allowImg: true })}</p>
