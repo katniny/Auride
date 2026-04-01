@@ -791,8 +791,12 @@ function escapeHtml(text, allowImg = false) {
       // temporarily replace img tags so we don't escape them
       const imgMatches = [];
       text = text.replace(/<img[^>]*>/gi, match => {
-         imgMatches.push(match);
-         return `___IMG_PLACEHOLDER_${imgMatches.length - 1}___`;
+         const safe = sanitizeImg(match);
+         if (safe) {
+            imgMatches.push(safe);
+            return `___IMG_PLACEHOLDER_${imgMatches.length - 1}___`;
+         }
+         return match;
       });
 
       // then escape the rest
@@ -809,6 +813,31 @@ function escapeHtml(text, allowImg = false) {
       div.textContent = text;
       return div.innerHTML;
    }
+}
+
+function sanitizeImg(imgHtml) {
+   const template = document.createElement("template");
+   template.innerHTML = imgHtml;
+   const img = template.content.querySelector("img");
+
+   if (!img) return null;
+
+   const allowedAttrs = new Set(["src", "alt", "width", "height"]);
+
+   // remove any attribute not in the whitelist
+   for (const attr of [...img.attributes]) {
+      if (!allowedAttrs.has(attr.name.toLowerCase())) {
+         img.removeAttribute(attr.name);
+      }
+   }
+
+   // block non-http(s) src values (e.g. javascript:)
+   const src = img.getAttribute('src') ?? '';
+   if (src && !/^https?:\/\//i.test(src)) {
+      img.removeAttribute('src');
+   }
+
+   return img.outerHTML;
 }
 
 function linkify(text) {
