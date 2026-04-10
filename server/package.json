@@ -12,12 +12,12 @@
   "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.6",
-    "dotenv": "^17.2.2",
+    "dotenv": "^17.4.1",
     "express": "^5.2.1",
-    "firebase-admin": "^12.7.0",
-    "ws": "^8.18.3"
+    "firebase-admin": "^13.8.0",
+    "ws": "^8.20.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.14"
   }
 }
