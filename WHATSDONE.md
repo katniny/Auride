@@ -29,6 +29,7 @@
 - If you forget your password, you can now request a password reset email
 - You can now use the enter key to progress on the login page
 - Fixed issue where the "Your Profile" button would be active, even when you're not on your own profile
+- You can now click anywhere on the entire note (except interactions) to view a note, rather than specifically where the note text is
 
 ## Dev Env:
 - Pages are now .js files rather than .html, making it easier to add page-specific code without more scripts (though, you can still do this). (add to update blog)

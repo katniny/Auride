@@ -112,6 +112,15 @@ export async function renderNote(noteData) {
     const noteDiv =  document.createElement("div");
     noteDiv.className = "note";
     noteDiv.id = noteData.id;
+    // if not replying to a note, allow redirection
+    if (!noteData.replyingTo)
+        noteDiv.addEventListener("click", function (e) {
+            // is it a normal element?
+            if (e.target.closest("img, video, audio, a, i, button"))
+                return;
+
+            navigate(`/note/${noteData.id}`);
+        });
 
     // get current user data
     const user = auth.currentUser;
@@ -219,8 +228,6 @@ export async function renderNote(noteData) {
     const text = document.createElement("p");
     text.innerHTML = format(noteData.text);
     text.className = "noteText";
-    if (!noteData.replyingTo) // if not replying to a note, allow redirection
-        text.addEventListener("click", function () { navigate(`/note/${noteData.id}`) });
     noteDiv.appendChild(text);
 
     // render note media
