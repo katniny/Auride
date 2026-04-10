@@ -8,6 +8,6 @@ const numOfUpdatesToday = "1";
 export const currentAurideVersion = "beta";
 // full string
 export const versioningString = `
-    Auride is in ${currentAurideVersion} (${updateTime}).
+    Auride is on version ${updateTime}-${currentAurideVersion}.
     Features are still being added. <a href="/roadmap">See our roadmap</a>.
 `;
