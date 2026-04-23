@@ -41,6 +41,10 @@ export const routes = [
 
 // navigate to a path without reloading the page
 export function navigate(path) {
+    // is user already on this page? if so, no point in navigating.
+    if (window.location.pathname === path)
+        return;
+
     // push new URL to history
     history.pushState({}, "", path);
     
