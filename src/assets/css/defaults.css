@@ -265,3 +265,14 @@ select {
 option {
    background: var(--background);
 }
+
+/* selection */
+::selection {
+   color: var(--hovered-button-text);
+   background-color: var(--main-color);
+}
+
+::-moz-selection {
+   color: var(--hovered-button-text);
+   background-color: var(--main-color);
+}
