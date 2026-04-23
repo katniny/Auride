@@ -30,6 +30,7 @@
 - You can now use the enter key to progress on the login page
 - Fixed issue where the "Your Profile" button would be active, even when you're not on your own profile
 - You can now click anywhere on the entire note (except interactions) to view a note, rather than specifically where the note text is
+- Auride will now never display a negative amount of seconds
 
 ## Dev Env:
 - Pages are now .js files rather than .html, making it easier to add page-specific code without more scripts (though, you can still do this). (add to update blog)
@@ -56,6 +57,7 @@
 - We can now upload files with `uploadMedia()` with the follow params: `file`, `path`, `typeToUse` and `noteId` (only required if uploading for a note). This will allow us to handle everything (e.g., checking file size, checking file extension, etc.) within one function to make file uploading seamless, no matter where you're uploading a new file from! (add to update blog)
 - Made removing items from the sidebar a lot less repetitive - if adding a new item to the sidebar but it shouldn't show for signed out users, just add the class `removeOnNoAuth` to it
 - Our function to check if a user is signed in or not (which runs on pages such as the login page because there's no reason to sign in again if you already are!) now no longer waits for the page to load, making it much faster
+- Checking tokens has been unified
 
 - NOTICE TO CONTRIBUTORS: If you have an old database for Auride, the following methods are now depreciated:
     - noteData.isDeleted - this is handled by the server. While notes are no longer deleted this way, the server can handle this to ensure it doesn't render. However, we do not do this anymore going forward.
