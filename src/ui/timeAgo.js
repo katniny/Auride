@@ -9,8 +9,12 @@ export function timeAgo(timestamp, mode = "short") {
     const now = Math.floor(Date.now() / 1000);
     const seconds = now - Math.floor(timestamp / 1000);
 
-    if (seconds < 60)
-        return `${seconds}s`;
+    if (seconds < 60) {
+        if (seconds < 0)
+            return "0s"; // fix for things such as -1s showing
+        else
+            return `${seconds}s`;
+    }
 
     const minutes = Math.floor(seconds / 60);
     if (minutes < 60)
