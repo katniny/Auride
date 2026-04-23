@@ -2,33 +2,16 @@ const express = require("express");
 const router = express.Router();
 const admin = require("firebase-admin");
 const db = admin.database();
+const { getTokenAndUid } = require("./functions/getToken.js");
 
 router.post("/api/auride/createNote", async (req, res) => {
     if (req.method !== "POST")
         return res.status(403).json({ error: "This method can only be accessed via POST." });
 
     try {
-        // extract token
-        const authHeader = req.headers.authorization || "";
-        let token = null;
-        if (typeof req.headers.authorization === "string") {
-            const parts = req.headers.authorization.split(" ");
-            if (parts[0] === "Bearer" && parts[1])
-                token = parts[1].trim();
-        }
-        
-        // verify token
-        let userUidFromRequest = null;
-        if (token) {
-            try {
-                const decodedToken = await admin.auth().verifyIdToken(token);
-                userUidFromRequest = decodedToken.uid;
-            } catch (err) {
-                console.error(`Invalid token: ${err}`);
-            }
-        }
+        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
 
-        if (!token || !userUidFromRequest)
+        if (!userToken || !userIdFromRequest)
             return res.status(403).json({ error: "Must be authenticated." });
 
         // now that user is authenticated (assuming there is one), continue
@@ -83,7 +66,7 @@ router.post("/api/auride/createNote", async (req, res) => {
         dbRef.update({
             createdAt: currentTime,
             text: noteText || null,
-            whoSentIt: userUidFromRequest,
+            whoSentIt: userIdFromRequest,
             id: noteId,
             likes: 0,
             renotes: 0,
@@ -99,7 +82,7 @@ router.post("/api/auride/createNote", async (req, res) => {
         });
         
         // add to user notes, unless its a reply
-        const userDbRef = db.ref(`users/${userUidFromRequest}/posts/${noteId}`);
+        const userDbRef = db.ref(`users/${userIdFromRequest}/posts/${noteId}`);
         if (!validReply)
             userDbRef.update({
                 "isRenote": false
@@ -123,7 +106,7 @@ router.post("/api/auride/createNote", async (req, res) => {
             const notificationIdRef = db.ref(`/users/${userUid}/notifications`).push();
             const notificationId = notificationIdRef.key;
             const unreadNotifsRef = db.ref(`/users/${userUid}/notifications/unread`);
-            if (rawNoteData.whoSentIt !== userUidFromRequest) {
+            if (rawNoteData.whoSentIt !== userIdFromRequest) {
                 // increase notification count
                 unreadNotifsRef.transaction(currentValue => {
                     return (currentValue || 0) + 1;
@@ -131,7 +114,7 @@ router.post("/api/auride/createNote", async (req, res) => {
                 // send notification itself
                 const sendNotification = await db.ref(`/users/${userUid}/notifications/${notificationId}`).update({
                     type: "Reply",
-                    who: userUidFromRequest,
+                    who: userIdFromRequest,
                     postId: replyingTo
                 });
             }

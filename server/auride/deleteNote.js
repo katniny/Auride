@@ -2,33 +2,16 @@ const express = require("express");
 const router = express.Router();
 const admin = require("firebase-admin");
 const db = admin.database();
+const { getTokenAndUid } = require("./functions/getToken.js");
 
 router.delete("/api/auride/deleteNote", async (req, res) => {
     if (req.method !== "DELETE")
         return res.status(403).json({ error: "This method can only be accessed via DELETE." });
 
     try {
-        // extract token
-        const authHeader = req.headers.authorization || "";
-        let token = null;
-        if (typeof req.headers.authorization === "string") {
-            const parts = req.headers.authorization.split(" ");
-            if (parts[0] === "Bearer" && parts[1])
-                token = parts[1].trim();
-        }
-        
-        // verify token
-        let userUidFromRequest = null;
-        if (token) {
-            try {
-                const decodedToken = await admin.auth().verifyIdToken(token);
-                userUidFromRequest = decodedToken.uid;
-            } catch (err) {
-                console.error(`Invalid token: ${err}`);
-            }
-        }
+        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
 
-        if (!token || !userUidFromRequest)
+        if (!userToken || !userIdFromRequest)
             return res.status(403).json({ error: "Must be authenticated." });
 
         // now that user is authenticated (assuming there is one), continue
@@ -64,7 +47,7 @@ router.delete("/api/auride/deleteNote", async (req, res) => {
             const data = snapshot.val();
             const whoSentIt = data.whoSentIt;
 
-            if (whoSentIt === userUidFromRequest || adminUids.includes(userUidFromRequest)) {
+            if (whoSentIt === userIdFromRequest || adminUids.includes(userIdFromRequest)) {
                 // finally, request db deletion
                 db.ref(dbPath).remove().then(() => {
                     // if has parent node, subtract replies by one

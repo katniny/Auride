@@ -2,33 +2,16 @@ const express = require("express");
 const router = express.Router();
 const admin = require("firebase-admin");
 const db = admin.database();
+const { getTokenAndUid } = require("./functions/getToken.js");
 
 router.post("/api/auride/renoteNote", async (req, res) => {
     if (req.method !== "POST")
         return res.status(403).json({ error: "This method can only be accessed via POST." });
 
     try {
-        // extract token
-        const authHeader = req.headers.authorization || "";
-        let token = null;
-        if (typeof req.headers.authorization === "string") {
-            const parts = req.headers.authorization.split(" ");
-            if (parts[0] === "Bearer" && parts[1])
-                token = parts[1].trim();
-        }
-        
-        // verify token
-        let userUidFromRequest = null;
-        if (token) {
-            try {
-                const decodedToken = await admin.auth().verifyIdToken(token);
-                userUidFromRequest = decodedToken.uid;
-            } catch (err) {
-                console.error(`Invalid token: ${err}`);
-            }
-        }
+        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
 
-        if (!token || !userUidFromRequest)
+        if (!userToken || !userIdFromRequest)
             return res.status(403).json({ error: "Must be authenticated." });
 
         // now that user is authenticated (assuming there is one), continue
@@ -62,9 +45,9 @@ router.post("/api/auride/renoteNote", async (req, res) => {
         const whoRenotedKeys = Object.keys(whoRenoted);
         const cleanedUid = String(noteId).trim();
         const crementRef = db.ref(`${notePath}/renotes`);
-        if (whoRenotedKeys.includes(userUidFromRequest)) {
+        if (whoRenotedKeys.includes(userIdFromRequest)) {
             // unrenote
-            await db.ref(`${notePath}/whoRenoted/${userUidFromRequest}`).remove();
+            await db.ref(`${notePath}/whoRenoted/${userIdFromRequest}`).remove();
 
             // decrement follower count
             crementRef.transaction(currentValue => {
@@ -75,8 +58,8 @@ router.post("/api/auride/renoteNote", async (req, res) => {
         }
 
         // else, follow
-        const renoteNote = await db.ref(`${notePath}/whoRenoted/${userUidFromRequest}`).update({
-            uid: userUidFromRequest
+        const renoteNote = await db.ref(`${notePath}/whoRenoted/${userIdFromRequest}`).update({
+            uid: userIdFromRequest
         });
 
         // increment follower count
@@ -89,13 +72,13 @@ router.post("/api/auride/renoteNote", async (req, res) => {
         const notificationIdRef = db.ref(`/users/${userUid}/notifications`).push();
         const notificationId = notificationIdRef.key;
         const unreadNotifsRef = db.ref(`/users/${userUid}/notifications/unread`);
-        if (rawNoteData.whoSentIt !== userUidFromRequest) {
+        if (rawNoteData.whoSentIt !== userIdFromRequest) {
             unreadNotifsRef.transaction(currentValue => {
                 return (currentValue || 0) + 1;
             });
             const sendNotification = await db.ref(`/users/${userUid}/notifications/${notificationId}`).update({
                 type: "Renote",
-                who: userUidFromRequest,
+                who: userIdFromRequest,
                 postId: noteId
             });
         }

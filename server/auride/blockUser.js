@@ -2,33 +2,16 @@ const express = require("express");
 const router = express.Router();
 const admin = require("firebase-admin");
 const db = admin.database();
+const { getTokenAndUid } = require("./functions/getToken.js");
 
 router.post("/api/auride/blockUser", async (req, res) => {
     if (req.method !== "POST")
         return res.status(403).json({ error: "This method can only be accessed via POST." });
 
     try {
-        // extract token
-        const authHeader = req.headers.authorization || "";
-        let token = null;
-        if (typeof req.headers.authorization === "string") {
-            const parts = req.headers.authorization.split(" ");
-            if (parts[0] === "Bearer" && parts[1])
-                token = parts[1].trim();
-        }
-        
-        // verify token
-        let userUidFromRequest = null;
-        if (token) {
-            try {
-                const decodedToken = await admin.auth().verifyIdToken(token);
-                userUidFromRequest = decodedToken.uid;
-            } catch (err) {
-                console.error(`Invalid token: ${err}`);
-            }
-        }
+        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
 
-        if (!token || !userUidFromRequest)
+        if (!userToken || !userIdFromRequest)
             return res.status(403).json({ error: "Must be authenticated." });
 
         // now that user is authenticated (assuming there is one), continue
@@ -62,7 +45,7 @@ router.post("/api/auride/blockUser", async (req, res) => {
 
         // get user data
         let rawUserData = null;
-        const userDataRef = await db.ref(`/users/${userUidFromRequest}`).once("value");
+        const userDataRef = await db.ref(`/users/${userIdFromRequest}`).once("value");
         rawUserData = userDataRef.val();
 
         // get other users data
@@ -83,12 +66,12 @@ router.post("/api/auride/blockUser", async (req, res) => {
         const cleanedUid = String(userUid).trim();
         if (blockedKeys.includes(cleanedUid)) {
             // if so, unblock
-            const unblockUser = await db.ref(`/users/${userUidFromRequest}/blocked/${userUid}`).remove();
+            const unblockUser = await db.ref(`/users/${userIdFromRequest}/blocked/${userUid}`).remove();
             return res.status(200).json({ message: "Unblocked successfully." });
         }
 
         // else, add to blocked list & unfollow
-        const blockUser = await db.ref(`/users/${userUidFromRequest}/blocked/${userUid}`).update({
+        const blockUser = await db.ref(`/users/${userIdFromRequest}/blocked/${userUid}`).update({
             user: userUid
         });
         
@@ -99,10 +82,10 @@ router.post("/api/auride/blockUser", async (req, res) => {
         const decrementRef = db.ref(`/users/${userUid}/followers`);
         if (followingKeys.includes(cleanedFUid)) {
             // unfollow
-            const unfollowUser = await db.ref(`/users/${userUidFromRequest}/followingWho/${userUid}`).update({
+            const unfollowUser = await db.ref(`/users/${userIdFromRequest}/followingWho/${userUid}`).update({
                 uid: null
             });
-            const unfollowUserFromOther = await db.ref(`users/${userUid}/whoFollows/${userUidFromRequest}`).update({
+            const unfollowUserFromOther = await db.ref(`users/${userUid}/whoFollows/${userIdFromRequest}`).update({
                 uid: null
             });
 

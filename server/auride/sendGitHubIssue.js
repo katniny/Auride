@@ -2,39 +2,20 @@ const express = require("express");
 const router = express.Router();
 const admin = require("firebase-admin");
 const db = admin.database();
+const { getTokenAndUid } = require("./functions/getToken.js");
 
 router.post("/api/auride/sendGithubIssue", async (req, res) => {
     if (req.method !== "POST")
         return res.status(403).json({ error: "This method can only be accessed via POST." });
 
     try {
-        // extract token
-        const authHeader = req.headers.authorization || "";
-        let token = null;
-        if (typeof req.headers.authorization === "string") {
-            const parts = req.headers.authorization.split(" ");
-            if (parts[0] === "Bearer" && parts[1])
-                token = parts[1].trim();
-        }
-        
-        // verify token
-        let userUidFromRequest = null;
         let username = null;
-        if (token) {
-            try {
-                const decodedToken = await admin.auth().verifyIdToken(token);
-                // get uid
-                userUidFromRequest = decodedToken.uid;
-                if (!userUidFromRequest)
-                    return res.status(403).json({ error: "No user UID with this token found." });
-
-                // get username
-                const getUsername = await db.ref(`users/${userUidFromRequest}/username`).once("value");
-                username = getUsername.val();
-            } catch (err) {
-                return res.status(403).json({ error: "No token found. Must be logged in to use this!" });
-            }
-        } else {
+        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
+        if (userIdFromRequest) {
+            // get username
+            const getUsername = await db.ref(`users/${userIdFromRequest}/username`).once("value");
+            username = getUsername.val();
+        } else if (!userIdFromRequest || !userToken) {
             return res.status(403).json({ error: "No token found. Must be logged in to use this!" });
         }
 

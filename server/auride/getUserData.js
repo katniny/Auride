@@ -2,31 +2,14 @@ const express = require("express");
 const router = express.Router();
 const admin = require("firebase-admin");
 const db = admin.database();
+const { getTokenAndUid } = require("./functions/getToken.js");
 
 router.get("/api/auride/getUserData", async (req, res) => {
     if (req.method !== "GET")
         return res.status(403).json({ error: "This method can only be accessed via GET." });
 
     try {
-        // extract token
-        const authHeader = req.headers.authorization || "";
-        let token = null;
-        if (typeof req.headers.authorization === "string") {
-            const parts = req.headers.authorization.split(" ");
-            if (parts[0] === "Bearer" && parts[1])
-                token = parts[1].trim();
-        }
-        
-        // verify token
-        let userUidFromRequest = null;
-        if (token) {
-            try {
-                const decodedToken = await admin.auth().verifyIdToken(token);
-                userUidFromRequest = decodedToken.uid;
-            } catch (err) {
-                console.error(`Invalid token: ${err}`);
-            }
-        }
+        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
         
         // now that user is authenticated (assuming there is one), continue
         // get request type -- if it's "username", we'll need to get the users uid
@@ -97,7 +80,7 @@ router.get("/api/auride/getUserData", async (req, res) => {
         // is user blocked?
         const blocked = rawUserData.blocked || {};
         const blockedKeys = Object.keys(blocked);
-        const cleanedUid = String(userUidFromRequest).trim();
+        const cleanedUid = String(userIdFromRequest).trim();
         if (blockedKeys.includes(cleanedUid)) {
             // if so, certain data needs filtered
             returnedUserData.achievements = null;
@@ -109,7 +92,7 @@ router.get("/api/auride/getUserData", async (req, res) => {
         }
 
         // is user themselves?
-        if (userUid === userUidFromRequest) {
+        if (userUid === userIdFromRequest) {
             // if so, we can return some additional data
             returnedUserData.autoplayVideos = rawUserData?.autoplayVideos;
             returnedUserData.flagPrefs = rawUserData?.flagPrefs;

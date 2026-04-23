@@ -2,31 +2,14 @@ const express = require("express");
 const router = express.Router();
 const admin = require("firebase-admin");
 const db = admin.database();
+const { getTokenAndUid } = require("./functions/getToken.js");
 
 router.get("/api/auride/getNoteData", async (req, res) => {
     if (req.method !== "GET")
         return res.status(403).json({ error: "This method can only be accessed via GET." });
 
     try {
-        // extract token
-        const authHeader = req.headers.authorization || "";
-        let token = null;
-        if (typeof req.headers.authorization === "string") {
-            const parts = req.headers.authorization.split(" ");
-            if (parts[0] === "Bearer" && parts[1])
-                token = parts[1].trim();
-        }
-        
-        // verify token
-        let userUidFromRequest = null;
-        if (token) {
-            try {
-                const decodedToken = await admin.auth().verifyIdToken(token);
-                userUidFromRequest = decodedToken.uid;
-            } catch (err) {
-                console.error(`Invalid token: ${err}`);
-            }
-        }
+        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
 
         // now that user is authenticated (assuming there is one), continue
         const { endBefore, limit, path, onlyFollowing } = req.query;
@@ -81,7 +64,7 @@ router.get("/api/auride/getNoteData", async (req, res) => {
                     
                     // ignore if onlyFollowing is true and user is not following
                     const followers = userData.whoFollows || {};
-                    if (onlyFollowingBool && !followers[userUidFromRequest])
+                    if (onlyFollowingBool && !followers[userIdFromRequest])
                         return;
 
                     notesArray.push(fullNote);
@@ -115,7 +98,7 @@ router.get("/api/auride/getNoteData", async (req, res) => {
                 // if the user only wants following users, lets check if
                 // they follow this user
                 const followers = userData.whoFollows || {};
-                if (onlyFollowingBool && !followers[userUidFromRequest])
+                if (onlyFollowingBool && !followers[userIdFromRequest])
                     return;
 
                 // else, continue
