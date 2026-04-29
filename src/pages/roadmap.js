@@ -6,7 +6,7 @@ export default function versioningPage() {
     el.innerHTML = `
         <h1>Auride's Roadmap</h1>
         <p>
-            Auride is currently under heavy development still -- features may be missing, incomplete, or buggy.
+            Auride is currently under heavy development. Features may be missing, incomplete, or buggy.
             Please expect issues. If you find any, you can use <a href="/issues">our built-in issue tracker</a> to report them!
         </p>
 
@@ -14,7 +14,7 @@ export default function versioningPage() {
 
         <p>
             Auride's development is expected to leave our beta and pre-release stages around late 2026 to early 2027. However, this isn't 
-            final--it may take more or less time than expected.
+            final! It may take more or less time than expected.
         </p>
 
         <br />
