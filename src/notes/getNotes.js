@@ -9,6 +9,7 @@ import { getUserData } from "../methods/getUserData.js";
 let pathname = window.location.pathname;
 let notesPageRef = null;
 let currentlyLoadingNotes = false;
+let hasLoadedAllNotes = false;
 let loadOnlyFollowingNotes = false;
 let listeningToWebsocket = false;
 let lastLoadedNoteKey = null;
@@ -66,6 +67,7 @@ function resetVariables() {
     pathname = window.location.pathname;
     notesPageRef = null;
     currentlyLoadingNotes = false;
+    hasLoadedAllNotes = false;
     loadOnlyFollowingNotes = false;
     lastLoadedNoteKey = null;
     allLoadedNotes = new Set();
@@ -86,7 +88,7 @@ function loadNotesFromScratch() {
 // load notes
 export async function loadNotes() {
     // dont load more notes if already doing so
-    if (currentlyLoadingNotes)
+    if (currentlyLoadingNotes || hasLoadedAllNotes)
         return;
     currentlyLoadingNotes = true;
 
@@ -172,6 +174,12 @@ export async function loadNotes() {
 
         return;
     }
+
+    // if length is under 14 (15, js starts at 0), assume we're running out of notes!
+    if (notesArray.length < 14) {
+        hasLoadedAllNotes = true;
+        loadingIndicator.remove();
+    }
 }
 
 // if new note added, render
@@ -191,6 +199,7 @@ function newNoteAdded(id) {
         document.getElementById("notes").innerHTML = "";
 
         // then, reload notes
+        hasLoadedAllNotes = false; // we have more notes so we have not loaded them all!
         loadNotesFromScratch();
     };
     newNotesAvailable.innerHTML = `
