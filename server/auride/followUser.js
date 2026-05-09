@@ -1,25 +1,19 @@
-const express = require("express");
-const router = express.Router();
+// TODO: test me! i dont know if i work!
+const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
-const { getTokenAndUid } = require("./functions/getToken.js");
+const { sendNotification } = require("./functions/sendNotification.js");
 
-router.post("/api/auride/followUser", async (req, res) => {
-    if (req.method !== "POST")
-        return res.status(403).json({ error: "This method can only be accessed via POST." });
-
+auride.post("/api/auride/followUser", {
+    requireToken: true,
+    rateLimit: 2000
+}, async (req, res, ctx) => {
     try {
-        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
-
-        if (!userToken || !userIdFromRequest)
-            return res.status(403).json({ error: "Must be authenticated." });
-
-        // now that user is authenticated (assuming there is one), continue
-        // get request type -- if it's "username", we'll need to get the users uid
-        const userIdentifer = req.headers.useridentifier;
+        // get request type - if it's "username", we'll need to get the users uid
+        const userIdentifer = req.headers.useridentifer;
         const reqType = req.headers.reqtype;
 
-        // do userIdentifier and reqType exist?
+        // do userIdentifer and reqType exist?
         if (!userIdentifer)
             return res.status(400).json({ error: "Please provide a UID or username." });
         if (!reqType || reqType !== "username" && reqType !== "uid")
@@ -35,9 +29,8 @@ router.post("/api/auride/followUser", async (req, res) => {
 
             // else, continue
             userUid = dbRef.val().user;
-        } else {
+        } else
             userUid = userIdentifer;
-        }
 
         // double check, is the uid valid?
         if (!userUid)
@@ -45,7 +38,7 @@ router.post("/api/auride/followUser", async (req, res) => {
 
         // get user data
         let rawUserData = null;
-        const userDataRef = await db.ref(`/users/${userIdFromRequest}`).once("value");
+        const userDataRef = await db.ref(`/users/${ctx.currentUser.uid}`).once("value");
         rawUserData = userDataRef.val();
 
         // get other users data
@@ -68,55 +61,53 @@ router.post("/api/auride/followUser", async (req, res) => {
         const crementRef = db.ref(`/users/${userUid}/followers`);
         if (followingKeys.includes(cleanedUid)) {
             // unfollow
-            const unfollowUser = await db.ref(`/users/${userIdFromRequest}/followingWho/${userUid}`).update({
+            const unfollowUser = await db.ref(`/users/${ctx.currentUser.uid}/followingWho/${userUid}`).update({
                 uid: null
             });
-            const unfollowUserFromOther = await db.ref(`users/${userUid}/whoFollows/${userIdFromRequest}`).update({
+            const unfollowUserFromOther = await db.ref(`users/${userUid}/whoFollows/${ctx.currentUser.uid}`).update({
                 uid: null
             });
 
             // decrement follower count
-            crementRef.transaction(currentValue => {
-                if (!currentValue) return 0; // if no followers, return 0
+            crementRef.transaction(currentUser => {
+                if (!currentValue)
+                    return 0; // if no followers, return 0
                 return currentValue - 1; // else, subtract one
             });
 
-            return res.status(200).json({ message: "User unfollowed successfully." });
+            return res.status(200).json({ success: "User unfollowed successfully." });
         }
 
         // else, follow
-        const followUser = await db.ref(`/users/${userIdFromRequest}/followingWho/${userUid}`).update({
+        const followUser = await db.ref(`/users/${ctx.currentUser.uid}/followingWho/${userUid}`).update({
             uid: userUid
         });
-        const followUserFromOther = await db.ref(`users/${userUid}/whoFollows/${userIdFromRequest}`).update({
-            uid: userIdFromRequest
+        const followUserFromOther = await db.ref(`users/${userUid}/whoFollows/${ctx.currentUser.uid}`).update({
+            uid: ctx.currentUser.uid
         });
 
         // increment follower count
         crementRef.transaction(currentValue => {
-            if (!currentValue) return 1; // if no followers, return 1
+            if (!currentValue)
+                return 1; // if no followers, return 1
             return currentValue + 1; // else, add one
         });
 
         // send follow notification
-        const notificationIdRef = db.ref(`/users/${userUid}/notifications`).push();
-        const notificationId = notificationIdRef.key;
-        const unreadNotifsRef = db.ref(`/users/${userUid}/notifications/unread`);
-        unreadNotifsRef.transaction(currentValue => {
-            if (!currentValue) return 1; // if no notifications, return 1
-            return currentValue + 1; // else, add one
-        });
-        const sendNotification = await db.ref(`/users/${userUid}/notifications/${notificationId}`).update({
-            type: "Follow",
-            who: userIdFromRequest
-        });
+        sendNotification(userUid, ctx.currentUser.uid, "Follow");
 
         // then, finish
-        return res.status(200).json({ message: "User followed successfully." });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to follow user." });
+        return res.status(200).json({ success: "User followed successfully." });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
     }
 });
 
-module.exports = router;
+// router.post("/api/auride/followUser", async (req, res) => {
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ error: "Failed to follow user." });
+//     }
+// });
+
+// module.exports = router;

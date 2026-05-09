@@ -1,20 +1,13 @@
-const express = require("express");
-const router = express.Router();
+const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
-const { getTokenAndUid } = require("./functions/getToken.js");
+const { sendNotification } = require("./functions/sendNotification.js");
 
-router.post("/api/auride/renoteNote", async (req, res) => {
-    if (req.method !== "POST")
-        return res.status(403).json({ error: "This method can only be accessed via POST." });
-
+auride.post("/api/auride/renoteNote", {
+    requireToken: true,
+    rateLimit: 2000
+}, async (req, res, ctx) => {
     try {
-        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
-
-        if (!userToken || !userIdFromRequest)
-            return res.status(403).json({ error: "Must be authenticated." });
-
-        // now that user is authenticated (assuming there is one), continue
         // get the note id & if the note has a parent id
         const noteId = req.headers.noteid;
         const parentNoteId = req.headers.parentnoteid;
@@ -32,63 +25,47 @@ router.post("/api/auride/renoteNote", async (req, res) => {
 
         // get note data
         let rawNoteData = null;
-        const userDataRef = await db.ref(notePath).once("value");
-        rawNoteData = userDataRef.val();
-
+        const noteDataRef = await db.ref(notePath).once("value");
+        rawNoteData = noteDataRef.val();
+        
         // is the note deleted?
         if (rawNoteData.isDeleted)
             return res.status(403).json({ error: "This note is deleted." });
 
-        // does user follow them?
-        // decrement follower count and remove from followers IF following
+        // has user already renoted?
+        // decrement renote count and remove from renoters IF renoted
         const whoRenoted = rawNoteData.whoRenoted || {};
         const whoRenotedKeys = Object.keys(whoRenoted);
         const cleanedUid = String(noteId).trim();
         const crementRef = db.ref(`${notePath}/renotes`);
-        if (whoRenotedKeys.includes(userIdFromRequest)) {
+        if (whoRenotedKeys.includes(ctx.currentUser.uid)) {
             // unrenote
-            await db.ref(`${notePath}/whoRenoted/${userIdFromRequest}`).remove();
+            await db.ref(`${notePath}/whoRenoted/${ctx.currentUser.uid}`).remove();
 
             // decrement follower count
             crementRef.transaction(currentValue => {
                 return Math.max((currentValue || 0) - 1, 0);
             });
 
-            return res.status(200).json({ message: "User unfollowed successfully." });
+            return res.status(200).json({ success: "Note unrenoted successfully." });
         }
 
-        // else, follow
-        const renoteNote = await db.ref(`${notePath}/whoRenoted/${userIdFromRequest}`).update({
-            uid: userIdFromRequest
+        // else, renote
+        const renoteNote = await db.ref(`${notePath}/whoRenoted/${ctx.currentUser.uid}`).update({
+            uid: ctx.currentUser.uid
         });
 
-        // increment follower count
+        // increment renote count
         crementRef.transaction(currentValue => {
             return (currentValue || 0) + 1;
         });
 
         // send renote notification
-        let userUid = rawNoteData.whoSentIt;
-        const notificationIdRef = db.ref(`/users/${userUid}/notifications`).push();
-        const notificationId = notificationIdRef.key;
-        const unreadNotifsRef = db.ref(`/users/${userUid}/notifications/unread`);
-        if (rawNoteData.whoSentIt !== userIdFromRequest) {
-            unreadNotifsRef.transaction(currentValue => {
-                return (currentValue || 0) + 1;
-            });
-            const sendNotification = await db.ref(`/users/${userUid}/notifications/${notificationId}`).update({
-                type: "Renote",
-                who: userIdFromRequest,
-                postId: noteId
-            });
-        }
+        sendNotification(rawNoteData.whoSentIt, ctx.currentUser.uid, "Renote", noteId);
 
         // then, finish
-        return res.status(200).json({ message: "Note renoted successfully." });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to renote note." });
+        return res.status(200).json({ success: "Note renoted successfully." });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
     }
 });
-
-module.exports = router;

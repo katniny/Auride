@@ -1,25 +1,16 @@
-const express = require("express");
-const router = express.Router();
+const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
+const db = admin.database();
 const fs = require("fs");
 const path = require("path");
-const db = admin.database();
-const { getTokenAndUid } = require("./functions/getToken.js");
 
 const fakePathsFile = path.join(__dirname, "fakePaths.json");
 
-router.post("/api/auride/dev/routeMediaLink", async (req, res) => {
-    if (req.method !== "POST")
-        return res.status(403).json({ error: "This method can only be accessed via POST." });
-
+auride.post("/api/auride/dev/routeMediaLink", {
+    rateLimit: 2000
+}, async (req, res, ctx) => {
     try {
-        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
-
-        if (!userToken || !userIdFromRequest)
-            return res.status(403).json({ error: "Must be authenticated." });
-
-        // now that user is authenticated (assuming there is one), continue
-        // get request type -- if it's "username", we'll need to get the users uid
+        // get request type - if it's "username", we'll need to get the users uid
         const tusId = req.headers.tusid;
         const fakePath = req.headers.fakepath;
 
@@ -49,18 +40,15 @@ router.post("/api/auride/dev/routeMediaLink", async (req, res) => {
             // file doesnt exist, create it
             fakePathsData = {};
         }
-
+        
         // add or update the mapping
         fakePathsData[fakePath] = tusId;
 
         // write it back
         fs.writeFileSync(fakePathsFile, JSON.stringify(fakePathsData, null, 4), "utf8");
 
-        return res.status(200).json({ message: "Successfully added redirect." });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to fake link." });
+        return res.status(200).json({ success: "Successfully added redirect." });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
     }
 });
-
-module.exports = router;

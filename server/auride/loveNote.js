@@ -1,20 +1,13 @@
-const express = require("express");
-const router = express.Router();
+const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
-const { getTokenAndUid } = require("./functions/getToken.js");
+const { sendNotification } = require("./functions/sendNotification.js");
 
-router.post("/api/auride/loveNote", async (req, res) => {
-    if (req.method !== "POST")
-        return res.status(403).json({ error: "This method can only be accessed via POST." });
-
+auride.post("/api/auride/loveNote", {
+    requireToken: true,
+    rateLimit: 2000
+}, async (req, res, ctx) => {
     try {
-        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
-
-        if (!userToken || !userIdFromRequest)
-            return res.status(403).json({ error: "Must be authenticated." });
-
-        // now that user is authenticated (assuming there is one), continue
         // get the note id & if the note has a parent id
         const noteId = req.headers.noteid;
         const parentNoteId = req.headers.parentnoteid;
@@ -32,63 +25,47 @@ router.post("/api/auride/loveNote", async (req, res) => {
 
         // get note data
         let rawNoteData = null;
-        const userDataRef = await db.ref(notePath).once("value");
-        rawNoteData = userDataRef.val();
+        const noteDataRef = await db.ref(notePath).once("value");
+        rawNoteData = noteDataRef.val();
 
         // is the note deleted?
         if (rawNoteData.isDeleted)
             return res.status(403).json({ error: "This note is deleted." });
 
-        // does user follow them?
-        // decrement follower count and remove from followers IF following
-        const whoLiked = rawNoteData.whoLiked || {};
-        const whoLikedKeys = Object.keys(whoLiked);
-        const cleanedUid = String(noteId).trim();
+        // has user loved this note?
+        // decrement love count and remove from lovers IF loved
+        const whoLoved = rawNoteData.whoLiked || {};
+        const whoLovedKeys = Object.keys(whoLoved);
         const crementRef = db.ref(`${notePath}/likes`);
-        if (whoLikedKeys.includes(userIdFromRequest)) {
+        if (whoLovedKeys.includes(ctx.currentUser.uid)) {
             // unlove
-            await db.ref(`${notePath}/whoLiked/${userIdFromRequest}`).remove();
+            await db.ref(`${notePath}/whoLiked/${ctx.currentUser.uid}`).remove();
 
-            // decrement follower count
+            // decrement love count
             crementRef.transaction(currentValue => {
                 return Math.max((currentValue || 0) - 1, 0);
             });
 
-            return res.status(200).json({ message: "User unfollowed successfully." });
+            return res.status(200).json({ success: "Note unloved successfully." });
         }
 
-        // else, follow
-        const loveNote = await db.ref(`${notePath}/whoLiked/${userIdFromRequest}`).update({
-            uid: userIdFromRequest
+        // else, love
+        const loveNote = await db.ref(`${notePath}/whoLiked/${ctx.currentUser.uid}`).update({
+            uid: ctx.currentUser.uid
         });
 
-        // increment follower count
+        // increment love count
         crementRef.transaction(currentValue => {
             return (currentValue || 0) + 1;
         });
 
         // send love notification
-        let userUid = rawNoteData.whoSentIt;
-        const notificationIdRef = db.ref(`/users/${userUid}/notifications`).push();
-        const notificationId = notificationIdRef.key;
-        const unreadNotifsRef = db.ref(`/users/${userUid}/notifications/unread`);
-        if (rawNoteData.whoSentIt !== userIdFromRequest) {
-            unreadNotifsRef.transaction(currentValue => {
-                return (currentValue || 0) + 1;
-            });
-            const sendNotification = await db.ref(`/users/${userUid}/notifications/${notificationId}`).update({
-                type: "Love",
-                who: userIdFromRequest,
-                postId: noteId
-            });
-        }
+        sendNotification(rawNoteData.whoSentIt, ctx.currentUser.uid, "Love", noteId);
 
         // then, finish
-        return res.status(200).json({ message: "Note loved successfully." });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to love note." });
+        return res.status(200).json({ success: "Note loved successfully." });
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ error: error.message });
     }
 });
-
-module.exports = router;

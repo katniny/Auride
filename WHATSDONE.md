@@ -59,6 +59,8 @@
 - Made removing items from the sidebar a lot less repetitive - if adding a new item to the sidebar but it shouldn't show for signed out users, just add the class `removeOnNoAuth` to it
 - Our function to check if a user is signed in or not (which runs on pages such as the login page because there's no reason to sign in again if you already are!) now no longer waits for the page to load, making it much faster
 - Checking tokens has been unified
+- Sending notifications has been unified
+- Checking if a user is an admin has been unified and secured
 
 - NOTICE TO CONTRIBUTORS: If you have an old database for Auride, the following methods are now depreciated:
     - noteData.isDeleted - this is handled by the server. While notes are no longer deleted this way, the server can handle this to ensure it doesn't render. However, we do not do this anymore going forward.
@@ -80,5 +82,12 @@
 - When creating a note, check if it's a reply and push appropriately
 - Add ability to add alt text to images/videos
 - Add ability to unlock posting/replying achievements if appropriate
+- Make test.js in Methods (frontend) the default way to call the server (and make success/error the ONLY messages accepted!)
+- Document on how to use the Auride router (e.g., `auride.get`)
+- Go through server rate limits & give it actual rates
+- Make the server actually enforce `requireActiveAccount` and `rateLimit` (per user)
+- Go through and remove console.logs
+- Document that servers should use `success` or `error` based on how the server responds for unification reasons
+- Document that Auride's server can now handle admin-only operations (admin dashboard wen (soon... (oh, thanks for the answer katty (no problem katty))))
 
 - Of course, check any // TODO: comments in code and make sure there isnt anything important for release

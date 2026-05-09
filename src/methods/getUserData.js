@@ -26,5 +26,6 @@ export async function getUserData(id, type) {
 
     // else, return data
     const data = await res.json();
-    return await data?.returnedUserData;
+    console.log(data);
+    return await data?.success;
 }

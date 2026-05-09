@@ -1,25 +1,20 @@
-const express = require("express");
-const router = express.Router();
+// TODO: test me! i dont know if i work!
+const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
-const { getTokenAndUid } = require("./functions/getToken.js");
+const { sendNotification } = require("./functions/sendNotification.js");
+const { isAdmin } = require("./functions/checkIfAdmin.js");
 
-router.delete("/api/auride/deleteNote", async (req, res) => {
-    if (req.method !== "DELETE")
-        return res.status(403).json({ error: "This method can only be accessed via DELETE." });
-
+auride.delete("/api/auride/deleteNote", {
+    requireToken: true,
+    rateLimit: 2000
+}, async (req, res, ctx) => {
     try {
-        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
-
-        if (!userToken || !userIdFromRequest)
-            return res.status(403).json({ error: "Must be authenticated." });
-
-        // now that user is authenticated (assuming there is one), continue
         // get the note id
         const noteIdHeader = req.headers.noteid;
         if (!noteIdHeader)
-            return res.status(400).json({ error: "No note ID provided." });
-        
+            return res.status(400).json({ error: "No node ID provided." });
+
         // if the header contains a slash, treat it as "noteViewId/noteId"
         // else, its a standalone note
         let noteIdToDelete = null;
@@ -28,26 +23,25 @@ router.delete("/api/auride/deleteNote", async (req, res) => {
             const [noteViewId, replyId] = noteIdHeader.split("/");
             noteIdToDelete = replyId || noteViewId;
             hasParent = replyId ? noteViewId : null;
-        } else {
+        } else
             noteIdToDelete = noteIdHeader;
-        }
-
+        
         // create db path
         let dbPath = null;
         if (hasParent)
             dbPath = `/notes/${hasParent}/notesReplying/${noteIdToDelete}`;
         else
             dbPath = `/notes/${noteIdToDelete}`;
-        
-        // get admin uids
-        const adminUids = process.env.ADMIN_ACCOUNT_UIDS.split(",");
+
+        // check if admin
+        const isUserAdmin = isAdmin(ctx.currentUser.uid);
 
         // does requested uid own the note or is the user an admin?
         db.ref(dbPath).once("value", snapshot => {
             const data = snapshot.val();
             const whoSentIt = data.whoSentIt;
 
-            if (whoSentIt === userIdFromRequest || adminUids.includes(userIdFromRequest)) {
+            if (whoSentIt === ctx.currentUser.uid || isUserAdmin) {
                 // finally, request db deletion
                 db.ref(dbPath).remove().then(() => {
                     // if has parent node, subtract replies by one
@@ -62,8 +56,7 @@ router.delete("/api/auride/deleteNote", async (req, res) => {
                             return res.status(400).json({ error: "Error updating replies for parent note." });
                         });
                     }
-
-                    return res.status(200).json({ message: "Note deleted successfully." });
+                    return res.status(200).json({ success: "Note deleted successfully." });
                 }).catch((error) => {
                     return res.status(400).json({ error: error.message });
                 });
@@ -71,10 +64,7 @@ router.delete("/api/auride/deleteNote", async (req, res) => {
                 return res.status(403).json({ error: "You're not authorized to delete this note." });
             }
         });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to delete note." });
+    } catch (error) {
+        return res.status(500).json({ error: error });
     }
 });
-
-module.exports = router;

@@ -21,6 +21,9 @@ document.addEventListener("navigatedToNewPage", () => {
 
     // change path
     getRequestPath();
+    
+    // load more notes
+    loadNotesFromScratch();
 });
 
 // get the path to use in requests
@@ -148,8 +151,9 @@ export async function loadNotes() {
     }
 
     // then, parse and render notes
-    const notesArray = await res.json();
-    console.log(notesArray);
+    const data = await res.json();
+    console.log(data);
+    const notesArray = data.success;
     if (notesArray.length > 0) {
         console.log(notesArray);
         // update lastNoteKey

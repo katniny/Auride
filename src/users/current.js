@@ -47,7 +47,7 @@ onAuthStateChanged(auth, async (user) => {
 
         // return user data
         const data = await res.json();
-        userData = data.returnedUserData;
+        userData = data.success;
         console.log(userData);
         return userData;
     })();

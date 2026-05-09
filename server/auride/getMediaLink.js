@@ -1,14 +1,13 @@
-const express = require("express");
-const router = express.Router();
+const auride = require("../core/auride.js");
 const fs = require("fs");
 const path = require("path");
 
 const fakePathsFile = path.join(__dirname, "fakePaths.json");
 
-router.get("/api/auride/dev/getMediaLink", async (req, res) => {
-    if (req.method !== "GET")
-        return res.status(403).json({ error: "This method can only be accessed via POST." });
-
+auride.get("/api/auride/dev/getMediaLink", {
+    requireActiveAccount: false,
+    rateLimit: 2000
+}, async (req, res, ctx) => {
     try {
         // get the path
         const fakePath = req.headers.path;
@@ -33,11 +32,8 @@ router.get("/api/auride/dev/getMediaLink", async (req, res) => {
             res.status(400).json({ error: "Something went wrong." });
         }
 
-        return res.status(200).json({ message: "Successfully added redirect." });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to block user." });
+        return res.status(200).json({ success: "Successfully added redirect." });
+    } catch (error) {
+        return res.status(500).json({ error: error });
     }
 });
-
-module.exports = router;

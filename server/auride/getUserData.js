@@ -1,54 +1,52 @@
-const express = require("express");
-const router = express.Router();
+const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
-const { getTokenAndUid } = require("./functions/getToken.js");
 
-router.get("/api/auride/getUserData", async (req, res) => {
-    if (req.method !== "GET")
-        return res.status(403).json({ error: "This method can only be accessed via GET." });
-
+auride.get("/api/auride/getUserData", {
+    rateLimit: 2000
+}, async (req, res, ctx) => {
     try {
-        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
-        
-        // now that user is authenticated (assuming there is one), continue
-        // get request type -- if it's "username", we'll need to get the users uid
-        const userIdentifer = req.headers.useridentifier;
+        // get request type - if it's "username", we'll need to get the users uid
+        const userIdentifier = req.headers.useridentifier;
         const reqType = req.headers.reqtype;
 
         // do userIdentifier and reqType exist?
-        if (!userIdentifer)
+        if (!userIdentifier)
             return res.status(400).json({ error: "Please provide a UID or username." });
         if (!reqType || reqType !== "username" && reqType !== "uid")
             return res.status(400).json({ error: "We need to know your request type!" });
 
         let userUid = null;
         if (reqType === "username") {
-            const dbRef = await db.ref(`/taken-usernames/${userIdentifer}`).once("value");
+            const dbRef = await db.ref(`/taken-usernames/${userIdentifier}`).once("value");
 
             // if dbRef doesnt exist, throw an error!
-            if (!dbRef.exists())
+            if (!dbRef.exists()) {
+                console.log("no user with uid/username");
                 return res.status(400).json({ error: "Failed to find a user with that selected UID/username." });
+            }
 
             // else, continue
             userUid = dbRef.val().user;
         } else {
-            userUid = userIdentifer;
+            userUid = userIdentifier;
         }
 
         // double check, is the uid valid?
-        if (!userUid)
+        if (!userUid) {
+            console.log("no user with uid/username [2]");
             return res.status(400).json({ error: "Failed to find a user with that selected UID/username." });
+        }
 
         // finally, lets get the user data
         let rawUserData = null;
         const userDataRef = await db.ref(`/users/${userUid}`).once("value");
         rawUserData = userDataRef.val();
-
+        
         // is the user suspended?
         if (rawUserData.suspensionStatus === "suspended")
             return res.status(403).json({ error: "This user is suspended." });
-        
+
         // filter data
         const returnedUserData = {
             activeContributor: rawUserData.activeContributor || false,
@@ -72,7 +70,7 @@ router.get("/api/auride/getUserData", async (req, res) => {
             },
             uid: userUid
         };
-
+        
         // get join date
         const userAuthAdmin = await admin.auth().getUser(userUid);
         returnedUserData.joinedAt = userAuthAdmin.metadata.creationTime;
@@ -80,7 +78,7 @@ router.get("/api/auride/getUserData", async (req, res) => {
         // is user blocked?
         const blocked = rawUserData.blocked || {};
         const blockedKeys = Object.keys(blocked);
-        const cleanedUid = String(userIdFromRequest).trim();
+        const cleanedUid = String(ctx.currentUser.uid).trim();
         if (blockedKeys.includes(cleanedUid)) {
             // if so, certain data needs filtered
             returnedUserData.achievements = null;
@@ -90,19 +88,16 @@ router.get("/api/auride/getUserData", async (req, res) => {
             // then tell the client they're blocked
             returnedUserData.requestedUserHasBlocked = true;
         }
-
+        
         // is user themselves?
-        if (userUid === userIdFromRequest) {
+        if (userUid === ctx.currentUser.uid) {
             // if so, we can return some additional data
             returnedUserData.autoplayVideos = rawUserData?.autoplayVideos;
             returnedUserData.flagPrefs = rawUserData?.flagPrefs;
         }
 
-        return res.status(200).json({ returnedUserData });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: `Failed to fetch user data with error: ${err}` });
+        return res.status(200).json({ success: returnedUserData });
+    } catch (error) {
+        return res.status(500).json({ error: error });
     }
 });
-
-module.exports = router;

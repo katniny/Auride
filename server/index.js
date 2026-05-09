@@ -5,6 +5,7 @@ const admin = require("firebase-admin");
 const cors = require("cors");
 const http = require("http");
 const WebSocket = require("ws");
+const auride = require("./core/auride.js");
 
 const app = express();
 const PORT = 10000;
@@ -27,6 +28,9 @@ if (!admin.apps.length) {
 
 // allow json parsing from the body
 app.use(express.json());
+
+// allow routes to register themselves into aurides router
+app.use(auride.router);
 
 const db = admin.database();
 
@@ -62,6 +66,7 @@ app.use((req, res, next) => {
 
     // if trying to access a restricted api, prevent.
     // we can allow our host site to access the auride api, but not anyone else
+    // TODO: we need a better way to do this.
     if (req.originalUrl.startsWith("/api/auride/") && origin !== process.env.HOST_URL)
         return res.status(403).json({ status: "You are attempting to access a restricted API. Please do not do this." });
 
@@ -74,8 +79,7 @@ const aurideRoutes = path.join(__dirname, "auride");
 fs.readdirSync(aurideRoutes).forEach(file => {
     console.log(`Starting ${file}...`);
     if (file.endsWith(".js")) {
-        const route = require(path.join(aurideRoutes, file));
-        app.use(route);
+        require(path.join(aurideRoutes, file));
     }
 });
 

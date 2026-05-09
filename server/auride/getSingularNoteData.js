@@ -1,17 +1,11 @@
-const express = require("express");
-const router = express.Router();
+const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
-const { getTokenAndUid } = require("./functions/getToken.js");
 
-router.get("/api/auride/getSingularNoteData", async (req, res) => {
-    if (req.method !== "GET")
-        return res.status(403).json({ error: "This method can only be accessed via GET." });
-
+auride.get("/api/auride/getSingularNoteData", {
+    rateLimit: 2000
+}, async (req, res, ctx) => {
     try {
-        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
-
-        // now that user is authenticated (assuming there is one), continue
         // get the note id
         const noteIdHeader = req.headers.noteid || "";
         if (!noteIdHeader)
@@ -23,14 +17,14 @@ router.get("/api/auride/getSingularNoteData", async (req, res) => {
         let parentId = null;
         let isReply = false;
         if (splitNoteIdHeader[1]) {
-            // set the main note as the reply, and parent id as, well, the parent
+            // set the main note as the reply, and parent id as the parent
             noteId = splitNoteIdHeader[1];
             parentId = splitNoteIdHeader[0];
             isReply = true;
         } else
             // else, just set the main noteId as the header
             noteId = splitNoteIdHeader;
-
+        
         // get note from firebase
         let noteRef = null;
         if (isReply)
@@ -45,10 +39,11 @@ router.get("/api/auride/getSingularNoteData", async (req, res) => {
         const noteData = snapshot.val();
 
         // if deleted, return
-        // this is no longer how we "delete" notes, we actually delete them now, 
+        // this is no longer how we "delete" notes, we actually delete them now,
         // but this is for compatibility for old auride clients
         if (noteData.isDeleted)
             return res.status(403).json({ error: "This note has been deleted." });
+
         // if no "whoSentIt", return
         if (!noteData.whoSentIt)
             return res.status(403).json({ error: "We're not sure who sent this note." });
@@ -61,11 +56,8 @@ router.get("/api/auride/getSingularNoteData", async (req, res) => {
             return res.status(403).json({ error: "You can't view a note from a suspended user." });
         
         // then, return note data!
-        return res.status(200).json({ returnedNoteData: noteData });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to fetch notes." });
+        return res.status(200).json({ success: noteData });
+    } catch (error) {
+        return res.status(500).json({ error: error });
     }
 });
-
-module.exports = router;

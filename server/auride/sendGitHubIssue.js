@@ -1,25 +1,19 @@
-const express = require("express");
-const router = express.Router();
+// TODO: test me! i dont know if i work!
+const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
-const { getTokenAndUid } = require("./functions/getToken.js");
 
-router.post("/api/auride/sendGithubIssue", async (req, res) => {
-    if (req.method !== "POST")
-        return res.status(403).json({ error: "This method can only be accessed via POST." });
-
+auride.post("/api/auride/sendGithubIssue", {
+    requireToken: true,
+    rateLimit: 2000
+}, async (req, res, ctx) => {
     try {
+        // get username
         let username = null;
-        const { userIdFromRequest, userToken } = await getTokenAndUid(req.headers.authorization);
-        if (userIdFromRequest) {
-            // get username
-            const getUsername = await db.ref(`users/${userIdFromRequest}/username`).once("value");
-            username = getUsername.val();
-        } else if (!userIdFromRequest || !userToken) {
-            return res.status(403).json({ error: "No token found. Must be logged in to use this!" });
-        }
+        const getUsername = await db.ref(`users/${ctx.currentUser.uid}/username`).once("value");
+        username = getUsername.val();
 
-        // now parse the body
+        // parse the body
         const body = req.body;
         let githubMarkdown = "";
 
@@ -37,15 +31,15 @@ router.post("/api/auride/sendGithubIssue", async (req, res) => {
         if (body.stepsToRepro && body.reportType === "bug")
             githubMarkdown += `### Steps to reproduce\n${body.stepsToRepro}\n\n`;
         else if (body.stepsToRepro && body.reportType === "enhancement")
-            githubMarkdown += `### How would your feature improve Auride?\n${body.stepsToRepro}\n\n`
-        
+            githubMarkdown += `### How would your feature improve Auride?\n${body.stepsToRepro}\n\n`;
+
         if (body.properlyFilledOut)
             githubMarkdown += `- [x] I agree that I properly filled out the items listed above.\n`;
         else
             return res.status(403).json({ error: "Please agree to having properly filled out the bug report." });
 
         if (body.properlyFilledOut)
-            githubMarkdown += `- [x] I understand an issue may be closed if process is properly followed.\n`;
+            githubMarkdown += `- [x] I understand an issue may be closed if the process isn't properly followed.\n`;
         else
             return res.status(403).json({ error: "Please agree to understanding that an issue may be closed if improperly filled out." });
 
@@ -98,10 +92,7 @@ router.post("/api/auride/sendGithubIssue", async (req, res) => {
             console.log(err);
             res.status(500).json({ error: `An error occurred: ${err}` });
         });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Failed to send issue to GitHub." });
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
     }
 });
-
-module.exports = router;

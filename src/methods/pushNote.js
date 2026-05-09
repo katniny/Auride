@@ -34,5 +34,5 @@ export async function pushNote(id, file, text, nsfwFlag, sensitiveFlag, politica
 
     // else, return data
     const data = await res.json();
-    return await data?.returnedStatus;
+    return await data?.success;
 }

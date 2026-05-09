@@ -23,5 +23,5 @@ export async function getNoteData(id) {
 
     // else, return data
     const data = await res.json();
-    return await data?.returnedNoteData;
+    return await data?.success;
 }
