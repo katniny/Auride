@@ -101,7 +101,9 @@ export async function loadNotes() {
     // create loading indicator
     const loadingIndicator = await faIcon("solid", "circle-notch", "spin");
     loadingIndicator.id = "noteLoadingIndicator";
-    notesContainer.appendChild(loadingIndicator);
+    // assuming there isnt oneß
+    if (!document.getElementById("noteLoadingIndicator"))
+        notesContainer.appendChild(loadingIndicator);
 
     // get the request path
     pathname = window.location.pathname; // set it here or it reports the last pathname, which obviously causes bugs
