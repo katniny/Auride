@@ -101,7 +101,7 @@ export async function loadNotes() {
     // create loading indicator
     const loadingIndicator = await faIcon("solid", "circle-notch", "spin");
     loadingIndicator.id = "noteLoadingIndicator";
-    // assuming there isnt oneß
+    // assuming there isnt one
     if (!document.getElementById("noteLoadingIndicator"))
         notesContainer.appendChild(loadingIndicator);
 
