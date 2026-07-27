@@ -1,0 +1,71 @@
+/* update buttons */
+.filterVersionButtons button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 8px;
+    border-radius: 4px;
+    color: var(--text);
+    text-decoration: none;
+    background: var(--note-background);
+    margin-top: 5px;
+    border: 1px solid transparent;
+}
+
+.filterVersionButtons button:hover,
+.filterVersionButtons button:focus {
+    background: var(--reply-hovered-background);
+    box-shadow: 0px 0px 0px 0px transparent;
+    color: var(--text);
+}
+
+.filterVersionButtons button:active {
+    transform: scale(0.96);
+}
+
+.filterVersionButtons button.active {
+    background: var(--main-color-darker);
+}
+
+/* divs */
+.update {
+    background: var(--note-background);
+    margin-top: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    border: 2px solid var(--main-color);
+}
+
+.update .divider {
+    background: var(--text-semi-transparent);
+    margin: 5px 0px 10px 0px;
+}
+
+.update .change {
+    margin-top: 5px;
+}
+
+/* no updates available */
+.noUpdatesAvailableText {
+    margin-top: 10px;
+    text-align: left;
+}
+
+/* dev env text */
+.devEnv {
+    color: var(--text-semi-transparent);
+    font-weight: bold;
+}
+
+/* subtext */
+.subtext {
+    margin-left: 35px;
+    font-size: 14px;
+    color: var(--text-semi-transparent);
+}
+
+/* released date */
+.update .releasedDate {
+    color: var(--text-semi-transparent);
+    font-size: 16px;
+}

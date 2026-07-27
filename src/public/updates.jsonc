@@ -1,0 +1,534 @@
+{
+    "release": {
+        "anyUpdatesAvailable": false
+    },
+    "prerelease": {
+        "anyUpdatesAvailable": false
+    },
+    "beta": {
+        "anyUpdatesAvailable": true,
+        "v2026.6.XX": {
+            "released": "June XX, 2026",
+            "spa": {
+                "notUserFacingChange": false,
+                "text": "Auride now utilizes SPA"
+            },
+            "noMoreHome": {
+                "notUserFacingChange": false,
+                "text": "/ is no longer a standalone page, auride.xyz/ now goes straight to home, making initial load faster"
+            },
+            "uAloneNoLongerSupported": {
+                "notUserFacingChange": false,
+                "text": "/u, by itself, is no longer a valid page, please go to /u/{username} instead"
+            },
+            "improvedNewNotesUi": {
+                "notUserFacingChange": false,
+                "text": "Improved the New Notes button UI"
+            },
+            "improvedLinkUi": {
+                "notUserFacingChange": false,
+                "text": "Improved link UI"
+            },
+            "improvedQuickNoteSendUi": {
+                "notUserFacingChange": false,
+                "text": "Improved the Quick Note Send UI (no longer overflows)"
+            },
+            "improvedGreetingUi": {
+                "notUserFacingChange": false,
+                "text": "Improved greeting UI on top of the home page"
+            },
+            "redesignedNoteViewUi": {
+                "notUserFacingChange": false,
+                "text": "Improved the note view UI"
+            },
+            "mediaBigger": {
+                "notUserFacingChange": false,
+                "text": "Made media in the note view bigger, making it easier to see"
+            },
+            "quoteRenoteFromNoteView": {
+                "notUserFacingChange": false,
+                "text": "Added the option to quote renote from the note view"
+            },
+            "improvedDividerUi": {
+                "notUserFacingChange": false,
+                "text": "Improved divider used within UI"
+            },
+            "redesignedUserPages": {
+                "notUserFacingChange": false,
+                "text": "Redesigned the user pages"
+            },
+            "joinedDate": {
+                "notUserFacingChange": false,
+                "text": "User pages will now show a users joined date"
+            },
+            "improvedPopupUi": {
+                "notUserFacingChange": false,
+                "text": "Improved popup UI"
+            },
+            "fixedDeceasedUserPopupUi": {
+                "notUserFacingChange": false,
+                "text": "Fixed styling issues where the deceased user popup would keep their username white when the popup close button was hovered"
+            },
+            "improvedFollowingUx": {
+                "notUserFacingChange": false,
+                "text": "When following/unfollowing a user, the page will no longer refresh and the button will dynamically update"
+            },
+            "markdownUxImprovement": {
+                "notUserFacingChange": false,
+                "text": "When using markdown while creating a note, you can now preview it in real time before sending"
+            },
+            "redesignedCreateNotePopup": {
+                "notUserFacingChange": false,
+                "text": "Redesigned create note popup"
+            },
+            "depreciatedPreRegister": {
+                "notUserFacingChange": false,
+                "text": "Depreciated pre-register steps, Auride will no longer load associated code, write values or tell the client anything about it"
+            },
+            "characterLimitBug": {
+                "notUserFacingChange": false,
+                "text": "Fixed issue where if you went above the character limit, it would display one extra character even though its not there (e.g., 1251/1,250)"
+            },
+            "oggAudio": {
+                "notUserFacingChange": false,
+                "text": "You can now upload .ogg audio files to Auride"
+            },
+            "enterToSearchMusic": {
+                "notUserFacingChange": false,
+                "text": "You can now press enter to search for music - no more having to move your mouse to click the button!"
+            },
+            "previewMusicUx": {
+                "notUserFacingChange": false,
+                "text": "When you select a song to add to your note, you can now preview it in the tab, as well as remove it if you change your mind"
+            },
+            "renotingYourOwnNoteDisappeared": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where renoting then unrenoting your own note would cause it to disappear from your profile"
+            },
+            "redesignedLoginRegisterPages": {
+                "notUserFacingChange": false,
+                "text": "Redesigned the login/register pages"
+            },
+            "showPassword": {
+                "notUserFacingChange": false,
+                "text": "When logging in or signing up, you can now show your password within the field"
+            },
+            "forgotPassword": {
+                "notUserFacingChange": false,
+                "text": "If you forget your password, you can now request a password reset email"
+            },
+            "enterToProgressLogin": {
+                "notUserFacingChange": false,
+                "text": "You can now use the enter key to progress on the login page"
+            },
+            "yourProfileActiveOnOthers": {
+                "notUserFacingChange": false,
+                "text": "Fixed issue where the 'Your Profile' button would be active, even when you're not on your own profile"
+            },
+            "clickOnTheNoteToGoTo": {
+                "notUserFacingChange": false,
+                "text": "You can now click anywhere on the entire note (except interactions) to view a note, rather than specifically where the note text is"
+            },
+            "noMoreNegativeSeconds": {
+                "notUserFacingChange": false,
+                "text": "Auride will now never display a negative amount of seconds"
+            },
+            "loadingIndicatorCantLoadMoreNotes": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where the loading indicator would show its trying to load more notes, even when it cannot"
+            },
+            "improvedUpdatesUi": {
+                "notUserFacingChange": false,
+                "text": "Improved the UI for the updates page"
+            },
+            "movedUpdatesToJson": {
+                "notUserFacingChange": true,
+                "text": "Updates are now kept track of inside a JSON file, rather than HTML"
+            },
+            "jsFilesForPages": {
+                "notUserFacingChange": true,
+                "text": "Pages are now .js files rather than .html, making it easier to add page-specific code without more scripts (though, you can still do this)"
+            },
+            "jsFilesNowModular": {
+                "notUserFacingChange": true,
+                "text": "Standard .js files have been depreciated for modular .js files (please avoid using classic .js files unless NEEDED!)"
+            },
+            "bigScriptsDepreciated": {
+                "notUserFacingChange": true,
+                "text": "ts_fas_acih.js, requiredScripts.js, and scriptLoader.js have been depreciated"
+            },
+            "envFiles": {
+                "notUserFacingChange": true,
+                "text": "Auride now uses .env files to safely store keys"
+            },
+            "easierUserData": {
+                "notUserFacingChange": true,
+                "text": "You can now use the current users data by importing 'currentUserData' from 'users/current.js' (relative to current file)"
+            },
+            "npmModules": {
+                "notUserFacingChange": true,
+                "text": "Modules from NPM can now be used in Auride"
+            },
+            "appViewFixed": {
+                "notUserFacingChange": true,
+                "text": "The entire app view is now the current width, no more janky viewports!"
+            },
+            "fontAwesomeIconSet": {
+                "notUserFacingChange": true,
+                "text": "You can now define what icon set to use with FontAwesome (e.g., 'brands' or 'solid')"
+            },
+            "navigatedListener": {
+                "notUserFacingChange": true,
+                "text": "If a user navigates to a new page, you can add an event listener named 'navigatedToNewPage' (useful for doing things such as cleaning up functions on navigation)"
+            },
+            "userAutoplayPref": {
+                "notUserFacingChange": true,
+                "text": "If the server requests the current user, we now return their autoplay preference"
+            },
+            "depreciatedUrls": {
+                "notUserFacingChange": true,
+                "text": "The following URLs are depreciated: /u?id={username}, /note?id={noteId} & /userstudio?theme={themeId}. Please update any links to be correct, as these are an extremely old/janky way to handle links and will no longer work!"
+            },
+            "unifiedFetchingUserData": {
+                "notUserFacingChange": true,
+                "text": "Unified code to fetch user data (can be called via getUserData(id, type) from 'methods/getUserData.js')"
+            },
+            "unifiedCodeToFetchToken": {
+                "notUserFacingChange": true,
+                "text": "Unified code to fetch a token for current user (can be called via getToken() from '/methods/getToken.js')"
+            },
+            "unifiedFetchSingularNote": {
+                "notUserFacingChange": true,
+                "text": "Unified code to fetch a singular note (can be called via getNoteId(id) from '/methods/getNoteData.js')"
+            },
+            "timeAgoVerbose": {
+                "notUserFacingChange": true,
+                "text": "You can now call 'timeAgo' with 2 arguments - the Firebase timestamp and 'verbose'",
+                "subtext": "Verbose is a flag you can call to get a full string (e.g., 'Dec 17, 2025 • 4:10AM' instead of '2d'. Do not call a flag if you want the standard time."
+            },
+            "unifiedFunctionForLovingRenotingNotes": {
+                "notUserFacingChange": true,
+                "text": "Unified functions for loving notes and renoting notes"
+            },
+            "closingModalFunction": {
+                "notUserFacingChange": true,
+                "text": "When closing a modal, you can just call `yourModalElement.close()`, Auride will now handle deletion after 450ms rather than having you do it manually"
+            },
+            "buildFlag": {
+                "notUserFacingChange": true,
+                "text": "Added build flag to Auride to tell the client if its running in development or production mode (as well as the server)"
+            },
+            "storageLinkAsync": {
+                "notUserFacingChange": true,
+                "text": "When using `storageLink(path)`, it now has to use `await`"
+            },
+            "aurideStorageInDevFixed": {
+                "notUserFacingChange": true,
+                "text": "Fixed issues with Auride's storage in an development environment, media will now load as expected regardless of prod or dev status"
+            },
+            "uploadMediaFunction": {
+                "notUserFacingChange": true,
+                "text": "We can now upload files with `uploadMedia()` with the following params: `file`, `path`, `typeToUse`, and `noteId` (only required if uploading for a note). This will allow us to handle everything (e.g., checking file size, checking file extension, etc.) within one function to make file uploading seamless, no matter where you're uploading a file from!"
+            },
+            "noAuthForSidebar": {
+                "notUserFacingChange": true,
+                "text": "Made removing items from the sidebar a lot less repetitive - if adding a new item to the sidebar but it shouldn't show for signed out users, just add the class `removeOnNoAuth` to it"
+            },
+            "checkingForSignedInOutUsersFaster": {
+                "notUserFacingChange": true,
+                "text": "Our function to check if a user is signed in or out (which runs on pages such as the login page because there's no reason to sign in again if you already are) now no longer waits for the page to load, making it much faster"
+            },
+            "tokenCheckingUnified": {
+                "notUserFacingChange": true,
+                "text": "Checking tokens has been unified"
+            },
+            "notificationsUnified": {
+                "notUserFacingChange": true,
+                "text": "Sending notifications has been unified"
+            },
+            "checkingIfUserIsAdminIsUnifiedAndSecure": {
+                "notUserFacingChange": true,
+                "text": "Checking if a user is an admin has been unified and secured"
+            },
+
+            "depreciationNoticeForContributors": {
+                "notUserFacingChange": true,
+                "text": "NOTICE TO CONTRIBUTORS: If you have an old codebase for Auride, the following methods are now depreciated: <br/> - noteData.isDeleted - this is handled by the server. While notes are no longer deleted this way, the server can handle this to ensure it doesn't render. However, we do not do this anymore going forward. <br/> - noteData.isReplying - replies are now handled properly. Notes will no longer render if it has this value, please run `upgrading/updateReplies.js` with Node!"
+            }
+        }
+    },
+    "alpha": {
+        "anyUpdatesAvailable": true,
+        "v2026.4.1": {
+            "released": "April 1, 2026",
+            "xssExploit": {
+                "notUserFacingChange": false,
+                "text": "Fixed XSS exploits on Auride Issues"
+            }
+        },
+        "v2026.3.15": {
+            "released": "March 15, 2026",
+            "bumpDeps": {
+                "notUserFacingChange": true,
+                "text": "Bump dependencies"
+            }
+        },
+        "v2026.2.13": {
+            "released": "February 13, 2026",
+            "maintainenceMode": {
+                "notUserFacingChange": false,
+                "text": "Auride is back online in maintainence mode"
+            },
+            "serviceWorkerFix": {
+                "notUserFacingChange": false,
+                "text": "Fixed an issue with our Service Worker that caused user, note and User Studio pages to redirect you to the home page"
+            },
+            "simpleHoster": {
+                "notUserFacingChange": true,
+                "text": "Added a simple hoster to test Auride's functionality upon build"
+            }
+        },
+        "v2025.12.12": {
+            "released": "December 12, 2025",
+            "signedOutUsersPageLoader": {
+                "notUserFacingChange": false,
+                "text": "Fixed issue where signed out users could not progress past the page loader"
+            }
+        },
+        "v2025.12.1": {
+            "released": "December 1, 2025",
+            "aurideLogoHoliday": {
+                "notUserFacingChange": false,
+                "text": "The Auride logo will now properly replace with the holiday logo, rather than just adding a Santa hat"
+            },
+            "zoomCodeMoved": {
+                "notUserFacingChange": true,
+                "text": "Moved zoom code to a separate file"
+            },
+            "openDyslexicMoved": {
+                "notUserFacingChange": true,
+                "text": "Moved OpenDyslexic font code to a separate file"
+            },
+            "cacheOdFont": {
+                "notUserFacingChange": false,
+                "text": "Auride will now cache your OpenDyslexic font preference, allowing Auride to load it immediately"
+            },
+            "cacheThemePref": {
+                "notUserFacingChange": false,
+                "text": "Auride will now cache your theme preference, allowing Auride to load it immediately"
+            },
+            "pageLoaderFail": {
+                "notUserFacingChange": false,
+                "text": "If the page loader fails to load, it will now prompt you to go to support on Bluesky rather than Twitter"
+            },
+            "cleanedUpPageLoaderCode": {
+                "notUserFacingChange": true,
+                "text": "Cleaned up the page loader code and changed page loaded conditions"
+            }
+        },
+        "v2025.11.30": {
+            "released": "November 30, 2025",
+            "moreGreetings": {
+                "notUserFacingChange": false,
+                "text": "Added more greetings"
+            },
+            "seperatedGreetingCode": {
+                "notUserFacingChange": true,
+                "text": "Separated greeting code"
+            }
+        },
+        "v2025.11.28": {
+            "released": "November 28, 2025",
+            "movedFetchingUserData": {
+                "notUserFacingChange": true,
+                "text": "Moved fetching user data to server-side",
+                "subtext": "Some migration needs to be done still."
+            },
+            "depreciatedUParam": {
+                "notUserFacingChange": false,
+                "text": "Depreciated /u?id={username} links, please use /u/{username} within Auride and links to your account"
+            },
+            "fixedFollowButton": {
+                "notUserFacingChange": false,
+                "text": "Fixed the follow button not correctly showing if you were following someone or not"
+            },
+            "interactionsHiddenWhenBlocked": {
+                "notUserFacingChange": false,
+                "text": "Some user interactions are now hidden when you are blocked"
+            },
+            "achievementDescriptions": {
+                "notUserFacingChange": false,
+                "text": "Changed descriptions for achievements"
+            },
+            "unifiedUserActions": {
+                "notUserFacingChange": true,
+                "text": "Unified User Actions popup"
+            },
+            "obituariesCanBeShown": {
+                "notUserFacingChange": false,
+                "text": "Memorialized accounts can now show obituaries, if available"
+            },
+            "blockingUnblockingServer": {
+                "notUserFacingChange": false,
+                "text": "Moved blocking/unblocking to the server-side"
+            },
+            "blockingUserNowUnfollows": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where blocking a user would not unfollow them"
+            },
+            "noFollowingDeceasedUsers": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where you could follow/unfollow deceased users"
+            },
+            "fixedRaceCondition": {
+                "notUserFacingChange": false,
+                "text": "Fixed small race condition on user pages"
+            },
+            "hostingBuildOnPr": {
+                "notUserFacingChange": true,
+                "text": "Website hosting will now build on PR"
+            },
+            "redesigned404Page": {
+                "notUserFacingChange": false,
+                "text": "Redesigned 404 page to match our new /u/ error styling"
+            },
+            "improveUi": {
+                "notUserFacingChange": false,
+                "text": "Improved UI slightly"
+            }
+        },
+        "v2025.11.16": {
+            "released": "November 16, 2025",
+            "nodemon": {
+                "notUserFacingChange": true,
+                "text": "Started utilizing nodemon for local backend development"
+            },
+            "noteDeletionToServer": {
+                "notUserFacingChange": true,
+                "text": "Moved note deletion to server-side"
+            },
+            "bugDeleteNotes": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where you couldn't delete replies"
+            },
+            "updateParentNoteOnDeletion": {
+                "notUserFacingChange": false,
+                "text": "When deleting a reply, the parent note's reply count will now properly update"
+            },
+            "improveNoteDeletionUi": {
+                "notUserFacingChange": false,
+                "text": "Improved note deletion UI"
+            }
+        },
+        "v2025.11.7": {
+            "released": "November 7, 2025",
+            "refactorRenderNoteDiv": {
+                "notUserFacingChange": true,
+                "text": "Refactored renderNoteDiv.js, bringing the file from 1,009 lines to 458!"
+            },
+            "improveUi": {
+                "notUserFacingChange": false,
+                "text": "Improved some UI"
+            }
+        },
+        "v2025.11.6": {
+            "released": "November 6, 2025",
+            "brandingOnAurideApps": {
+                "notUserFacingChange": false,
+                "text": "Fixed branding on Auride apps"
+            },
+            "fixedAurideAndroidApp": {
+                "notUserFacingChange": false,
+                "text": "Fixed the Android Auride app not loading",
+                "subtext": "Please note that the Auride apps are currently in their canary versions and still in development."
+            }
+        },
+        "v2025.11.3": {
+            "released": "November 3, 2025",
+            "loadContributorsFromJson": {
+                "notUserFacingChange": true,
+                "text": "Started loading <a href='/contributors'>contributors</a> from a JSON file"
+            },
+            "improveUi": {
+                "notUserFacingChange": false,
+                "text": "Improved UI on the contributors page"
+            }
+        },
+        "v2025.10.30": {
+            "released": "October 30, 2025",
+            "unifyAurideAccounts": {
+                "notUserFacingChange": true,
+                "text": "Unify Auride Accounts HTML/functionality"
+            },
+            "unifyPolicies": {
+                "notUserFacingChange": true,
+                "text": "Unify policies HTML"
+            },
+            "improveUi": {
+                "notUserFacingChange": false,
+                "text": "Improved parts of UI"
+            },
+            "aurideAccountsFollowing": {
+                "notUserFacingChange": false,
+                "text": "The Auride Accounts area will now show whether you're following a user or not"
+            },
+            "fixedUiShowingUp": {
+                "notUserFacingChange": false,
+                "text": "Fixed UI showing up in places where it should not"
+            }
+        },
+        "v2025.10.28": {
+            "released": "October 28, 2025",
+            "updatedContributors": {
+                "notUserFacingChange": false,
+                "text": "Updated contributors list to be accurate"
+            },
+            "updatedSidebarJS": {
+                "notUserFacingChange": true,
+                "text": "Updated sidebar.js to use faIcon"
+            },
+            "fixedMarkdownify": {
+                "notUserFacingChange": true,
+                "text": "Fixed Markdownify leaving massive gaps between list items"
+            },
+            "supportForMoreOptionsInFormat": {
+                "notUserFacingChange": true,
+                "text": "Added support for additional options in format()"
+            },
+            "issuesTracker": {
+                "notUserFacingChange": false,
+                "text": "Added an <a href='/issues'>issues tracker</a>, please use this to report issues if you don't want to use GitHub!"
+            }
+        },
+        "v2025.10.20": {
+            "released": "October 20, 2025",
+            "removedSliceFromNoteRendering": {
+                "notUserFacingChange": true,
+                "text": "Temporarily removed .slice() from server note rendering"
+            },
+            "fixedUsersNotShowingUp": {
+                "notUserFacingChange": false,
+                "text": "Fixed some users not showing up on the timeline"
+            }
+        },
+        "v2025.10.18": {
+            "released": "October 18, 2025",
+            "filterForNotes": {
+                "notUserFacingChange": false,
+                "text": "Added filter to swap between loading all notes, or only loading notes from users you follow"
+            },
+            "cleanUpHomePageUi": {
+                "notUserFacingChange": false,
+                "text": "Slightly cleaned up home page UI"
+            },
+            "tokenToServer": {
+                "notUserFacingChange": true,
+                "text": "Started sending user token to the server for operations that need user authentication"
+            },
+            "fulfillLimitAccurately": {
+                "notUserFacingChange": true,
+                "text": "getNoteData.js will now try to fulfill the limit more 'accurately'"
+            }
+        }
+    }
+}

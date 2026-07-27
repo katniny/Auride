@@ -20,6 +20,9 @@ export async function addSidebarElement() {
         <a href="/settings" class="removeOnNoAuth">
             <button id="settingsButton" class="active">${faIcon("solid", "gear").outerHTML} Settings</button>
         </a>
+        <a href="/updates">
+            <button id="updatesButton" class="active">${faIcon("solid", "wrench").outerHTML} Updates</button>
+        </a>
         <a href="/u/${userData?.username}" class="removeOnNoAuth">
             <button id="userButton" class="active">${faIcon("solid", "user").outerHTML} Your Profile</button>
         </a>
@@ -65,6 +68,9 @@ async function changeActiveButton() {
     switch (pathname) {
         case "/home":
             sidebar.querySelector("#homeButton").classList.add("active");
+            break;
+        case "/updates":
+            sidebar.querySelector("#updatesButton").classList.add("active");
             break;
         default:
             // unknown button

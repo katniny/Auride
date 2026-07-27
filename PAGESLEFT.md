@@ -1,0 +1,50 @@
+- [x] Introducing AurorAI
+- [x] Memorialized Accounts
+- [x] New Flagging System
+- [x] Note Previews
+- [x] NSFW Blocked
+- [x] NSFW flags
+- [x] Political flags
+- [x] Retiring TransSocial
+- [x] Sensitive flags
+- [x] TransSocial relaunched 1yo
+- [x] Welcome Aurora
+- [x] What qualifies as political
+- [x] Why Auride
+- [x] Child Safety
+- [x] Cookies
+- [x] Copyright
+- [x] Community Guidelines
+- [x] Privacy Policy
+- [x] Terms of Service
+- [ ] Done registering
+- [x] Login
+- [ ] Names
+- [ ] PFP
+- [ ] Policies
+- [ ] Register
+- [x] 404
+- [ ] About
+- [ ] Achievements
+- [ ] Contributors
+- [ ] Create Theme
+- [ ] Download
+- [ ] Favorites
+- [x] Home
+- [x] Indev
+- [x] Index
+- [ ] Issues
+- [ ] Maintainance
+- [ ] Messages
+- [x] Note
+- [ ] Notifications
+- [ ] Open Source
+- [ ] Remembering
+- [ ] Search
+- [ ] Settings
+- [ ] Suspended
+- [ ] User page
+    - Last thing to TODO: add achievements
+- [ ] Unsupported
+- [ ] Updates
+- [ ] User Studio

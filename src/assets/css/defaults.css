@@ -16,6 +16,7 @@
 @import url("./components/authForm.css");
 @import url("./components/resetPasswordPopup.css");
 @import url("./components/pageNotFound.css");
+@import url("./components/updatePage.css");
 
 /* default colors */
 :root {

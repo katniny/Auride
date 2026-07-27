@@ -10,6 +10,7 @@ export const routes = [
     { path: "/u/:id", loader: () => import("./pages/user.js") },
     { path: "/note/:id", loader: () => import("./pages/note.js") },
     { path: "/roadmap", loader: () => import("./pages/roadmap.js") },
+    { path: "/updates", loader: () => import("./pages/updates.js") },
     { path: "404", loader: () => import("./pages/notFound.js") },
 
     // policies
