@@ -2,6 +2,20 @@ Last updated: December XX, 2025
 # 👋 Welcome to the Auride contributing guide!
 Thank you for your interest in contributing to Auride! We try to make Auride as easy as possible to contribute to.
 
+NOTE: convential commits:
+- feat: a new feature
+- fix: a bug fix
+- docs: documentation-only changes
+- style: formatting, whitespace, missing semicolons, etc. (no code behavior changes essentially)
+- refactor: code changes that don't add features or fix bugs
+- perf: performance improvements
+- test: adding or updating tests
+- build: changes to the build system or dependencies
+- ci: changes to CI/CD
+- chore: misc maintenance tasks
+- revert: reverts a previous commit
+can have multiple (e.g., fix/docs: something)
+
 ## 📃 Rules
 - Please do not use political ideology
    - We try to accept all PRs but we will always do so regardless of race, gender, sexual orientation, etc., so please do not open a PR adding things such as racist language, language to bring down a group or individual, or anything that would be deemed as rude, targeted, or other such things as it'll be seen as a troll and closed, as we avoid using such language.
