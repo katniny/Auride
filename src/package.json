@@ -13,5 +13,10 @@
   },
   "dependencies": {
     "firebase": "^12.12.1"
+  },
+  "allowScripts": {
+    "firebase@12.12.1": true,
+    "@firebase/util@1.15.0": true,
+    "protobufjs@7.5.6": true
   }
 }

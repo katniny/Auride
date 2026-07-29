@@ -529,6 +529,1827 @@
                 "notUserFacingChange": true,
                 "text": "getNoteData.js will now try to fulfill the limit more 'accurately'"
             }
+        },
+        "v2025.10.16": {
+            "released": "October 16, 2025",
+            "unifiedSidebarHtml": {
+                "notUserFacingChange": true,
+                "text": "Unified sidebar HTML",
+                "subtext": "If you're a user and notice new sidebar issues, <a href='https://github.com/katniny/Auride/issues'>let us know</a>!"
+            },
+            "depreciatedLoadEverything": {
+                "notUserFacingChange": true,
+                "text": "Depreciated loadEverything() -- this code is now handled in /public/assets/js/ui/essential/sidebar.js"
+            },
+            "tiktokLinkUpdate": {
+                "notUserFacingChange": false,
+                "text": "Updated TikTok link to our actual username"
+            },
+            "twitterLinkUpdate": {
+                "notUserFacingChange": false,
+                "text": "Replaced Twitter link with Bluesky link, as Twitter is a depreciated platform"
+            },
+            "fixedSignedOutButtons": {
+                "notUserFacingChange": false,
+                "text": "Fixed the profile sidebar container containing buttons for settings/signing out for signed out users"
+            },
+            "unifiedHeaderHtml": {
+                "notUserFacingChange": true,
+                "text": "Unified header HTML",
+                "subtext": "If you're a user and notice new header issues, <a href='https://github.com/katniny/Auride/issues'>let us know</a>!"
+            },
+            "signedOutUsersGettingSameInteractionAsSignedIn": {
+                "notUserFacingChange": false,
+                "text": "Fixed signed out users getting the same interactions in the header as a signed in user"
+            },
+            "fixedSearchBar": {
+                "notUserFacingChange": false,
+                "text": "Fixed the search bar in the header not working"
+            },
+            "addedYearToNotes": {
+                "notUserFacingChange": false,
+                "text": "Fixed notes from a different year showing up as if they were from this year (e.g., 'April 11' instead of 'April 11, 2024')"
+            }
+        },
+        "v2025.10.15": {
+            "released": "October 15, 2025",
+            "notificationsBatched": {
+                "notUserFacingChange": false,
+                "text": "Notifications will now load in batches of 15 rather than all at once, improving performance & load times on the notifications page significantly"
+            },
+            "fixedNotificationsNotHavingColor": {
+                "notUserFacingChange": false,
+                "text": "Fixed notifications icons not having color"
+            }
+        },
+        "v2025.10.14": {
+            "released": "October 14, 2025",
+            "hashtagSupport": {
+                "notUserFacingChange": false,
+                "text": "Added hashtag support because <a href='/search?q=#WeHeckinLoveHashtags'></a>"
+            },
+            "hashtagsNotWorkingOnNewLines": {
+                "notUserFacingChange": false,
+                "text": "Fixed hashtags not working on newlines"
+            }
+        },
+        "v2025.10.11": {
+            "released": "October 11, 2025",
+            "signedOutUsersNotSeeingNotes": {
+                "notUserFacingChange": false,
+                "text": "Fixed signed out users not being able to view notes"
+            },
+            "fixedNoteSortingIssues": {
+                "notUserFacingChange": false,
+                "text": "(Hopefully) fixed note sorting issues"
+            },
+            "deletedUsersNotesShowing": {
+                "notUserFacingChange": false,
+                "text": "Fixed notes from deleted users showing up"
+            }
+        },
+        "v2025.10.7": {
+            "released": "October 7, 2025",
+            "fixedFavoritesNotShowing": {
+                "notUserFacingChange": false,
+                "text": "Fixed favorites not showing up on the favorites page"
+            },
+            "fixedRenotesNotShowingUpOnUserPages": {
+                "notUserFacingChange": false,
+                "text": "Fixed renotes not showing up on user pages, even if they renoted it"
+            },
+            "pasteFromClipboard": {
+                "notUserFacingChange": false,
+                "text": "Added ability to paste images from clipboard"
+            }
+        },
+        "v2025.10.6": {
+            "released": "October 6, 2025",
+            "fixedNotificationsForReplies": {
+                "notUserFacingChange": false,
+                "text": "Fixed notifications for replies not working correctly",
+                "subtext": "Please note that this only works for notifications made after this fix. We're looking into fixing older notifications."
+            },
+            "repliesScrolledTo": {
+                "notUserFacingChange": false,
+                "text": "Notifications for replies will now get scrolled to if possible"
+            }
+        },
+        "v2025.10.4": {
+            "released": "October 4, 2025",
+            "fixedSyntaxInUpdates": {
+                "notUserFacingChange": false,
+                "text": "Fixed syntax error on updates page"
+            },
+            "fixedVersionsShowingUpIncorrectly": {
+                "notUserFacingChange": false,
+                "text": "Fixed other release version update logs showing up when not viewing that release versions updates"
+            }
+        },
+        "v2025.10.3": {
+            "released": "October 3, 2025",
+            "improvedAutocomplete": {
+                "notUserFacingChange": true,
+                "text": "Improved autocomplete in compatible code editors"
+            },
+            "removedSelectionPopup": {
+                "notUserFacingChange": false,
+                "text": "Removed selection popup for editing/deleting notes in favor of menu on notes"
+            },
+            "removedEditWhatPartOfNote": {
+                "notUserFacingChange": true,
+                "text": "Removed editWhatPartOfNote"
+            },
+            "unifiedEditNoteContent": {
+                "notUserFacingChange": true,
+                "text": "Unified editNoteContent HTML"
+            },
+            "unifiedCheckIfNoteDeletion": {
+                "notUserFacingChange": true,
+                "text": "Unified checkIfNoteDeletion HTML"
+            }
+        },
+        "v2025.9.29": {
+            "released": "September 29, 2025",
+            "updatedDocker": {
+                "notUserFacingChange": true,
+                "text": "Updated Docker to use ./data instead of /data due to file restrictions"
+            },
+            "mp3Support": {
+                "notUserFacingChange": false,
+                "text": "MP3 is now a supported format on Auride"
+            }
+        },
+        "v2025.9.28": {
+            "released": "September 28, 2025",
+            "utilizingVitePwa": {
+                "notUserFacingChange": true,
+                "text": "Started utilizing Vite-PWA for nicer PWA experiences"
+            },
+            "addedServiceWorker": {
+                "notUserFacingChange": true,
+                "text": "Added a service worker, allowing the browser to load and cache files, assuming they weren't updated"
+            },
+            "updatedVite": {
+                "notUserFacingChange": true,
+                "text": "Upgraded Vite from 7.0.0 to 7.1.7"
+            },
+            "fixedNewNotesButtonNotWorking": {
+                "notUserFacingChange": false,
+                "text": "Fixed 'New Notes' button not appearing when a new note was created"
+            },
+            "increasedVisibilityOnNotSignedInBanner": {
+                "notUserFacingChange": false,
+                "text": "Increased visibility on not signed in banner"
+            },
+            "createNoteShortcut": {
+                "notUserFacingChange": false,
+                "text": "When creating a note, you can now press Ctrl + Enter to send it quickly"
+            }
+        },
+        "v2025.9.26": {
+            "released": "September 26, 2025",
+            "preventNonGetRequests": {
+                "notUserFacingChange": true,
+                "text": "Prevented getNoteData from being accessed non-GET requests"
+            },
+            "addedApiTestEndpoint": {
+                "notUserFacingChange": true,
+                "text": "Added /testing/apiEndpoints to test API endpoints"
+            }
+        },
+        "v2025.9.25": {
+            "released": "September 25, 2025",
+            "removedConsoleLog": {
+                "notUserFacingChange": true,
+                "text": "Removed unnecessary console.log"
+            },
+            "fixClientIsOfflineErrors": {
+                "notUserFacingChange": false,
+                "text": "To fix 'This client is offline' errors, we have bumped loaded notes from 25 to 15"
+            },
+            "addedPreventionsFromVisitingAurideApiDirectly": {
+                "notUserFacingChange": true,
+                "text": "Added preventions for visiting the Auride API URL directly"
+            },
+            "fixed0InUsername": {
+                "notUserFacingChange": false,
+                "text": "Fixed not being able to use 0 in your username"
+            }
+        },
+        "v2025.9.22": {
+            "released": "September 22, 2025",
+            "fixedUserProfileNotShowingNotes": {
+                "notUserFacingChange": false,
+                "text": "Fixed user profiles not showing a user's notes"
+            }
+        },
+        "v2025.9.21": {
+            "released": "September 21, 2025",
+            "utilizeRender": {
+                "notUserFacingChange": true,
+                "text": "Started utilizing Render"
+            },
+            "movedPagesToServerSide": {
+                "notUserFacingChange": true,
+                "text": "Moved home, note, and user pages notes to server-side code"
+            }
+        },
+        "v2025.9.19": {
+            "released": "September 19, 2025",
+            "fixedLovingRenotesNotes": {
+                "notUserFacingChange": false,
+                "text": "Fixed issues relating to loving/renoting notes under other notes and on user profiles"
+            }
+        },
+        "v2025.9.16": {
+            "released": "September 16, 2025",
+            "madeIndevPageAccurate": {
+                "notUserFacingChange": false,
+                "text": "Updated the indev page to be accurate for current day Auride"
+            },
+            "fixedImagesOverflowing": {
+                "notUserFacingChange": false,
+                "text": "Fixed images overflowing on mobile devices lower than 520px in width"
+            }
+        },
+        "v2025.9.15": {
+            "released": "September 15, 2025",
+            "bumpAmountOfLoadedNotes": {
+                "notUserFacingChange": false,
+                "text": "Bump amount of loaded notes to 15 -> 25, hopefully fixing issues related to note loading on larger resolutions"
+            },
+            "noteCodeRefactor": {
+                "notUserFacingChange": true,
+                "text": "Do some code refactoring related to notes -- user pages will now load a users notes properly and note pages will no longer search EVERY note for a replyingTo value as they are now just under the note"
+            }
+        },
+        "v2025.9.10": {
+            "released": "September 10, 2025",
+            "cleanUpFiles": {
+                "notUserFacingChange": true,
+                "text": "Clean up some files in /public/assets/js/"
+            }
+        },
+        "v2025.9.9": {
+            "released": "September 9, 2025",
+            "movedSourceCode": {
+                "notUserFacingChange": true,
+                "text": "Moved all source code into the src folder for cleaner source directory"
+            },
+            "cleanedUpFiles": {
+                "notUserFacingChange": true,
+                "text": "Cleaned up files to remove what we no longer use (e.g., CNAME file)"
+            },
+            "fixedManifestJson": {
+                "notUserFacingChange": false,
+                "text": "Fixed manifest.json file for proper support for our PWA"
+            },
+            "fixedErrorsOnUserPage": {
+                "notUserFacingChange": false,
+                "text": "Fixed errors occurring on user page, causing some information to fail to load (See <a href='https://github.com/katniny/Auride/issues/55' target='_blank'>Issue #55</a>)"
+            },
+            "removedUkRestriction": {
+                "notUserFacingChange": false,
+                "text": "Removed restriction on UK users, UK users can now view NSFW content",
+                "subtext": "We're U.S. operated, why are we letting the Brits boss us around? :p"
+            },
+            "fixedIpApi": {
+                "notUserFacingChange": false,
+                "text": "Fixed IPAPI throwing thousands of errors on /note page (See <a href='https://github.com/katniny/Auride/issues/54'>Issue #54</a>)"
+            }
+        },
+        "v2025.9.7": {
+            "released": "September 7, 2025",
+            "newStorageProvider": {
+                "notUserFacingChange": false,
+                "text": "Storage provider has been switched (thanks <a href='/u/arthuro555'>EvelyneSides</a>!) and Auride is back to stability.",
+                "subtext": "Please note that there is still an issue with older notes not loading their media properly. We're looking into it."
+            },
+            "addedDockerForLocalHosting": {
+                "notUserFacingChange": true,
+                "text": "Added Docker for hosting storage locally"
+            },
+            "updateContributorsList": {
+                "notUserFacingChange": false,
+                "text": "Updated contributors list & update contributors profile pictures/descriptions"
+            }
+        },
+        "v2025.7.30": {
+            "released": "July 30, 2025",
+            "nsfwUkRestrictions": {
+                "notUserFacingChange": false,
+                "text": "Users in the UK can temporarily no longer view NSFW content"
+            },
+            "privacyPolicyUpdate": {
+                "notUserFacingChange": false,
+                "text": "Updated Privacy Policy, please review"
+            },
+            "clarificationForPolicyUpdates": {
+                "notUserFacingChange": false,
+                "text": "Added clarification that all policy changes take effect immediately after being posted"
+            }
+        },
+        "v2025.6.29": {
+            "released": "June 29, 2025",
+            "signedOutUsersCantSeeNotes": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where signed out users couldn't see notes"
+            },
+            "startedUsingVite": {
+                "notUserFacingChange": true,
+                "text": "Started utilizing Vite, please use `npm run dev` to host Auride locally"
+            },
+            "staticElementsUpdate": {
+                "notUserFacingChange": true,
+                "text": "Static elements should be in /public/assets/..., dynamic elements should be in /assets/..."
+            },
+            "updatedContributingMd": {
+                "notUserFacingChange": true,
+                "text": "Updated CONTRIBUTING.md, contributors - please review!"
+            },
+            "updatedFirebaseHostMergeYml": {
+                "notUserFacingChange": true,
+                "text": "Update firebase-hosting-merge.yml to utilize Vite"
+            }
+        },
+        "v2025.6.26": {
+            "released": "June 26, 2025",
+            "rebrandedAuride": {
+                "notUserFacingChange": false,
+                "text": "<a href='/blog/retiring-transsocial'>Rebranded TransSocial to Auride</a>"
+            },
+            "domainNotice": {
+                "notUserFacingChange": false,
+                "text": "NOTICE: transs.social will redirect until April 5, 2026, please start using auride.xyz"
+            },
+            "uiChanges": {
+                "notUserFacingChange": false,
+                "text": "Minor UI rewrite"
+            },
+            "addedNewContributor": {
+                "notUserFacingChange": false,
+                "text": "Added new contributor, <a href='/u/wassupgeorgiie'>wassupgeorgiie</a>!"
+            },
+            "fixedJumpingButton": {
+                "notUserFacingChange": false,
+                "text": "Fixed issue where the sidebar button would jump up when attempting to click on it"
+            }
+        } 
+    },
+    "prealpha": {
+        "anyUpdatesAvailable": true,
+        "v2025.6.17": {
+            "released": "June 17, 2025",
+            "pushNotifications": {
+                "notUserFacingChange": false,
+                "text": "If you allow notifications and leave a TransSocial tab open in the background, you can now receive push notifications"
+            },
+            "moveSomeNotificationLogic": {
+                "notUserFacingChange": true,
+                "text": "Moved (some) notification logic to separate file"
+            },
+            "addedInfoClasses": {
+                "notUserFacingChange": true,
+                "text": "Added .infoGood, .infoWarning, and .infoWarning tags, allowing quick styling of info types"
+            },
+            "movedAboutPageToAbout": {
+                "notUserFacingChange": false,
+                "text": "Moved about page from index ('/') to about ('/about')"
+            }
+        },
+        "v2025.6.11": {
+            "released": "June 11, 2025",
+            "largerImageView": {
+                "notUserFacingChange": false,
+                "text": "Clicking or tapping on an image now opens a larger view"
+            }
+        },
+        "v2025.6.7": {
+            "released": "June 7, 2025",
+            "fixedDupNotes": {
+                "notUserFacingChange": false,
+                "text": "Fixed the bug where notes would appear twice (update - fixed it on other pages as well)"
+            },
+            "fixedTranssocialArea": {
+                "notUserFacingChange": false,
+                "text": "Fixed the TransSocial Accounts area being colorless and missing margins"
+            }
+        },
+        "v2025.6.1": {
+            "released": "June 1, 2025",
+            "fixedPrideLogoCheck": {
+                "notUserFacingChange": false,
+                "text": "Resolved issue where TransSocial would check your pride logo preference but failed, causing an infinite loading screen"
+            }
+        },
+        "v2025.5.31": {
+            "released": "May 31, 2025",
+            "addedMemorialAccounts": {
+                "notUserFacingChange": false,
+                "text": "<a href='/blog/memorialized-accounts'>Added memorial accounts</a> (See <a href='/u/sun'>@sun</a>"
+            },
+            "noThemePageRefreshing": {
+                "notUserFacingChange": false,
+                "text": "The page will no longer refresh when changing themes, whether a default or custom theme"
+            },
+            "moveThemeLogic": {
+                "notUserFacingChange": true,
+                "text": "Moved theme colors & theme applying logic to /assets/js/setTheme.js"
+            }
+        },
+        "v2025.5.21": {
+            "released": "May 21, 2025",
+            "updateReadme": {
+                "notUserFacingChange": false,
+                "text": "Update the GitHub README"
+            },
+            "updateContributingMd": {
+                "notUserFacingChange": false,
+                "text": "Updated the GitHub Contributing Guide"
+            },
+            "updateBugReport": {
+                "notUserFacingChange": false,
+                "text": "Updated the bug report and feature request templates for GitHub Issues"
+            },
+            "madeVersionDynamic": {
+                "notUserFacingChange": true,
+                "text": "Made the 'pre-alpha' in the version notice dynamic"
+            },
+            "addedMissingUpdateLogs": {
+                "notUserFacingChange": false,
+                "text": "Added missing update logs for May 7, 2025 and May 8, 2025"
+            }
+        },
+        "v2025.5.8": {
+            "released": "May 8, 2025",
+            "fixedTypos": {
+                "notUserFacingChange": false,
+                "text": "Resolved typos in the Privacy Policy"
+            }
+        },
+        "v2025.5.7": {
+            "released": "May 7, 2025",
+            "updateReadme": {
+                "notUserFacingChange": false,
+                "text": "Updated the GitHub README to be more up-to-date"
+            },
+            "redesignedIndexPage": {
+                "notUserFacingChange": false,
+                "text": "Redesigned the index page for signed-out users"
+            }
+        },
+        "v2025.5.6": {
+            "released": "May 6, 2025",
+            "fixedReplyIssue": {
+                "notUserFacingChange": false,
+                "text": "Fixed issue where you could not reply to a note in /note"
+            },
+            "fixReplyErrors": {
+                "notUserFacingChange": true,
+                "text": "Resolved errors when replying to a note that did not directly affect the user"
+            },
+            "addedNotePreviews": {
+                "notUserFacingChange": false,
+                "text": "Added note previews when replying to a note (<a href='/blog/note-previews'>What are note previews?</a>)"
+            }
+        },
+        "v2025.5.1": {
+            "released": "May 1, 2025",
+            "fixedAccountCreation": {
+                "notUserFacingChange": false,
+                "text": "Fixed inability to create account"
+            }
+        },
+        "v2025.4.12": {
+            "released": "April 12, 2025",
+            "fixedPfpsOnWebkit": {
+                "notUserFacingChange": false,
+                "text": "Fixed profile pictures not loading on WebKit-based browsers"
+            },
+            "fixedInaccurateVersion": {
+                "notUserFacingChange": false,
+                "text": "Fixed inaccurate version (bump version)"
+            },
+            "updateNotesForApril": {
+                "notUserFacingChange": false,
+                "text": "Added update notes for April 11 that were previously not there"
+            },
+            "fixedNotBeingAbleToSeeNotes": {
+                "notUserFacingChange": false,
+                "text": "Fixed not being able to see notes on the homepage while not logged in"
+            },
+            "postFlagsNowExpansive": {
+                "notUserFacingChange": false,
+                "text": "Post flags are now expansive! <a href='/blog/new-flagging-system'>Learn about it!</a>"
+            },
+            "tempRemoveLore": {
+                "notUserFacingChange": false,
+                "text": "Temporarily remove lore"
+            }
+        },
+        "v2025.4.11": {
+            "released": "April 11, 2025",
+            "relaunced1YearAgo": {
+                "notUserFacingChange": false,
+                "text": "<a href='/blog/transsocial-relaunched-1yo'>TransSocial relaunched 1 year ago!</a>"
+            }
+        },
+        "v2025.4.2": {
+            "released": "April 2, 2025",
+            "removedAprilFools": {
+                "notUserFacingChange": false,
+                "text": "Removed April Fools joke content"
+            },
+            "fixedCharacterCountInNoteCreation": {
+                "notUserFacingChange": false,
+                "text": "Fixed the character count in the note creation popup not working & fixed infinite character limit (related)"
+            },
+            "fixedCharacterCountInNoteEditing": {
+                "notUserFacingChange": false,
+                "text": "Fixed the character count in the note editing popup not working & fixed infinite character limit (related)"
+            },
+            "fixedCharacterCountInDisplayNameInput": {
+                "notUserFacingChange": false,
+                "text": "Fixed the character count in the display name input not working & fixed infinite character limit (related)"
+            },
+            "fixedCharacterCountInUsernameInput": {
+                "notUserFacingChange": false,
+                "text": "Fixed the character count in the username input not working & fixed infinite character limit (related)"
+            },
+            "fixedCharacterCountInPronounsInput": {
+                "notUserFacingChange": false,
+                "text": "Fixed the character count in the pronouns input not working & fixed infinite character limit (related)"
+            },
+            "fixedCharacterCountInBioInput": {
+                "notUserFacingChange": false,
+                "text": "Fixed the character count in the bio input not working & fixed infinite character limit (related)"
+            },
+            "fixedCharacterCountInSaveThemeTitleInput": {
+                "notUserFacingChange": false,
+                "text": "Fixed the character count in the save theme title input not working & fixed infinite character limit (related)"
+            },
+            "fixedCharacterCountInPublishingThemeTitle": {
+                "notUserFacingChange": false,
+                "text": "Fixed the character count in the publishing theme title input not working & fixed infinite character limit (related)"
+            },
+            "fixedCharacterCountInPublishingThemeDescription": {
+                "notUserFacingChange": false,
+                "text": "Fixed the character count in the publishing theme description input not working & fixed infinite character limit (related)"
+            },
+            "fixedInabilityToChangePfp": {
+                "notUserFacingChange": false,
+                "text": "Fixed inability to change profile picture or banner"
+            }
+        },
+        "v2025.4.1": {
+            "released": "April 1, 2025",
+            "makeNotePopupModular": {
+                "notUserFacingChange": true,
+                "text": "Make note popup modular"
+            },
+            "addedAurorAi": {
+                "notUserFacingChange": false,
+                "text": "<a href='/blog/introducing-aurorai'>Added AurorAI</a>"
+            },
+            "usernameFlipChange": {
+                "notUserFacingChange": false,
+                "text": "Added 50% change for @username to be flipped on notes. Why? Why not."
+            }
+        },
+        "v2025.3.17": {
+            "released": "March 17, 2025",
+            "refactorNoteRendering": {
+                "notUserFacingChange": true,
+                "text": "Refactor note rendering to be more development friendly"
+            }
+        },
+        "v2025.3.12": {
+            "released": "March 12, 2025",
+            "dynamicPageLoader": {
+                "notUserFacingChange": true,
+                "text": "Make page loader dynamic"
+            },
+            "authDoneThemeIssue": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where you could not visit /auth/done when a theme was selected"
+            }
+        },
+        "v2025.3.10": {
+            "released": "March 10, 2025",
+            "addedTwoNewScripts": {
+                "notUserFacingChange": true,
+                "text": "Added requiredScripts.js and scriptLoader.js",
+                "subtext": "requiredScripts.js will load scripts necessary for TransSocial to operate correctly (for the most part), and scriptLoader.js will load scripts that only specific pages need."
+            },
+            "beingSeparateJs": {
+                "notUserFacingChange": true,
+                "text": "Begin separation of JavaScript code"
+            },
+            "removedWorkflow": {
+                "notUserFacingChange": true,
+                "text": "Removed unused GitHub Workflow"
+            },
+            "copyrightYearUpdate": {
+                "notUserFacingChange": false,
+                "text": "Updated copyright year on main page"
+            },
+            "textHighlightingTheme": {
+                "notUserFacingChange": false,
+                "text": "Updated text highlighting color to match users theme"
+            },
+            "removeDotVsCode": {
+                "notUserFacingChange": true,
+                "text": "Removed unused .vscode folder"
+            },
+            "removedHtml": {
+                "notUserFacingChange": true,
+                "text": "Removed unused HTML file"
+            }
+        },
+        "v2025.3.7": {
+            "released": "March 7, 2025",
+            "separateCss": {
+                "notUserFacingChange": true,
+                "text": "Separate CSS into different files for easier maintainability"
+            },
+            "removeUnusedCss": {
+                "notUserFacingChange": true,
+                "text": "Remove unused CSS"
+            },
+            "fixFollowSelf": {
+                "notUserFacingChange": false,
+                "text": "Resolved bug where you could follow yourself"
+            },
+            "fixMarginOnChromium": {
+                "notUserFacingChange": false,
+                "text": "Fixed odd list margin on Chromium-based browsers"
+            }
+        },
+        "v2025.3.2": {
+            "released": "March 2, 2025",
+            "escapeMarkdown": {
+                "notUserFacingChange": false,
+                "text": "You can now escape markdown with \\"
+            }
+        },
+        "v2025.2.24": {
+            "released": "February 24, 2025",
+            "politicalDefined": {
+                "notUserFacingChange": false,
+                "text": "We have started defining what is considered political on TransSocial. <a href='/blog/what-qualifies-as-political'>Please see notice</a>."
+            }
+        },
+        "v2025.2.20": {
+            "released": "February 20, 2025",
+            "openDyslexic": {
+                "notUserFacingChange": false,
+                "text": "Added OpenDyslexic font"
+            },
+            "environmentTab": {
+                "notUserFacingChange": false,
+                "text": "Replaced 'Environment' tab in the Settings with 'Accessibility'"
+            },
+            "fontScaleSetting": {
+                "notUserFacingChange": false,
+                "text": "Moved Font Scale Setting from 'Personalization' to 'Accessibility'"
+            },
+            "largerButtonSetting": {
+                "notUserFacingChange": false,
+                "text": "Moved Large Note Buttons from the experiments to 'Accessibility'"
+            }
+        },
+        "v2025.2.18": {
+            "released": "February 18, 2025",
+            "selfHostFonts": {
+                "notUserFacingChange": false,
+                "text": "No longer rely on Google-hosted fonts for self-hosted fonts"
+            },
+            "downloadPageUpdate": {
+                "notUserFacingChange": false,
+                "text": "Updated <a href='/download'>Downloads page</a>"
+            }
+        },
+        "v2025.2.1": {
+            "released": "February 1, 2025",
+            "fixBookmarking": {
+                "notUserFacingChange": false,
+                "text": "Fixed bookmarking/quoting notes"
+            },
+            "fixGrammar": {
+                "notUserFacingChange": false,
+                "text": "Fixed grammatical errors"
+            },
+            "updateContributors": {
+                "notUserFacingChange": false,
+                "text": "Updated contributors list"
+            },
+            "updateToS": {
+                "notUserFacingChange": false,
+                "text": "Updated <a href='/policies/terms'>Terms of Service</a>"
+            },
+            "loginPromptHide": {
+                "notUserFacingChange": false,
+                "text": "If signed out and near the bottom of a page, the login prompt will hide itself as to not block content that may be important"
+            },
+            "addContributingGuide": {
+                "notUserFacingChange": false,
+                "text": "<a href='https://github.com/katniny/transsocial/blob/main/CONTRIBUTING.md'>Added CONTRIBUTING.md file</a>"
+            }
+        },
+        "v2025.1.30": {
+            "released": "January 30, 2025",
+            "fixMoreSecurity": {
+                "notUserFacingChange": false,
+                "text": "Fix a lot more major security issues where users could easily insert arbitary HTML"
+            },
+            "fixNotesClick": {
+                "notUserFacingChange": false,
+                "text": "Fix not being able to click on notes"
+            }
+        },
+        "v2025.1.29": {
+            "released": "January 29, 2025",
+            "fixSecurityIssueInNoteHandler": {
+                "notUserFacingChange": false,
+                "text": "Fix critical security issue in the note click handler",
+                "subtext": "See <a href='https://github.com/katniny/Auride/issues/27'></a>"
+            }
+        },
+        "v2025.1.24": {
+            "released": "January 24, 2025",
+            "moveFromStripe": {
+                "notUserFacingChange": false,
+                "text": "Move from Stripe to Donorbox for privacy reasons",
+                "subtext": "All Katniny+ subscriptions have been automatically ended."
+            }
+        },
+        "v2025.1.8": {
+            "released": "January 8, 2025",
+            "dots": {
+                "notUserFacingChange": false,
+                "text": "<a href='/remembering'>...</a>"
+            }
+        },
+        "v2024.12.24": {
+            "released": "December 24, 2024",
+            "aurora": {
+                "notUserFacingChange": false,
+                "text": "<a href='/blog/welcome-aurora'>Added Aurora</a>"
+            },
+            "customEmojis": {
+                "notUserFacingChange": false,
+                "text": "Added custom emojis"
+            },
+            "updateContributors": {
+                "notUserFacingChange": false,
+                "text": "Updated <a href='/contributors'>contributors list</a>"
+            },
+            "addMainAndExternalContributors": {
+                "notUserFacingChange": false,
+                "text": "Added 'Main Contributors' and 'External Contributors' (definitions can be found in the <a href='/contributors'>contributors</a> page)"
+            }
+        },
+        "v2024.12.20": {
+            "released": "December 20, 2024",
+            "fixSantaHatRedirect": {
+                "notUserFacingChange": false,
+                "text": "Fixed issue where mobile users that clicked on the Santa hat in the header would be redirected to the home page, rather than opening the sidebar"
+            }
+        },
+        "v2024.12.1": {
+            "released": "December 1, 2024",
+            "addSantaHat": {
+                "notUserFacingChange": false,
+                "text": "Added Santa hat to header (it's December, I have to)"
+            },
+            "detectMeowser": {
+                "notUserFacingChange": false,
+                "text": "Detect if you're using <a href='https://github.com/katniny/meowser/releases/latest'>Meowser</a> or not"
+            }
+        },
+        "v2024.11.17": {
+            "released": "November 17, 2024",
+            "suspendedNoteRenoted": {
+                "notUserFacingChange": false,
+                "text": "If a suspended users note was quoted, it will no longer be available to view"
+            },
+            "noSuspendedNoteViewing": {
+                "notUserFacingChange": false,
+                "text": "You can no longer notes by suspended users."
+            },
+            "noSuspendedProfileViewing": {
+                "notUserFacingChange": false,
+                "text": "You can no longer view profiles of suspended users"
+            }
+        },
+        "v2024.10.30": {
+            "released": "October 30, 2024",
+            "billingMoreAccurate": {
+                "notUserFacingChange": false,
+                "text": "Made subscription billing more accurate (from 'You've been subscribed since ...' to 'Current billing start: [START] to [FINISH]')"
+            }
+        },
+        "v2024.10.28": {
+            "released": "October 28, 2024",
+            "fixSignedOutLoving": {
+                "notUserFacingChange": false,
+                "text": "Fixed signed out users not being able to do anything due to TransSocial thinking they're trying to love/renote a note"
+            },
+            "madeJoinTranssocialPromonient": {
+                "notUserFacingChange": false,
+                "text": "Made 'Join TransSocial' banner for signed out users more prominent"
+            },
+            "easterEggs": {
+                "notUserFacingChange": false,
+                "text": "Added easter eggs"
+            },
+            "fixNotesNotLoading": {
+                "notUserFacingChange": false,
+                "text": "Fix notes not loading"
+            }
+        },
+        "v2024.10.27": {
+            "released": "October 27, 2024",
+            "switchHostingProvider": {
+                "notUserFacingChange": false,
+                "text": "Switched hosting providers"
+            },
+            "dynamicLinks": {
+                "notUserFacingChange": false,
+                "text": "When visiting users, notes or user studio store pages, it will now use /type/id instead of /type?=id (e.g., <a href='/u/katniny'>https://auride.xyz</a>). The old type is no longer supported and may have instability"
+            },
+            "fixedHeader": {
+                "notUserFacingChange": false,
+                "text": "Fixed header on smaller resolutions (e.g., small phones)"
+            }
+        },
+        "v2024.10.20": {
+            "released": "October 20, 2024",
+            "updateSeo": {
+                "notUserFacingChange": false,
+                "text": "Updated SEO"
+            },
+            "addedBlog": {
+                "notUserFacingChange": false,
+                "text": "Added blog section"
+            },
+            "addedFirstBlog": {
+                "notUserFacingChange": false,
+                "text": "Added our <a href='/why-transsocial'>first blog</a>"
+            },
+            "cloudFunctions": {
+                "notUserFacingChange": false,
+                "text": "Cloud Functions is now working, we can now use servers to our advantage"
+            },
+            "addOpenSourceItems": {
+                "notUserFacingChange": false,
+                "text": "Added more items to the <a href='/opensource'>open source page</a> (unaware some of these were open source)"
+            }
+        },
+        "v2024.10.14": {
+            "released": "October 14, 2024",
+            "startedAllowingRedirectionToKatninyWebsites": {
+                "notUserFacingChange": false,
+                "text": "Started allowing redirections to other Katniny websites"
+            },
+            "fixPolicyProgression": {
+                "notUserFacingChange": false,
+                "text": "Fixed not being able to progress past the policies page during registration"
+            }
+        },
+        "v2024.10.7": {
+            "released": "October 7, 2024",
+            "addedPolicyNoticeToRegistration": {
+                "notUserFacingChange": false,
+                "text": "Added text for when you attempt to register to be notified of our policies (again)"
+            },
+            "throwChildSafetyPolicyInFace": {
+                "notUserFacingChange": false,
+                "text": "Throw <a href='/policies/child-safety'>Child Safety Policy</a> in users face when they're registering"
+            },
+            "addMoreWarningsToTranssocial": {
+                "notUserFacingChange": false,
+                "text": "Added more warnings before people join TransSocial to make them aware of the consequences when joining and violating our policies"
+            }
+        },
+        "v2024.10.6": {
+            "released": "October 6, 2024",
+            "noEmptyTitle": {
+                "notUserFacingChange": false,
+                "text": "If a note only contains an image/video, make sure the site title doesn't change to ''' / @user on TransSocial'"
+            },
+            "addedImageToCustomThemes": {
+                "notUserFacingChange": false,
+                "text": "Added an image for custom themes"
+            },
+            "fixApplyTheme": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where you couldn't apply a theme if it's not updated"
+            },
+            "addedCoreThemes": {
+                "notUserFacingChange": false,
+                "text": "Added 'core themes', which are just themes that are not updated to the latest TransSocial color palette"
+            },
+            "coreThemeWarning": {
+                "notUserFacingChange": false,
+                "text": "Fix core warning displaying for non-core themes"
+            }
+        },
+        "v2024.10.5": {
+            "released": "October 5, 2024",
+            "addNsfwWarningToAttemptsToPost": {
+                "notUserFacingChange": false,
+                "text": "Added warning if a user tries to post NSFW content without flagging it as such"
+            }
+        },
+        "v2024.10.3": {
+            "released": "October 3, 2024",
+            "linkAllPolicies": {
+                "notUserFacingChange": false,
+                "text": "Added a page that links all our policies (<a href='/policies/'>available here</a>)"   
+            },
+            "addedLinksToPoliciesInLogin": {
+                "notUserFacingChange": false,
+                "text": "Added links to policies page in the registration and login pages"
+            },
+            "textDisplayRandom": {
+                "notUserFacingChange": false,
+                "text": "Make text under 'Good [time], [username]!' display something random, rather than static text"
+            }
+        },
+        "v2024.9.27": {
+            "released": "September 27, 2024",
+            "noNoteRefresh": {
+                "notUserFacingChange": false,
+                "text": "The page will no longer refresh when pressing 'New Notes' button"
+            }
+        },
+        "v2024.9.23": {
+            "released": "September 23, 2024",
+            "profileBanner": {
+                "notUserFacingChange": false,
+                "text": "Added ability to add profile banner"
+            },
+            "fixLackOfResponseWhenChangingImage": {
+                "notUserFacingChange": false,
+                "text": "Fixed lack of responsiveness when changing profile picture/banner"
+            },
+            "fixFilterButtons": {
+                "notUserFacingChange": false,
+                "text": "Fixed filter buttons changing text color, even when unnecessary"
+            },
+            "changeProfileTabStyling": {
+                "notUserFacingChange": false,
+                "text": "Changed the style of 'Profile' tab in Settings"
+            }
+        },
+        "v2024.9.19": {
+            "released": "September 19, 2024",
+            "optimizeNoteRendering": {
+                "notUserFacingChange": false,
+                "text": "Optimize note rendering"
+            }
+        },
+        "v2024.9.18": {
+            "released": "September 18, 2024",
+            "fixNoteInteractionButtonLayout": {
+                "notUserFacingChange": false,
+                "text": "Fixed note interaction button layout experiment"
+            },
+            "fixedIconsNotChangingColor": {
+                "notUserFacingChange": false,
+                "text": "Fixed icons not changing color with button text"
+            }
+        },
+        "v2024.9.17": {
+            "released": "September 17, 2024",
+            "addedButtonLayoutExperiment": {
+                "notUserFacingChange": false,
+                "text": "Added an experiment for a new slightly different note interaction button layout (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            },
+            "fixedFirefoxInconsistencies": {
+                "notUserFacingChange": false,
+                "text": "Fixed minor inconsistencies between Chromium and Firefox browsers"
+            },
+            "nudgeUpdates": {
+                "notUserFacingChange": false,
+                "text": "Start subtly nudging updates"
+            }
+        },
+        "v2024.9.16": {
+            "released": "September 16, 2024",
+            "fixTwemoji": {
+                "notUserFacingChange": false,
+                "text": "Fixed Twemoji (for developers, should be self-hostable now)"
+            }
+        },
+        "v2024.9.12": {
+            "released": "September 12, 2024",
+            "noLongerDeletedQuotes": {
+                "notUserFacingChange": false,
+                "text": "You can no longer view quotes or visit a note directly if it's deleted"
+            }
+        },
+        "v2024.9.8": {
+            "released": "September 8, 2024",
+            "removeCheckInLoader": {
+                "notUserFacingChange": false,
+                "text": "Removed unnecessary check when loading page"
+            },
+            "attachMusicToNotes": {
+                "notUserFacingChange": false,
+                "text": "You can now attach music to your notes"
+            },
+            "dynamicallyAlignInteractions": {
+                "notUserFacingChange": false,
+                "text": "The interaction buttons are now dynamically aligned (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            },
+            "defaultStyleLinks": {
+                "notUserFacingChange": true,
+                "text": "Add a default for our HTML /a/ tags so we don't have to manually add them each time"
+            },
+            "displayNamesTurningMainColor": {
+                "notUserFacingChange": false,
+                "text": "Fixed display names for notes turning the main color"
+            },
+            "fixSemiHalfTransparentText": {
+                "notUserFacingChange": false,
+                "text": "Fix semi-transparent and half-transparent text not appearing correctly with a custom theme enabled"
+            },
+            "addButtons": {
+                "notUserFacingChange": false,
+                "text": "Add standalone button text, button hovered text, sidebar create a note text, and sidebar create a note hovered text colors"
+            }
+        },
+        "v2024.9.7": {
+            "released": "September 7, 2024",
+            "removeBlurForContentWarnings": {
+                "notUserFacingChange": false,
+                "text": "Removed blur for content warnings",
+                "subtext": "This should resolve (some or most) poor CPU performance and lag on lower end devices."
+            },
+            "notHomePageMarked": {
+                "notUserFacingChange": false,
+                "text": "Pages that aren't the home page marked as the home page are no longer marked as such"
+            }
+        },
+        "v2024.8.24": {
+            "released": "August 24, 2024",
+            "addAccountDeletion": {
+                "notUserFacingChange": false,
+                "text": "Finally add account deletion (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            },
+            "contributorCards": {
+                "notUserFacingChange": false,
+                "text": "Gave <a href='/contributors'>contributors</a> proper cards"
+            },
+            "quotedNotesHeightAutomatic": {
+                "notUserFacingChange": false,
+                "text": "Quoted notes will now adjust their height automatically to fit its content"
+            },
+            "noReloadWhenUpdatingProfile": {
+                "notUserFacingChange": false,
+                "text": "TransSocial will no longer reload when changing your display name, saving your pronouns or saving your bio"
+            }
+        }
+    },
+    "indev": {
+        "anyUpdatesAvailable": true,
+        "v2024.8.20": {
+            "released": "August 20, 2024",
+            "imageIndependent": {
+                "notUserFacingChange": false,
+                "text": "Text is no longer required for a note as long as there's an image"
+            },
+            "noteCreationNotDisappearOnError": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where the cover for a note creation would not disappear when an error occurs"
+            },
+            "addedDatanPrivacy": {
+                "notUserFacingChange": false,
+                "text": "Added 'Data & Privacy' section in the settings Account tab where you can see and download your account data"
+            }
+        },
+        "v2024.8.16": {
+            "released": "August 16, 2024",
+            "dontShowSubscriptionBtnWhenSubscribed": {
+                "notUserFacingChange": false,
+                "text": "Fix subscription button showing even when subscribed"
+            },
+            "notificationStyling": {
+                "notUserFacingChange": false,
+                "text": "Changed notification styling"
+            },
+            "notificationIcons": {
+                "notUserFacingChange": false,
+                "text": "Notifications will now have an icon associated with it, letting you know what type of notification it is at a glance"
+            }
+        },
+        "v2024.8.9": {
+            "released": "August 9, 2024",
+            "noRenderOffScreenMedia": {
+                "notUserFacingChange": false,
+                "text": "Images/videos in notes will no longer render when off-screen, increasing performance"
+            },
+            "autoplayPreferenceCalledOnce": {
+                "notUserFacingChange": false,
+                "text": "Autoplay preference is now called only once, fixing freezes when loading TransSocial"
+            },
+            "increaseFileSize": {
+                "notUserFacingChange": false,
+                "text": "Increased file size limit to 10MB for standard users, and 35MB for paid users"
+            },
+            "addedSubscriptionButton": {
+                "notUserFacingChange": false,
+                "text": "Added subscription button in sidebar (hope you don't mind!) - Button will not appear for subscribed users (oversight)"
+            },
+            "tabParam": {
+                "notUserFacingChange": false,
+                "text": "Adding a ?tab= param to /settings (e.g., '/settings?tab=account') will now take you to the corresponding tab"
+            }
+        },
+        "v2024.8.8": {
+            "released": "August 8, 2024",
+            "improveUi": {
+                "notUserFacingChange": false,
+                "text": "Improve UI of account managers, search bar and sidebar"
+            },
+            "addMoreButtonToSidebar": {
+                "notUserFacingChange": false,
+                "text": "Added 'More' button to prevent sidebar being overcrowded"
+            }
+        },
+        "v2024.8.6": {
+            "released": "August 6, 2024",
+            "loaderOnIntro": {
+                "notUserFacingChange": false,
+                "text": "Re-enabled loader on intro page (because for some reason it was disabled)"
+            },
+            "disableMobileNavBar": {
+                "notUserFacingChange": false,
+                "text": "Temporarily disable mobile nav bar"
+            },
+            "subscriptionsByStripe": {
+                "notUserFacingChange": false,
+                "text": "Subscriptions are now powered by <a href='https://stripe.com' type='_blank'>Stripe</a>"
+            },
+            "addBadgeForSubscribers": {
+                "notUserFacingChange": false,
+                "text": "Added a special badge for those with an active subscription"
+            },
+            "fileSizeLimitForSubscribers": {
+                "notUserFacingChange": false,
+                "text": "Added a 15MB file size limit for those with an active subscription"
+            },
+            "gifSupportedPfp": {
+                "notUserFacingChange": false,
+                "text": "Added .gif as a supported profile picture file type for those with an active subscription"
+            },
+            "updatePrivacyPolicy": {
+                "notUserFacingChange": false,
+                "text": "Update privacy policy"
+            },
+            "addActiveContributorBadge": {
+                "notUserFacingChange": false,
+                "text": "Added active contributor badge"
+            },
+            "fixSubscriptionNotCanceling": {
+                "notUserFacingChange": false,
+                "text": "Fix cancelling subscription not cancelling yours but canceling it for @katniny"
+            }
+        },
+        "v2024.8.3": {
+            "released": "August 3, 2024",
+            "mentionNotifications": {
+                "notUserFacingChange": false,
+                "text": "Add mention notifications"
+            },
+            "addIntroPage": {
+                "notUserFacingChange": false,
+                "text": "Added intro page for signed out users"
+            },
+            "movedMainPage": {
+                "notUserFacingChange": false,
+                "text": "Moved the main page ('/') to home ('/home')"
+            }
+        },
+        "v2024.8.1": {
+            "released": "August 1, 2024",
+            "notificationInFunction": {
+                "notUserFacingChange": true,
+                "text": "Put sending a notification into a function (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            },
+            "cleanSuspensionCheck": {
+                "notUserFacingChange": true,
+                "text": "Clean up suspension check and redirect (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            },
+            "addSearch": {
+                "notUserFacingChange": false,
+                "text": "Added search functionality"
+            }
+        },
+        "v2024.7.31": {
+            "released": "July 31, 2024",
+            "fixOldSuspendedUsersNotShowingUp": {
+                "notUserFacingChange": false,
+                "text": "Fixed notes by those were previously suspended not showing up (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            }
+        },
+        "v2024.7.30": {
+            "released": "July 30, 2024",
+            "addFavorites": {
+                "notUserFacingChange": false,
+                "text": "Readded favorites"
+            },
+            "notifyUsersOfNewVersions": {
+                "notUserFacingChange": false,
+                "text": "Update the updates popup to notify users of new versioning"
+            },
+            "caseInsensitiveUsers": {
+                "notUserFacingChange": false,
+                "text": "Visiting a user is no longer case sensitive"
+            },
+            "allowFilteringThroughVersions": {
+                "notUserFacingChange": false,
+                "text": "Allow users to filter through versions (though useless right now)"
+            },
+            "startDisallowingOldBrowsers": {
+                "notUserFacingChange": false,
+                "text": "Started disallowing outdated browsers from using TransSocial"
+            },
+            "addedSafetyPopupToLinks": {
+                "notUserFacingChange": false,
+                "text": "Added safety popup when clicking non-TransSocial links"
+            },
+            "fixClickingLinkForcingToNoteView": {
+                "notUserFacingChange": false,
+                "text": "Fixed clicking a link on a note forcing you to the note view"
+            }
+        },
+        "v2024.7.29": {
+            "released": "July 29, 2024",
+            "addNewLines": {
+                "notUserFacingChange": false,
+                "text": "Finally add new lines (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            },
+            "fixGettingRejectedToRegister": {
+                "notUserFacingChange": false,
+                "text": "Fix users getting ejected from registeration"
+            },
+            "fixNewLines": {
+                "notUserFacingChange": false,
+                "text": "Fix new lines and links not working in the quote block"
+            },
+            "fixStorage": {
+                "notUserFacingChange": true,
+                "text": "Fix images not loading properly due to trying to use TransSocial's storage, as well as fix the 'TransSocial Accounts' area printing out a bunch of errors"
+            },
+            "fixFirefoxStyling": {
+                "notUserFacingChange": false,
+                "text": "Fix incorrect styling specific to Firefox"
+            },
+            "modalOpenAnim":{
+                "notUserFacingChange": false,
+                "text": "Change modal opening animation"
+            },
+            "fixNoUnderlines": {
+                "notUserFacingChange": false,
+                "text": "Fix the display name/username/pronouns not being underlined"
+            },
+            "addScrollbarToFirefox": {
+                "notUserFacingChange": false,
+                "text": "Add custom scrollbar to Firefox"
+            },
+            "markdownSupport": {
+                "notUserFacingChange": false,
+                "text": "Added markdown support"
+            },
+            "addAnimWhenClosingPopup": {
+                "notUserFacingChange": false,
+                "text": "Added animation when closing a popup"
+            },
+            "fixCodeMarkdown": {
+                "notUserFacingChange": false,
+                "text": "Fix `` markdown not appearing correctly in the note view"
+            },
+            "fixEscapeKeyClosing": {
+                "notUserFacingChange": false,
+                "text": "Fixed issue where users could close popups with the Escape key which could break a lot of things"
+            },
+            "updatePageLoader": {
+                "notUserFacingChange": false,
+                "text": "Update page loader"
+            },
+            "updatePageLoaderQuotes": {
+                "notUserFacingChange": false,
+                "text": "Update page loader quotes"
+            },
+            "notificationCountBadge": {
+                "notUserFacingChange": false,
+                "text": "Make the notification count a badge rather than just editing the button"
+            }
+        },
+        "v2024.7.28": {
+            "released": "July 28, 2024",
+            "fixDesktopAppRedirect": {
+                "notUserFacingChange": false,
+                "text": "Fix the desktop app redirecting users to /outdated (testing code accidentally got left in)"
+            },
+            "addWebappManifest": {
+                "notUserFacingChange": false,
+                "text": "Add webapp manifest (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            },
+            "brokenAccountsCanNoLongerUseTranssocial": {
+                "notUserFacingChange": false,
+                "text": "Broken accounts can no longer use TransSocial until their account is restored"
+            },
+            "loaderShowVersion": {
+                "notUserFacingChange": false,
+                "text": "Loader will now show current version"
+            },
+            "addedThemesButtonToSettings": {
+                "notUserFacingChange": false,
+                "text": "Added button to get themes in the Personalization tab in Settings (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            },
+            "fixRenoteReplyBug": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where clicking the reply button would also renote the note you clicked on"
+            }
+        },
+        "v2024.7.27": {
+            "released": "July 27, 2024",
+            "updateVersioning": {
+                "notUserFacingChange": false,
+                "text": "Update TransSocial versioning from 'vNUM.NUM.NUM' to 'vYEAR.MONTH.DAY'"
+            },
+            "makeUpdatesApply": {
+                "notUserFacingChange": false,
+                "text": "Make updates apply automatically from one variable, instead of doing it all manually"
+            },
+            "updateTwemojiLink": {
+                "notUserFacingChange": false,
+                "text": "Update twemoji.js to use https://transs.social/assets/emojis/"
+            },
+            "updateUpdatesPage": {
+                "notUserFacingChange": false,
+                "text": "Update Updates page (Removed 'New to TransSocial', 'Bug Fixes', and 'UI Improvements' for just one section)"
+            },
+            "addEnvTab": {
+                "notUserFacingChange": false,
+                "text": "Add environment tab in Settings (semi-functional)"
+            },
+            "updateSubscriptionTab": {
+                "notUserFacingChange": false,
+                "text": "Update Subscriptions tab in Settings"
+            }
+        },
+        "v2024.7.26": {
+            "released": "July 26, 2024",
+            "addCustomThemes": {
+                "notUserFacingChange": false,
+                "text": "Add ability to create custom themes, as well as apply them"
+            }
+        },
+        "v2024.7.25": {
+            "released": "July 25, 2024",
+            "changeGithubLink": {
+                "notUserFacingChange": false,
+                "text": "Change GitHub link (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            }
+        },
+        "v2024.7.23": {
+            "released": "July 23, 2024",
+            "updateCookieNotice": {
+                "notUserFacingChange": false,
+                "text": "Change cookie notice to use localStorage"
+            }
+        },
+        "v2024.7.22": {
+            "released": "July 22, 2024",
+            "fixRegistration": {
+                "notUserFacingChange": false,
+                "text": "Fix registration"
+            },
+            "redesignLoginRegisterPages": {
+                "notUserFacingChange": false,
+                "text": "Redesign login/register pages"
+            },
+            "fixUnavailableElements": {
+                "notUserFacingChange": false,
+                "text": "Fix elements trying to show when unavailable"
+            }
+        },
+        "v2024.7.21": {
+            "released": "July 21, 2024",
+            "revertedVersion": {
+                "notUserFacingChange": false,
+                "text": "Reverted from v0.0.8 to v0.0.7.1"
+            },
+            "transsocialOpenSource": {
+                "notUserFacingChange": false,
+                "text": "Made TransSocial <a href='https://github.com/katniny/Auride' target='_blank'>open source!</a>"
+            },
+            "quoteLoadingCleanedUp": {
+                "notUserFacingChange": false,
+                "text": "Quote loading is now cleaned up (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            },
+            "addNoscriptMessage": {
+                "notUserFacingChange": false,
+                "text": "Added noscript message (thanks to <a href='/u/lunahd'>lunahd</a>)"
+            },
+            "fixTypo": {
+                "notUserFacingChange": false,
+                "text": "Fix typo in Updates page"
+            }
+        },
+        "v2024.6.28": {
+            "released": "June 28, 2024",
+            "addTwemoji": {
+                "notUserFacingChange": false,
+                "text": "Added <a href='https://github.com/twitter/twemoji' target='_blank'>Twemoji</a>"
+            },
+            "addedTranssocialSubscription": {
+                "notUserFacingChange": false,
+                "text": "Added TransSocial subscriptions (EXPERIMENTAL! DOES NOT WORK PROPERLY YET!)"
+            },
+            "addFontSize": {
+                "notUserFacingChange": false,
+                "text": "Add font size setting"
+            },
+            "addDropdownForLang": {
+                "notUserFacingChange": false,
+                "text": "Added dropdown for language preference (currently only 'English (United States)' is available)"
+            },
+            "autoplayToggle": {
+                "notUserFacingChange": false,
+                "text": "Added option to toggle autoplay on or off"
+            },
+            "addAltText": {
+                "notUserFacingChange": false,
+                "text": "Added alt text"
+            },
+            "fixImagesVideoStretching": {
+                "notUserFacingChange": false,
+                "text": "Fixed images/videos stretching in the note view"
+            },
+            "fixedMisplacedText": {
+                "notUserFacingChange": false,
+                "text": "Fixed 'Nevermind, I don't want to interact' appearing at the bottom of the page"
+            },
+            "removedPopups": {
+                "notUserFacingChange": false,
+                "text": "Removed 14 popups for alternative interaction methods"
+            },
+            "redesignedDownloadsPage": {
+                "notUserFacingChange": false,
+                "text": "Redesigned the downloads page"
+            },
+            "popupsSmaller": {
+                "notUserFacingChange": false,
+                "text": "Popups are now 20% smaller"
+            },
+            "redesignLoader": {
+                "notUserFacingChange": false,
+                "text": "Redesigner loader"
+            },
+            "redesignedSettings": {
+                "notUserFacingChange": false,
+                "text": "Redesigned the Settings page"
+            }
+        },
+        "v2024.6.6": {
+            "released": "June 6, 2024",
+            "addQuoteRenoting": {
+                "notUserFacingChange": false,
+                "text": "Added quote renoting"
+            },
+            "addAchievements": {
+                "notUserFacingChange": false,
+                "text": "Added <a href='/achievements'>achievements</a> (Part of Katniny Services)"
+            },
+            "addTimelineCreateNote": {
+                "notUserFacingChange": false,
+                "text": "Added option to create note directly from your timeline"
+            },
+            "dateNoteCreation": {
+                "notUserFacingChange": false,
+                "text": "Added date when note was created"
+            },
+            "politicalContentWarning": {
+                "notUserFacingChange": false,
+                "text": "Added political content warning"
+            },
+            "showFlagWhenNotHidden": {
+                "notUserFacingChange": false,
+                "text": "Added flag to show what flag was applied to a note when not hidden"
+            },
+            "moveRegistrationPage": {
+                "notUserFacingChange": false,
+                "text": "Moved registration page and redesigned the login page"
+            },
+            "newDownloadOption": {
+                "notUserFacingChange": false,
+                "text": "Added new download options (including Android app)"
+            },
+            "addedContentToHeader": {
+                "notUserFacingChange": false,
+                "text": "Added content to header"
+            },
+            "fixRenoteBug": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where if you renoted a note in the note view, it wouldn't show up on your profile"
+            },
+            "popupNotCloseAfterChoosingFlag": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where the popup would not close after choosing a NSFW/Sensitive/Political content preference"
+            },
+            "fixDeletedNotesStillShowing": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where when you deleted a note, it would still appear on the timeline"
+            },
+            "fixContentBlurOffset": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where notes would have an offset NSFW/Sensitive/Political content warning when a file was attached"
+            },
+            "fixSignedOutLoveRenoteCheck": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where notes would check if a signed out user has loved/renoted a note (which failed)"
+            },
+            "fixSignedOutProfileCheck": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where the 'Your Profile' button on the sidebar would try to check if a signed out user is the same as the current user they are viewing"
+            },
+            "fixLatestUpdatePopup": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where the 'Newest Updates' popup would try to show, even if it wasn't on the page you're on"
+            }
+        },
+        "v2024.6.2": {
+            "released": "June 2, 2024",
+            "addPrideFlagDisable": {
+                "notUserFacingChange": false,
+                "text": "Added ability to turn off pride flag logo for accessibility"
+            },
+            "addPrideLogo": {
+                "notUserFacingChange": false,
+                "text": "Added pride logo and added functionality to have it appear every June"
+            }
+        },
+        "v2024.5.22": {
+            "released": "May 22, 2024",
+            "addedDownloadPage": {
+                "notUserFacingChange": false,
+                "text": "Added <a href='/download'>download page</a>"
+            },
+            "addReleaseDateToUpdates": {
+                "notUserFacingChange": false,
+                "text": "Added release date for each update on updates page"
+            },
+            "addGreetings": {
+                "notUserFacingChange": false,
+                "text": "Added Good morning, good afternoon, and good evening greetings"
+            },
+            "addEmailVerification": {
+                "notUserFacingChange": false,
+                "text": "Added email verification, which is also required"
+            },
+            "reenableHyperlinks": {
+                "notUserFacingChange": false,
+                "text": "Re-enabled hyperlinks"
+            },
+            "visitReplyDirectlyBugFix": {
+                "notUserFacingChange": false,
+                "text": "If you visit a reply directly, it will now redirect you to the note it was replying to instead of giving you an error"
+            },
+            "imageNowFile": {
+                "notUserFacingChange": false,
+                "text": "'Remove Image' and 'Image hasn't been uploaded yet' now says File"
+            },
+            "renotesNowShowUp": {
+                "notUserFacingChange": false,
+                "text": "Renotes will now show up on a user's profile"
+            },
+            "reorganizedNoteCreation": {
+                "notUserFacingChange": false,
+                "text": "Reorganized the note creation popup"
+            },
+            "scrollBarTheme": {
+                "notUserFacingChange": false,
+                "text": "Scroll bar now matches your theme"
+            },
+            "noteTaking100FreeSpaceFix": {
+                "notUserFacingChange": false,
+                "text": "Notes will no longer take 100% of the free space"
+            },
+            "noteUserViewsNotTakeUp100": {
+                "notUserFacingChange": false,
+                "text": "Note View/User Profiles will no longer take 100% of the free space"
+            },
+            "redesignedUpdatesPage": {
+                "notUserFacingChange": false,
+                "text": "Redesigned updates page"
+            },
+            "redesignedNotifications": {
+                "notUserFacingChange": false,
+                "text": "Redesigned notifications"
+            },
+            "fixOverlayBug": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where the overlay for creating notes didn't fit the width and height of the popup"
+            },
+            "fixRandomNoteSorting": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where notes were randomly sorted, they are now properly sorted from newest to oldest"
+            },
+            "fixSignedOutNotesNotShowing": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where notes wouldn't show up if you were signed out"
+            },
+            "fixNotSeeingLovedRenotesNotes": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where you couldn't see if you loved/renoted a note on any page, it will now show properly"
+            },
+            "contentWarningNoLongerOffset": {
+                "notUserFacingChange": false,
+                "text": "Note NSFW/Sensitive Content warning is no longer offset"
+            },
+            "fixedHtmlLinks": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where you could embed HTML code with hyperlinks"
+            }
+        },
+        "v2024.5.5": {
+            "released": "May 5, 2024",
+            "addVideoSupport": {
+                "notUserFacingChange": false,
+                "text": "Added video support (at the moment, only .mp4 files can be uploaded)"
+            },
+            "logoMatchTheme": {
+                "notUserFacingChange": false,
+                "text": "TransSocial's logos will now match your theme"
+            },
+            "addAccountVerification": {
+                "notUserFacingChange": false,
+                "text": "Add account verification"
+            },
+            "addSignOutButtons": {
+                "notUserFacingChange": false,
+                "text": "Added a sign out button in Settings and in your account area"
+            },
+            "addedAccountArea": {
+                "notUserFacingChange": false,
+                "text": "Added Account Area (click on your profile in the sidebar)"
+            },
+            "addDmExperiment": {
+                "notUserFacingChange": false,
+                "text": "Added direct_messaging-2024-04 experiment"
+            },
+            "clarifyActualFix": {
+                "notUserFacingChange": false,
+                "text": "'Renotes do not show up on user profiles' no longer says it'll be fixed 'by next update'"
+            },
+            "fixNotGettingNotifications": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where you would not get notifications if your note was liked/renoted in the note view"
+            }
+        },
+        "v2024.4.28": {
+            "released": "April 28, 2024",
+            "newThemes": {
+                "notUserFacingChange": false,
+                "text": "Added 4 new themes: High Contrast, Midnight Purple, Darker, TransSocial Classic"
+            },
+            "addReporting": {
+                "notUserFacingChange": false,
+                "text": "Added user reporting"
+            },
+            "addNoteEditing": {
+                "notUserFacingChange": false,
+                "text": "Added note editing"
+            },
+            "addNoteDeleting": {
+                "notUserFacingChange": false,
+                "text": "Added note deleting"
+            },
+            "remainingCharactersDisplayed": {
+                "notUserFacingChange": false,
+                "text": "Remaining Characters will now display for display names, usernames, bios, and notes"
+            },
+            "addLinksInViewsToProfile": {
+                "notUserFacingChange": false,
+                "text": "In the note view, the display name, username, pronouns, and profile picture will now link to the user's profile"
+            },
+            "addVisualNoteCreationFeedback": {
+                "notUserFacingChange": false,
+                "text": "Added visual feedback when a note is being created"
+            },
+            "noteSuccessfullyCreatedFeedback": {
+                "notUserFacingChange": false,
+                "text": "TransSocial will now let you know when your note is successfully created"
+            },
+            "mobileMenuHeader": {
+                "notUserFacingChange": false,
+                "text": "On mobile, the menu is now properly in the header"
+            },
+            "policiesNowAccessibleToMobile": {
+                "notUserFacingChange": false,
+                "text": "Policies are now accessible in the menu for mobile users"
+            },
+            "higherCharacterLimits": {
+                "notUserFacingChange": false,
+                "text": "Added higher character limits (Notes: 1,250 - Bios: 500)"
+            },
+            "addNotifications": {
+                "notUserFacingChange": false,
+                "text": "Added notifications when someone loves your note, renotes your note, or replies"
+            },
+            "notesSuspendedFix": {
+                "notUserFacingChange": false,
+                "text": "Notes will no longer display if a user is suspended"
+            },
+            "fixSuspensionPageInfinitelyRefreshing": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug when a user is suspended, the suspension page would infinitely refresh making you unable to see your reason and unsuspension date, if applicable"
+            },
+            "indevNoticeAccurate": {
+                "notUserFacingChange": false,
+                "text": "InDev notice now accurately displays the version, instead of displaying '0.0.1'"
+            },
+            "yourProfileActiveButton": {
+                "notUserFacingChange": false,
+                "text": "When on your profile, the 'Your Profile' button in the sidebar will now be active."
+            },
+            "versionNoticeCroppingFix": {
+                "notUserFacingChange": false,
+                "text": "Fixed bug where version notice would crop into the sidebar on smaller screens"
+            }
+        },
+        "v2024.4.21": {
+            "released": "April 21, 2024",
+            "notificationsSorted": {
+                "notUserFacingChange": false,
+                "text": "Notifications are now sorted from newest to oldest"
+            },
+            "addThemes": {
+                "notUserFacingChange": false,
+                "text": "Added themes (Light, Mint (Light), and Mint (Dark))"
+            },
+            "addThemeExperiment": {
+                "notUserFacingChange": false,
+                "text": "Added css_themes-2024-04 experiment"
+            },
+            "implementUiChanges": {
+                "notUserFacingChange": false,
+                "text": "Implemented UI changes created by <a href='/u/lunahd'>Lunya</a>"
+            },
+            "add404": {
+                "notUserFacingChange": false,
+                "text": "Added 404 page"
+            },
+            "addUpdatesPage": {
+                "notUserFacingChange": false,
+                "text": "Added the <a href='/updates'>updates page</a>"
+            },
+            "addNewVersionPopup": {
+                "notUserFacingChange": false,
+                "text": "Added popup to show users about new updates"
+            },
+            "addPasswordReset": {
+                "notUserFacingChange": false,
+                "text": "Added password reset in settings"
+            },
+            "addPolicies": {
+                "notUserFacingChange": false,
+                "text": "Added policies"
+            },
+            "addContributorList": {
+                "notUserFacingChange": false,
+                "text": "Added <a href='/contributors'>contributor list</a>"
+            },
+            "addCharacterLimits": {
+                "notUserFacingChange": false,
+                "text": "Added character limits to display names, usernames, pronouns, and bios"
+            },
+            "notificationPfp": {
+                "notUserFacingChange": false,
+                "text": "Profile pictures will now display next to who triggered a notification"
+            },
+            "couldNotRemoveImageBug": {
+                "notUserFacingChange": false,
+                "text": "Fixed a bug where you could not remove images once added to a note"
+            },
+            "fixUncheckedBoxes": {
+                "notUserFacingChange": false,
+                "text": "Fixed a bug where the 'NSFW' and/or 'Sensitive' checkboxes would not be unchecked after publishing a note or closing the 'Create a Note' modal"
+            }
+        },
+        "v2024.4.11": {
+            "released": "April 11, 2024",
+            "initialRelease": {
+                "notUserFacingChange": false,
+                "text": "Initial release"
+            }
         }
     }
 }

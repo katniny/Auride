@@ -19,5 +19,9 @@
   },
   "devDependencies": {
     "nodemon": "^3.1.14"
+  },
+  "allowScripts": {
+    "@firebase/util@1.15.0": true,
+    "protobufjs@7.5.6": true
   }
 }
