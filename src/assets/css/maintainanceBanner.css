@@ -1,5 +1,5 @@
 .maintainanceBanner {
-    background: var(--warning-text);
+    background: var(--main-color-darker);
     padding: 5px;
     border-radius: 5px;
     margin: 5px;
@@ -8,5 +8,5 @@
 
 .maintainanceBanner p,
 .maintainanceBanner p i {
-    color: var(--hovered-button-text);
+    color: var(--text);
 }
