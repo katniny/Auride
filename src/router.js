@@ -1,4 +1,5 @@
 import { faIcon } from "./utils/faIcon.js";
+import { currentUserData } from "./users/current.js";
 
 // import pages
 // defines all routes in the app, each with a path and a loader function
@@ -93,6 +94,9 @@ function matchRoute(pathname) {
 
 // handle the current route and render the appropriate view
 export async function handleRoute() {
+    // make sure the user is loaded before trying to continue
+    await currentUserData();
+
     // get current path and find matching route
     const pathname = window.location.pathname;
     const match = matchRoute(pathname);
