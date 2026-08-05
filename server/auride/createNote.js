@@ -9,14 +9,14 @@ auride.post("/api/auride/createNote", {
 }, async (req, res, ctx) => {
     try {
         // get note values
-        const noteId = req.headers.noteid;
-        const noteText = req.headers.text;
-        const noteFilePath = req.headers.filepath;
-        const nsfwFlag = req.headers.nsfwFlag;
-        const sensitiveFlag = req.headers.sensitiveFlag;
-        const politicalFlag = req.headers.politicalFlag;
-        const musicId = req.headers.musicid;
-        const replyingTo = req.headers.replyingto;
+        const noteId = req.body.noteId;
+        const noteText = req.body.text;
+        const noteFilePath = req.body.filepath;
+        const nsfwFlag = req.body.nsfwFlag;
+        const sensitiveFlag = req.body.sensitiveFlag;
+        const politicalFlag = req.body.politicalFlag;
+        const musicId = req.body.musicId;
+        const replyingTo = req.body.replyingTo;
 
         // double-checks!
         // make sure the note text or file exists
@@ -77,6 +77,33 @@ auride.post("/api/auride/createNote", {
                 music: musicId || null,
             });
 
+            // if theres a @mention in the text, check if the username exists
+            // if it does, push it as a notification
+            const usernameRegex = /@(\w+)/g;
+            const matches = [...noteText.matchAll(usernameRegex)];
+            if (matches.length > 0) {
+                const usernames = matches.map(match => match[1]);
+                usernames.forEach(async username => {
+                    // if the username exists in the db, we can send them a notification
+                    const isUsername = await db.ref(`/taken-usernames/${username}`).once("value");
+                    if (isUsername.exists()) {
+                        // get userid
+                        const userId = isUsername.val();
+
+                        // where should the notification go?
+                        // push it correctly
+                        let notificationLocation;
+                        if (validReply)
+                            notificationLocation = `${replyingTo}#${noteId}`;
+                        else
+                            notificationLocation = `${noteId}`;
+
+                        // push notification
+                        sendNotification(userId.user, ctx.currentUser.uid, "Mention", notificationLocation);
+                    }
+                });
+            }
+
             // add to user notes, unless its a reply
             // TODO: we want a "replies" filter on user profiles one day, so we'll need to track replies too
             const userDbRef = db.ref(`users/${ctx.currentUser.uid}/posts/${noteId}`);
@@ -105,6 +132,7 @@ auride.post("/api/auride/createNote", {
             // then, finish
             return res.status(200).json({ success: "Note sent successfully." });
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ error: error });
     }
 });

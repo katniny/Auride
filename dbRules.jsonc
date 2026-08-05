@@ -19,6 +19,14 @@
                     ".read": "auth !== null && auth.uid === $uid",
                     ".write": false
                 },
+                "notifications": {
+                    ".read": false,
+                    ".write": false,
+                    "unread": {
+                        ".write": false,
+                        ".read": "auth !== null && auth.uid === $uid"
+                    }
+                },
                 "$other": {
                     ".read": false,
                     ".write": false

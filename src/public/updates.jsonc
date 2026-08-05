@@ -141,6 +141,18 @@
                 "notUserFacingChange": false,
                 "text": "Improved the UI for the updates page"
             },
+            "notificationImprovedUi": {
+                "notUserFacingChange": false,
+                "text": "Improved notification UI"
+            },
+            "notificationsNowShowNoteContent": {
+                "notUserFacingChange": false,
+                "text": "When appropriate, Auride can now show what note got interacted with"
+            },
+            "notificationsNowShowDates": {
+                "notUserFacingChange": false,
+                "text": "Auride can now show when a notification was sent (for notifications created starting with the rewrite)"
+            },
             "movedUpdatesToJson": {
                 "notUserFacingChange": true,
                 "text": "Updates are now kept track of inside a JSON file, rather than HTML"

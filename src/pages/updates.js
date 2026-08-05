@@ -43,7 +43,6 @@ export default async function aboutPage() {
 
         // get updates
         const updateLog = await getUpdate(update);
-        console.log(updateLog);
         
         // if theres an update log, lets start filling the page
         // is there updates?
@@ -68,9 +67,6 @@ export default async function aboutPage() {
             `;
 
             for (const [changeName, changeData] of Object.entries(changes)) {
-                console.log(changeName);
-                console.log(changeData);
-
                 // create change div
                 const changeDiv = document.createElement("div");
                 changeDiv.innerHTML = `

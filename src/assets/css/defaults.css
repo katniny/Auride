@@ -17,6 +17,7 @@
 @import url("./components/resetPasswordPopup.css");
 @import url("./components/pageNotFound.css");
 @import url("./components/updatePage.css");
+@import url("./components/notifications.css");
 
 /* default colors */
 :root {

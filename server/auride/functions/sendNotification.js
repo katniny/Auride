@@ -15,6 +15,7 @@ async function sendNotification(toWho, fromWho, type, noteId) {
     const notificationIdRef = db.ref(`/users/${toWho}/notifications`).push();
     const notificationId = notificationIdRef.key;
     const unreadNotifsRef = db.ref(`/users/${toWho}/notifications/unread`);
+    const currentTime = admin.database.ServerValue.TIMESTAMP;
 
     // if the user isnt themselves, send notification
     if (toWho !== fromWho) {
@@ -26,7 +27,8 @@ async function sendNotification(toWho, fromWho, type, noteId) {
         const sendNotification = await db.ref(`/users/${toWho}/notifications/${notificationId}`).update({
             type: type,
             who: fromWho,
-            postId: noteId || null
+            postId: noteId || null,
+            sent: currentTime
         });
     }
 }

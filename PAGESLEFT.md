@@ -46,5 +46,6 @@
 - [ ] User page
     - Last thing to TODO: add achievements
 - [ ] Unsupported
+    - TODO: add IE page and <noscript> version
 - [ ] Updates
 - [ ] User Studio

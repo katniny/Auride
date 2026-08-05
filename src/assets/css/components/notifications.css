@@ -1,0 +1,76 @@
+/* the notification center */
+.notificationCenter {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+/* the notification itself */
+.notification {
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    transition: all 0.15s linear;
+}
+
+.notification:hover,
+.notification:focus {
+    transform: translateY(-1px);
+    background: var(--note-background);
+}
+
+/* notification user pfp */
+.notification .senderPfp {
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    flex-shrink: 0;
+}
+
+/* the notification content */
+.notification .notificationContent {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+/* the notification header */
+.notification .notificationHeader {
+    display: flex;
+    align-items: center;
+    min-height: 35px;
+}
+
+/* the note content */
+.notification .noteContent {
+    color: var(--text-semi-transparent);
+    font-size: 14px;
+}
+
+/* when the notification was sent */
+.notification .timeSent {
+    color: var(--text-semi-transparent);
+    margin-left: 5px;
+}
+
+/* the notification icons */
+.notification .notificationHeader .icon {
+    margin-right: 5px;
+}
+
+.notification .notificationHeader .icon.love i {
+    color: var(--like-color);
+}
+
+.notification .notificationHeader .icon.renote i {
+    color: var(--renote-color);
+}
+
+.notification .notificationHeader .icon.follow i,
+.notification .notificationHeader .icon.mention i {
+    color: var(--main-color);
+}

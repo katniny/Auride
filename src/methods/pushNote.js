@@ -17,7 +17,9 @@ export async function pushNote(id, file, text, nsfwFlag, sensitiveFlag, politica
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "authorization": `Bearer ${token}`,
+            "authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify({
             "noteId": id,
             "text": text,
             "filePath": file,
@@ -26,7 +28,7 @@ export async function pushNote(id, file, text, nsfwFlag, sensitiveFlag, politica
             "politicalFlag": politicalFlag,
             "musicId": musicId,
             "replyingTo": replyingTo
-        }
+        })
     });
     // if response isn't okay, user is invalid
     if (!res.ok)

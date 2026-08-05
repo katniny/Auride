@@ -10,18 +10,18 @@ auride.post("/api/auride/followUser", {
 }, async (req, res, ctx) => {
     try {
         // get request type - if it's "username", we'll need to get the users uid
-        const userIdentifer = req.headers.useridentifer;
+        const userIdentifier = req.headers.useridentifier;
         const reqType = req.headers.reqtype;
 
-        // do userIdentifer and reqType exist?
-        if (!userIdentifer)
+        // do userIdentifier and reqType exist?
+        if (!userIdentifier)
             return res.status(400).json({ error: "Please provide a UID or username." });
         if (!reqType || reqType !== "username" && reqType !== "uid")
             return res.status(400).json({ error: "We need to know your request type!" });
 
         let userUid = null;
         if (reqType === "username") {
-            const dbRef = await db.ref(`/taken-usernames/${userIdentifer}`).once("value");
+            const dbRef = await db.ref(`/taken-usernames/${userIdentifier}`).once("value");
 
             // if dbRef doesnt exist, throw an error!
             if (!dbRef.exists())
@@ -30,7 +30,7 @@ auride.post("/api/auride/followUser", {
             // else, continue
             userUid = dbRef.val().user;
         } else
-            userUid = userIdentifer;
+            userUid = userIdentifier;
 
         // double check, is the uid valid?
         if (!userUid)

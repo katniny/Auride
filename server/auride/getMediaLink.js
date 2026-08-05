@@ -15,7 +15,7 @@ auride.get("/api/auride/dev/getMediaLink", {
         // do userIdentifier and reqType exist?
         if (!fakePath)
             return res.status(400).json({ error: "Please provide a path to get." });
-        console.log(fakePath);
+        //console.log(fakePath);
 
         // get the path
         try {

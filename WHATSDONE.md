@@ -91,3 +91,6 @@
 - Document that Auride's server can now handle admin-only operations (admin dashboard wen (soon... (oh, thanks for the answer katty (no problem katty))))
 
 - Of course, check any // TODO: comments in code and make sure there isnt anything important for release
+
+- FIXME: pages that require auth might fail... before loading a page, make sure auth was initialized
+    - consistent repro: refresh on /notifications

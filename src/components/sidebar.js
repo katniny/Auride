@@ -3,6 +3,7 @@ import { storageLink } from "../utils/storageLink.js";
 import { faIcon } from "../utils/faIcon.js";
 import { showCreateNotePopup } from "../ui/modals/createNote.js";
 import { isSignedIn } from "../methods/auth/isSignedIn.js";
+import { db } from "../firebase/config.js";
 
 export async function addSidebarElement() {
     // wait for current user data
@@ -16,6 +17,10 @@ export async function addSidebarElement() {
         <!-- navigation buttons -->
         <a href="/home">
             <button id="homeButton" class="active">${faIcon("solid", "house").outerHTML} Home</button>
+        </a>
+        <a href="/notifications" class="removeOnNoAuth">
+            <div class="notificationCount">0</div>
+            <button id="notificationsButton">${faIcon("solid", "bell").outerHTML} Notifications</button>
         </a>
         <a href="/settings" class="removeOnNoAuth">
             <button id="settingsButton" class="active">${faIcon("solid", "gear").outerHTML} Settings</button>
@@ -47,6 +52,20 @@ export async function addSidebarElement() {
     }
 
     // TODO: implement account area, the rest of buttons, and other social links
+    // get the notification count
+    console.log(userData);
+    db.ref(`/users/${userData.uid}/notifications/unread`).on("value", snapshot => {
+        const notifCount = sidebarElement.querySelector(".notificationCount");
+        const value = snapshot.val();
+        if (value > 0) {
+            notifCount.style.display = "block";
+            if (value > 99)
+                notifCount.textContent = "99+";
+            else
+                notifCount.textContent = value;
+        } else
+            notifCount.style.display = "none";
+    });
 }
 
 // change active sidebar button
@@ -68,6 +87,9 @@ async function changeActiveButton() {
     switch (pathname) {
         case "/home":
             sidebar.querySelector("#homeButton").classList.add("active");
+            break;
+        case "/notifications":
+            sidebar.querySelector("#notificationsButton").classList.add("active");
             break;
         case "/updates":
             sidebar.querySelector("#updatesButton").classList.add("active");

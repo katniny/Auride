@@ -179,3 +179,18 @@
     transform: translateX(8px);
     color: var(--text-semi-transparent);
 }
+
+/* notification count */
+.sidebar .notificationCount {
+    background: var(--main-color-darker);
+    text-align: center;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 15px;
+    max-width: 15px;
+    padding: 3px;
+    font-size: smaller;
+    position: absolute;
+    transform: translate(25px, 3px);
+    display: none;
+}
