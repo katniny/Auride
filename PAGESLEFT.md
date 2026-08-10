@@ -28,10 +28,11 @@
 - [x] Remembering
     - cut
 - [x] Updates
+- [x] Unsupported
+- [x] Policies
 
 ## Easy
 - [ ] Done registering
-- [ ] Policies
 - [ ] About
     - TODO: do this after UI and whatnot is finalized, as we use Auride screenshots.
 - [ ] Achievements
@@ -43,7 +44,6 @@
 - [ ] Open Source
 - [ ] User page
     - Last thing to TODO: add achievements
-- [x] Unsupported
 - [ ] User Studio
 
 ## Not easy, not hard either / likely time consuming

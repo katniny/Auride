@@ -7,8 +7,8 @@
     },
     "beta": {
         "anyUpdatesAvailable": true,
-        "v2026.6.XX": {
-            "released": "June XX, 2026",
+        "v2026.8.25": {
+            "released": "August 25, 2026",
             "spa": {
                 "notUserFacingChange": false,
                 "text": "Auride now utilizes SPA"
@@ -152,6 +152,10 @@
             "notificationsNowShowDates": {
                 "notUserFacingChange": false,
                 "text": "Auride can now show when a notification was sent (for notifications created starting with the rewrite)"
+            },
+            "noJsAndUnsupportedPages": {
+                "notUserFacingChange": false,
+                "text": "If Auride uses a feature that your browser doesn't support, Auride will prompt to update your browser"
             },
             "movedUpdatesToJson": {
                 "notUserFacingChange": true,

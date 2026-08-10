@@ -16,6 +16,7 @@ export const routes = [
     { path: "404", loader: () => import("./pages/notFound.js") },
 
     // policies
+    { path: "/policies", loader: () => import("./pages/policies/main.js") },
     { path: "/policies/terms", loader: () => import("./pages/policies/terms.js") },
     { path: "/policies/privacy", loader: () => import("./pages/policies/privacy.js") },
     { path: "/policies/guidelines", loader: () => import("./pages/policies/guidelines.js") },
