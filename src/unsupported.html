@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Unsupported Browser | Auride</title>
+        <link rel="shortcut icon" href="/assets/imgs/favicon.png" type="image/png">
+        <script>
+            const supported =
+                ("fetch" in window) &&
+                ("Promise" in window) &&
+                ("WebSocket" in window) &&
+                ("localStorage" in window) &&
+                ("IntersectionObserver" in window) &&
+                ("HTMLDialogElement" in window)
+
+            if (supported)
+                window.location.replace("/");
+        </script>
+        <style>
+            /* auride fonts */
+            @font-face {
+                font-family: "Gabarito";
+                src: url(/assets/fonts/Gabarito.ttf);
+            }
+
+            * {
+                padding: 0;
+                margin: 0;
+            }
+
+            body {
+                background-color: #111;
+                color: #fff;
+                font-family: "Gabarito", sans-serif;
+            }
+
+            a {
+                color: #ef97be;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <div style="text-align: center; margin-top: 15px;">
+            <h2>Unsupported Browser</h2>
+            <p>You're missing critical features for Auride to function properly.</p>
+            <br />
+            <p>Please upgrade to a modern browser to use Auride.</p>
+            <a href="https://google.com/chrome" target="_blank">Google Chrome</a>
+            •
+            <a href="https://microsoft.com/edge" target="_blank">Microsoft Edge</a>
+            •
+            <a href="https://firefox.com" target="_blank">Firefox</a>
+
+            <br />
+            <br />
+
+            <p>Links if your browser has issues loading modern HTTPS pages:</p>
+            <a href="https://ftp.mozilla.org/pub/firefox/releases/" target="_blank">Firefox Archive (We recommend Firefox 150 or newer)</a>
+            •
+            <a href="http://google.com/chrome/fallback/" target="_blank">Google Chrome Fallback Page</a>
+
+            <br />
+            <br />
+
+            <p>If you're still having issues, you may need to upgrade your OS.</p>
+            <ul>
+                <li><b>Windows 8.1 or older</b>: Please upgrade to Windows 10 or newer.</li>
+                <li><b>macOS 12 Monterey or older</b>: Please update your macOS version to macOS Ventura or newer. Intel Macs are no longer supported by Apple.</li>
+                <li><b>Ubuntu 17.04 or older</b>: Please update to Ubuntu 18.04 or newer, or try a newer Linux distro.</li>
+            </ul>
+        </div>
+    </body>
+</html>

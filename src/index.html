@@ -6,6 +6,25 @@
         <title>Auride</title>
         <link rel="shortcut icon" href="/assets/imgs/favicon.png" type="image/png">
         <link rel="stylesheet" href="/assets/css/defaults.css">
+        <!-- make sure the browser supports javascript -->
+        <noscript>
+            <meta http-equiv="refresh" content="0; url=/no-javascript">
+        </noscript>
+
+        <!-- make sure the browser supports what auride relies on, otherwise kick to /unsupported -->
+        <script>
+            const unsupported =
+                !("fetch" in window) ||
+                !("Promise" in window) ||
+                !("WebSocket" in window) ||
+                !("localStorage" in window) ||
+                !("IntersectionObserver" in window) ||
+                !("HTMLDialogElement" in window) ||
+                !!document.documentMode;
+
+            if (unsupported && window.location.pathname !== "/unsupported")
+                window.location.replace("/unsupported");
+        </script>
     </head>
     
     <body>

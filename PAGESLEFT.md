@@ -1,3 +1,4 @@
+## Done:
 - [x] Introducing AurorAI
 - [x] Memorialized Accounts
 - [x] New Flagging System
@@ -17,35 +18,43 @@
 - [x] Community Guidelines
 - [x] Privacy Policy
 - [x] Terms of Service
-- [ ] Done registering
 - [x] Login
-- [ ] Names
-- [ ] PFP
-- [ ] Policies
-- [ ] Register
 - [x] 404
-- [ ] About
-- [ ] Achievements
-- [ ] Contributors
-- [ ] Create Theme
-- [ ] Download
-- [ ] Favorites
 - [x] Home
 - [x] Indev
 - [x] Index
-- [ ] Issues
+- [x] Note
+- [x] Notifications
+- [x] Remembering
+    - cut
+- [x] Updates
+
+## Easy
+- [ ] Done registering
+- [ ] Policies
+- [ ] About
+    - TODO: do this after UI and whatnot is finalized, as we use Auride screenshots.
+- [ ] Achievements
+- [ ] Contributors
+- [ ] Download
 - [ ] Maintainance
 - [ ] Messages
-- [x] Note
-- [ ] Notifications
+    - empty page for now
 - [ ] Open Source
-- [ ] Remembering
-- [ ] Search
-- [ ] Settings
-- [ ] Suspended
 - [ ] User page
     - Last thing to TODO: add achievements
-- [ ] Unsupported
-    - TODO: add IE page and <noscript> version
-- [ ] Updates
+- [x] Unsupported
 - [ ] User Studio
+
+## Not easy, not hard either / likely time consuming
+- [ ] Register
+- [ ] Names
+- [ ] PFP
+- [ ] Create Theme
+- [ ] Favorites
+- [ ] Suspended
+
+## Difficult (or fairly difficult)
+- [ ] Issues
+- [ ] Search
+- [ ] Settings
