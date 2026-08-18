@@ -5,18 +5,15 @@ const admin = require("firebase-admin");
 const cors = require("cors");
 const http = require("http");
 const WebSocket = require("ws");
-const auride = require("./core/auride.js");
+const readline = require("node:readline");
+const { styleText } = require("node:util");
+const os = require("node:os");
 
 const app = express();
 const PORT = 10000;
 
 // initialize env files
 require("dotenv").config();
-
-// allow requests from the frontend
-app.use(cors({
-    origin: process.env.HOST_URL
-}));
 
 // initialize admin if not already
 if (!admin.apps.length) {
@@ -25,6 +22,15 @@ if (!admin.apps.length) {
         databaseURL: process.env.FIREBASE_DATABASE_URL
     });
 }
+
+// load this after initializing firebase or checking user data
+// on the fly wont work
+const auride = require("./core/auride.js");
+
+// allow requests from the frontend
+app.use(cors({
+    origin: process.env.HOST_URL
+}));
 
 // allow json parsing from the body
 app.use(express.json());
@@ -134,3 +140,80 @@ wss.on("connection", (socket) => {
         console.log("> Client disconnected.");
     });
 });
+
+// allow executing commands
+const colors = {
+    normal: (text) => styleText("white", text),
+    success: (text) => styleText("green", text),
+    warning: (text) => styleText("yellow", text),
+    error: (text) => styleText("red", text)
+};
+
+setTimeout(() => {
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+        prompt: "Auride> "
+    });
+
+    const commands = {
+        help: async() => {
+            console.log("Available commands:");
+            console.log("~ help - view available commands");
+            console.log("~ status - view Auride server status and uptime");
+            console.log("~ exit - stop the server");
+        },
+        status: async() => {
+            console.log("Auride's backend is running.");
+            console.log(colors.success(`Uptime: ${Math.floor(process.uptime())} seconds.`));
+        },
+        ram_usage: async() => {
+            // get total memory
+            const memory = process.memoryUsage();
+
+            // get system memory
+            const systemTotal = os.totalmem();
+            const systemUsed = systemTotal - os.freemem();
+
+            const processUsed = memory.rss;
+
+            // log
+            console.log(`System RAM: ${(systemUsed / 1024 / 1024 / 1024).toFixed(2)}GB / ${(systemTotal / 1024 / 1024 / 1024).toFixed(2)}GB (across all applications)`);
+            console.log(`Auride: ${(processUsed / 1024 / 1024).toFixed(2)}MB (specifically Auride usage)`);
+        },
+        exit: async() => {
+            console.log(colors.warning("Stopping..."));
+            rl.close();
+            process.exit(0);
+        }
+    }
+
+    rl.prompt();
+
+    rl.on("line", async (line) => {
+        const input = line.trim();
+
+        if (!input) {
+            rl.prompt();
+            return;
+        }
+
+        const parts = input.split(/\s+/);
+        const command = parts.shift().toLowerCase();
+        const args = parts;
+
+        if (!commands[command]) {
+            console.log(colors.error(`Unknown command: ${command}`));
+            rl.prompt();
+            return;
+        }
+
+        try {
+            await commands[command](args);
+        } catch (error) {
+            console.error("Command failed:", error);
+        }
+
+        rl.prompt();
+    });
+}, 500);

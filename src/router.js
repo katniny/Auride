@@ -13,6 +13,7 @@ export const routes = [
     { path: "/roadmap", loader: () => import("./pages/roadmap.js") },
     { path: "/updates", loader: () => import("./pages/updates.js") },
     { path: "/notifications", loader: () => import("./pages/notifications.js") },
+    { path: "/suspended", loader: () => import("./pages/suspended.js") },
     { path: "404", loader: () => import("./pages/notFound.js") },
 
     // policies
@@ -96,7 +97,7 @@ function matchRoute(pathname) {
 // handle the current route and render the appropriate view
 export async function handleRoute() {
     // make sure the user is loaded before trying to continue
-    await currentUserData();
+    const userData = await currentUserData();
 
     // get current path and find matching route
     const pathname = window.location.pathname;
@@ -111,6 +112,24 @@ export async function handleRoute() {
         </span>
     `;
     const pageLoadingIndicator = document.getElementById("pageLoadingIndicator");
+
+    // if suspended, load suspended page & clear sidebar/header if available
+    if (userData?.suspended?.suspended) {
+        const modSuspended = await routes.find(r => r.path === "/suspended").loader();
+        app.appendChild(await modSuspended.default());
+        pageLoadingIndicator.remove();
+
+        // if sidebar/header are loaded, unload
+        const sidebar = document.getElementById("sidebar");
+        const header = document.querySelector("header");
+        if (sidebar)
+            sidebar.remove();
+        if (header)
+            header.remove();
+        app.classList.add("suspended");
+
+        return;
+    }
 
     // if no route matched, load 404 page
     if (!match) {

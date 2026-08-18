@@ -8,7 +8,7 @@ const { isAdmin } = require("../auride/functions/checkIfAdmin.js");
 const defaultOptions = {
     requireToken: false, // whether the user has to be authenticated or not
     requireAdmin: false, // whether the user has to be an admin or not
-    requireActiveAccount: true, // whether a suspended user can call this or not - TODO: add me!
+    requireActiveAccount: true, // whether a suspended user can call this or not
     rateLimit: null, // the amount of times per hour one user can call this - TODO: add me!
     internalOnly: true // if other apps are allowed to called this endpoint (assuming they have an API key, of course!)
 }
@@ -53,6 +53,13 @@ function createMethod(method) {
                 // else, user is signed in
                 ctx.currentUser.uid = auth.userIdFromRequest;
                 ctx.currentUser.isSignedIn = true;
+            }
+
+            // if suspended & endpoint requires active account, 404
+            if (auth?.suspension) {
+                ctx.currentUser.suspension = auth?.suspension;
+                if (auth?.suspension?.suspended && finalOptions.requireActiveAccount)
+                    return res.status(403).json({ error: "You are unable to do this while suspended." });
             }
 
             // if endpoint requests admin, check if current user is admin

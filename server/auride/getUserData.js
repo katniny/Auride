@@ -3,6 +3,7 @@ const admin = require("firebase-admin");
 const db = admin.database();
 
 auride.get("/api/auride/getUserData", {
+    requireActiveAccount: false,
     rateLimit: 2000
 }, async (req, res, ctx) => {
     try {
@@ -38,13 +39,17 @@ auride.get("/api/auride/getUserData", {
             return res.status(400).json({ error: "Failed to find a user with that selected UID/username." });
         }
 
+        // is the user requesting the data suspended? if so, dont return any user data for them
+        if (userUid !== ctx.currentUser.uid && ctx.currentUser.suspension?.suspended)
+            return res.status(403).json({ error: "Cannot access other users data when suspended." });
+
         // finally, lets get the user data
         let rawUserData = null;
         const userDataRef = await db.ref(`/users/${userUid}`).once("value");
         rawUserData = userDataRef.val();
         
         // is the user suspended?
-        if (rawUserData.suspensionStatus === "suspended")
+        if (rawUserData.suspensionStatus === "suspended" && userUid !== ctx.currentUser.uid)
             return res.status(403).json({ error: "This user is suspended." });
 
         // filter data
@@ -94,6 +99,7 @@ auride.get("/api/auride/getUserData", {
             // if so, we can return some additional data
             returnedUserData.autoplayVideos = rawUserData?.autoplayVideos;
             returnedUserData.flagPrefs = rawUserData?.flagPrefs;
+            returnedUserData.suspended = ctx.currentUser.suspension;
         }
 
         return res.status(200).json({ success: returnedUserData });

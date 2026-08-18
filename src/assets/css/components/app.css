@@ -5,6 +5,11 @@
    margin-top: 75px;
 }
 
+#app.suspended {
+    margin-top: 35px;
+    text-align: center;
+}
+
 /* once the screen starts reaching certain widths, twist the app element */
 @media (max-width: 768px) {
     #app {
@@ -49,4 +54,21 @@
         max-width: 100%;
         margin-left: 0px;
     }
+}
+
+/* app suspended pfp */
+#app.suspended .userPfp {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+}
+
+/* app suspension notice */
+#app.suspended .suspensionNotice {
+    margin-top: 5px;
+}
+
+/* suspension divider */
+#app.suspended .divider {
+    margin: 10px;
 }
