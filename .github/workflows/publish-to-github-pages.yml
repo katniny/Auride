@@ -29,7 +29,7 @@ jobs:
       
       - name: Write .env file
         run: |
-          printf "%s" "${{ secrets.ENV_FILE }}" > ./src/.env
+          printf "%s" "${{ secrets.ENV_FILE }}" > ./web/.env
       
       - name: Build project
         run: npm run build
@@ -44,4 +44,4 @@ jobs:
         uses: actions/deploy-pages@v4
         with:
           branch: gh-pages
-          folder: ./src/dist
+          folder: ./web/dist

@@ -1,5 +1,5 @@
 <div align="center">
-   <img src="src/public/assets/imgs/All_transparent.png" />
+   <img src="web/public/assets/imgs/All_transparent.png" />
    
    ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/katniny/auride/firebase-hosting-merge.yml) <a href="/LICENSE"><img alt="Static Badge" src="https://img.shields.io/badge/license-CC BY–NC–SA 4.0-blue"></a>
 </a>
@@ -11,12 +11,12 @@
 --- 
 
 ## 🚀 Features
-<img src="src/assets/readme-promo/themes.png">
+<img src="web/assets/readme-promo/themes.png">
 
 **Themes**: Use one of the 8 default themes, get a theme from [Auride's User Studio](https://auride.xyz/userstudio), or create your own!
 
 
-<img src="src/assets/readme-promo/flagging.png">
+<img src="web/assets/readme-promo/flagging.png">
 
 **Flagging System**: Welcome to the most comprehensive flagging system on any social media ever. With 16 flags under NSFW, Sensitive Content, and Political content, customize your feed and hide what you don't want to see. 
 
