@@ -32,6 +32,11 @@ export async function addSidebarElement() {
             <button id="userButton" class="active">${faIcon("solid", "user").outerHTML} Your Profile</button>
         </a>
         <button class="createNoteSidebar removeOnNoAuth">${faIcon("solid", "pencil").outerHTML} Create</button>
+
+        <!-- TODO: put these in the "more" menu -->
+        <a href="/achievements" class="removeOnNoAuth">
+            <button id="achievementButton" class="active">${faIcon("solid", "award").outerHTML} Achievements</button>
+        </a>
     `;
     document.body.appendChild(sidebarElement);
 
@@ -93,6 +98,9 @@ async function changeActiveButton() {
             break;
         case "/updates":
             sidebar.querySelector("#updatesButton").classList.add("active");
+            break;
+        case "/achievements":
+            sidebar.querySelector("#achievementButton").classList.add("active");
             break;
         default:
             // unknown button

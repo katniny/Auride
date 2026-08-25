@@ -1,4 +1,6 @@
 import { getToken } from "./getToken.js";
+import { showUnlockedAchievement } from "../ui/showAchievementUnlock.js";
+import { alreadyLoadedAchievements } from "../users/current.js";
 
 export async function renoteNote(id, parentNoteId) {
     // check for identifier & id type
@@ -28,5 +30,7 @@ export async function renoteNote(id, parentNoteId) {
 
     // else, return data
     const data = await res.json();
+    if (data?.achievement?.expressYourself && !alreadyLoadedAchievements.has("expressYourself"))
+        showUnlockedAchievement("expressYourself", data?.achievement?.expressYourself?.unlockedWhen);
     return await data?.returnedStatus;
 }

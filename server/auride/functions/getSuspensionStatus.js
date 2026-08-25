@@ -11,7 +11,7 @@ async function getSuspensionStatus(uid) {
     } else { // otherwise, lets fetch
         const possibleSuspendedUser = await db.ref(`/users/${uid}/suspensionStatus`).once("value");
         // are they suspended?
-        let suspensionNotes = false;
+        let suspensionNotes = null;
         let isSuspended;
         if (possibleSuspendedUser.val() === "suspended") {
             isSuspended = true;
@@ -21,7 +21,7 @@ async function getSuspensionStatus(uid) {
         // load them into ram
         await storedSuspendedUsers.set(uid, {
             suspended: isSuspended,
-            suspensionNotes: suspensionNotes.val()
+            suspensionNotes: suspensionNotes?.val() || null
         });
 
         return storedSuspendedUsers.get(uid);

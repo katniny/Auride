@@ -18,6 +18,8 @@
 @import url("./components/pageNotFound.css");
 @import url("./components/updatePage.css");
 @import url("./components/notifications.css");
+@import url("./components/unlockAchievement.css");
+@import url("./components/allAchievementsDiv.css");
 
 /* default colors */
 :root {

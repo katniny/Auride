@@ -3,6 +3,7 @@ const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
 const { sendNotification } = require("./functions/sendNotification.js");
+const { giveAchievement } = require("./functions/unlockAchievement.js");
 
 auride.post("/api/auride/followUser", {
     requireToken: true,
@@ -53,6 +54,10 @@ auride.post("/api/auride/followUser", {
         if (rawOtherUserData.memorialAccount?.isDeceased)
             return res.status(403).json({ error: "You can't follow a deceased user." });
 
+        // is user themselves?
+        if (userUid === ctx.currentUser.uid)
+            return res.status(403).json({ error: "You can't follow yourself." });
+
         // does user follow them?
         // decrement follower count and remove from followers IF following
         const following = rawUserData.followingWho || {};
@@ -96,8 +101,11 @@ auride.post("/api/auride/followUser", {
         // send follow notification
         sendNotification(userUid, ctx.currentUser.uid, "Follow");
 
+        // give achievement
+        const socialButterflyAchievementInfo = await giveAchievement(ctx.currentUser.uid, "theSocialButterfly");
+
         // then, finish
-        return res.status(200).json({ success: "User followed successfully." });
+        return res.status(200).json({ success: "User followed successfully.", achievement: { theSocialButterfly: socialButterflyAchievementInfo } });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }

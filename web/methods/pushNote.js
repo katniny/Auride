@@ -1,3 +1,5 @@
+import { showUnlockedAchievement } from "../ui/showAchievementUnlock.js";
+import { alreadyLoadedAchievements } from "../users/current.js";
 import { getToken } from "./getToken.js";
 
 export async function pushNote(id, file, text, nsfwFlag, sensitiveFlag, politicalFlag, musicId, replyingTo) {
@@ -36,5 +38,10 @@ export async function pushNote(id, file, text, nsfwFlag, sensitiveFlag, politica
 
     // else, return data
     const data = await res.json();
+
+    if (data?.achievement?.chatterbox && !alreadyLoadedAchievements.has("chatterbox"))
+        showUnlockedAchievement("chatterbox", data?.achievement?.chatterbox?.unlockedWhen);
+    if (data?.achievement?.firstSteps && !alreadyLoadedAchievements.has("firstSteps"))
+        showUnlockedAchievement("firstSteps", data?.achievement?.firstSteps?.unlockedWhen);
     return await data?.success;
 }

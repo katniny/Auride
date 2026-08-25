@@ -30,20 +30,24 @@
 - [x] Updates
 - [x] Unsupported
 - [x] Policies
+- [x] Suspended
 
 ## Easy
 - [ ] Done registering
 - [ ] About
     - TODO: do this after UI and whatnot is finalized, as we use Auride screenshots.
+    - TBD: may drop from rewrite temp.
 - [ ] Achievements
 - [ ] Contributors
 - [ ] Download
 - [ ] Maintainance
+    - TBD: may drop from rewrite.
 - [ ] Messages
     - empty page for now
 - [ ] Open Source
 - [ ] User page
     - Last thing to TODO: add achievements
+    - ^ TBD: above may be dropped from rewrite temp.
 - [ ] User Studio
 
 ## Not easy, not hard either / likely time consuming
@@ -52,9 +56,10 @@
 - [ ] PFP
 - [ ] Create Theme
 - [ ] Favorites
-- [ ] Suspended
 
 ## Difficult (or fairly difficult)
 - [ ] Issues
+    - TBD: may drop from rewrite temp.
 - [ ] Search
+    - TBD: may drop from rewrite temp.
 - [ ] Settings

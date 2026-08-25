@@ -1,0 +1,12 @@
+/* achievement divs */
+#allAchievementsDiv .achievementDiv {
+    background: var(--note-background);
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--main-color);
+}
+
+#allAchievementsDiv .achievementDiv.notUnlocked {
+    opacity: 0.5;
+}

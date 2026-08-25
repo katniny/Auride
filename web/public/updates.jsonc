@@ -157,6 +157,19 @@
                 "notUserFacingChange": false,
                 "text": "If Auride uses a feature that your browser doesn't support, Auride will prompt to update your browser"
             },
+            "achievementsNowUseServerTime": {
+                "notUserFacingChange": false,
+                "text": "Achievements now use the servers timestamp rather than the unlockers local time, allowing us to show when an achievement was unlocked in a users local time",
+                "subtext": "Any achievements unlocked before August 25, 2026 are still using the old timestamps as there is no need to change them."
+            },
+            "achievementsPageRedesigned": {
+                "notUserFacingChange": false,
+                "text": "The achievements page has been redesigned"
+            },
+            "achievementsUnified": {
+                "notUserFacingChange": true,
+                "text": "Achievement icons, names, and descriptions are now unified so it can referenced anywhere we may need them & enables us to add new achievements easier"
+            },
             "movedUpdatesToJson": {
                 "notUserFacingChange": true,
                 "text": "Updates are now kept track of inside a JSON file, rather than HTML"

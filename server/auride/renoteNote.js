@@ -2,6 +2,7 @@ const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
 const { sendNotification } = require("./functions/sendNotification.js");
+const { giveAchievement } = require("./functions/unlockAchievement.js");
 
 auride.post("/api/auride/renoteNote", {
     requireToken: true,
@@ -63,8 +64,13 @@ auride.post("/api/auride/renoteNote", {
         // send renote notification
         sendNotification(rawNoteData.whoSentIt, ctx.currentUser.uid, "Renote", noteId);
 
+        // unlock achievement
+        let expressYourselfAchievementInfo;
+        if (rawNoteData.whoSentIt !== ctx.currentUser.uid)
+            expressYourselfAchievementInfo = await giveAchievement(ctx.currentUser.uid, "expressYourself");
+
         // then, finish
-        return res.status(200).json({ success: "Note renoted successfully." });
+        return res.status(200).json({ success: "Note renoted successfully.", achievement: { expressYourself: expressYourselfAchievementInfo } });
     } catch (error) {
         return res.status(500).json({ error: error.message });
     }

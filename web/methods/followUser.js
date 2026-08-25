@@ -1,3 +1,5 @@
+import { showUnlockedAchievement } from "../ui/showAchievementUnlock.js";
+import { alreadyLoadedAchievements } from "../users/current.js";
 import { getToken } from "./getToken.js";
 
 export async function followUser(userIdentifer, reqType) {
@@ -30,5 +32,7 @@ export async function followUser(userIdentifer, reqType) {
 
     // else, return data
     const data = await res.json();
+    if (data?.achievement?.theSocialButterfly && !alreadyLoadedAchievements.has("theSocialButterfly"))
+        showUnlockedAchievement("theSocialButterfly", data?.achievement?.theSocialButterfly?.unlockedWhen);
     return await data?.returnedStatus;
 }

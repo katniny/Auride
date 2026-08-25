@@ -2,6 +2,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/config.js";
 
 export let userData = null;
+export let alreadyLoadedAchievements = new Set();
 // promise to resolve user data
 // other scripts can `await` this safely
 let userDataPromiseResolve;
@@ -48,6 +49,14 @@ onAuthStateChanged(auth, async (user) => {
         // return user data
         const data = await res.json();
         userData = data.success;
+
+        // load what achievements we already have, as to not show them the unlock twice
+        const achievements = data.success?.achievements?.transsocial ?? {};
+        alreadyLoadedAchievements = new Set(
+            Object.entries(achievements).filter(([, achievement]) => achievement?.unlocked).map(([name]) => name)
+        );
+        console.log(alreadyLoadedAchievements);
+        
         console.log(userData);
         return userData;
     })();

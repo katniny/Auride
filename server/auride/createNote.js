@@ -2,6 +2,7 @@ const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
 const { sendNotification } = require("./functions/sendNotification.js");
+const { giveAchievement } = require("./functions/unlockAchievement.js");
 
 auride.post("/api/auride/createNote", {
     rateLimit: 2000,
@@ -112,7 +113,10 @@ auride.post("/api/auride/createNote", {
                     "isRenote": false
                 });
 
-            // if its a valid reply, increment the reply count & give original poster a notification
+            // if its a valid reply, increment the reply count, give original poster a notification
+            // and give achievement
+            let firstStepsAchievementInfo;
+            let chatterboxAchievementInfo;
             if (validReply) {
                 // add replyingTo
                 dbRef.update({
@@ -127,10 +131,15 @@ auride.post("/api/auride/createNote", {
 
                 // push notification
                 sendNotification(rawNoteData.whoSentIt, ctx.currentUser.uid, "Reply", replyingTo);
-            }
+
+                // unlock achievement
+                chatterboxAchievementInfo = await giveAchievement(ctx.currentUser.uid, "chatterbox");
+            } else
+                // unlock achievement
+                firstStepsAchievementInfo = await giveAchievement(ctx.currentUser.uid, "firstSteps");
 
             // then, finish
-            return res.status(200).json({ success: "Note sent successfully." });
+            return res.status(200).json({ success: "Note sent successfully.", achievement: { chatterbox: chatterboxAchievementInfo, firstSteps: firstStepsAchievementInfo } });
     } catch (error) {
         console.log(error);
         return res.status(500).json({ error: error });

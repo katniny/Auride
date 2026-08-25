@@ -78,19 +78,14 @@
 - Document how to get a Spotify token
 - Check `import.meta.env.VITE_BUILD_ENV` in the page loader and prevent invalid options from loading, as this will break Auride image-related functionality
 - Document on how to use `uploadMedia()`
-- When creating a note, check for @mentions to push a notification to
-- When creating a note, check if it's a reply and push appropriately
 - Add ability to add alt text to images/videos
 - Add ability to unlock posting/replying achievements if appropriate
 - Make test.js in Methods (frontend) the default way to call the server (and make success/error the ONLY messages accepted!)
 - Document on how to use the Auride router (e.g., `auride.get`)
 - Go through server rate limits & give it actual rates
-- Make the server actually enforce `requireActiveAccount` and `rateLimit` (per user)
+- Make the server actually `rateLimit` (per user)
 - Go through and remove console.logs
 - Document that servers should use `success` or `error` based on how the server responds for unification reasons
 - Document that Auride's server can now handle admin-only operations (admin dashboard wen (soon... (oh, thanks for the answer katty (no problem katty))))
 
 - Of course, check any // TODO: comments in code and make sure there isnt anything important for release
-
-- FIXME: pages that require auth might fail... before loading a page, make sure auth was initialized
-    - consistent repro: refresh on /notifications

@@ -1,0 +1,52 @@
+.unlockAchievement {
+    position: fixed;
+    top: 75px;
+    right: 15px;
+    text-align: right;
+    max-width: 250px;
+    background: var(--note-background);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--main-color);
+}
+
+.unlockAchievement .hero {
+    color: var(--text-semi-transparent);
+}
+
+/* open/close toast animations */
+.unlockAchievement.show {
+    animation: achievementToastOpen 420ms ease;
+}
+
+@keyframes achievementToastOpen {
+    0% {
+        opacity: 0;
+        transform: scale(0.82) translateX(100000px);
+    }
+    55% {
+        opacity: 1;
+        transform: scale(1.015) translateX(50px);
+    }
+    100% {
+        transform: scale(1) translateX(0);
+    }
+}
+
+.unlockAchievement.hide {
+    animation: achievementToastClose 420ms ease;
+}
+
+@keyframes achievementToastClose {
+    0% {
+        transform: scale(1) translateX(0);
+    }
+    55% {
+        opacity: 1;
+        transform: scale(1.015) translateX(500px);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.82) translateX(100000px);
+    }
+}
