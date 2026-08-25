@@ -31,19 +31,14 @@
 - [x] Unsupported
 - [x] Policies
 - [x] Suspended
+- [x] Achievements
+- [x] Maintainance
+- [x] Download
+- [x] Messages
 
 ## Easy
 - [ ] Done registering
-- [ ] About
-    - TODO: do this after UI and whatnot is finalized, as we use Auride screenshots.
-    - TBD: may drop from rewrite temp.
-- [ ] Achievements
 - [ ] Contributors
-- [ ] Download
-- [ ] Maintainance
-    - TBD: may drop from rewrite.
-- [ ] Messages
-    - empty page for now
 - [ ] Open Source
 - [ ] User page
     - Last thing to TODO: add achievements
@@ -58,8 +53,13 @@
 - [ ] Favorites
 
 ## Difficult (or fairly difficult)
-- [ ] Issues
-    - TBD: may drop from rewrite temp.
-- [ ] Search
-    - TBD: may drop from rewrite temp.
 - [ ] Settings
+
+## TODO: soon after rewrite
+- [x] Issues
+    - TBD: may drop from rewrite temp.
+- [x] Search
+    - TBD: may drop from rewrite temp.
+- [x] About
+    - TODO: do this after UI and whatnot is finalized, as we use Auride screenshots.
+    - TBD: may drop from rewrite temp.

@@ -22,7 +22,7 @@ export async function showUnlockedAchievement(achievement, timeUnlocked) {
 
     document.body.appendChild(achievementShow);
 
-    // then, after [time], close & delete
+    // then, after 3.5 seconds, close & delete
     setTimeout(() => {
         achievementShow.classList.remove("show");
         achievementShow.classList.add("hide");

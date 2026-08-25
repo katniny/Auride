@@ -41,6 +41,13 @@ export const routes = [
     { path: "/blog/what-qualifies-as-political", loader: () => import("./pages/blog/whatQualifiesAsPolitical.js") },
     { path: "/blog/why-auride", loader: () => import("./pages/blog/whyAuride.js") },
 
+    // TODO: add proper functionality to these pages after rewrite
+    { path: "/maintainance", loader: () => import("./pages/maintainance.js") },
+    { path: "/download", loader: () => import("./pages/download.js") },
+    { path: "/messages", loader: () => import("./pages/messages.js") },
+    { path: "/issues", loader: () => import("./pages/issues.js") },
+    { path: "/search", loader: () => import("./pages/search.js") },
+
     // auth
     { path: "/auth/login", loader: () => import("./pages/auth/login.js") }
 ];
