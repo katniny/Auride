@@ -166,6 +166,22 @@
                 "notUserFacingChange": false,
                 "text": "The achievements page has been redesigned"
             },
+            "usernamesNowAcceptUnderscores": {
+                "notUserFacingChange": false,
+                "text": "Fixed issue where Auride didn't accept underscores in usernames"
+            },
+            "pfpUploadingUnifiedFunction": {
+                "notUserFacingChange": true,
+                "text": "Uploading a profile picture is now unified, allowing us to make changes to profile picture uploading in only one spot and affect everything"
+            },
+            "brokenAccountsBeingNavigatedCorrectly": {
+                "notUserFacingChange": true,
+                "text": "When an account is damaged, it will bring you immediately to the right page, not navigate through several pages until its correct"
+            },
+            "disallowedDisplayAndUsername": {
+                "notUserFacingChange": true,
+                "text": "Due to these being identifiers of a broken account, Deleted user is no longer an allowed display name, and ghost is no longer an allowed username."
+            },
             "achievementsUnified": {
                 "notUserFacingChange": true,
                 "text": "Achievement icons, names, and descriptions are now unified so it can referenced anywhere we may need them & enables us to add new achievements easier"

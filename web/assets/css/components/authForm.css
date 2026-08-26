@@ -103,3 +103,27 @@
     justify-content: center;
     gap: 0.5rem;
 }
+
+/* upload pfp div */
+.authForm .form .pfpUpload {
+    border: 1px solid var(--main-color);
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.authForm .form .pfpUpload h1 {
+    transform: translateY(55px);
+}
+
+/* additional button styling */
+.authForm .form button.fullWidth {
+    width: 100%;
+}
+
+.authForm .form a,
+.authForm .form a i {
+    text-decoration: none;
+}

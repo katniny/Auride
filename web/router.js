@@ -49,7 +49,11 @@ export const routes = [
     { path: "/search", loader: () => import("./pages/search.js") },
 
     // auth
-    { path: "/auth/login", loader: () => import("./pages/auth/login.js") }
+    { path: "/auth/login", loader: () => import("./pages/auth/login.js") },
+    { path: "/auth/register", loader: () => import("./pages/auth/register.js") },
+    { path: "/auth/names", loader: () => import("./pages/auth/names.js") },
+    { path: "/auth/pfp", loader: () => import("./pages/auth/pfp.js") },
+    { path: "/auth/done", loader: () => import("./pages/auth/done.js") },
 ];
 
 // navigate to a path without reloading the page
@@ -110,6 +114,21 @@ export async function handleRoute() {
     // get current path and find matching route
     const pathname = window.location.pathname;
     const match = matchRoute(pathname);
+
+    // is user data damaged? if so, navigate to appropriate page and return
+    if (userData) {
+        const isUndoneUser = userData.display === "Deleted user" || userData.username === "ghost";
+
+        if (isUndoneUser && pathname !== "/auth/names") {
+            navigate("/auth/names");
+            return;
+        }
+
+        if (!isUndoneUser && !userData.pfp && pathname !== "/auth/pfp") {
+            navigate("/auth/pfp");
+            return;
+        }
+    }
     
     // clear current content
     const app = document.getElementById("app");

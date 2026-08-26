@@ -35,9 +35,12 @@
 - [x] Maintainance
 - [x] Download
 - [x] Messages
+- [x] Register
+- [x] Names
+- [x] PFP
+- [x] Done registering
 
 ## Easy
-- [ ] Done registering
 - [ ] Contributors
 - [ ] Open Source
 - [ ] User page
@@ -46,9 +49,6 @@
 - [ ] User Studio
 
 ## Not easy, not hard either / likely time consuming
-- [ ] Register
-- [ ] Names
-- [ ] PFP
 - [ ] Create Theme
 - [ ] Favorites
 
