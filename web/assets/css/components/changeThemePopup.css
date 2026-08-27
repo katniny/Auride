@@ -1,0 +1,17 @@
+.changeThemePopup .theme {
+    cursor: pointer;
+    position: relative;
+    margin-top: 10px;
+}
+
+.changeThemePopup .theme img {
+    max-width: 100%;
+}
+
+.changeThemePopup .theme .info {
+    position: absolute;
+    bottom: 0;
+    background: var(--reply-background);
+    width: 98%;
+    padding: 5px;
+}

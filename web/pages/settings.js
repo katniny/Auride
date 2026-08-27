@@ -13,6 +13,7 @@ import { setEmail } from "../methods/changeEmail.js";
 import { showResetPasswordPopup } from "../ui/modals/resetPassword.js";
 import { downloadUserData } from "../methods/downloadUserData.js";
 import { deleteAccount } from "../methods/deleteAccount.js";
+import { changeThemePopup } from "../ui/modals/changeTheme.js";
 
 export default async function settingsPage() {
     // get users data
@@ -430,6 +431,12 @@ export default async function settingsPage() {
             await deleteAccount();
             window.location.replace("/home"); // refresh
         }
+    };
+
+    // select theme
+    const selectThemeBtn = el.querySelector(".selectTheme");
+    selectThemeBtn.onclick = async () => {
+        changeThemePopup();
     };
 
     return el;
