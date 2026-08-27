@@ -32,15 +32,6 @@ export default async function aboutPage() {
     const currentUsersData = await currentUserData();
     if (!currentUsersData)
         navigate("/auth/register");
-    if (currentUsersData && !currentUsersData?.pfp && currentUsersData?.display !== "Deleted user" && currentUsersData?.username !== "ghost") {
-        navigate("/auth/pfp");
-        return;
-    }
-    // else, go home
-    if (currentUsersData && currentUsersData.pfp && currentUsersData.display && currentUsersData.username) {
-        navigate("/home");
-        return;
-    }
 
     // remove the sidebar
     if (document.getElementById("sidebar"))

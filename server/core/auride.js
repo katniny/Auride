@@ -51,6 +51,7 @@ function createMethod(method) {
                     ctx.currentUser.isSignedIn = false;
             } else {
                 // else, user is signed in
+                ctx.currentUser.lastAuth = auth.lastAuth;
                 ctx.currentUser.uid = auth.userIdFromRequest;
                 ctx.currentUser.isSignedIn = true;
             }

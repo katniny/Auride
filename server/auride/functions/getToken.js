@@ -22,7 +22,8 @@ async function getTokenAndUid(authHeader) {
             return {
                 userIdFromRequest: decodedToken.uid,
                 userToken: extractedToken,
-                suspension: suspensionStatus
+                suspension: suspensionStatus,
+                lastAuth: decodedToken.auth_time
             };
         } catch (err) {
             console.error(`Invalid token: ${err}`);

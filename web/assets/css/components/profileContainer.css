@@ -9,6 +9,7 @@
 /* pfp & banner */
 .profileContainer .userPfp {
     width: 125px;
+    height: 125px;
     position: absolute;
     top: 65px;
     left: 0px;

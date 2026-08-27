@@ -50,7 +50,6 @@
 
 ## Not easy, not hard either / likely time consuming
 - [ ] Create Theme
-- [ ] Favorites
 
 ## Difficult (or fairly difficult)
 - [ ] Settings
@@ -63,3 +62,5 @@
 - [x] About
     - TODO: do this after UI and whatnot is finalized, as we use Auride screenshots.
     - TBD: may drop from rewrite temp.
+- [x] Favorites
+    - not super happy about dropping 4 pages but im already 4 hours past deadline. this needs to release eventually, sacrifices have to be made :/

@@ -7,8 +7,8 @@
     },
     "beta": {
         "anyUpdatesAvailable": true,
-        "v2026.8.25": {
-            "released": "August 25, 2026",
+        "v2026.8.26": {
+            "released": "August 26, 2026",
             "spa": {
                 "notUserFacingChange": false,
                 "text": "Auride now utilizes SPA"
@@ -160,7 +160,7 @@
             "achievementsNowUseServerTime": {
                 "notUserFacingChange": false,
                 "text": "Achievements now use the servers timestamp rather than the unlockers local time, allowing us to show when an achievement was unlocked in a users local time",
-                "subtext": "Any achievements unlocked before August 25, 2026 are still using the old timestamps as there is no need to change them."
+                "subtext": "Any achievements unlocked before August 26, 2026 are still using the old timestamps as there is no need to change them."
             },
             "achievementsPageRedesigned": {
                 "notUserFacingChange": false,
@@ -173,6 +173,10 @@
             "pfpUploadingUnifiedFunction": {
                 "notUserFacingChange": true,
                 "text": "Uploading a profile picture is now unified, allowing us to make changes to profile picture uploading in only one spot and affect everything"
+            },
+            "bannerUploadingUnifiedFunction": {
+                "notUserFacingChange": true,
+                "text": "Uploading a banner is now unified, allowing us to make changes to profile picture uploading in only one spot and affect everything"
             },
             "brokenAccountsBeingNavigatedCorrectly": {
                 "notUserFacingChange": true,

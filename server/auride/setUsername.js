@@ -33,6 +33,11 @@ auride.post("/api/auride/setUsername", {
         if (usernameExists)
             return res.status(403).json({ error: "Username taken." });
 
+        // if user has a username already, free it up!
+        const doesHaveUsername = await db.ref(`/users/${ctx.currentUser.uid}/username`).once("value");
+        if (doesHaveUsername)
+            await db.ref(`/taken-usernames/${doesHaveUsername.val()}`).remove();
+
         // else, if all good, make sure username gets taken and set it as users username
         await db.ref(`/taken-usernames/${newUsername}`).update({
             user: ctx.currentUser.uid

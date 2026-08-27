@@ -21,6 +21,9 @@
 @import url("./components/unlockAchievement.css");
 @import url("./components/allAchievementsDiv.css");
 @import url("./components/changePfpPopup.css");
+@import url("./pageStyles/settingsPage.css");
+@import url("./components/changeBannerPopup.css");
+@import url("./components/reauthPopup.css");
 
 /* default colors */
 :root {
@@ -280,4 +283,30 @@ option {
 ::-moz-selection {
    color: var(--hovered-button-text);
    background-color: var(--main-color);
+}
+
+/* textarea */
+textarea {
+   font-size: 14px;
+   padding: 5px;
+   white-space: pre-wrap;
+   word-wrap: break-word;
+   font-family: inherit;
+   font-size: inherit;
+   line-height: inherit;
+   letter-spacing: inherit;
+   margin-top: 5px;
+   border-radius: 5px;
+   outline: none;
+   min-height: 80px;
+   transition: all 0.1s ease;
+   background: transparent;
+   color: transparent;
+   caret-color: var(--text);
+   color: var(--text);
+   resize: none;
+}
+
+textarea:focus {
+   border: 1px solid var(--main-color);
 }

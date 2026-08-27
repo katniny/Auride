@@ -2,6 +2,7 @@ import { currentUserData } from "../users/current.js";
 import { storageRef } from "../utils/storage.js";
 import { checkFile } from "./checkFileType.js";
 import { routeMediaLink } from "./dev/routeMediaLink.js";
+import { updateBannerName } from "./update/bannerName.js";
 import { updatePfpName } from "./update/pfpName.js";
 
 export async function uploadMedia(file, path, typeToUse, noteId, parentNoteId) {
@@ -93,6 +94,9 @@ export async function uploadMedia(file, path, typeToUse, noteId, parentNoteId) {
             switch (path) {
                 case "pfp":
                     updatePfpName(uploadedFile.name);
+                    break;
+                case "banner":
+                    updateBannerName(uploadedFile.name);
                     break;
                 default:
                     // ?

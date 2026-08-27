@@ -11,12 +11,18 @@
         },
         "users": {
             "$uid": {
+                // TODO: update permissions to be false.. media uploading has to be migrated to the
+                // server-side soon.
                 "pfp": {
                     ".read": "auth !== null && auth.uid === $uid",
                     ".write": "auth !== null && auth.uid === $uid"
                 },
-                "favorites": {
+                "banner": {
                     ".read": "auth !== null && auth.uid === $uid",
+                    ".write": "auth !== null && auth.uid === $uid"
+                },
+                "favorites": {
+                    ".read": false,
                     ".write": false
                 },
                 "notifications": {

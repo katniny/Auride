@@ -102,6 +102,9 @@ async function changeActiveButton() {
         case "/achievements":
             sidebar.querySelector("#achievementButton").classList.add("active");
             break;
+        case "/settings":
+            sidebar.querySelector("#settingsButton").classList.add("active");
+            break;
         default:
             // unknown button
             break;

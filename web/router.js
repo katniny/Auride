@@ -15,6 +15,7 @@ export const routes = [
     { path: "/notifications", loader: () => import("./pages/notifications.js") },
     { path: "/suspended", loader: () => import("./pages/suspended.js") },
     { path: "/achievements", loader: () => import("./pages/achievements.js") },
+    { path: "/settings", loader: () => import("./pages/settings.js") },
     { path: "404", loader: () => import("./pages/notFound.js") },
 
     // policies

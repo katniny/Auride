@@ -3,6 +3,12 @@ import { currentUserData } from "../../users/current.js";
 import { navigate } from "../../router.js";
 
 export default async function aboutPage() {
+    const userData = await currentUserData();
+    if (!userData) {
+        navigate("/auth/register");
+        return;
+    }
+
     document.title = "Thanks for signing up! | Auride";
     const el = document.createElement("div");
     el.innerHTML = `

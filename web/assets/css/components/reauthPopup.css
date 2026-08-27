@@ -1,0 +1,9 @@
+.reauthPopup input {
+    width: 98%;
+    margin-bottom: 5px;
+}
+
+.reauthPopup .showHidePassword {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

@@ -46,6 +46,7 @@ header .right {
 /* profile picture inside the header */
 header .right #headerUserPfp {
     width: 35px;
+    height: 35px;
     right: 35px;
     border-radius: 50%;
     cursor: pointer;
