@@ -42,8 +42,8 @@ jobs:
     steps:
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
-        working-directory: ./web
         with:
+          working-directory: ./web
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=auride
