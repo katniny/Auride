@@ -82,3 +82,23 @@ header .left #aurideHeaderLogo {
         transform: translateY(0px);
     }
 }
+
+/* hamburger menu */
+header .hamburgerMenu {
+    border: 1px solid transparent;
+    transform: translateY(-20px);
+    display: none;
+}
+
+header .hamburgerMenu:hover,
+header .hamburgerMenu:focus {
+    border: 1px solid var(--main-color);
+    background: transparent;
+    border-radius: 5px;
+}
+
+@media (max-width: 1147px) {
+    header .hamburgerMenu {
+        display: inline-block;
+    }
+}

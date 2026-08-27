@@ -24,7 +24,7 @@
     color: var(--hovered-button-text);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1147px) {
     .sidebar {
         display: none;
         animation: closeSidebar normal;
