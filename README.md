@@ -13,7 +13,7 @@
 ## 🚀 Features
 <img src="web/assets/readme-promo/themes.png">
 
-**Themes**: Use one of the 8 default themes, get a theme from [Auride's User Studio](https://auride.xyz/userstudio), or create your own!
+**Themes**: Choose from 8 unique different default themes, with custom themes relaunching soon!
 
 
 <img src="web/assets/readme-promo/flagging.png">

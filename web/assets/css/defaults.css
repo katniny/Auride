@@ -24,6 +24,7 @@
 @import url("./pageStyles/settingsPage.css");
 @import url("./components/changeBannerPopup.css");
 @import url("./components/reauthPopup.css");
+@import url("./components/pageLoader.css");
 
 /* default colors */
 :root {

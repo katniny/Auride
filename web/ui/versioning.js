@@ -1,5 +1,5 @@
 // formatted: vYEAR.MONTH.DAY
-const updateTime = "v2026.8.26";
+export const updateTime = "v2026.8.26";
 // formatted: vYEARMONTHDAY
 const updateTimeSimple = "v2026826"
 // the number of updates today (increment by one, unless there was no commits today!)

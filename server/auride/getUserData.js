@@ -100,6 +100,11 @@ auride.get("/api/auride/getUserData", {
             returnedUserData.autoplayVideos = rawUserData?.autoplayVideos;
             returnedUserData.flagPrefs = rawUserData?.flagPrefs;
             returnedUserData.suspended = ctx.currentUser.suspension;
+            returnedUserData.theme = rawUserData?.theme || null;
+            returnedUserData.customThemeColors = rawUserData?.themeColors || null;
+            returnedUserData.savedThemes = rawUserData?.savedThemes || null;
+            returnedUserData.useODFont = rawUserData?.useODFont || null;
+            returnedUserData.showPrideFlag = rawUserData?.showPrideFlag || null;
         }
 
         return res.status(200).json({ success: returnedUserData });

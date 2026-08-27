@@ -4,6 +4,10 @@ import { currentUserData } from "./users/current.js"; // get user data
 import { addHeaderElement } from "./components/header.js";
 import { addSidebarElement } from "./components/sidebar.js";
 import { getFaReady } from "./utils/faIcon.js";
+import { pageLoader } from "./ui/pageLoader.js";
+
+// show page loader
+pageLoader();
 
 // handle the current route
 handleRoute();
