@@ -11,7 +11,8 @@ permissions:
   deployments: write
 
 jobs:
-  build:
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/rewrite'
     runs-on: ubuntu-latest
 
     steps:
@@ -34,12 +35,7 @@ jobs:
       - name: Build project
         run: npm run build
         working-directory: ./web
-    
-  deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/rewrite'
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
+      
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
