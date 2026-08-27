@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to Cloudflare Pages
 on:
   workflow_dispatch:
   push:
@@ -7,8 +7,8 @@ on:
 
 permissions:
   contents: read
-  pages: write
   id-token: write
+  deployments: write
 
 jobs:
   build:
@@ -29,19 +29,21 @@ jobs:
       
       - name: Write .env file
         run: |
-          printf "%s" "${{ secrets.ENV_FILE }}" > ./web/.env
+          printf "%s" "${{ secrets.CANARY_ENV_FILE }}" > ./web/.env
       
       - name: Build project
         run: npm run build
         working-directory: ./web
     
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/rewrite'
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
         with:
-          branch: gh-pages
-          folder: ./web/dist
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=auride
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
