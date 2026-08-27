@@ -109,5 +109,10 @@ export async function pageLoader() {
         }, 450);
     } else {
         whatLoading.textContent = "No user found. Done!";
+        pageLoader.classList.add("fadeAway");
+        setTimeout(() => {
+            pageLoader.classList.remove("fadeAway");
+            pageLoader.classList.add("done");
+        }, 450);
     }
 }
