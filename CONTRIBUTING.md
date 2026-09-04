@@ -1,89 +1,64 @@
-Last updated: September 15, 2025
-# 👋 Welcome to the Auride contributing guide!
-Thank you for your interest in contributing to Auride! We try to make Auride as easy as possible to contribute to.
+# Contributing to Auride
+### Last Updated: September 4, 2026
+---
+Thank you for considering contributing to Auride! Here, we'll discuss our general "rules of thumb".
 
-## 📃 Rules
-- Please do not use political ideology
-   - We try to accept all PRs but we will always do so regardless of race, gender, sexual orientation, etc., so please do not open a PR adding things such as racist language, language to bring down a group or individual, or anything that would be deemed as rude, targeted, or other such things as it'll be seen as a troll and closed, as we avoid using such language.
-- Please be professional
-   - You don't have to be corporate level of professional, but please do not use overly NSFW wording, the occasional "shit" or "piss", low level swearing (e.g. "this shit is pissing me off"), is fine, but please do not be like, "FUCK, this REALLY FUCKING PISSED me OFF. WHO THE FUCK WROTE THIS?".
-- Please be respectful
-   - No one is paid to work on Auride and contributors use their own *free time* to review your issues and pull requests, they are not paid an hourly wage to do so.
-- Please don't argue about requested changes
-   - If someone requests a change, please change it. If you feel strongly that your original way is better, calmly explain way but do not argue about it.
-      - Please note that grammar corrections are not arguable or something to be discussed. Discussing about phrasing is okay, but if we ask you to change something small (e.g "were" to "we're"), please do.
-      - e.g., "please make this comment easier to read" should not be argued nor discussed about. An implementation can be discussed.
-- When contributing, please update `/public/assets/js/versioning.js` and `updates.html`
-   - Please note that this is required.
-   - Format for versioning.js:
-   ```js
-      let aurideVersion = "vYEAR.MONTH.DAY"; // e.g. v2025.1.1
-      let aurideUpdate = "vYEARMONTHDAY-UPDATEFORTHEDAY"; // e.g. v202551-5
-      let hasUpdateNotes = true; // this should be set to true if you have update notes in updates.html, otherwise false
-   ```
-   - Format for update.html:
-   ```html
-      <div class="update">
-          <h2>v2025.5.6_pre-alpha</h2>
-          <h3 style="color: var(--text-semi-transparent);">Released: MONTH DAY, YEAR</h3> <!-- e.g. May 1, 2025 -->
-          <li>Change 1 that should be understandable to the user</li>
-          <li>(Dev Env) Change 2 that should be understandable to the user, but ONLY applies to the codebase rather than the end-user</li>
-      </div>
+> [!INFO]
+> First time contributing to Auride?** - a maintainer will need to run workflows for you.
 
-      <br />
-   ```
-- Follow our code indentation
-   - While we don't have a specific one like Prettier and our current code base is pretty mixed on spacing on whatnot (for now), we generally use an indentation that is equivalent to 4 spaces.
-   An example of this is:
+> [!CAUTION]
+> You're on the main Auride branch. Please note that at this time, the main branch is in "maintainance only" mode - we only fix critical bugs or vulernabilities. Please contribute to our [rewrite branch](https://github.com/katniny/Auride/tree/rewrite) instead!
+>
+> Once the rewrite is merged into the main branch, we will remove this warning!
 
-   ```js 
-   function test() {
-       console.log("This is a test");
-   }
-   ```
+## General Rules
+Auride's mission is to provide a safe place for everyone, this includes our projects off-platform.
 
-   As previously mentioned, this is pretty mixed in the current codebase so please try to stick with the general indentation of that file. However, this will be required when we get around to intending all the pages correctly, as we will strictly be merging and coding with 4 spaces-equivalent indentation.
+**Do not harass anyone** - everyone is unique! Whether that's race, sexuality, personality, or anything else - we encourage participation from everyone! Do not harass, bully, or discriminate based on any factors.
 
-- No AI code or speech.
-   - While AI is okay to use as an assistant to help guide you if you are truly stuck on a problem, please do not use it to create your speech or entire code blocks.
+**Be respectful** - we're respectful of others, their positions, their coding skills, their commitments and their efforts and most importantly - we're respectful of the volunteer efforts. Everyone contributes because they want to, not because they have to. If you remember these guidelines, this should be easy for you.
 
-- Please treat ts_fas_acih.js as depreciated
-   - When it comes to adding new code that is not reliant on existing code within ts_fas_acih.js, please create a new file. This code file is considered depreciated, and should only be modified if you are touching existing code, otherwise, please create a new file.
+**Be open to collaboration** - Auride is an open source project. At any time, anyone may critique, modify, or remove parts/all of your code. This is just the nature of a large project of Auride, there is never a part that "stays the same". If we ask you to do something like add a test or fix a spelling mistake, please don't get defensive - we do this to better Auride for everyone and make it easier for everyone to contribute to.
 
-## 👩‍💻 Recommendations
-These are just recommendations, but they will help aid you while contributing to Auride.
-- HTML/CSS/JavaScript/NodeJS experience
-   - Moderate experience in JavaScript at minimum, as we rely heavily on JavaScript, but this also depends on *what* you're contributing.
-- Experience with Firebase tools (any version before 9, but version 9+ should be okay as well but please note we use 8.6.8, so it is slightly different from versions 9 and up)
-   - This is less necessary, as Firebase has documentation at https://firebase.google.com/docs/. We use authentication, realtime database, and functions, just as a reference point.
+**Do not break the law** - we understand that you may have concerns about certain laws (e.g., Online Safety Act in the UK or age restrictions in Australia). We do too. Unfortunately, Auride is a commercial product handling user data, so we have to abide by these laws. PRs/issues opened about removing any restrictions, blocking users in certain countries or otherwise breaking the law (e.g., piracy) will be closed without warning. Depending on the severity, you may even be banned from the GitHub.
 
-## ✨ Required
-We only have **one** requirement for contributing to Auride (dependencies), as we build most things ourselves.
-- NodeJS
+**Remember our community guidelines** - our community guidelines apply outside of Auride! Please review them at https://auride.xyz/policies/guidelines
 
-## 🛠 Getting Started
-1. Visit the [Auride GitHub repo](https://github.com/katniny/Auride)
-2. Click the "Fork" button in the top right, so you can work on Auride and make seperate commits
-3. Clone your fork into an empty folder:
-```bash
-   git clone https://github.com/YOUR_USERNAME/Auride
-   cd auride
-```
-4. Add the upstream remote:
-```bash
-   git remote add upstream https://github.com/katniny/Auride
-```
-5. In your terminal, run `cd src` to go into the source file
-6. Go to /public/assets/js/firebase.js and replace the default firebaseConfig with your own. If you do not have one, please get one from the [Firebase Console](https://console.firebase.google.com/). **Make sure you do not commit these keys!**
-7. If your Firebase project does not have the Blaze plan, please upgrade it to the Blaze plan. The reason is stated below.
-8. Run `npm install` to install all of Auride's dependencies
-9. Run `npm run dev` to start a local development server
-10. You're ready!
+## AI policies
+Generative AI, including Large Languages Models (LLMs) such as Claude, ChatGPT, etc., should not be used when contributing to Auride.
 
-## 📝 Please note
-Auride is being worked on to make the codebase nice to work with. Right now, there are several repeated elements (and as a consequence, a change to one will require you to do it on ALL pages it appears on) and indentation that does not match our requirements.
+We understand that you may think AI is a useful tool - however, our code is art and we want to interact with real human beings with a genuine passion for programming, not an AI.
 
-We're working on making Auride's codebase nice to work with, but temporarily, please keep this mind.
+## Getting the Code
+> [!NOTE]
+> We support development on anything that can run NodeJS and a modern browser, but we only have instructions for Windows, macOS, and Linux (in order of support).
+>
+> On macOS, we assume you have `brew`: https://brew.sh
 
-## 📔 License
-By contributing to Auride, you agree that your contributions will be licensed under [Auride's license](https://github.com/katniny/Auride/blob/main/LICENSE). Once merged, your contributions may be kept, modified, or removed by the project maintainers -- even if you later choose to leave or revoke your involvement.
+You'll need `git`, `nodejs` with npm, and Docker:
+- Windows: `winget install -e --id Git.Git OpenJS.NodeJS Docker.DockerDesktop`
+- macOS: `brew install git node docker`
+- Linux (Debian/Ubuntu): `apt install git nodejs` then follow the instructions here: https://docs.docker.com/engine/install/ubuntu/
+   - Please refer to your distro's guides to get the correct command. There's too many distros to make a comprehensive list!
+
+Once you have git installed, pull our repo: `git clone https://github.com/katniny/Auride` then `cd Auride`.
+
+> [!INFO]
+> If your terminal/IDE supports it, we recommend opening multiple tabs! It makes your life easier!
+
+In the folders `src` and `server`, run `npm i` to install all the dependencies.
+
+### src:
+In `src`, go to /public/assets/js/firebase.js and paste your Firebase credentials from https://console.firebase.google.com. If you don't have Firebase credentials yet, create a project and enable Authentication and Realtime Database.
+
+> [!CAUTION]
+> Make sure to not commit those keys!
+
+### server:
+In `server`, copy `.env.example` and rename it to `.env`.
+The HOST_URL can stay the same, but paste your Firebase Realtime Database key in `FIREBASE_DATABASE_URL`. If you want to use a token to test Issues, create a GitHub Token and make sure it can create issues in a repo (please do not flood our issues with test issues though, please!).
+
+### Finalizing
+Then once everything is okay, run `npm run dev` in `src` to host the frontend, then `npm start` in server to host the backend, finally run `docker compose up` in `storage` to run storage!
+
+Now you should have your very own Auride running!
