@@ -22,6 +22,8 @@ Auride's mission is to provide a safe place for everyone, this includes our proj
 
 **Do not break the law** - we understand that you may have concerns about certain laws (e.g., Online Safety Act in the UK or age restrictions in Australia). We do too. Unfortunately, Auride is a commercial product handling user data, so we have to abide by these laws. PRs/issues opened about removing any restrictions, blocking users in certain countries or otherwise breaking the law (e.g., piracy) will be closed without warning. Depending on the severity, you may even be banned from the GitHub.
 
+**Tests must pass** - on PR open, certain tests will run. If any of these fail and it is a regression with your PR, we won't merge your PR until its fixed.
+
 **Remember our community guidelines** - our community guidelines apply outside of Auride! Please review them at https://auride.xyz/policies/guidelines
 
 ## AI policies
