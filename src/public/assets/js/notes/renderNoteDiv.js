@@ -98,17 +98,17 @@ async function renderNote(noteData) {
     // is the note nsfw/sensitive/political?
     // if so, what are the user prefs?
     let cover;
-    if (noteData.isNsfw && noteData.isNsfw !== "noNsfwContent") {
+    if (noteData.isNsfw && noteData.isNsfw !== "noNsfwContent" && noteData.isNsfw !== "none") {
         if (currentUser)
             cover = await renderWarning(noteData.id, noteData.isNsfw, currentUser.showNsfw, currentUser.flagPrefs);
         else
             return; // just dont show to signed out users
-    } else if (noteData.isSensitive && noteData.isSensitive !== "noSensitiveContent") {
+    } else if (noteData.isSensitive && noteData.isSensitive !== "noSensitiveContent" && noteData.isSensitive !== "none") {
         if (currentUser)
             cover = await renderWarning(noteData.id, noteData.isSensitive, currentUser.showSensitive, currentUser.flagPrefs);
         else
             return; // just dont show to signed out users
-    } else if (noteData.isPolitical && noteData.isPolitical !== "noPoliticalContent") {
+    } else if (noteData.isPolitical && noteData.isPolitical !== "noPoliticalContent" && noteData.isPolitical !== "none") {
         if (currentUser)
             cover = await renderWarning(noteData.id, noteData.isPolitical, currentUser.showPolitics, currentUser.flagPrefs);
         else
