@@ -1,5 +1,5 @@
-let aurideVersion = "v2026.4.1";
-let aurideUpdate = "v2026041-1";
+let aurideVersion = "v2026.9.8";
+let aurideUpdate = "v2026098-1";
 let aurideReleaseVersion = "alpha";
 let hasUpdateNotes = true;
 
