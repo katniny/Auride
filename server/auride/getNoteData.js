@@ -1,6 +1,7 @@
 const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
+const storedNotes = require("../core/noteCache.js");
 
 auride.get("/api/auride/getNoteData", {
     rateLimit: 2000
@@ -62,6 +63,7 @@ auride.get("/api/auride/getNoteData", {
                     if (onlyFollowingBool && !followers[ctx.currentUser.uid])
                         return;
 
+                    storedNotes.set(childNote.key, fullNote);
                     notesArray.push(fullNote);
                 })());
             }
@@ -94,6 +96,7 @@ auride.get("/api/auride/getNoteData", {
 
                 // else, continue
                 note.key = childSnapshot.key;
+                storedNotes.set(childSnapshot.key, note);
                 notesArray.push(note);
             })());
         });

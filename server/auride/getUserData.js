@@ -1,6 +1,7 @@
 const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
+const storedUsers = require("../core/userCache.js");
 
 auride.get("/api/auride/getUserData", {
     requireActiveAccount: false,
@@ -10,6 +11,10 @@ auride.get("/api/auride/getUserData", {
         // get request type - if it's "username", we'll need to get the users uid
         const userIdentifier = req.headers.useridentifier;
         const reqType = req.headers.reqtype;
+
+        // do we have it in ram? if so, just load that
+        if (storedUsers.get(userIdentifier))
+            return res.status(200).json({ success: storedUsers.get(userIdentifier) });
 
         // do userIdentifier and reqType exist?
         if (!userIdentifier)
@@ -106,6 +111,9 @@ auride.get("/api/auride/getUserData", {
             returnedUserData.useODFont = rawUserData?.useODFont || null;
             returnedUserData.showPrideFlag = rawUserData?.showPrideFlag || null;
         }
+
+        // load into ram
+        await storedUsers.set(userIdentifier, returnedUserData );
 
         return res.status(200).json({ success: returnedUserData });
     } catch (error) {

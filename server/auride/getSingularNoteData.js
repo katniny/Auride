@@ -1,6 +1,7 @@
 const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
+const storedNotes = require("../core/noteCache.js");
 
 auride.get("/api/auride/getSingularNoteData", {
     rateLimit: 2000
@@ -10,6 +11,10 @@ auride.get("/api/auride/getSingularNoteData", {
         const noteIdHeader = req.headers.noteid || "";
         if (!noteIdHeader)
             return res.status(400).json({ error: "No note ID provided." });
+
+        // do we have it in ram? if so, just load that
+        if (storedNotes.get(noteIdHeader))
+            return res.status(200).json({ success: storedNotes.get(noteIdHeader) });
 
         // if theres a note id, check if its a reply or not
         const splitNoteIdHeader = await noteIdHeader.split("/");
@@ -54,6 +59,9 @@ auride.get("/api/auride/getSingularNoteData", {
             return res.status(403).json({ error: "We're not sure who the user who sent this note is." });
         if (userData.suspensionStatus === "suspended")
             return res.status(403).json({ error: "You can't view a note from a suspended user." });
+
+        // load into ram
+        await storedNotes.set(noteIdHeader, noteData );
         
         // then, return note data!
         return res.status(200).json({ success: noteData });

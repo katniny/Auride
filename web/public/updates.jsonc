@@ -7,6 +7,13 @@
     },
     "beta": {
         "anyUpdatesAvailable": true,
+        "v2026.9.10": {
+            "released": "September 10, 2026",
+            "cacheNotesAndUsers": {
+                "notUserFacingChange": true,
+                "text": "Cache recently accessed note & user data, speeding up Auride load times significantly"
+            }
+        },
         "v2026.8.26": {
             "released": "August 26, 2026",
             "spa": {
