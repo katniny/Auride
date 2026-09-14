@@ -1,1 +1,0 @@
-We use a website link. Please see [this guide](../README).
