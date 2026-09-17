@@ -115,6 +115,10 @@ jobs:
           java -version
           echo "JAVA_HOME=$JAVA_HOME"
       
+      - name: Build Web
+        run: npm run build:web
+        working-directory: ./apps
+      
       - name: Build Android APK
         run: npm run tauri android build -- --apk
         working-directory: ./apps
