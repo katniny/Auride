@@ -2,6 +2,8 @@ const { execSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
+const headless = process.argv.includes("--headless");
+
 // get paths relative to current file
 const webDir = path.resolve(__dirname, "../web");
 const distDir = path.resolve(webDir, "dist");
@@ -21,8 +23,12 @@ fs.cpSync(distDir, appsSrcDir, {
 });
 
 // once done, run the app
-console.log("Done! Running app...")
-execSync("npm run tauri dev", {
-    cwd: appsSrcDir,
-    stdio: "inherit"
-});
+if (!headless) {
+    console.log("Done! Running app...")
+    execSync("npm run tauri dev", {
+        cwd: appsSrcDir,
+        stdio: "inherit"
+    });
+} else {
+    console.log("Done! Running headless, skipping app start.");
+}

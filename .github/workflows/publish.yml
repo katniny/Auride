@@ -116,7 +116,7 @@ jobs:
           echo "JAVA_HOME=$JAVA_HOME"
       
       - name: Build Web
-        run: npm run build:web
+        run: npm run build:web -- --headless
         working-directory: ./apps
       
       - name: Build Android APK
