@@ -12,31 +12,45 @@ permissions:
 
 jobs:
   deploy:
-    if: github.event_name == 'push' && github.ref == 'refs/heads/rewrite'
+    name: Deploy Web
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/rewrite'
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
       
+      - name: Check for web changes
+        id: web_changes
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            web:
+              - 'web/**'
+
       - name: Setup Node
+        if: steps.web_changes.outputs.web == 'true' || github.event_name == 'workflow_dispatch'
         uses: actions/setup-node@v4
         with:
           node-version: 22
       
       - name: Install dependencies
+        if: steps.web_changes.outputs.web == 'true' || github.event_name == 'workflow_dispatch'
         run: npm install
         working-directory: ./web
       
       - name: Write .env file
+        if: steps.web_changes.outputs.web == 'true' || github.event_name == 'workflow_dispatch'
         run: |
           printf "%s" "${{ secrets.CANARY_ENV_FILE }}" > ./web/.env
       
       - name: Build project
+        if: steps.web_changes.outputs.web == 'true' || github.event_name == 'workflow_dispatch'
         run: npm run build
         working-directory: ./web
       
       - name: Deploy to Cloudflare Pages
+        if: steps.web_changes.outputs.web == 'true' || github.event_name == 'workflow_dispatch'
         uses: cloudflare/wrangler-action@v3
         with:
           workingDirectory: ./web
@@ -44,16 +58,49 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=auride
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+  build-android:
+    name: Build Android
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/rewrite'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
       
+      #- name: Check for app changes
+      #  id: app_changes
+      #  uses: dorny/paths-filter@v3
+      #  with:
+      #    filters: |
+      #      apps:
+      #        - 'apps/**'
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      
+      - name: Install web dependencies
+        run: npm install
+        working-directory: ./web
+      
+      - name: Write .env file
+        run: |
+          printf "%s" "${{ secrets.CANARY_ENV_FILE }}" > ./web/.env
+      
+      - name: Install system dependencies
+        run: |
+          apt get-update
+          apt-get install -y libwebkit2gtk-4.1-dev build-essential \
+            curl wget file libxdo-dev libssl-dev \
+            libayatana-appindicator3-dev librsvg2-dev
+
       - name: Install app dependencies
         run: npm install
         working-directory: ./apps
-      
-      - name: Build web assets for app
-        run: npm run build:web
-        working-directory: ./apps
-      
-      - name: Create Android keystores.properties
+
+      - name: Create keystores.properties
         run: |
           printf "%s" "${{ secrets.ANDROID_KEYSTORES_PROPERTIES }}" > ./apps/src-tauri/gen/android/keystores.properties
       
@@ -69,7 +116,7 @@ jobs:
           echo "JAVA_HOME=$JAVA_HOME"
       
       - name: Build Android APK
-        run: npm run tauri build -- --apk
+        run: npm run tauri android build -- --apk
         working-directory: ./apps
       
       - name: Rename APK
