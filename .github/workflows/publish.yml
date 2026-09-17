@@ -1,4 +1,4 @@
-name: Deploy to Cloudflare Pages
+name: Deploy to Cloudflare Pages & Build Apps
 on:
   workflow_dispatch:
   push:
@@ -44,3 +44,39 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=auride
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Install app dependencies
+        run: npm install
+        working-directory: ./apps
+      
+      - name: Build web assets for app
+        run: npm run build:web
+        working-directory: ./apps
+      
+      - name: Create Android keystores.properties
+        run: |
+          printf "%s" "${{ secrets.ANDROID_KEYSTORES_PROPERTIES }}" > ./apps/src-tauri/gen/android/keystores.properties
+      
+      - name: Setup JDK 24
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '24'
+      
+      - name: Verify Java version
+        run: |
+          java -version
+          echo "JAVA_HOME=$JAVA_HOME"
+      
+      - name: Build Android APK
+        run: npm run tauri build -- --apk
+        working-directory: ./apps
+      
+      - name: Rename APK
+        run: mv ./apps/src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk ./auride.apk
+      
+      - name: Upload Android APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: auride-android
+          path: ./auride.apk
