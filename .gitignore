@@ -40,3 +40,6 @@ keystore.properties
 # ignore uploaded files
 */data/progress/*
 server/auride/fakePaths.json
+
+# ignore builds to app
+apps/src

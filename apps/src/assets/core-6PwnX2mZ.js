@@ -1,1 +1,0 @@
-async function e(e,t={},n){return window.__TAURI_INTERNALS__.invoke(e,t,n)}function t(){return!!(globalThis||window).isTauri}export{t as n,e as t};
