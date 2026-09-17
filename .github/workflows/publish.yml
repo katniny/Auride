@@ -100,9 +100,13 @@ jobs:
         run: npm install
         working-directory: ./apps
 
-      - name: Create keystores.properties
+      - name: Setup Android signing
         run: |
-          printf "%s" "${{ secrets.ANDROID_KEYSTORES_PROPERTIES }}" > ./apps/src-tauri/gen/android/keystores.properties
+          cd ./apps/src-tauri/gen/android
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" > keystore.properties
+          echo "password=${{ secrets.ANDROID_KEY_PASSWORD }}" >> keystore.properties
+          base64 -d <<< "${{ secrets.ANDROID_KEY_BASE64 }}" > "$RUNNER_TEMP/keystore.jks"
+          echo "storeFile=$RUNNER_TEMP/keystore.jks" >> keystore.properties
       
       - name: Setup JDK 24
         uses: actions/setup-java@v6
