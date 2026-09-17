@@ -1,3 +1,4 @@
+import { apiFetch } from "../main.js";
 import { showUnlockedAchievement } from "../ui/showAchievementUnlock.js";
 import { alreadyLoadedAchievements } from "../users/current.js";
 import { getToken } from "./getToken.js";
@@ -17,7 +18,7 @@ export async function followUser(userIdentifer, reqType) {
         throw new Error("Failed to get a token. Please ensure the user is signed in.");
     
     // finally, get data
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/followUser`, {
+    const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/followUser`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

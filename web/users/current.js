@@ -1,5 +1,6 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/config.js";
+import { apiFetch } from "../main.js";
 
 export let userData = null;
 export let alreadyLoadedAchievements = new Set();
@@ -30,7 +31,7 @@ onAuthStateChanged(auth, async (user) => {
         const token = await user.getIdToken();
 
         // request user data
-        const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/getUserData`, {
+        const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/getUserData`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

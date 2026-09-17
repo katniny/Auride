@@ -1,3 +1,4 @@
+import { apiFetch } from "../main.js";
 import { userData } from "../users/current.js";
 import { getToken } from "./getToken.js";
 
@@ -10,7 +11,7 @@ export async function setPronouns(pronouns) {
         throw new Error("Failed to get a token. Please ensure the user is signed in.");
     
     // finally, get data
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/setPronouns`, {
+    const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/setPronouns`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

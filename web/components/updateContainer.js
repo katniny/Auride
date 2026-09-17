@@ -1,6 +1,8 @@
+import { apiFetch } from "../main";
+
 export async function getUpdate(version) {
     try {
-        const response = await fetch("/updates.jsonc");
+        const response = await apiFetch("/updates.jsonc");
         const data = await response.json();
 
         if (data[version] == null)

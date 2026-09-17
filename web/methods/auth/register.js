@@ -1,4 +1,5 @@
 import { auth } from "../../firebase/config.js";
+import { apiFetch } from "../../main.js";
 import { navigate } from "../../router.js";
 import { getToken } from "../getToken.js";
 
@@ -15,7 +16,7 @@ export async function registerUser(email, password) {
         throw new Error("You're already signed in.");
     
     // finally, get data
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/registerUser`, {
+    const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/registerUser`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

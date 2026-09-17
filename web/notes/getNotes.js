@@ -4,6 +4,7 @@ import { auth } from "../firebase/config.js";
 import { renderNotes } from "./renderNotes.js";
 import { faIcon } from "../utils/faIcon.js";
 import { getUserData } from "../methods/getUserData.js";
+import { apiFetch } from "../main.js";
 
 // init variables
 let pathname = window.location.pathname;
@@ -140,7 +141,7 @@ export async function loadNotes() {
     }
 
     // then, send the request the server
-    const res = await fetch(requestUrl, {
+    const res = await apiFetch(requestUrl, {
         headers: token ? { "Authorization": `Bearer ${token}` } : {}
     });
 

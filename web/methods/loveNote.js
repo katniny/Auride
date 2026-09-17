@@ -1,3 +1,4 @@
+import { apiFetch } from "../main.js";
 import { getToken } from "./getToken.js";
 
 export async function loveNote(id, parentNoteId) {
@@ -13,7 +14,7 @@ export async function loveNote(id, parentNoteId) {
         throw new Error("Failed to get a token. Please ensure the user is signed in.");
     
     // finally, get data
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/loveNote`, {
+    const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/loveNote`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

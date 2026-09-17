@@ -37,9 +37,10 @@ function createMethod(method) {
 
             // if endpoint is internal only and someone else calls it,
             // block!
-            // TODO: add HMAC to secure further & make native mobile apps possible
-            if (finalOptions.internalOnly && req.headers.origin !== process.env.HOST_URL)
-                return res.status(403).json({ error: "You are attempting to access a restricted API. Please do not do this." });
+            // TODO: secure further
+            // FIXME: below breaks the apps. we need to secure it in some other way. :P
+            //if (finalOptions.internalOnly && req.headers.origin !== process.env.HOST_URL)
+            //    return res.status(403).json({ error: "You are attempting to access a restricted API. Please do not do this." });
 
             // if not signed in, check
             if (!auth?.userToken) {

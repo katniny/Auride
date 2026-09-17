@@ -1,7 +1,9 @@
+import { apiFetch } from "../main.js";
+
 // to get spotify access token
 async function getAccessToken() {
     // ask spotify for a access token
-    const response = await fetch("https://accounts.spotify.com/api/token", {
+    const response = await apiFetch("https://accounts.spotify.com/api/token", {
         method: "POST",
         headers: {
             "Authorization": `Basic ${btoa(import.meta.env.VITE_SPOTIFY_TOKEN)}`,
@@ -23,7 +25,7 @@ export async function searchSpotify(text) {
     // get access token
     const accessToken = await getAccessToken();
     // then, ask spotify for songs
-    const response = await fetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(text)}&type=track&limit=5`, {
+    const response = await apiFetch(`https://api.spotify.com/v1/search?q=${encodeURIComponent(text)}&type=track&limit=5`, {
         headers: {
             "Authorization": `Bearer ${accessToken}`
         }

@@ -12,6 +12,8 @@
     "vite": "^8.0.10"
   },
   "dependencies": {
+    "@tauri-apps/api": "^2.11.1",
+    "@tauri-apps/plugin-http": "^2.6.1",
     "firebase": "^12.12.1"
   },
   "allowScripts": {

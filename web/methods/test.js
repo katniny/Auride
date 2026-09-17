@@ -1,3 +1,4 @@
+import { apiFetch } from "../main.js";
 import { getToken } from "./getToken.js";
 
 export async function testAurideRouter(apiToCall, httpMethod) {
@@ -5,7 +6,7 @@ export async function testAurideRouter(apiToCall, httpMethod) {
     const token = await getToken();
     
     // finally, get data
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/${apiToCall}`, {
+    const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/${apiToCall}`, {
         method: httpMethod,
         headers: {
             "Content-Type": "application/json",

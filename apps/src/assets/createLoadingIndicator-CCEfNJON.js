@@ -1,0 +1,3 @@
+function e(e,t,n){let r=null;switch(e){case`xs`:r=document.createElement(`p`);break;case`sm`:r=document.createElement(`h3`);break;case`lg`:r=document.createElement(`h2`);break;case`xl`:r=document.createElement(`h1`);break;default:break}r.innerHTML=`
+        <i class="fa-solid fa-circle-notch fa-spin"></i>
+    `,r.style.textAlign=`center`,r.style.marginTop=`15px`,r.id=`noteLoadingIndicator`,n===`append`?document.getElementById(t).appendChild(r):n===`prepend`&&document.getElementById(t).prepend(r)}export{e as t};

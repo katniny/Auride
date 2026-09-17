@@ -1,3 +1,4 @@
+import { apiFetch } from "../main.js";
 import { getToken } from "./getToken.js";
 
 export async function getNotifications(typeOfReturn, lastKey) {
@@ -9,7 +10,7 @@ export async function getNotifications(typeOfReturn, lastKey) {
     const token = await getToken();
     
     // finally, get data
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/getUserNotifications`, {
+    const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/getUserNotifications`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

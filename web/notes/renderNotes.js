@@ -4,6 +4,7 @@ import { allLoadedNotes } from "./getNotes.js";
 import { currentUserData } from "../users/current.js";
 import { auth } from "../firebase/config.js";
 import { faIcon } from "../utils/faIcon.js";
+import { apiFetch } from "../main.js";
 
 let currentlyRendering = false;
 export async function renderNotes(notesArray) {
@@ -58,7 +59,7 @@ export async function renderNotes(notesArray) {
             }
             
             // then get user data
-            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/getUserData`, {
+            const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/getUserData`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",

@@ -1,0 +1,16 @@
+{
+  "name": "auride",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "tauri": "tauri",
+    "build:web": "node startAuride.cjs"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  },
+  "dependencies": {
+    "@tauri-apps/plugin-http": "^2.6.1"
+  }
+}

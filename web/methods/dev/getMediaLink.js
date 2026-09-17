@@ -1,10 +1,12 @@
+import { apiFetch } from "../../main";
+
 export async function getMediaLink(path) {
     // check for path
     if (!path)
         throw new Error("We need the route that you're wanting to fetch!");
     
     // finally, get data
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/dev/getMediaLink`, {
+    const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/dev/getMediaLink`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

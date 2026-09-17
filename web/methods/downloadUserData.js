@@ -1,3 +1,4 @@
+import { apiFetch } from "../main.js";
 import { getToken } from "./getToken.js";
 
 export async function downloadUserData() {
@@ -5,7 +6,7 @@ export async function downloadUserData() {
     const token = await getToken();
     
     // finally, get data
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/downloadUserData`, {
+    const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/downloadUserData`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json",

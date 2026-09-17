@@ -1,6 +1,7 @@
 import { getToken } from "./getToken.js";
 import { showUnlockedAchievement } from "../ui/showAchievementUnlock.js";
 import { alreadyLoadedAchievements } from "../users/current.js";
+import { apiFetch } from "../main.js";
 
 export async function renoteNote(id, parentNoteId) {
     // check for identifier & id type
@@ -15,7 +16,7 @@ export async function renoteNote(id, parentNoteId) {
         throw new Error("Failed to get a token. Please ensure the user is signed in.");
     
     // finally, get data
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/renoteNote`, {
+    const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/renoteNote`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

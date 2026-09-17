@@ -1,3 +1,4 @@
+import { apiFetch } from "../../main.js";
 import { getToken } from "../getToken.js";
 
 export async function routeMediaLink(id, path) {
@@ -15,7 +16,7 @@ export async function routeMediaLink(id, path) {
         throw new Error("Failed to get a token. Please ensure the user is signed in.");
     
     // finally, get data
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/dev/routeMediaLink`, {
+    const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/dev/routeMediaLink`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

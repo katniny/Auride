@@ -1,3 +1,4 @@
+import { apiFetch } from "../main.js";
 import { getToken } from "./getToken.js";
 
 export async function deleteAccount() {
@@ -5,7 +6,7 @@ export async function deleteAccount() {
     const token = await getToken();
     
     // finally, get data
-    const res = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/deleteAccount`, {
+    const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/deleteAccount`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
