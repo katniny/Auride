@@ -1,0 +1,9 @@
+.linkVisiting {
+    border: 1px solid var(--main-color);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: center;
+    color: var(--text-semi-transparent);
+    font-size: 16px;
+}

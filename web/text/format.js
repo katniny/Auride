@@ -1,3 +1,5 @@
+import { showVisitLinkPopup } from "../ui/modals/openLink";
+
 function escapeHtml(text, allowImg = false) {
     if (allowImg) {
         // temporarily replace img tags so we don't escape them
@@ -33,7 +35,7 @@ function linkify(text) {
             return part; // leave img tags alone
         }
         // replace URLs
-        part = part.replace(urlPattern, '<a href="javascript:void(0)" onclick="openLink(`$1`)">$1</a>');
+        part = part.replace(urlPattern, match => `<a href="javascript:void(0)" onclick="showVisitLinkPopup('${match}')">${match}</a>`);
         // replace usernames
         part = part.replace(usernamePattern, '<a href="/u/$1">@$1</a>');
         return part;
