@@ -12,6 +12,10 @@
             "addBirthday": {
                 "notUserFacingChange": false,
                 "text": "Added birthday requirement to Auride"
+            },
+            "smarterLoginPrompt": {
+                "notUserFacingChange": false,
+                "text": "The login prompt when signed out will now hide when a page is unscrollable"
             }
         },
         "v2026.9.10": {

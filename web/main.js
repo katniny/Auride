@@ -50,15 +50,29 @@ window.addEventListener("scroll", () => {
 });
 // on navigation, check if page is scrollable
 document.addEventListener("navigatedToNewPage", () => {
-    // force it on
-    loginPrompt.style.display = "block";
-    // then after 500ms, check again
-    setTimeout(() => {
-        if (!isScrollable() || isNearBottom())
-            loginPrompt.style.display = "none";
-        else
+    const generatedPages = [
+        "/home",
+        "/issues",
+        "/messages",
+        "/notifications",
+        "/search",
+        "/updates"
+    ];
+
+    // if its a page that generates, force the login prompt on.
+    const pathname = window.location.pathname;
+    if (generatedPages.includes(pathname)) {
+        loginPrompt.style.display = "block";
+    } else {
+        if (pathname.startsWith("/u/") || pathname.startsWith("/note/") || pathname.startsWith("/userstudio/")) {
             loginPrompt.style.display = "block";
-    }, 500);
+        } else {
+            if (!isScrollable() || isNearBottom())
+                loginPrompt.style.display = "none";
+            else
+                loginPrompt.style.display = "block";
+        }
+    }
 });
 
 // make global navigate available
