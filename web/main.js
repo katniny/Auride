@@ -52,13 +52,13 @@ window.addEventListener("scroll", () => {
 document.addEventListener("navigatedToNewPage", () => {
     // force it on
     loginPrompt.style.display = "block";
-    // then after 250ms, check again
+    // then after 500ms, check again
     setTimeout(() => {
         if (!isScrollable() || isNearBottom())
             loginPrompt.style.display = "none";
         else
             loginPrompt.style.display = "block";
-    }, 250);
+    }, 500);
 });
 
 // make global navigate available
