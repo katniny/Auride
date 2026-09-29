@@ -13,15 +13,9 @@ const storedUsers = new Map();
 // FIXME: this is lazy, we should put checking users into a function so we can
 // just double-check and update it appropriately
 db.ref("/users").on("child_changed", (snapshot) => {
-    // get uid
     const userId = snapshot.key;
-
-    console.log(userId);
-
-    if (storedUsers.get(userId)) {
-        console.log("User changed");
-        storedUsers.delete(userId);
-    }
+    storedUsers.delete(userId);
+    console.log("User changed");
 });
 
 // watch for child_removed. if we have it, unload from ram
@@ -29,13 +23,8 @@ db.ref("/users").on("child_changed", (snapshot) => {
 db.ref("/users").on("child_removed", (snapshot) => {
     // get id
     const userId = snapshot.key;
-
-    console.log(userId);
-
-    if (storedUsers.get(userId)) {
-        console.log("User removed");
-        storedUsers.delete(userId);
-    }
+    storedUsers.delete(userId);
+    console.log("User removed");
 });
 
 module.exports = storedUsers;
