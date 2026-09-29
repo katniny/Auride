@@ -28,6 +28,7 @@
 @import url("./components/changeThemePopup.css");
 @import url("./components/linkVisiting.css");
 @import url("./components/birthHolders.css");
+@import url("./components/loginPrompt.css");
 
 /* default colors */
 :root {

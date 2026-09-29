@@ -6,6 +6,8 @@ import { addSidebarElement } from "./components/sidebar.js";
 import { getFaReady } from "./utils/faIcon.js";
 import { pageLoader } from "./ui/pageLoader.js";
 import { isTauri } from "@tauri-apps/api/core";
+import { isNearBottom } from "./ui/nearBottom.js";
+import { isScrollable } from "./ui/isScrollable.js";
 
 // show page loader
 pageLoader();
@@ -32,6 +34,32 @@ if (isAurideApp) {
 } else {
     apiFetch = window.fetch.bind(window);
 }
+
+// login prompt
+const loginPrompt = document.querySelector(".loginPrompt");
+// if logged in, remove the login prompt
+const userData = await currentUserData();
+if (userData)
+    loginPrompt.remove();
+// if near the bottom of a page, hide the login prompt to not hide interactions/text
+window.addEventListener("scroll", () => {
+    if (isNearBottom() || !isScrollable())
+        loginPrompt.style.display = "none";
+    else
+        loginPrompt.style.display = "block";
+});
+// on navigation, check if page is scrollable
+document.addEventListener("navigatedToNewPage", () => {
+    // force it on
+    loginPrompt.style.display = "block";
+    // then after 250ms, check again
+    setTimeout(() => {
+        if (!isScrollable() || isNearBottom())
+            loginPrompt.style.display = "none";
+        else
+            loginPrompt.style.display = "block";
+    }, 250);
+});
 
 // make global navigate available
 window.$nav = navigate;

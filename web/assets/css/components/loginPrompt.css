@@ -1,0 +1,16 @@
+.loginPrompt {
+    position: fixed;
+    z-index: 9;
+    bottom: 0;
+    background: var(--main-color-darker);
+    width: 100vw;
+    color: var(--banner-button-bg);
+    padding: 10px;
+    font-size: 20px;
+}
+
+.loginPrompt .interactions button {
+    color: var(--banner-button-bg);
+    border: 1px solid var(--banner-button-bg);
+    margin-top: 5px;
+}
