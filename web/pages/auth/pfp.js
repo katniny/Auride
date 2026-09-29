@@ -61,7 +61,7 @@ export default async function aboutPage() {
                 if (result) {
                     // set timeout or storage freaks out for some reason
                     setTimeout(() => {
-                        navigate("/auth/done");
+                        navigate("/auth/birthday");
                     }, 500);
                 }
             } catch (error) {

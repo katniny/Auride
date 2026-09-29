@@ -29,6 +29,14 @@ export function showVisitLinkPopup(link) {
     closeBtns.forEach(closeBtn => {
         closeBtn.onclick = () => closeVisitLinkPopup();
     });
+
+    // if its auride, open a new link since we know we're safe
+    if (link.startsWith("https://auride.xyz") || link.startsWith("https://canary.auride.xyz") || link.startsWith("https://www.auride.xyz")) {
+        const closeBtn = modal.querySelector(`a[href="${link}"`);
+        closeBtn.click();
+        modal.close();
+        return;
+    }
     
     // show modal
     modal.showModal();

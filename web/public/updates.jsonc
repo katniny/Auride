@@ -7,6 +7,13 @@
     },
     "beta": {
         "anyUpdatesAvailable": true,
+        "v2026.9.29": {
+            "released": "September 29, 2026",
+            "addBirthday": {
+                "notUserFacingChange": false,
+                "text": "Added birthday requirement to Auride"
+            }
+        },
         "v2026.9.10": {
             "released": "September 10, 2026",
             "cacheNotesAndUsers": {

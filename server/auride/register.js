@@ -28,6 +28,26 @@ auride.post("/api/auride/registerUser", {
             email: reqEmail
         });
 
+        // add default flag prefs
+        db.ref(`/users/${newUser.uid}/flagPrefs`).update({
+            abuseTraumaMentions: "Blur",
+            adultContent: "Hide",
+            conspiracyTheories: "Blur",
+            drugUse: "Blur",
+            erotica: "Hide",
+            fetishContent: "Hide",
+            flashSeizureRisk: "Blur",
+            graphicViolence: "Hide",
+            horrorImagery: "Blur",
+            identityDebates: "Blur",
+            newsMedia: "Blur",
+            nonSexualNudity: "Hide",
+            politicalDiscussion: "Blur",
+            selfHarmSuicideMentions: "Blur",
+            sexuallySuggestive: "Hide",
+            warNConflict: "Blur"
+        });
+
         return res.status(200).json({ success: token });
     } catch (error) {
         console.log(error.message);

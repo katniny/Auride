@@ -35,6 +35,10 @@ export default async function aboutPage() {
         navigate("/auth/pfp");
         return;
     }
+    if (currentUsersData && !currentUsersData?.birthdayInfo?.birthday) {
+        navigate("/auth/birthday");
+        return;
+    }
     // else, go home
     if (currentUsersData && currentUsersData.pfp && currentUsersData.display && currentUsersData.username) {
         navigate("/home");

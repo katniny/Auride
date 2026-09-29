@@ -1,0 +1,8 @@
+.birthHolders {
+    display: flex;
+}
+
+.birthHolders select {
+    width: 100%;
+    margin: 0 5px 0 0;
+}

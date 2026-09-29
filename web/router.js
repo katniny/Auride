@@ -41,6 +41,7 @@ export const routes = [
     { path: "/blog/welcome-aurora", loader: () => import("./pages/blog/welcomeAurora.js") },
     { path: "/blog/what-qualifies-as-political", loader: () => import("./pages/blog/whatQualifiesAsPolitical.js") },
     { path: "/blog/why-auride", loader: () => import("./pages/blog/whyAuride.js") },
+    { path: "/blog/birthdays", loader: () => import("./pages/blog/birthdays.js") },
 
     // TODO: add proper functionality to these pages after rewrite
     { path: "/maintainance", loader: () => import("./pages/maintainance.js") },
@@ -54,6 +55,7 @@ export const routes = [
     { path: "/auth/register", loader: () => import("./pages/auth/register.js") },
     { path: "/auth/names", loader: () => import("./pages/auth/names.js") },
     { path: "/auth/pfp", loader: () => import("./pages/auth/pfp.js") },
+    { path: "/auth/birthday", loader: () => import("./pages/auth/birthday.js") },
     { path: "/auth/done", loader: () => import("./pages/auth/done.js") },
 ];
 
@@ -120,14 +122,21 @@ export async function handleRoute() {
     if (userData) {
         const isUndoneUser = userData.display === "Deleted user" || userData.username === "ghost";
 
-        if (isUndoneUser && pathname !== "/auth/names") {
-            navigate("/auth/names");
-            return;
-        }
-
-        if (!isUndoneUser && !userData.pfp && pathname !== "/auth/pfp") {
-            navigate("/auth/pfp");
-            return;
+        if (isUndoneUser) {
+            if (pathname !== "/auth/names") {
+                navigate("/auth/names");
+                return;
+            }
+        } else if (!userData.pfp) {
+            if (pathname !== "/auth/pfp") {
+                navigate("/auth/pfp");
+                return;
+            }
+        } else if (!userData.birthdayInfo?.birthday) {
+            if (pathname !== "/auth/birthday") {
+                navigate("/auth/birthday");
+                return;
+            }
         }
     }
     

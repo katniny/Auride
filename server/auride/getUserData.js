@@ -110,6 +110,7 @@ auride.get("/api/auride/getUserData", {
             returnedUserData.savedThemes = rawUserData?.savedThemes || null;
             returnedUserData.useODFont = rawUserData?.useODFont || null;
             returnedUserData.showPrideFlag = rawUserData?.showPrideFlag || null;
+            returnedUserData.birthdayInfo = rawUserData?.birthdayInfo || null;
         }
 
         // load into ram

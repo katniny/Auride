@@ -14,6 +14,8 @@ import { showResetPasswordPopup } from "../ui/modals/resetPassword.js";
 import { downloadUserData } from "../methods/downloadUserData.js";
 import { deleteAccount } from "../methods/deleteAccount.js";
 import { changeThemePopup } from "../ui/modals/changeTheme.js";
+import { capitalizeFirstLetter } from "../methods/capitalizeFirstLetter.js";
+import { calculateAge } from "../methods/calculateAge.js";
 
 export default async function settingsPage() {
     // get users data
@@ -115,6 +117,11 @@ export default async function settingsPage() {
                         <button class="deleteAccountBtn">Delete Account</button>
                         <p class="errorTxt deleteAccount"></p>
                     </div>
+                    <div class="section">
+                        <p>Birthday</p>
+                        <p class="description">Age: ${calculateAge(userData?.birthdayInfo?.birthday)} (Age Range: ${capitalizeFirstLetter(userData?.birthdayInfo?.ageRange)})</p>
+                        <p class="caution">Please contact support@auride.xyz to change your birthday. This restriction is temporary.</p>
+                    </div>
                 </div>
                 <div class="tab personalization">
                     <h2>Personalization</h2>
@@ -128,6 +135,10 @@ export default async function settingsPage() {
                         <a href="/create_theme"><button>Create Theme</button></a>
                         <a href="/userstudio"><button class="selectTheme">Get Themes</button></a> -->
                     </div>
+                    <!-- TODO: 
+                        when minors try to change this, disallow certain ones.
+                        these just arent implemented now, so it isnt a worry :P
+                    -->
                     <div class="section">
                         <p>Show Mature Content (NSFW Content)</p>
                         <p class="description">Learn what each NSFW flag means. <a href="/blog/nsfw-flags">Learn more</a>.</p>
