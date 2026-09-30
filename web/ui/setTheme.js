@@ -8,7 +8,7 @@ export async function setDefaultTheme(theme) {
 
     // change css
     for (const [property, value] of Object.entries(themeColors))
-        document.documentElement.style.setProperty(`--${property}`, `#${value}`);
+        document.documentElement.style.setProperty(`--${property}`, `${value}`);
 
     // cache
     localStorage.setItem("currentTheme", theme);

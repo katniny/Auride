@@ -7,6 +7,17 @@
     },
     "beta": {
         "anyUpdatesAvailable": true,
+        "v2026.9.30": {
+            "released": "September 30, 2026",
+            "themeLogoAppliedAtCreation": {
+                "notUserFacingChange": true,
+                "text": "When a theme uses a custom logo, Auride will now load it when the header is created, rather than waiting"
+            },
+            "themesFixed": {
+                "notUserFacingChange": false,
+                "text": "Fixed themes having issues with certain colors"
+            }
+        },
         "v2026.9.29": {
             "released": "September 29, 2026",
             "addBirthday": {
@@ -16,6 +27,10 @@
             "smarterLoginPrompt": {
                 "notUserFacingChange": false,
                 "text": "The login prompt when signed out will now hide when a page is unscrollable"
+            },
+            "fixedCaching": {
+                "notUserFacingChange": true,
+                "text": "Fixed cache not clearing properly on the server causing the server to not serve new changes properly"
             }
         },
         "v2026.9.10": {

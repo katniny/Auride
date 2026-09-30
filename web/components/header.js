@@ -1,6 +1,7 @@
 import { currentUserData } from "../users/current.js";
 import { storageLink } from "../utils/storageLink.js";
 import { faIcon } from "../utils/faIcon.js";
+import { themes } from "../public/defaultThemes.js";
 
 export async function addHeaderElement() {
     // wait for current user data
@@ -45,6 +46,13 @@ export async function addHeaderElement() {
             sidebarOpen = false;
         }
     };
+
+    // change header logo if applicable
+    const theme = localStorage.getItem("currentTheme");
+    const themeColors = themes[theme];
+    const headerLogo = headerElement.querySelector("#aurideHeaderLogo");
+    if (themeColors?.["logo-to-use"])
+        headerLogo.src = `/assets/imgs/${themeColors["logo-to-use"]}`;
 
     // TODO: implement "account area" for the header
 }
