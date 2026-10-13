@@ -53,6 +53,7 @@ export const routes = [
     // auth
     { path: "/auth/login", loader: () => import("./pages/auth/login.js") },
     { path: "/auth/register", loader: () => import("./pages/auth/register.js") },
+    { path: "/auth/signout", loader: () => import("./pages/auth/signout.js") },
     { path: "/auth/names", loader: () => import("./pages/auth/names.js") },
     { path: "/auth/pfp", loader: () => import("./pages/auth/pfp.js") },
     { path: "/auth/birthday", loader: () => import("./pages/auth/birthday.js") },

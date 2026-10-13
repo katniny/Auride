@@ -29,6 +29,8 @@
 @import url("./components/linkVisiting.css");
 @import url("./components/birthHolders.css");
 @import url("./components/loginPrompt.css");
+@import url("./components/accountArea.css");
+@import url("./components/accounts.css");
 
 /* default colors */
 :root {
@@ -314,4 +316,12 @@ textarea {
 
 textarea:focus {
    border: 1px solid var(--main-color);
+}
+
+/* emojis */
+.emoji {
+   height: 1em;
+   width: 1em;
+   margin: 0 .05em 0 .1em;
+   vertical-align: -0.1em;
 }

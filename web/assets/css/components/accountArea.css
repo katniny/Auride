@@ -1,0 +1,44 @@
+.accountArea {
+    position: absolute;
+    bottom: 5px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    width: 100%;
+    right: 0;
+}
+
+.accountArea .interactions {
+    display: block;
+    margin-bottom: 8px;
+    background: var(--note-background);
+    border: 1px solid var(--main-color);
+    margin: 0 10px 10px 10px;
+    border-radius: 5px;
+    padding-bottom: 5px;
+}
+
+.accountArea .interactions .divider {
+    margin: 10px 0 5px 0;
+}
+
+.accountArea .accountInfo {
+    display: flex;
+    align-items: center;
+    margin: 0 10px 0 10px;
+}
+
+.accountArea .pfp {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.accountArea .userInfo {
+    margin-left: 5px;
+}
+
+.accountArea .userInfo .username {
+    font-size: 14px;
+    color: var(--text-semi-transparent);
+}

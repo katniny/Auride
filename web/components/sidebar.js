@@ -4,10 +4,18 @@ import { faIcon } from "../utils/faIcon.js";
 import { showCreateNotePopup } from "../ui/modals/createNote.js";
 import { isSignedIn } from "../methods/auth/isSignedIn.js";
 import { db } from "../firebase/config.js";
+import { format } from "../text/format.js";
 
 export async function addSidebarElement() {
     // wait for current user data
     const userData = await currentUserData();
+    
+    // create username string
+    let usernameString;
+    if (userData?.pronouns)
+        usernameString = `@${userData?.username} • ${userData?.pronouns}`;
+    else
+        usernameString = `@${userData?.username}`;
 
     // then, create sidebar
     const sidebarElement = document.createElement("div");
@@ -37,6 +45,37 @@ export async function addSidebarElement() {
         <a href="/achievements" class="removeOnNoAuth">
             <button id="achievementButton" class="active">${faIcon("solid", "award").outerHTML} Achievements</button>
         </a>
+
+        <!-- account area -->
+        <div class="accountArea removeOnNoAuth">
+            <div class="interactions" style="display: none;">
+                <div class="signedInAccounts">
+                    <!-- TODO: implement account switching -->
+                    <div class="account">
+                        <div class="pfpContainer">
+                            <img class="pfp" src="${await storageLink(`images/pfp/${userData?.uid}/${userData?.pfp}`)}" draggable="false" />
+                        </div>
+                        <div class="userInfo">
+                            <p class="display">${format(userData?.display)}</p>
+                            <p class="username">${usernameString}</p>
+                        </div>
+                        <div class="isLoggedInToThisAccount">${faIcon("solid", "check-circle").outerHTML}</div>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                <!--<a href="/auth/login"><button>${faIcon("solid", "user-plus").outerHTML} Add Existing Account</button></a>-->
+                <a href="/auth/signout"><button>${faIcon("solid", "arrow-right-from-bracket").outerHTML} Sign Out</button></a>
+            </div>
+            <div class="accountInfo">
+                <div class="pfpContainer">
+                    <img class="pfp" src="${await storageLink(`images/pfp/${userData?.uid}/${userData?.pfp}`)}" draggable="false" />
+                </div>
+                <div class="userInfo">
+                    <p class="display">${format(userData?.display)}</p>
+                    <p class="username">${usernameString}</p>
+                </div>
+            </div>
+        </div>
     `;
     document.body.appendChild(sidebarElement);
 
@@ -56,10 +95,10 @@ export async function addSidebarElement() {
             item.remove();
     }
 
-    // TODO: implement account area, the rest of buttons, and other social links
+    // TODO: implement the rest of buttons
     // get the notification count
     console.log(userData);
-    db.ref(`/users/${userData.uid}/notifications/unread`).on("value", snapshot => {
+    db.ref(`/users/${userData?.uid}/notifications/unread`).on("value", snapshot => {
         const notifCount = sidebarElement.querySelector(".notificationCount");
         const value = snapshot.val();
         if (value > 0) {
@@ -70,6 +109,23 @@ export async function addSidebarElement() {
                 notifCount.textContent = value;
         } else
             notifCount.style.display = "none";
+    });
+
+    // when clicking on/off the account area, do the appropriate action
+    let accountAreaOpen = false;
+    const accountArea = sidebarElement.querySelector(".accountArea");
+    const accountAreaInteractions = sidebarElement.querySelector(".accountArea .interactions");
+    document.addEventListener("click", (event) => {
+        const clickedInsideInteractions = accountAreaInteractions.contains(event.target);
+        const clickedInsideAccountArea = accountArea.contains(event.target);
+
+        if (!clickedInsideAccountArea && accountAreaOpen) {
+            accountAreaOpen = false;
+            accountAreaInteractions.style.display = "none";
+        } else if (clickedInsideAccountArea && !clickedInsideInteractions) {
+            accountAreaOpen = !accountAreaOpen;
+            accountAreaInteractions.style.display = accountAreaOpen ? "block" : "none";
+        }
     });
 }
 

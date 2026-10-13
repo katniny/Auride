@@ -1,0 +1,19 @@
+.accountArea .interactions .signedInAccounts .account {
+    display: flex;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    padding: 10px 10px 0 10px;
+}
+
+.accountArea .interactions .signedInAccounts .account:hover,
+.accountArea .interactions .signedInAccounts .account:focus {
+    background: var(--reply-hovered-background);
+}
+
+.accountArea .interactions .signedInAccounts .account .isLoggedInToThisAccount i {
+    color: var(--success-color);
+    -webkit-text-stroke-color: transparent;
+    position: absolute;
+    right: 25px;
+    top: 25px;
+}
