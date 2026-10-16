@@ -12,6 +12,10 @@
             "fixAccountUpdatesNotApplying": {
                 "notUserFacingChange": false,
                 "text": "Fixed an issue with server-side caching that caused some user data to not update properly when changed"
+            },
+            "semiAndHalfTransparentTextFix": {
+                "notUserFacingChange": true,
+                "text": "Semi and half transparent text now use the text color and change the opacity itself, so themes no longer have to define them"
             }
         },
         "v2026.10.12": {

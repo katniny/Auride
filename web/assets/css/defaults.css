@@ -39,8 +39,8 @@
    --main-color-darker: #e1788a;
    --header-color: #2d2d2d;
    --text: #fff;
-   --text-half-transparent: rgba(255, 255, 255, 0.5);
-   --text-semi-transparent: rgba(255, 255, 255, 0.7);
+   --text-half-transparent: rgb(from var(--text) r g b / 50%);
+   --text-semi-transparent: rgb(from var(--text) r g b / 70%);
    --profile-picture-bg: #363636;
    --sidebar-button-hover: #3d3d3d;
    --button-transparent-hover: #2d2d2d;
