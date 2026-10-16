@@ -12,10 +12,6 @@ auride.get("/api/auride/getUserData", {
         const userIdentifier = req.headers.useridentifier;
         const reqType = req.headers.reqtype;
 
-        // do we have it in ram? if so, just load that
-        if (storedUsers.get(userIdentifier))
-            return res.status(200).json({ success: storedUsers.get(userIdentifier) });
-
         // do userIdentifier and reqType exist?
         if (!userIdentifier)
             return res.status(400).json({ error: "Please provide a UID or username." });
@@ -43,6 +39,10 @@ auride.get("/api/auride/getUserData", {
             console.log("no user with uid/username [2]");
             return res.status(400).json({ error: "Failed to find a user with that selected UID/username." });
         }
+
+        // do we have it in ram? if so, just load that
+        if (storedUsers.get(userUid))
+            return res.status(200).json({ success: storedUsers.get(userUid) });
 
         // is the user requesting the data suspended? if so, dont return any user data for them
         if (userUid !== ctx.currentUser.uid && ctx.currentUser.suspension?.suspended)

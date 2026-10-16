@@ -7,6 +7,20 @@
     },
     "beta": {
         "anyUpdatesAvailable": true,
+        "v2026.10.15": {
+            "released": "October 15, 2026",
+            "fixAccountUpdatesNotApplying": {
+                "notUserFacingChange": false,
+                "text": "Fixed an issue with server-side caching that caused some user data to not update properly when changed"
+            }
+        },
+        "v2026.10.12": {
+            "released": "October 12, 2026",
+            "addAccountAreaAndSignOutPage": {
+                "notUserFacingChange": false,
+                "text": "Added the account area in the sidebar and a way to sign out"
+            }
+        },
         "v2026.9.30": {
             "released": "September 30, 2026",
             "themeLogoAppliedAtCreation": {
