@@ -31,6 +31,9 @@
 @import url("./components/loginPrompt.css");
 @import url("./components/accountArea.css");
 @import url("./components/accounts.css");
+@import url("./components/themeEditor.css");
+@import url("./components/saveTheme.css");
+@import url("./components/loadedTheme.css");
 
 /* default colors */
 :root {

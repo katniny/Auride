@@ -131,9 +131,8 @@ export default async function settingsPage() {
                     <div class="section">
                         <p>Theme</p>
                         <button class="selectTheme">Select Theme</button>
-                        <!-- TODO: bring these back
                         <a href="/create_theme"><button>Create Theme</button></a>
-                        <a href="/userstudio"><button class="selectTheme">Get Themes</button></a> -->
+                        <a href="/userstudio"><button class="selectTheme">Get Themes</button></a>
                     </div>
                     <!-- TODO: 
                         when minors try to change this, disallow certain ones.

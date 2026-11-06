@@ -13,7 +13,9 @@ export async function addHeaderElement() {
         <div class="left">
             <button class="hamburgerMenu" onclick="openHamburgerMenu()">${faIcon("solid", "bars", "", "xl").outerHTML}</button>
             <a href="/home">
-                <img id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" />
+                <div class="logoContainer">
+                    <img id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" />
+                </div>
             </a>
         </div>
         <div class="center">
@@ -48,11 +50,38 @@ export async function addHeaderElement() {
     };
 
     // change header logo if applicable
+    function changeLogoType(type) {
+        if (type === "svg") {
+            fetch("/assets/imgs/ThemeCustom.svg")
+                .then(response => {
+                    if (!response.ok)
+                        throw new Error("Failed to load SVG");
+
+                    return response.text();
+                })
+                .then(svg => {
+                    headerElement.querySelector(".logoContainer").innerHTML = svg;
+                    headerElement.querySelector(".logoContainer").classList.add("svgAdded");
+                }).catch(error => {
+                    console.error("Failed to load custom logo:", error);
+                });
+        }
+    }
     const theme = localStorage.getItem("currentTheme");
     const themeColors = themes[theme];
     const headerLogo = headerElement.querySelector("#aurideHeaderLogo");
-    if (themeColors?.["logo-to-use"])
-        headerLogo.src = `/assets/imgs/${themeColors["logo-to-use"]}`;
+    if (themeColors?.["logo-to-use"]) {
+        const logoToUse = themeColors["logo-to-use"]
+        if (logoToUse === "Use SVG")
+            changeLogoType("svg");
+        else
+            headerLogo.src = `/assets/imgs/${themeColors["logo-to-use"]}`;
+    }
+    document.addEventListener("changedTheme", () => {
+        const theme = localStorage.getItem("currentTheme");
+        if (theme === "Custom")
+            changeLogoType("svg");
+    });
 
     // TODO: implement "account area" for the header
 }

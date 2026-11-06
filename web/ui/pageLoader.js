@@ -1,6 +1,6 @@
 import { currentAurideVersion, updateTime } from "./versioning.js";
 import { currentUserData } from "../users/current.js";
-import { setDefaultTheme } from "./setTheme.js";
+import { setDefaultTheme, setCustomTheme } from "./setTheme.js";
 import { useODFont } from "./useODFont.js";
 
 export async function pageLoader() {
@@ -68,12 +68,16 @@ export async function pageLoader() {
     // check cached themes
     whatLoading.textContent = "Checking for cached themes...";
     const currentTheme = localStorage.getItem("currentTheme");
+    const customThemeColors = JSON.parse(localStorage.getItem("customThemeColors"));
     const useOdFont = localStorage.getItem("useODFont");
     const usePrideFlag = localStorage.getItem("showPrideFlag");
 
     if (currentTheme) {
         whatLoading.textContent = "Applying cached theme...";
-        setDefaultTheme(currentTheme);
+        if (currentTheme === "Custom")
+            setCustomTheme(customThemeColors, false);
+        else
+            setDefaultTheme(currentTheme, false);
     }
     if (useOdFont) {
         whatLoading.textContent = "Applying cached dyslexia font preference...";
@@ -90,7 +94,10 @@ export async function pageLoader() {
         whatLoading.textContent = "User found! Checking theme...";
         if (currentUser.theme) {
             whatLoading.textContent = "Applying theme...";
-            setDefaultTheme(currentUser.theme);
+            if (currentUser.theme === "Custom")
+                setCustomTheme(currentUser?.customThemeColors, false);
+            else
+                setDefaultTheme(currentUser.theme, false)
         }
         // get dyslexia font pref
         whatLoading.textContent = "Checking dyslexia font preference...";

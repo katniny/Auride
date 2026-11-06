@@ -47,20 +47,15 @@
     - Last thing to TODO: add achievements
     - ^ TBD: above may be dropped from rewrite temp.
 - [ ] User Studio
+- [ ] About
+    - TODO: do this after UI and whatnot is finalized, as we use Auride screenshots.
+- [ ] Favorites
 
 ## Not easy, not hard either / likely time consuming
-- [ ] Create Theme
+- [ ] Settings
+- [x] Create Theme
+- [ ] Issues
+- [ ] Search
 
 ## Difficult (or fairly difficult)
-- [ ] Settings
-
-## TODO: soon after rewrite
-- [x] Issues
-    - TBD: may drop from rewrite temp.
-- [x] Search
-    - TBD: may drop from rewrite temp.
-- [x] About
-    - TODO: do this after UI and whatnot is finalized, as we use Auride screenshots.
-    - TBD: may drop from rewrite temp.
-- [x] Favorites
-    - not super happy about dropping 4 pages but im already 4 hours past deadline. this needs to release eventually, sacrifices have to be made :/
+Done!

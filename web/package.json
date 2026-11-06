@@ -14,7 +14,8 @@
   "dependencies": {
     "@tauri-apps/api": "^2.11.1",
     "@tauri-apps/plugin-http": "^2.6.1",
-    "firebase": "^12.12.1"
+    "firebase": "^12.12.1",
+    "modern-screenshot": "^4.7.0"
   },
   "allowScripts": {
     "firebase@12.12.1": true,

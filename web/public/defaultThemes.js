@@ -229,5 +229,8 @@ export const themes = {
         "reply-hovered-background": "#333333",
         "note-background": "#202020",
         "logo-to-use": "All_transparent.png"
+    },
+    "Custom": {
+        "logo-to-use": "Use SVG"
     }
 }

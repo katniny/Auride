@@ -5,7 +5,7 @@ import { routeMediaLink } from "./dev/routeMediaLink.js";
 import { updateBannerName } from "./update/bannerName.js";
 import { updatePfpName } from "./update/pfpName.js";
 
-export async function uploadMedia(file, path, typeToUse, noteId, parentNoteId) {
+export async function uploadMedia(file, path, typeToUse, noteId, parentNoteId, themeId) {
     try {
         // get current user data
         // if none, user isnt signed in, and needs to!
@@ -22,7 +22,8 @@ export async function uploadMedia(file, path, typeToUse, noteId, parentNoteId) {
         const supportedPaths = [
             "pfp",
             "banner",
-            "notes"
+            "notes",
+            "themes"
         ]
         if (!supportedPaths.includes(path))
             throw new Error("We're not sure what path you're attempting to use.");
@@ -49,6 +50,10 @@ export async function uploadMedia(file, path, typeToUse, noteId, parentNoteId) {
             uploadUrl += `${parentNoteId}/notesReplying/${noteId}`;
         else if (typeToUse === "noteId" && !parentNoteId)
             uploadUrl += noteId;
+        else if (typeToUse === "themeId" && path === "themes" && themeId)
+            uploadUrl += themeId;
+        else
+            throw new Error("Invalid upload destination.");
         uploadUrl += `/${uploadedFile.name}`;
 
         // make sure the file is a supported type & isnt above 10mb

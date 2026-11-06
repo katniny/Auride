@@ -71,14 +71,33 @@ header .right #headerUserPfp:hover {
 }
 
 /* the auride logo in the header */
+header .left .logoContainer {
+    max-height: 60px;
+}
+
 header .left #aurideHeaderLogo {
     height: 55px;
     margin-top: 5px;
     margin-left: 5px;   
 }
+header .left .logoContainer.svgAdded {
+    margin-bottom: 5px;
+}
+
+header .left .logoContainer.svgAdded svg {
+    height: 70px;
+    width: 180px;
+    margin-left: 0;
+    transform: translate(-9px, 0px);
+    user-select: none;
+    padding: 0;
+}
 
 @media (max-width: 510px) {
     #aurideHeaderLogo {
+        transform: translateY(0px);
+    }
+    header .left .logoContainer.svgAdded svg {
         transform: translateY(0px);
     }
 }

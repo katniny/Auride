@@ -1,0 +1,7 @@
+.loadedTheme {
+    background: var(--note-background);
+    padding: 5px;
+    border-radius: 5px;
+    margin-top: 5px;
+    cursor: pointer;
+}
