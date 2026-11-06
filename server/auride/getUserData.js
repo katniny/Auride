@@ -2,6 +2,7 @@ const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
 const storedUsers = require("../core/userCache.js");
+const { returnUserData } = require("./functions/returnUserData.js");
 
 auride.get("/api/auride/getUserData", {
     requireActiveAccount: false,
@@ -41,8 +42,9 @@ auride.get("/api/auride/getUserData", {
         }
 
         // do we have it in ram? if so, just load that
-        if (storedUsers.get(userUid))
-            return res.status(200).json({ success: storedUsers.get(userUid) });
+        const userInRam = storedUsers.get(userUid);
+        if (userInRam)
+            return res.status(200).json({ success: await returnUserData(userInRam, userUid, ctx) });
 
         // is the user requesting the data suspended? if so, dont return any user data for them
         if (userUid !== ctx.currentUser.uid && ctx.currentUser.suspension?.suspended)
@@ -57,67 +59,14 @@ auride.get("/api/auride/getUserData", {
         if (rawUserData.suspensionStatus === "suspended" && userUid !== ctx.currentUser.uid)
             return res.status(403).json({ error: "This user is suspended." });
 
-        // filter data
-        const returnedUserData = {
-            activeContributor: rawUserData.activeContributor || false,
-            achievements: rawUserData.achievements || null,
-            banner: rawUserData.banner || null,
-            bio: rawUserData.bio || "No user bio provided.",
-            display: rawUserData.display || "Deleted user",
-            followers: rawUserData.followers || 0,
-            following: rawUserData.following || 0,
-            followingWho: rawUserData.followingWho || null,
-            pfp: rawUserData.pfp || null,
-            pronouns: rawUserData.pronouns || null,
-            username: rawUserData.username || "ghost",
-            whoFollows: rawUserData.whoFollows || null,
-            isSubscribed: rawUserData.isSubscribed || false,
-            isVerified: rawUserData.isVerified || false,
-            notes: rawUserData.posts || null,
-            memorialAccount: {
-                isDeceased: rawUserData.memorialAccount?.isDeceased || false,
-                obituary: rawUserData.memorialAccount?.obituary || null
-            },
-            uid: userUid
-        };
-        
-        // get join date
-        const userAuthAdmin = await admin.auth().getUser(userUid);
-        returnedUserData.joinedAt = userAuthAdmin.metadata.creationTime;
-
-        // is user blocked?
-        const blocked = rawUserData.blocked || {};
-        const blockedKeys = Object.keys(blocked);
-        const cleanedUid = String(ctx.currentUser.uid).trim();
-        if (blockedKeys.includes(cleanedUid)) {
-            // if so, certain data needs filtered
-            returnedUserData.achievements = null;
-            returnedUserData.followingWho = null;
-            returnedUserData.whoFollows = null;
-            returnedUserData.notes = null;
-            // then tell the client they're blocked
-            returnedUserData.requestedUserHasBlocked = true;
-        }
-        
-        // is user themselves?
-        if (userUid === ctx.currentUser.uid) {
-            // if so, we can return some additional data
-            returnedUserData.autoplayVideos = rawUserData?.autoplayVideos;
-            returnedUserData.flagPrefs = rawUserData?.flagPrefs;
-            returnedUserData.suspended = ctx.currentUser.suspension;
-            returnedUserData.theme = rawUserData?.theme || null;
-            returnedUserData.customThemeColors = rawUserData?.themeColors || null;
-            returnedUserData.savedThemes = rawUserData?.savedThemes || null;
-            returnedUserData.useODFont = rawUserData?.useODFont || null;
-            returnedUserData.showPrideFlag = rawUserData?.showPrideFlag || null;
-            returnedUserData.birthdayInfo = rawUserData?.birthdayInfo || null;
-        }
+        const returnedUserData = await returnUserData(rawUserData, userUid, ctx);
 
         // load into ram
-        await storedUsers.set(userIdentifier, returnedUserData );
+        await storedUsers.set(userIdentifier, rawUserData );
 
         return res.status(200).json({ success: returnedUserData });
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ error: error });
     }
 });
