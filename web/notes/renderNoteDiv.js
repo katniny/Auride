@@ -68,7 +68,7 @@ async function renderWarning(noteId, flagType, legacyPref, modernPrefs) {
 
     cover.innerHTML = `
         <p class="warningInfo" id="${noteId}-warningInfo">${warningText}</p>
-        <button class="closeWarning" id="${noteId}-closeWarning" onclick="removeNsfw('${noteId}-closeWarning')">View Note</button>
+        <button class="closeWarning" id="${noteId}-closeWarning">View Note</button>
         <p class="contentWarning-showBelowText">${faIcon("solid", "flag").outerHTML} ${flagText}</p>
     `;
 
@@ -151,8 +151,15 @@ export async function renderNote(noteData) {
         return;
     // if the cover isnt false but isnt true either,
     // we can assume its the returned html
-    if (cover instanceof Node)
+    if (cover instanceof Node) {
         noteDiv.appendChild(cover);
+
+        // allow closing
+        const closeCover = cover.querySelector(`#${noteData.id}-closeWarning`);
+        closeCover.onclick = () => {
+            cover.remove();
+        };
+    }
 
     // get the note senders data
     const noteSender = await getUserData(noteData.whoSentIt, "uid");

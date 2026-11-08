@@ -102,6 +102,7 @@
 
 .note .noteDisplay .noteBadges i {
    color: var(--main-color);
+   text-decoration: none;
 }
 
 .note .noteDisplay:hover {
