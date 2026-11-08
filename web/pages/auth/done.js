@@ -18,12 +18,20 @@ export default async function aboutPage() {
                 <p class="description">Change your settings, discover themes, or you can go straight to the home page to say hi!</p>
             </div>
             <div class="form">
-                <a href="/home"><button class="fullWidth">${faIcon("solid", "house").outerHTML} Go to Home</button></a>
-                <a href="/settings"><button class="fullWidth">${faIcon("solid", "gear").outerHTML} Change My Settings</button></a>
-                <a href="/userstudio"><button class="fullWidth">${faIcon("solid", "palette").outerHTML} Discover User Themes</button></a>
+                <button class="homeBtn fullWidth">${faIcon("solid", "house").outerHTML} Go to Home</button>
+                <button class="settingsBtn fullWidth">${faIcon("solid", "gear").outerHTML} Change My Settings</button>
+                <button class="userStudioBtn fullWidth">${faIcon("solid", "palette").outerHTML} Discover User Themes</button>
             </div>
         </div>
     `;
+
+    // hard refresh after registration
+    const homeBtn = el.querySelector(".homeBtn");
+    homeBtn.onclick = () => { window.location.replace("/home") }; 
+    const settingsBtn = el.querySelector(".settingsBtn");
+    settingsBtn.onclick = () => { window.location.replace("/settings") }; 
+    const userStudioBtn = el.querySelector(".userStudioBtn");
+    userStudioBtn.onclick = () => { window.location.replace("/userstudio") }; 
 
     return el;
 }

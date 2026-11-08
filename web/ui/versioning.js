@@ -1,7 +1,7 @@
 // formatted: vYEAR.MONTH.DAY
-export const updateTime = "v2026.11.6";
+export const updateTime = "v2026.11.8";
 // formatted: vYEARMONTHDAY
-const updateTimeSimple = "v2026116";
+const updateTimeSimple = "v2026118";
 // the number of updates today (increment by one, unless there was no commits today!)
 const numOfUpdatesToday = "1";
 // the current auride version. contributors should leave this alone
