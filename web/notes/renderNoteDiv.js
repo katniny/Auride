@@ -311,7 +311,7 @@ export async function renderNote(noteData) {
     } catch (error) {
         // the ux error
         const mediaBroken = document.createElement("span");
-        mediaBroken.innerHTML = `${faIcon("solid", "file-circle-exclamation").outerHTML} Something went wrong loading this notes media. <a class="brokenMediaError">View error</a>`;
+        mediaBroken.innerHTML = `${faIcon("solid", "file-circle-exclamation").outerHTML} Something went wrong loading this notes media. <a class="brokenMediaError">Show error</a>`;
         mediaBroken.classList.add("brokenMedia");
         mediaBroken.classList.add("description");
         noteDiv.appendChild(mediaBroken);
@@ -322,6 +322,7 @@ export async function renderNote(noteData) {
         errorTxt.className = "errorTxt caution description";
         errorTxt.textContent = error.message;
         let errorShown = false;
+        errorTxt.style.display = "none";
         errorToggle.onclick = () => {
             if (errorShown) {
                 errorToggle.textContent = "Show error";
