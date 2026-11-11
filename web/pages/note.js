@@ -51,30 +51,45 @@ export default async function notePage(params) {
     // add any media
     const mediaContainer = document.createElement("div");
     mediaContainer.className = "mediaContainer";
-    if (noteData.image || noteData.media?.numOne) {
-        // TODO: allow clicking to zoom
-        let mediaEl;
+    try {
+        if (noteData.image || noteData.media?.numOne) {
+            // TODO: allow clicking to zoom
+            let mediaEl;
 
-        // get type
-        const file = noteData.image ?? noteData.media?.numOne ?? null;
-        const fileType = await checkFile(file, true);
+            // get type
+            const file = noteData.image ?? noteData.media?.numOne ?? null;
+            const fileType = await checkFile(file, true);
 
-        const src = noteData.image || await storageLink(noteData.media?.numOne);
-        mediaEl = document.createElement(fileType);
+            const src = noteData.image || await storageLink(noteData.media?.numOne);
+            mediaEl = document.createElement(fileType);
 
-        if (fileType === "video") {
-            mediaEl.controls = true;
-            if (currentUsersData)
-                mediaEl.autoplay = currentUsersData?.autoplayVideos;
-            mediaEl.muted = true;
-        } else if (fileType === "audio")
-            mediaEl.controls = true;
-        else
-            mediaEl.draggable = false;
+            if (fileType === "video") {
+                mediaEl.controls = true;
+                if (currentUsersData)
+                    mediaEl.autoplay = currentUsersData?.autoplayVideos;
+                mediaEl.muted = true;
+            } else if (fileType === "audio")
+                mediaEl.controls = true;
+            else
+                mediaEl.draggable = false;
 
-        mediaEl.src = src;
-        
-        mediaContainer.appendChild(mediaEl);
+            mediaEl.src = src;
+            
+            mediaContainer.appendChild(mediaEl);
+        }
+    } catch (error) {
+        // the ux error
+        const mediaBroken = document.createElement("span");
+        mediaBroken.innerHTML = `${faIcon("solid", "file-circle-exclamation").outerHTML} Something went wrong loading this notes media.`;
+        mediaBroken.classList.add("brokenMedia");
+        mediaContainer.appendChild(mediaBroken);
+
+        // the error to show
+        const errorToggle = mediaBroken.querySelector(".brokenMediaError");
+        const errorTxt = document.createElement("p");
+        errorTxt.className = "errorTxt caution";
+        errorTxt.textContent = error.message;
+        mediaContainer.appendChild(errorTxt);
     }
 
     // render

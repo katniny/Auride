@@ -3,7 +3,7 @@ services:
         build:
             dockerfile: Dockerfile
         user: "1111:1111"
-        command: -verbose -behind-proxy -hooks-dir /hooks -cors-allow-origin http://localhost:5173 -cors-max-age 3600 -upload-dir=/data/progress
+        command: -verbose -behind-proxy -hooks-dir /hooks -upload-dir=/data/progress
         volumes:
             - ./data:/data
         restart: unless-stopped

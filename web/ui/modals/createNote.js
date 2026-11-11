@@ -519,7 +519,7 @@ export async function showCreateNotePopup(replyingTo) {
 
         // if theres a file, upload it
         if (file)
-            uploadMedia(file, "notes", "noteId", newNoteKey, isReplying).catch((err) => {
+            await uploadMedia(file, "notes", "noteId", newNoteKey, isReplying).catch((err) => {
                 showError(err.message);
                 noteSending = false;
                 setCreateNoteBtnStatus("notWorking");

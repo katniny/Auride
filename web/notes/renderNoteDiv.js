@@ -238,74 +238,102 @@ export async function renderNote(noteData) {
     noteDiv.appendChild(text);
 
     // render note media
-    if (noteData.image || noteData.media?.numOne) {
-        // get the file type
-        const file = noteData.image ?? noteData.media?.numOne ?? null;
-        const fileType = await checkFile(file, true);
+    try {
+        if (noteData.image || noteData.media?.numOne) {
+            // get the file type
+            const file = noteData.image ?? noteData.media?.numOne ?? null;
+            const fileType = await checkFile(file, true);
 
-        // create element based on type, then add attributes
-        const media = document.createElement(fileType);
-        media.className = "uploadedImg";
-        media.src = noteData.image || await storageLink(noteData.media?.numOne);
-        media.alt = noteData.alt;
-        media.loading = "lazy";
+            // create element based on type, then add attributes
+            const media = document.createElement(fileType);
+            media.className = "uploadedImg";
+            media.src = noteData.image || await storageLink(noteData.media?.numOne);
+            media.alt = noteData.alt;
+            media.loading = "lazy";
 
-        // hide by default (it'll get shown when in view)
-        media.style.visibility = "hidden";
-        media.style.opacity = "0";
+            // hide by default (it'll get shown when in view)
+            media.style.visibility = "hidden";
+            media.style.opacity = "0";
 
-        if (fileType === "audio" || fileType === "video") {
-            // add controls to video/audio
-            media.controls = true;
-            media.muted = true;
-            media.loop = true;
-            media.autoplay = currentUsersData?.autoplayVideos;
-        } else {
-            // else, its an image
-            // TODO: maybe make this a function so we can use it in a few places?
-            media.draggable = false;
-            media.onclick = () => {
-                // create modal elements
-                const modal = document.createElement("div");
-                const modalImg = document.createElement("img");
+            if (fileType === "audio" || fileType === "video") {
+                // add controls to video/audio
+                media.controls = true;
+                media.muted = true;
+                media.loop = true;
+                media.autoplay = currentUsersData?.autoplayVideos;
+            } else {
+                // else, its an image
+                // TODO: maybe make this a function so we can use it in a few places?
+                media.draggable = false;
+                media.onclick = () => {
+                    // create modal elements
+                    const modal = document.createElement("div");
+                    const modalImg = document.createElement("img");
 
-                // style modal
-                Object.assign(modal.style, {
-                    position: "fixed",
-                    top: 0,
-                    left: 0,
-                    width: "100vw",
-                    height: "100vh",
-                    background: "rgba(0, 0, 0, 0.8)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    zIndex: 9999,
-                    cursor: "zoom-out"
-                });
+                    // style modal
+                    Object.assign(modal.style, {
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        width: "100vw",
+                        height: "100vh",
+                        background: "rgba(0, 0, 0, 0.8)",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        zIndex: 9999,
+                        cursor: "zoom-out"
+                    });
 
-                Object.assign(modalImg.style, {
-                    maxWidth: "90%",
-                    maxHeight: "90%",
-                    borderRadius: "8px",
-                    boxShadow: "0 0 15px rgba(0, 0, 0, 0.5)"
-                });
+                    Object.assign(modalImg.style, {
+                        maxWidth: "90%",
+                        maxHeight: "90%",
+                        borderRadius: "8px",
+                        boxShadow: "0 0 15px rgba(0, 0, 0, 0.5)"
+                    });
 
-                modalImg.src = media.src;
+                    modalImg.src = media.src;
 
-                // close modal on click
-                modal.onclick = () => {
-                    document.body.removeChild(modal);
-                };
+                    // close modal on click
+                    modal.onclick = () => {
+                        document.body.removeChild(modal);
+                    };
 
-                modal.appendChild(modalImg);
-                document.body.appendChild(modal);
+                    modal.appendChild(modalImg);
+                    document.body.appendChild(modal);
+                }
+            }
+
+            // then append to note div
+            noteDiv.appendChild(media);
+            mediaObserver.observe(media);
+        }
+    } catch (error) {
+        // the ux error
+        const mediaBroken = document.createElement("span");
+        mediaBroken.innerHTML = `${faIcon("solid", "file-circle-exclamation").outerHTML} Something went wrong loading this notes media. <a class="brokenMediaError">View error</a>`;
+        mediaBroken.classList.add("brokenMedia");
+        mediaBroken.classList.add("description");
+        noteDiv.appendChild(mediaBroken);
+
+        // the error to show
+        const errorToggle = mediaBroken.querySelector(".brokenMediaError");
+        const errorTxt = document.createElement("p");
+        errorTxt.className = "errorTxt caution description";
+        errorTxt.textContent = error.message;
+        let errorShown = false;
+        errorToggle.onclick = () => {
+            if (errorShown) {
+                errorToggle.textContent = "Show error";
+                errorTxt.style.display = "none";
+                errorShown = false;
+            } else {
+                errorToggle.textContent = "Hide error";
+                errorTxt.style.display = "block";
+                errorShown = true;
             }
         }
-
-        // then append to note div
-        noteDiv.appendChild(media);
-        mediaObserver.observe(media);
+        noteDiv.appendChild(errorTxt);
     }
 
     // if note has music, render spotify iframe

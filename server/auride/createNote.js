@@ -12,7 +12,7 @@ auride.post("/api/auride/createNote", {
         // get note values
         const noteId = req.body.noteId;
         const noteText = req.body.text;
-        const noteFilePath = req.body.filepath;
+        const noteFilePath = req.body.filePath;
         const nsfwFlag = req.body.nsfwFlag;
         const sensitiveFlag = req.body.sensitiveFlag;
         const politicalFlag = req.body.politicalFlag;

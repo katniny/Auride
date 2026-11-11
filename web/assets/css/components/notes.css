@@ -50,6 +50,15 @@
    }
 }
 
+.note .brokenMedia {
+   margin: 15px;
+}
+
+.note .errorTxt {
+   margin-top: 5px;
+   margin-left: 15px;
+}
+
 .note .noteText {
    margin-top: 15px;
    margin-left: 10px;
