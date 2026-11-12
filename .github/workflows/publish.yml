@@ -291,3 +291,34 @@ jobs:
           name: auride-macos-arm-dmg
           path: ./apps/src-tauri/target/release/bundle/dmg/*.dmg
           if-no-files-found: error
+
+  release:
+    name: Publish Releases
+    needs:
+      - build-android
+      - build-windows-intel
+      - build-linux-intel
+      - build-macos-arm
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: auride-*
+          path: ./release-assets
+          merge-multiple: true
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          name: Auride Canary Early Builds
+          body_path: ./apps/release_notes.md
+          generate_release_notes: false
+          prerelease: true
+          make_latest: false
+          fail_on_unmatched_files: true
+          files: |
+            release-assets/**/*
