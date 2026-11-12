@@ -128,8 +128,8 @@ jobs:
           name: auride-android
           path: ./auride.apk
   
-  build-windows:
-    name: Build Windows
+  build-windows-intel:
+    name: Build Windows (x86_64)
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/rewrite'
     runs-on: windows-latest
 
@@ -179,4 +179,64 @@ jobs:
         with:
           name: auride-windows-nsis
           path: ./apps/src-tauri/target/release/bundle/nsis/*.exe
+          if-no-files-found: error
+  
+  build-linux-intel:
+    name: Build Linux (x86_64)
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/rewrite'
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get libwebkit2gtk-4.1-dev build-essential curl wget file \
+            libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+      
+      - name: Install web dependencies
+        run: npm install
+        working-directory: ./web
+      
+      - name: Write .env file
+        run: printf "%s" "${{ secrets.CANARY_ENV_FILE }}" > ./web/.env
+
+      - name: Install app dependencies
+        run: npm install
+        working-directory: ./apps
+      
+      - name: Build Web
+        run: npm run build:web -- --headless
+        working-directory: ./apps
+      
+      - name: Build Linux
+        run: npm run tauri build
+        working-directory: ./apps
+      
+      - name: Upload Linux DEB
+        uses: actions/upload-artifact@v4
+        with:
+          name: auride-linux-debian
+          path: ./apps/src-tauri/target/release/bundle/deb/*.deb
+          if-no-files-found: error
+      
+      - name: Upload Linux AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: auride-linux-debian
+          path: ./apps/src-tauri/target/release/bundle/appimage/*.AppImage
+          if-no-files-found: error
+      
+      - name: Upload Linux RPM
+        uses: actions/upload-artifact@v4
+        with:
+          name: auride-linux-fedora
+          path: ./apps/src-tauri/target/release/bundle/rpm/*.rpm
           if-no-files-found: error
