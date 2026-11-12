@@ -99,7 +99,7 @@ jobs:
           ANDROID_KEY_BASE64: ${{ secrets.ANDROID_KEY_BASE64 }}
         run: |
           set -euo pipefail
-          cd ./src-tauri/gen/android
+          cd ./apps/src-tauri/gen/android
           printf 'keyAlias=%s\n' "$ANDROID_KEY_ALIAS" > keystore.properties
           printf 'password=%s\n' "$ANDROID_KEY_PASSWORD" >> keystore.properties
           base64 --decode <<< "$ANDROID_KEY_BASE64" > "$RUNNER_TEMP/keystore.jks"
