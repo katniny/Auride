@@ -13,6 +13,12 @@
       "allow": [
         {
           "url": "http://localhost:10000/**"
+        },
+        {
+          "url": "https://canary.api.auride.xyz/**"
+        },
+        {
+          "url": "https://stable.api.auride.xyz/**"
         }
       ]
     }
