@@ -181,14 +181,14 @@ jobs:
       - name: Upload Windows MSI
         uses: actions/upload-artifact@v4
         with:
-          name: auride-windows-msi
+          name: auride-windows-intel-msi
           path: ./apps/src-tauri/target/release/bundle/msi/*.msi
           if-no-files-found: error
       
       - name: Upload Windows NSIS
         uses: actions/upload-artifact@v4
         with:
-          name: auride-windows-nsis
+          name: auride-windows-intel-nsis
           path: ./apps/src-tauri/target/release/bundle/nsis/*.exe
           if-no-files-found: error
   
@@ -234,20 +234,60 @@ jobs:
       - name: Upload Linux DEB
         uses: actions/upload-artifact@v4
         with:
-          name: auride-linux-debian
+          name: auride-linux-intel-debian
           path: ./apps/src-tauri/target/release/bundle/deb/*.deb
           if-no-files-found: error
       
       - name: Upload Linux AppImage
         uses: actions/upload-artifact@v4
         with:
-          name: auride-linux-appimage
+          name: auride-linux-intel-appimage
           path: ./apps/src-tauri/target/release/bundle/appimage/*.AppImage
           if-no-files-found: error
       
       - name: Upload Linux RPM
         uses: actions/upload-artifact@v4
         with:
-          name: auride-linux-fedora
+          name: auride-linux-intel-fedora
           path: ./apps/src-tauri/target/release/bundle/rpm/*.rpm
+          if-no-files-found: error
+  
+  build-macos-arm:
+    name: Build macOS (ARM64)
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/rewrite'
+    runs-on: macos-26
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      
+      - name: Install web dependencies
+        run: npm install
+        working-directory: ./web
+      
+      - name: Write .env file
+        run: printf "%s" "${{ secrets.CANARY_ENV_FILE }}" > ./web/.env
+
+      - name: Install app dependencies
+        run: npm install
+        working-directory: ./apps
+      
+      - name: Build Web
+        run: npm run build:web -- --headless
+        working-directory: ./apps
+      
+      - name: Build macOS
+        run: npm run tauri build -- --bundles dmg
+        working-directory: ./apps
+      
+      - name: Upload macOS
+        uses: actions/upload-artifact@v4
+        with:
+          name: auride-macos-arm-dmg
+          path: ./apps/src-tauri/target/release/bundle/dmg/*.dmg
           if-no-files-found: error
