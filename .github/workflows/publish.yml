@@ -315,8 +315,8 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           name: Auride Canary Early Builds
+          tag_name: canary
           body_path: ./apps/release_notes.md
-          generate_release_notes: false
           prerelease: true
           make_latest: false
           fail_on_unmatched_files: true

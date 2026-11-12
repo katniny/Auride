@@ -10,6 +10,7 @@ This is a Canary build generated automagically. Canary builds are built whenever
 - Linux: Mark the app as executable, and open it.
 - macOS: ...
 - Android: Open the .apk which will install it automatically to your home screen.
+You can also use Auride online at https://auride.xyz
 
 ## System Requirements
 - Windows:
