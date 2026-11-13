@@ -1,0 +1,48 @@
+.appCta {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    transform: translateY(-50px);
+}
+
+.appCta img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-mask-image: linear-gradient(to bottom, var(--background) 55%, transparent 100%);
+    mask-image: linear-gradient(to bottom, var(--background) 55%, transparent 100%);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    transform: translateY(50px);
+}
+
+.appCta h1,
+.appCta p {
+    position: relative;
+    z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .appCta img {
+        height: 350px;
+    }
+    .appCta {
+        transform: translateY(-80px);
+    }
+}
+
+.appCta button,
+.appCta a {
+    margin-top: 5px;
+}
+
+/* download btn */
+.appCta .downloadBtn i {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.appCta .downloadBtn:hover i,
+.appCta .downloadBtn:focus i {
+    color: var(--button-hovered-text);
+}

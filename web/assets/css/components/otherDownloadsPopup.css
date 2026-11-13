@@ -1,0 +1,17 @@
+.otherDownloadsPopup button i {
+    text-decoration: none;
+    color: var(--text);
+}
+
+.otherDownloadsPopup button:hover i,
+.otherDownloadsPopup button:focus i {
+    color: var(--button-hovered-text);
+}
+
+.otherDownloadsPopup .os {
+    margin-top: 10px;
+}
+
+.otherDownloadsPopup .os .description {
+    margin-bottom: 5px;
+}

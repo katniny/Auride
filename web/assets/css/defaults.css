@@ -34,6 +34,9 @@
 @import url("./components/themeEditor.css");
 @import url("./components/saveTheme.css");
 @import url("./components/loadedTheme.css");
+@import url("./components/appCta.css");
+@import url("./components/coverPageWarning.css");
+@import url("./components/otherDownloadsPopup.css");
 
 /* default colors */
 :root {
