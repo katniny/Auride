@@ -6,6 +6,7 @@ import { addSidebarElement } from "./components/sidebar.js";
 import { getFaReady } from "./utils/faIcon.js";
 import { pageLoader } from "./ui/pageLoader.js";
 import { isTauri } from "@tauri-apps/api/core";
+import { platform } from "@tauri-apps/plugin-os";
 import { isNearBottom } from "./ui/nearBottom.js";
 import { isScrollable } from "./ui/isScrollable.js";
 
@@ -26,13 +27,21 @@ addSidebarElement();
 // & in this scenario, we should tauri's native http client, rather than
 // the webviews
 export const isAurideApp = isTauri();
+export const isAndroid = isAurideApp && platform() === "android";
+export const isIOS = isAurideApp && platform() === "ios";
 export let apiFetch;
 console.log(`Is Auride App: ${isAurideApp}`);
 if (isAurideApp) {
     const { fetch } = await import("@tauri-apps/plugin-http");
     apiFetch = fetch;
+
+    // android needs additional padding on the top/bottom
+    if (isAndroid)
+        document.documentElement.classList.add("android");
 } else {
     apiFetch = window.fetch.bind(window);
+    if (!isAndroid)
+        document.documentElement.classList.add("android");
 }
 
 // login prompt
@@ -74,6 +83,15 @@ document.addEventListener("navigatedToNewPage", () => {
         }
     }
 });
+
+// on android, we can handle back nav ourselves so we can have
+// swipe navigation!
+window.androidBackCallback = () => {
+    const hamburgerMenu = document.body.querySelector(".hamburgerMenu");
+    if (hamburgerMenu)
+        hamburgerMenu.click();
+    return false;
+};
 
 // make global navigate available
 window.$nav = navigate;

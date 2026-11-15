@@ -126,6 +126,13 @@ export async function addSidebarElement() {
             accountAreaOpen = !accountAreaOpen;
             accountAreaInteractions.style.display = accountAreaOpen ? "block" : "none";
         }
+
+        // is it in the sidebar at all? if not, on mobile, we should close the sidebar
+        const hamburgerMenu = document.body.querySelector(".hamburgerMenu");
+        const clickedInsideSidebar = sidebarElement.contains(event.target);
+        const clickedHamburger = hamburgerMenu.contains(event.target);
+        if (!clickedInsideSidebar && !clickedHamburger && sidebarElement.classList.contains("open"))
+            hamburgerMenu.click();
     });
 }
 

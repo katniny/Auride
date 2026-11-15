@@ -10,6 +10,7 @@ This is a Canary build generated automagically. Canary builds are built whenever
 - Linux: Mark the app as executable, and open it.
 - macOS: ...
 - Android: Open the .apk which will install it automatically to your home screen.
+    - The .aab is provided for archival reasons for Google Play. .aab files are not typically installable on an Android device outside of an app store - please use the .apk!
 
 You can also use Auride online at https://auride.xyz.
 

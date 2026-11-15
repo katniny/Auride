@@ -18,7 +18,7 @@ android {
     compileSdk = 36
     namespace = "xyz.auride.auride"
     defaultConfig {
-        manifestPlaceholders["usesCleartextTraffic"] = "false"
+        manifestPlaceholders["usesCleartextTraffic"] = "true"
         applicationId = "xyz.auride.auride"
         minSdk = 24
         targetSdk = 36

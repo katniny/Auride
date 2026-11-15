@@ -15,6 +15,11 @@ header {
     box-sizing: border-box;
 }
 
+html.android header {
+    height: calc(60px + env(safe-area-inset-top, 0px));
+    padding-top: env(safe-area-inset-top, 0px);
+}
+
 /* the center element of the header */
 header .center {
     flex: 1;
@@ -71,6 +76,11 @@ header .right #headerUserPfp:hover {
 }
 
 /* the auride logo in the header */
+header .left {
+    display: flex;
+    align-items: center;
+}
+
 header .left .logoContainer {
     max-height: 60px;
 }
@@ -78,7 +88,6 @@ header .left .logoContainer {
 header .left #aurideHeaderLogo {
     height: 55px;
     margin-top: 5px;
-    margin-left: 5px;   
 }
 header .left .logoContainer.svgAdded {
     margin-bottom: 5px;
@@ -105,15 +114,16 @@ header .left .logoContainer.svgAdded svg {
 /* hamburger menu */
 header .hamburgerMenu {
     border: 1px solid transparent;
-    transform: translateY(-20px);
     display: none;
 }
 
 header .hamburgerMenu:hover,
-header .hamburgerMenu:focus {
-    border: 1px solid var(--main-color);
+header .hamburgerMenu:focus,
+header .hamburgerMenu:focus i {
     background: transparent;
     border-radius: 5px;
+    box-shadow: 0 0 0 0 transparent;
+    color: var(--sidebar-text);
 }
 
 @media (max-width: 1147px) {

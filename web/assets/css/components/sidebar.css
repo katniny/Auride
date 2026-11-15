@@ -36,22 +36,32 @@
 
     .sidebar.open {
         display: block;
-        animation: openSidebar normal;
+        animation: openSidebar 0.15s ease-in-out;
+    }
+}
+
+@keyframes openSidebar {
+    0% {
+        opacity: 0;
+        transform: translateX(-150px);
     }
 
-    @keyframes openSidebar {
-        0% {
-            opacity: 0;
-            transform: translateX(-150px);
-        }
+    100% {
+        opacity: 100;
+        transform: translateX(0px);
+    }
+}
 
-        100% {
-            opacity: 100;
-            transform: translateX(0px);
-        }
+@keyframes closeSidebar {
+    0% {
+        opacity: 100;
+        transform: translateX(0);
     }
 
-    @keyframes closeSidebar {}
+    100% {
+        opacity: 0;
+        transform: translateX(-150px);
+    }
 }
 
 .sidebar .sidebarImg {
@@ -193,4 +203,9 @@
     position: absolute;
     transform: translate(25px, 3px);
     display: none;
+}
+
+/* mobile */
+html.android .sidebar {
+    top: calc(50px + env(safe-area-inset-top, 0px));
 }

@@ -42,3 +42,7 @@
     font-size: 14px;
     color: var(--text-semi-transparent);
 }
+
+html.android .accountArea {
+    bottom: calc(25px + env(safe-area-inset-bottom, 0px));
+}

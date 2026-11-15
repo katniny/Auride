@@ -11,7 +11,7 @@ export async function addHeaderElement() {
     const headerElement = document.createElement("header");
     headerElement.innerHTML = `
         <div class="left">
-            <button class="hamburgerMenu" onclick="openHamburgerMenu()">${faIcon("solid", "bars", "", "xl").outerHTML}</button>
+            <button class="hamburgerMenu">${faIcon("solid", "bars", "", "xl").outerHTML}</button>
             <a href="/home">
                 <div class="logoContainer">
                     <img id="aurideHeaderLogo" src="/assets/imgs/All_transparent.png" draggable="false" />
@@ -36,16 +36,17 @@ export async function addHeaderElement() {
         userPfp.src = "/assets/imgs/defaultPfp.png";
 
     // when hamburger menu clicked, show sidebar
-    let sidebarOpen = false;
     const hamburgerMenu = headerElement.querySelector(".hamburgerMenu");
     hamburgerMenu.onclick = () => {
         const sidebar = document.getElementById("sidebar");
-        if (!sidebarOpen && sidebar) {
+        if (sidebar.classList.contains("open")) {
+            sidebar.style.animation = "closeSidebar 0.15s ease-in-out";
+            setTimeout(() => {
+                sidebar.classList.remove("open");
+                sidebar.style.animation = "";
+            }, 140);
+        } else {
             sidebar.classList.add("open");
-            sidebarOpen = true;
-        } else if (sidebarOpen && sidebar) {
-            sidebar.classList.remove("open");
-            sidebarOpen = false;
         }
     };
 

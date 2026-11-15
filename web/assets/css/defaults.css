@@ -94,6 +94,10 @@
    color: var(--text);
 }
 
+html.android * {
+   -webkit-tap-highlight-color: transparent; /* learning things! this is fugly so im glad its togglable */
+}
+
 /* default styling for body */
 body {
    background: var(--background);

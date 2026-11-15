@@ -19,6 +19,24 @@
         },
         {
           "url": "https://stable.api.auride.xyz/**"
+        },
+        {
+          "url": "ws://stable.api.auride.xyz/**"
+        },
+        {
+          "url": "ws://canary.api.auride.xyz/**"
+        },
+        {
+          "url": "http://10.0.2.2:10000/**"
+        },
+        {
+          "url": "http://10.0.2.2:6979/**"
+        },
+        {
+          "url": "ws://10.0.2.2:10000/**"
+        },
+        {
+          "url": "ws://localhost:10000/**"
         }
       ]
     }
