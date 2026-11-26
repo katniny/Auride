@@ -45,16 +45,16 @@ export async function addSidebarElement() {
         </a>
         <button id="moreButton">${faIcon("solid", "ellipsis").outerHTML} More</button>
         <div class="moreSubmenu">
-            <a href="/settings">
+            <a href="/settings" class="removeOnNoAuth">
                 <button id="settingsButton" class="active">${faIcon("solid", "gear").outerHTML} Settings</button>
             </a>
             <a href="/contributors">
                 <button id="contributorsButton" class="active">${faIcon("solid", "face-smile-beam").outerHTML} Contributors</button>
             </a>
-            <a href="/achievements">
+            <a href="/achievements" class="removeOnNoAuth">
                 <button id="achievementsButton" class="active">${faIcon("solid", "award").outerHTML} Achievements</button>
             </a>
-            <a href="/favorites">
+            <a href="/favorites" class="removeOnNoAuth">
                 <button id="favoritesButton" class="active">${faIcon("solid", "bookmark").outerHTML} Favorites</button>
             </a>
         </div>
