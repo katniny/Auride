@@ -428,8 +428,7 @@ jobs:
           name: Auride Canary Early Builds
           tag_name: canary
           body_path: ./apps/release_notes.md
-          prerelease: true
-          make_latest: false
+          make_latest: true
           fail_on_unmatched_files: true
           files: |
             release-assets/**/*
