@@ -16,7 +16,11 @@ export const routes = [
     { path: "/suspended", loader: () => import("./pages/suspended.js") },
     { path: "/achievements", loader: () => import("./pages/achievements.js") },
     { path: "/settings", loader: () => import("./pages/settings.js") },
+    { path: "/userstudio", loader: () => import("./pages/userstudio.js") },
     //{ path: "/create_theme", loader: () => import("./pages/createTheme.js") },
+    { path: "/contributors", loader: () => import("./pages/contributors.js") },
+    { path: "/opensource", loader: () => import("./pages/opensource.js") },
+    { path: "/favorites", loader: () => import("./pages/favorites.js") },
     { path: "404", loader: () => import("./pages/notFound.js") },
 
     // policies

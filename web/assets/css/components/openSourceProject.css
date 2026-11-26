@@ -1,0 +1,15 @@
+.openSourceProject {
+    border: 1px solid var(--main-color);
+    background: var(--note-background);
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.openSourceProject button {
+    margin-top: 5px;
+}
+
+body .openSourceProject:last-child {
+    margin-bottom: 15px;
+}

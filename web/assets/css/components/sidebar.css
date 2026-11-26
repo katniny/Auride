@@ -191,7 +191,8 @@
 }
 
 /* notification count */
-.sidebar .notificationCount {
+.sidebar .notificationCount,
+.sidebar .messageCount {
     background: var(--main-color-darker);
     text-align: center;
     cursor: pointer;
@@ -202,5 +203,17 @@
     font-size: smaller;
     position: absolute;
     transform: translate(25px, 3px);
+    display: none;
+}
+
+/* more submenu */
+.moreSubmenu {
+    position: fixed;
+    background: var(--background);
+    max-width: 230px;
+    transform: translate(150px, -40px);
+    border: 1px solid var(--main-color);
+    border-radius: 5px;
+    z-index: 5;
     display: none;
 }

@@ -30,21 +30,35 @@ export async function addSidebarElement() {
             <div class="notificationCount">0</div>
             <button id="notificationsButton">${faIcon("solid", "bell").outerHTML} Notifications</button>
         </a>
-        <a href="/settings" class="removeOnNoAuth">
-            <button id="settingsButton" class="active">${faIcon("solid", "gear").outerHTML} Settings</button>
+        <a href="/search" class="removeOnNoAuth">
+            <button id="searchButton">${faIcon("solid", "magnifying-glass").outerHTML} Search</button>
         </a>
+        <!--<a href="/messages" class="removeOnNoAuth">
+            <div class="messageCount">0</div>
+            <button id="messagesButton">${faIcon("solid", "envelope").outerHTML} Messages</button>
+        </a>-->
         <a href="/updates">
             <button id="updatesButton" class="active">${faIcon("solid", "wrench").outerHTML} Updates</button>
         </a>
         <a href="/u/${userData?.username}" class="removeOnNoAuth">
             <button id="userButton" class="active">${faIcon("solid", "user").outerHTML} Your Profile</button>
         </a>
+        <button id="moreButton">${faIcon("solid", "ellipsis").outerHTML} More</button>
+        <div class="moreSubmenu">
+            <a href="/settings">
+                <button id="settingsButton" class="active">${faIcon("solid", "gear").outerHTML} Settings</button>
+            </a>
+            <a href="/contributors">
+                <button id="contributorsButton" class="active">${faIcon("solid", "face-smile-beam").outerHTML} Contributors</button>
+            </a>
+            <a href="/achievements">
+                <button id="achievementsButton" class="active">${faIcon("solid", "award").outerHTML} Achievements</button>
+            </a>
+            <a href="/favorites">
+                <button id="favoritesButton" class="active">${faIcon("solid", "bookmark").outerHTML} Favorites</button>
+            </a>
+        </div>
         <button class="createNoteSidebar removeOnNoAuth">${faIcon("solid", "pencil").outerHTML} Create</button>
-
-        <!-- TODO: put these in the "more" menu -->
-        <a href="/achievements" class="removeOnNoAuth">
-            <button id="achievementButton" class="active">${faIcon("solid", "award").outerHTML} Achievements</button>
-        </a>
 
         <!-- account area -->
         <div class="accountArea removeOnNoAuth">
@@ -111,20 +125,34 @@ export async function addSidebarElement() {
             notifCount.style.display = "none";
     });
 
-    // when clicking on/off the account area, do the appropriate action
+    // when clicking on/off the account area or more menu, do the appropriate action
     let accountAreaOpen = false;
+    let moreMenuOpen = false;
     const accountArea = sidebarElement.querySelector(".accountArea");
     const accountAreaInteractions = sidebarElement.querySelector(".accountArea .interactions");
+    const moreMenu = sidebarElement.querySelector("#moreButton");
+    const moreSubMenu = sidebarElement.querySelector(".moreSubmenu");
     document.addEventListener("click", (event) => {
         const clickedInsideInteractions = accountAreaInteractions.contains(event.target);
         const clickedInsideAccountArea = accountArea.contains(event.target);
+        const clickedInsideMoreMenu = moreMenu.contains(event.target);
 
+        // account area
         if (!clickedInsideAccountArea && accountAreaOpen) {
             accountAreaOpen = false;
             accountAreaInteractions.style.display = "none";
         } else if (clickedInsideAccountArea && !clickedInsideInteractions) {
             accountAreaOpen = !accountAreaOpen;
             accountAreaInteractions.style.display = accountAreaOpen ? "block" : "none";
+        }
+
+        // more menu
+        if (!clickedInsideMoreMenu && moreMenuOpen) {
+            moreMenuOpen = false;
+            moreSubMenu.style.display = "none";
+        } else if (clickedInsideMoreMenu) {
+            moreMenuOpen = !moreMenuOpen;
+            moreSubMenu.style.display = moreMenuOpen ? "block" : "none";
         }
 
         // is it in the sidebar at all? if not, on mobile, we should close the sidebar
@@ -159,14 +187,26 @@ async function changeActiveButton() {
         case "/notifications":
             sidebar.querySelector("#notificationsButton").classList.add("active");
             break;
+        case "/search":
+            sidebar.querySelector("#searchButton").classList.add("active");
+            break;
+        //case "/messages":
+        //    sidebar.querySelector("#messagesButton").classList.add("active");
+        //    break;
         case "/updates":
             sidebar.querySelector("#updatesButton").classList.add("active");
             break;
-        case "/achievements":
-            sidebar.querySelector("#achievementButton").classList.add("active");
-            break;
         case "/settings":
             sidebar.querySelector("#settingsButton").classList.add("active");
+            break;
+        case "/contributors":
+            sidebar.querySelector("#contributorsButton").classList.add("active");
+            break;
+        case "/achievements":
+            sidebar.querySelector("#achievementsButton").classList.add("active");
+            break;
+        case "/favorites":
+            sidebar.querySelector("#favoritesButton").classList.add("active");
             break;
         default:
             // unknown button

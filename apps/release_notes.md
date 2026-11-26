@@ -5,25 +5,15 @@
 
 This is a Canary build generated automagically. Canary builds are built whenever they are any changes to the website or app.
 
-## Installation Instructions:
-- Windows: Open the .exe or .msi file and install Auride to your desired location.
-- Linux: Mark the app as executable, and open it.
-- macOS: ...
-- Android: Open the .apk which will install it automatically to your home screen.
-    - The .aab is provided for archival reasons for Google Play. .aab files are not typically installable on an Android device outside of an app store - please use the .apk!
-
 You can also use Auride online at https://auride.xyz.
 
 ## System Requirements
-- Windows:
-    - OS: Windows 10 1803 or newer, any Windows 11 version
+- Windows 10 1803 or later:
     - CPU: x86_64 only, ARM64 coming soon
-- macOS:
-    - OS: macOS 15 or later
+- macOS 15 or later:
     - CPU: Apple Silicon only
 - Linux:
-    - OS: Ubuntu 22.04 or later
+    - OS: Any Linux distro supporting WebKit2GTK 4.1 (e.g., Ubuntu 22.04)
     - CPU: x86_64 only, ARM64 coming soon
-- Android:
-    - OS: Android 12 or later
-    - CPU: x86_64 or ARM64
+- Android 12 or later:
+    - CPU: ARM64, ARMV7, x86_64 or x86

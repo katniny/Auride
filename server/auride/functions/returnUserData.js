@@ -49,7 +49,7 @@ async function returnUserData(userData, userUid, ctx) {
         returnedUserData.autoplayVideos = userData?.autoplayVideos;
         returnedUserData.flagPrefs = userData?.flagPrefs;
         returnedUserData.suspended = ctx.currentUser.suspension;
-        returnedUserData.theme = userData?.theme || null;
+        returnedUserData.theme = userData?.theme || "Dark";
         returnedUserData.customThemeColors = userData?.themeColors || null;
         returnedUserData.savedThemes = userData?.savedThemes || null;
         returnedUserData.useODFont = userData?.useODFont || null;

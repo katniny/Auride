@@ -37,6 +37,7 @@
 @import url("./components/appCta.css");
 @import url("./components/coverPageWarning.css");
 @import url("./components/otherDownloadsPopup.css");
+@import url("./components/openSourceProject.css");
 
 /* default colors */
 :root {

@@ -39,13 +39,14 @@
 - [x] Names
 - [x] PFP
 - [x] Done registering
+- [x] Open Source
+- [x] Issues
+    - going to be rewritten to be independent from github! so wont be in rewrite temporarily
 
 ## Easy
 - [ ] Contributors
-- [ ] Open Source
 - [ ] User page
     - Last thing to TODO: add achievements
-    - ^ TBD: above may be dropped from rewrite temp.
 - [ ] User Studio
 - [ ] About
     - TODO: do this after UI and whatnot is finalized, as we use Auride screenshots.
@@ -54,7 +55,6 @@
 ## Not easy, not hard either / likely time consuming
 - [ ] Settings
 - [x] Create Theme
-- [ ] Issues
 - [ ] Search
 
 ## Difficult (or fairly difficult)
