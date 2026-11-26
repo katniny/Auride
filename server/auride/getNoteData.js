@@ -55,6 +55,12 @@ auride.get("/api/auride/getNoteData", {
                         return;
                     if (fullNote.isDeleted)
                         return;
+
+                    if (!fullNote.whoSentIt) {
+                        console.warn("Note has no whoSentIt:", { key: childNote.key, fullNote });
+                        return;
+                    }
+
                     const userData = await returnUserData(fullNote.whoSentIt, "uid", ctx);
                     fullNote.authorsData = userData;
                     if (!userData || userData.username === undefined || userData.display === undefined)
@@ -88,6 +94,11 @@ auride.get("/api/auride/getNoteData", {
                 return;
 
             promises.push((async () => {
+                if (!fullNote.whoSentIt) {
+                    console.warn("Note has no whoSentIt:", { key: childNote.key, fullNote });
+                    return;
+                }
+
                 const userData = await returnUserData(note.whoSentIt, "uid", ctx);
                 note.authorsData = userData;
                 if (!userData || userData.username === undefined || userData.display === undefined)
