@@ -16,9 +16,10 @@ body:
       description: "Please select the type of browser that you were using. If you're unsure, you can search `What browser engine does YOUR_BROWSER use?`. If you use the app, please leave this blank."
       multiple: true
       options:
-          - Chromium-based
-          - Firefox-based
-          - WebKit-based
+          - Google Chrome / Chromium
+          - Firefox / Gecko
+          - Safari / WebKit
+          - Ladybird / LibWeb
     validations:
       required: false
   - type: dropdown

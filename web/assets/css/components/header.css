@@ -15,11 +15,6 @@ header {
     box-sizing: border-box;
 }
 
-html.android header {
-    height: calc(60px + env(safe-area-inset-top, 0px));
-    padding-top: env(safe-area-inset-top, 0px);
-}
-
 /* the center element of the header */
 header .center {
     flex: 1;

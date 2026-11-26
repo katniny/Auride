@@ -39,8 +39,15 @@ export default async function aboutPage() {
 
     // prevent nav from header
     const aurideHeaderLogo = document.getElementById("aurideHeaderLogo");
-    const aurideHeaderLink = aurideHeaderLogo.closest("a");
-    aurideHeaderLink.href = "#";
+    if (aurideHeaderLogo) {
+        const aurideHeaderLink = aurideHeaderLogo.closest("a");
+        aurideHeaderLink.href = "#";
+    }
+
+    // remove hamburger menu
+    const aurideHamburgerMenu = document.querySelector(".hamburgerMenu");
+    if (aurideHamburgerMenu)
+        aurideHamburgerMenu.remove();
 
     // when enter is pressed, depending on the field,
     // either move down to the password field or attempt to use names

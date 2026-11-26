@@ -15,10 +15,6 @@
     left: 5px;
 }
 
-html.android .pageLoader .topLeft {
-    margin-top: env(safe-area-inset-top, 0px);
-}
-
 .pageLoader .center {
     display: flex;
     flex-direction: column;

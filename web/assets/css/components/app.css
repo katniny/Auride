@@ -10,10 +10,6 @@
     text-align: center;
 }
 
-html.android #app {
-    margin-top: calc(65px + env(safe-area-inset-bottom, 0px));
-}
-
 /* once the screen starts reaching certain widths, twist the app element */
 @media (max-width: 768px) {
     #app {

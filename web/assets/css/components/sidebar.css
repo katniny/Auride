@@ -204,8 +204,3 @@
     transform: translate(25px, 3px);
     display: none;
 }
-
-/* mobile */
-html.android .sidebar {
-    top: calc(50px + env(safe-area-inset-top, 0px));
-}
