@@ -94,8 +94,8 @@ auride.get("/api/auride/getNoteData", {
                 return;
 
             promises.push((async () => {
-                if (!fullNote.whoSentIt) {
-                    console.warn("Note has no whoSentIt:", { key: childNote.key, fullNote });
+                if (!note.whoSentIt) {
+                    console.warn("Note has no whoSentIt:", { key: childSnapshot.key, note });
                     return;
                 }
 
