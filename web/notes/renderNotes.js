@@ -7,7 +7,9 @@ import { faIcon } from "../utils/faIcon.js";
 import { apiFetch } from "../main.js";
 
 let currentlyRendering = false;
-export async function renderNotes(notesArray) {
+export async function renderNotes(notesArray, currentUsersData) {
+    const start = performance.now();
+    const fragment = document.createDocumentFragment();
     // if currently working, dont work more
     if (currentlyRendering)
         return "Currently working...";
@@ -25,61 +27,33 @@ export async function renderNotes(notesArray) {
         return;
     }
 
-    // await user data
-    const currentUsersData = await currentUserData();
-
     // parse notes
-    for (const noteData of notesArray) {
-        // get the note div
-        let noteDiv = await renderNote(noteData);
-        // if no note div is returned, skip
+    const renderedNotes = await Promise.all(
+        notesArray.map(async (noteData) => {
+            try {
+                return await renderNote(noteData);
+            } catch (err) {
+                console.error(`Failed to render note ${noteData.id}:`, err);
+                return null;
+            }
+        })
+    );
+
+    // append all rendered notes
+    for (const noteDiv of renderedNotes) {
         if (!noteDiv)
             continue;
-        // if note already exists, skip
-        if (document.getElementById(noteData.id))
+
+        if (document.getElementById(noteDiv.id))
             continue;
 
-        // add note to loaded notes
-        allLoadedNotes.add(noteData.id);
-
-        // then, get notes user data
-        let noteUserData = null;
-        if (currentUsersData?.uid === noteData.whoSentIt)
-            noteUserData = currentUsersData;
-        else {
-            // get token
-            const user = auth.currentUser;
-            let token = null;
-            if (user) {
-                try {
-                    token = await user.getIdToken();
-                } catch (err) {
-                    console.error(`Failed to get Firebase token: ${err}`);
-                }
-            }
-            
-            // then get user data
-            const res = await apiFetch(`${import.meta.env.VITE_BACKEND_URL}/api/auride/getUserData`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`,
-                    "userIdentifier": noteData.whoSentIt,
-                    "reqType": "uid"
-                }
-            });
-            // if response isn't okay, user is invalid
-            if (!res.ok)
-                continue;
-
-            const userD = await res.json();
-            noteUserData = userD.returnedUserData;
-        }
-
-        // then, render note
-        notesContainer.appendChild(noteDiv);
+        allLoadedNotes.add(noteDiv.id);
+        fragment.appendChild(noteDiv);
     }
+    notesContainer.appendChild(fragment);
     currentlyRendering = false;
+    const duration = performance.now() - start;
+    console.log(`All notes rendered in ${duration.toFixed(2)}ms`);
 }
 
 // on page nav, we are no longer rendering current batch

@@ -164,7 +164,8 @@ export async function loadNotes() {
         lastLoadedNoteKey = notesArray[notesArray.length - 1]?.key;
 
         // keep newest at bottom
-        renderNotes(notesArray);
+        const currentUsersData = await currentUserData();
+        renderNotes(notesArray, currentUsersData);
         currentlyLoadingNotes = false;
 
         // set up ws

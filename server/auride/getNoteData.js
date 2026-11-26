@@ -2,6 +2,7 @@ const auride = require("../core/auride.js");
 const admin = require("firebase-admin");
 const db = admin.database();
 const storedNotes = require("../core/noteCache.js");
+const { returnUserData } = require("./functions/returnUserData.js");
 
 auride.get("/api/auride/getNoteData", {
     rateLimit: 2000
@@ -54,7 +55,8 @@ auride.get("/api/auride/getNoteData", {
                         return;
                     if (fullNote.isDeleted)
                         return;
-                    const userData = (await db.ref(`users/${fullNote.whoSentIt}`).once("value")).val();
+                    const userData = await returnUserData(fullNote.whoSentIt, "uid", ctx);
+                    fullNote.authorsData = userData;
                     if (!userData || userData.username === undefined || userData.display === undefined)
                         return;
 
@@ -69,8 +71,10 @@ auride.get("/api/auride/getNoteData", {
             }
 
             // check.. is it notes from a user profile or favorite?
-            if (note.isRenote != null || note.favorited != null)
+            if (note.isRenote != null || note.favorited != null) {
                 fetchFullNote(childSnapshot);
+                return;
+            }
 
             // is it a reply? if so, ignore it
             // note: replyingTo IS deprecated, however, older forks of auride may still have notes
@@ -84,7 +88,8 @@ auride.get("/api/auride/getNoteData", {
                 return;
 
             promises.push((async () => {
-                const userData = (await db.ref(`users/${note.whoSentIt}`).once("value")).val();
+                const userData = await returnUserData(note.whoSentIt, "uid", ctx);
+                note.authorsData = userData;
                 if (!userData || userData.username === undefined || userData.display === undefined)
                     return; // they dont exist, or we shouldnt render their note anyways
 
@@ -105,6 +110,7 @@ auride.get("/api/auride/getNoteData", {
         // return :)
         res.json({ success: notesArray });
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ error: error });
     }
 });

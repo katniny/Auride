@@ -1,61 +1,60 @@
 const admin = require("firebase-admin");
+const db = admin.database();
+const storedUsers = require("../../core/userCache.js");
+const { filterUserData } = require("./filterUserData.js");
 
-async function returnUserData(userData, userUid, ctx) {
-    // filter data
-    const returnedUserData = {
-        activeContributor: userData.activeContributor || false,
-        achievements: userData.achievements || null,
-        banner: userData.banner || null,
-        bio: userData.bio || "No user bio provided.",
-        display: userData.display || "Deleted user",
-        followers: userData.followers || 0,
-        following: userData.following || 0,
-        followingWho: userData.followingWho || null,
-        pfp: userData.pfp || null,
-        pronouns: userData.pronouns || null,
-        username: userData.username || "ghost",
-        whoFollows: userData.whoFollows || null,
-        isSubscribed: userData.isSubscribed || false,
-        isVerified: userData.isVerified || false,
-        notes: userData.posts || null,
-        memorialAccount: {
-            isDeceased: userData.memorialAccount?.isDeceased || false,
-            obituary: userData.memorialAccount?.obituary || null
-        },
-        uid: userUid
-    };
+async function returnUserData(userIdentifier, reqType, ctx) {
+    // do userIdentifier and reqType exist?
+    if (!userIdentifier)
+        throw new Error("Please provide a UID or username.");
+    if (!reqType || reqType !== "username" && reqType !== "uid")
+        throw new Error("We need to know your request type!");
 
-    // get join date
-    const userAuthAdmin = await admin.auth().getUser(userUid);
-    returnedUserData.joinedAt = userAuthAdmin.metadata.creationTime;
+    let userUid = null;
+    if (reqType === "username") {
+        const dbRef = await db.ref(`/taken-usernames/${userIdentifier}`).once("value");
 
-    // is user blocked?
-    const blocked = userData.blocked || {};
-    const blockedKeys = Object.keys(blocked);
-    const cleanedUid = String(ctx.currentUser.uid).trim();
-    if (blockedKeys.includes(cleanedUid)) {
-        // if so, certain data needs filtered
-        returnedUserData.achievements = null;
-        returnedUserData.followingWho = null;
-        returnedUserData.whoFollows = null;
-        returnedUserData.notes = null;
-        // then tell the client they're blocked
-        returnedUserData.requestedUserHasBlocked = true;
+        // if dbRef doesnt exist, throw an error!
+        if (!dbRef.exists()) {
+            console.log("no user with uid/username");
+            throw new Error("Failed to find a user with that selected UID/username.");
+        }
+
+        // else, continue
+        userUid = dbRef.val().user;
+    } else {
+        userUid = userIdentifier;
     }
 
-    // is user themselves?
-    if (userUid === ctx.currentUser.uid) {
-        // if so, we can return some additional data
-        returnedUserData.autoplayVideos = userData?.autoplayVideos;
-        returnedUserData.flagPrefs = userData?.flagPrefs;
-        returnedUserData.suspended = ctx.currentUser.suspension;
-        returnedUserData.theme = userData?.theme || "Dark";
-        returnedUserData.customThemeColors = userData?.themeColors || null;
-        returnedUserData.savedThemes = userData?.savedThemes || null;
-        returnedUserData.useODFont = userData?.useODFont || null;
-        returnedUserData.showPrideFlag = userData?.showPrideFlag || null;
-        returnedUserData.birthdayInfo = userData?.birthdayInfo || null;
+    // double check, is the uid valid?
+    if (!userUid) {
+        console.log("no user with uid/username [2]");
+        throw new Error("Failed to find a user with that selected UID/username.");
     }
+
+    // do we have it in ram? if so, just load that
+    const userInRam = storedUsers.get(userUid);
+    if (userInRam)
+        return await filterUserData(userInRam, userUid, ctx);
+
+    // is the user requesting the data suspended? if so, dont return any user data for them
+    if (userUid !== ctx.currentUser.uid && ctx.currentUser.suspension?.suspended)
+        throw new Error("Cannot access other users data when suspended.");
+
+    // finally, lets get the user data
+    let rawUserData = null;
+    const userDataRef = await db.ref(`/users/${userUid}`).once("value");
+    rawUserData = userDataRef.val();
+        
+    // is the user suspended?
+    if (rawUserData.suspensionStatus === "suspended" && userUid !== ctx.currentUser.uid)
+        throw new Error("This user is suspended.");
+
+    // load into ram
+    await storedUsers.set(userIdentifier, rawUserData );
+
+    // filter user data and return it
+    const returnedUserData = await filterUserData(rawUserData, userUid, ctx);
 
     return returnedUserData;
 }

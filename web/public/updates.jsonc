@@ -7,6 +7,18 @@
     },
     "beta": {
         "anyUpdatesAvailable": true,
+        "v2026.11.26": {
+            "released": "November 26, 2026",
+            "improveNoteLoading": {
+                "notUserFacingChange": false,
+                "text": "Improve how Auride fetches and renders notes, providing a 18x speed improvements!",
+                "subtext": "Auride used to take about ~11,000ms to render notes (~1,000ms per note). Now Auride renders in about ~20ms!"
+            },
+            "batchNoteLoading": {
+                "notUserFacingChange": false,
+                "text": "Batch notes when loading so they appear at the same time rather than one-by-one"
+            }
+        },
         "v2026.11.25": {
             "released": "November 25, 2026",
             "fixThemeNotApplying": {

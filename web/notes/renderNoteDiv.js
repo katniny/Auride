@@ -162,7 +162,7 @@ export async function renderNote(noteData) {
     }
 
     // get the note senders data
-    const noteSender = await getUserData(noteData.whoSentIt, "uid");
+    const noteSender = await noteData.authorsData;
     if (!noteSender || !noteSender.display || !noteSender.username || !noteSender.pfp)
         // TODO: add default user data
         // ^ should be a lot easier now!
